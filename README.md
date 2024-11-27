@@ -16,3 +16,4 @@
   - Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?
   - Hi ha variables que estiguin directament correlacionades?
   - Les variables de salut mental estan equilibrades? Hi ha molts més malalts que sans? En cas que sí, hem de tenir alguna cosa en compte en crear?
+  - Les medicions de la contaminació són suficient detallades com per analitzar barris, o només el districte de BCN?
