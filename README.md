@@ -2,7 +2,9 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=17348921&assignment_repo_type=AssignmentRepo)
 
 **SEGUIMENT I PLANIFICACIÓ DEL PROJECTE**
-  **SETMANA 1: Recopilació i comprensió de les dades. Definició del problema**
+En el següent README exposem els objectius setmanals per desenvolupar el projecte, juntament amb preguntes necessàries pel correcte plantejament i execució del model.
+
+**SETMANA 1: Recopilació i comprensió de les dades. Definició del problema**
   **Objectiu:**
   1. Quines característiques ens aporten una major rellevància?
   2. Una vegada sabem les característiques rellevants, com enfocarem el nostre model predictiu? Quin serà l'objectiu d'aquest?
