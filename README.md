@@ -13,4 +13,6 @@
   - Com s'interpreten les dades i el seus valors?
   - Hi ha valors atípics?
   - Com s'han recopilat les dades?
-  - Existeixen relacions apriori que siguin evidents entre la contaminació i la salut mental?
+  - Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?
+  - Hi ha variables que estiguin directament correlacionades?
+  - Les variables de salut mental estan equilibrades? Hi ha molts més malalts que sans? En cas que sí, hem de tenir alguna cosa en compte en crear?
