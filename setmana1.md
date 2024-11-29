@@ -20,3 +20,7 @@ El dataset té 3348 files (instàncies) i 95 columnes (característiques). Les d
     tmean_24h, humi_24h, pressure_24h, precip_24h: Factors climàtics que poden influir en la salut mental.
 7. Exposició espacial i temporal:
     min_gps, hour_gps, access_greenbluespaces_300mbuff: Dades de localització i accés a espais verds/blaus.
+
+# Valors null: 
+Hi ha 3348 valors null en tot el dataset. Observem que es distribueixen de manera dispersa i no afecta a una columna en concret.
+Tot i això, hem analitzat la distribució de valors null per columna. 
