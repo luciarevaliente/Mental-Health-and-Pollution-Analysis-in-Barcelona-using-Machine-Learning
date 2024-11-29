@@ -2,7 +2,9 @@ En aquest arxiu, farem un anàlisi genearl del dataset i respondrem les pregunte
 Les comandes executades per obtenir la informació exposada es troba en l'arxiu "csv_to_dataset.py".
 
 # Anàlisi general
-El dataset té 3348 files (instàncies) i 95 columnes (característiques). Les dades són numèriques, categòriques i temporals. Els paràmetres principals són:
+El dataset té 3348 files (instàncies) i 95 columnes (característiques). Les dades són numèriques, categòriques i temporals. 
+
+**Característiques:**
 1. Dades temporals:
     year, month, day, hour, dayoftheweek: Informació útil per analitzar variacions temporals en la contaminació o en la salut mental.
 2. Indicadors de salut mental:
@@ -21,6 +23,6 @@ El dataset té 3348 files (instàncies) i 95 columnes (característiques). Les d
 7. Exposició espacial i temporal:
     min_gps, hour_gps, access_greenbluespaces_300mbuff: Dades de localització i accés a espais verds/blaus.
 
-# Valors null: 
+**Valors null:**
 Hi ha 3348 valors null en tot el dataset. Observem que es distribueixen de manera dispersa i no afecta a una columna en concret.
 Tot i això, hem analitzat la distribució de valors null per columna. 
