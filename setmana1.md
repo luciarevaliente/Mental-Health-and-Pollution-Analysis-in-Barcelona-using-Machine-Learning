@@ -26,3 +26,5 @@ El dataset té 3348 files (instàncies) i 95 columnes (característiques). Les d
 **Valors null:**
 Hi ha 3348 valors null en tot el dataset. Observem que es distribueixen de manera dispersa i no afecta a una columna en concret.
 Tot i això, hem analitzat la distribució de valors null per columna. 
+
+*Gestió dels valors null:* **Por hacer!!!!!**
