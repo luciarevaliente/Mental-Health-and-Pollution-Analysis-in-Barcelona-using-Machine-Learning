@@ -4,7 +4,7 @@ Les comandes executades per obtenir la informació exposada es troba en l'arxiu 
 # Anàlisi general
 El dataset té 3348 files (instàncies) i 95 columnes (característiques). Les dades són numèriques, categòriques i temporals. 
 
-**Característiques:**
+## Característiques:
 1. Dades temporals:
     year, month, day, hour, dayoftheweek: Informació útil per analitzar variacions temporals en la contaminació o en la salut mental.
 2. Indicadors de salut mental:
@@ -23,7 +23,7 @@ El dataset té 3348 files (instàncies) i 95 columnes (característiques). Les d
 7. Exposició espacial i temporal:
     min_gps, hour_gps, access_greenbluespaces_300mbuff: Dades de localització i accés a espais verds/blaus.
 
-**Valors null:**
+## Valors null:
 Hi ha 3348 valors null en tot el dataset. Observem que es distribueixen de manera dispersa i no afecta a una columna en concret. És a dir, no hi ha cap columna amb tot de valors null, per tant, d'entrada no és pot eliminar cap columna sencera.
 
 Tot i això, hem analitzat la distribució de valors null per columna. Observem que les distribucions amb <5% són columnes amb pocs nulls on la pèrdua d'informació és petita. Les columnes amb <5% i >10%, la proporció no és massa alta i encara és pot gestionar de la mateixa manera que els de <5%: substituint per els valors de les columnes null per la mitjana (var. numèriques) o per la moda (var. categòriques). En canvi, quan la proporció és >10%, els valors null són alts i pot haver-hi una mancança d'informació. Després de plantejar-nos l'eliminació d'aquestes característiques "poc valioses" a priori, decidim mantenir-les fins analitzar l'impacte de cada una en el model.
