@@ -10,12 +10,12 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
   2. Una vegada sabem les característiques rellevants, com enfocarem el nostre model predictiu? Quin serà l'objectiu d'aquest?
      
 **Possibles Preguntes a Respondre**
-  - Tenim suficients dades?
-  - Les dades són consistents i adequades per al modelatge?
-  - Com s'interpreten les dades i el seus valors?
-  - Hi ha valors atípics?
-  - Com s'han recopilat les dades? Quin rang geogràfic i temporal hi ha?
-  - Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?
-  - Hi ha variables que estiguin directament correlacionades?
-  - Les variables de salut mental estan equilibrades? Hi ha molts més malalts que sans? En cas que sí, hem de tenir alguna cosa en compte en crear?
-  - Les medicions de la contaminació són suficient detallades com per analitzar barris, o només el districte de BCN?
+  1. Tenim suficients dades?
+  2. Les dades són consistents i adequades per al modelatge?
+  3. Com s'interpreten les dades i el seus valors?
+  4. Hi ha valors atípics?
+  5. Com s'han recopilat les dades? Quin rang geogràfic i temporal hi ha?
+  6. Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?
+  7. Hi ha variables que estiguin directament correlacionades?
+  8. Les variables de salut mental estan equilibrades? Hi ha molts més malalts que sans? En cas que sí, hem de tenir alguna cosa en compte en crear?
+  9. Les medicions de la contaminació són suficient detallades com per analitzar barris, o només el districte de BCN?
