@@ -25,8 +25,12 @@ if __name__=="__main__":
     distribucio = {}
     proporcio = 100/row
     distribucio_per_col = df.isnull().sum()
+    llista_prova = []
     for i, valor in distribucio_per_col.items():
         distribucio[i] = valor*proporcio
-        if valor*proporcio > 10:
-            print(i, valor*proporcio)
+        
+        if (valor*proporcio > 10) :
+            print(i)
+            llista_prova.append(i)
+    print(llista_prova)
     # print(f'El diccionari amb les distribucions per columna (%) és: {distribucio}')
