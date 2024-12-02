@@ -62,7 +62,7 @@ por hacer
 
 ## **Dependències i Instal·lació** 📦
 ### Llibreries necessàries
-Aquest projecte requereix Python 3.x i les següents llibreries:
+Aquest projecte requereix Python 3 i les següents llibreries:
 - pandas
 - numpy
 - scikit-learn
