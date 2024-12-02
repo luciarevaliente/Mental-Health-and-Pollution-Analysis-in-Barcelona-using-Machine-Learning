@@ -43,6 +43,8 @@ Tot i això, hem analitzat la distribució de valors null per columna. Observem 
 ## Outliers: 
 Els outliers (valors atípics) són dades que es troben molt lluny de la resta de valors en un conjunt de dades. Aquests poden ser resultats d’errors de mesura, errors de registre, anomalies reals, o simplement punts inusuals en el conjunt de dades. Hi ha diverses tècniques per analitzar els outliers d'un dataset. Es poden identificar amb tècniques visuals (boxplots, scatterplots) o estadístiques (IQR, desviació estàndard). Per últim, el tractament dels outliers depèn del context: es poden eliminar, transformar o analitzar com a casos especials.
 
+En el nostre projecte, farem servir la **tècnica visual boxplot**. L’ús de **boxplots** és ideal perquè permet una visualització clara i ràpida dels **outliers** i de la distribució de les dades. Aquesta tècnica destaca els valors atípics d’una manera intuïtiva gràcies als **bigotis** i als punts fora del rang esperat, sense necessitat de càlculs complexos. A més, facilita la comparació entre múltiples variables numèriques de manera simultània. Tot i que hi ha tècniques alternatives (IQR, desviació estàndard), els boxplots són més comprensibles visualment i eficients per a una anàlisi inicial.
+
 ## Proporció dels registres de mentalhealth --> per veure si Les variables de salut mental estan equilibrades? Hi ha molts més malalts que sans? En cas que sí, hem de tenir alguna cosa en compte en crear?
 
 # Preguntes:
