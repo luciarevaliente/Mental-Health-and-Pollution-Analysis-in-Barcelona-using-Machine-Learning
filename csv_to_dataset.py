@@ -1,24 +1,27 @@
-# IMPORTS
+# IMPORTS #######################################################################################
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 
-# VARIABLES
+# VARIABLES ######################################################################################
 DATASET = "CitieSHealth_BCN_DATA_PanelStudy_20220414.csv"
 
-# IMPORTACIÓ DATASET
+# IMPORTACIÓ DATASET #############################################################################
 df = pd.read_csv(DATASET)
 # print(df.head())
 
-# ANÀLISI CONTINGUT
+# ANÀLISI CONTINGUT ##############################################################################
 if __name__=="__main__":
     print(f'\nDataset: {DATASET}')
 
-    # DIMENSIONS
+
+    # DIMENSIONS #############################################################
     row, col = df.shape
     print(f'\nLes dimensions del dataset són {row}x{col}.')
 
-    # VALORS NULL
+
+    # VALORS NULL ###########################################################
     registres_null = df.isnull()
     caracteristiques_null = registres_null.any()
     print(f'\nHi ha {caracteristiques_null.sum()} característiques amb al menys un valor null.')
@@ -42,31 +45,44 @@ if __name__=="__main__":
         #     print(i)
     # print(f'El diccionari amb les distribucions per columna (%) és: {distribucio}')
 
-    # OUTLIERS --> Creem boxplot per cada columna
+
+    # OUTLIERS ################################################################
     col_numeriques = df.select_dtypes(include=['float64', 'int64'])
     # print(col_numeriques.columns)
-
-    # print(col_numeriques['precip_12h_binary'].value_counts())
-    # print(col_numeriques['precip_24h_binary'].value_counts())
-    
     columnes_a_eliminar = ['ID_Zenodo', # No té sentit analitzar els IDs
                         'yearbirth', # Tenim la variable 'age_yrs' que és equivalent
                         'precip_12h_binary', 'precip_24h_binary',  # Variables binàries
                         'no2bcn_12h_x30', 'no2bcn_24h_x30', 'no2gps_12h_x30', 'no2gps_24h_x30' # Provenen d'altres variables (tenen un factor de 30)
                         ]
     col_numeriques_filtered = col_numeriques.drop(columns=columnes_a_eliminar)
-    # print(col_numeriques_filtered.columns)
-    # print(len(col_numeriques.columns))
-    # print(len(col_numeriques_filtered.columns))
+    # print(len(col_numeriques.columns), len(col_numeriques_filtered.columns))
 
-    # for col in col_numeriques.columns:
-    #     plt.figure(figsize=(8, 6))
-    #     sns.boxplot(x=col_numeriques[col])
-    #     plt.title(f"Boxplot de {col}")
-    #     plt.show()
-    #     break
+    # Carpeta on guardar els gràfics:
+    output_folder = "boxplots"
 
-    # PROPORCIÓ DE REGISTRES
+    # Comprovar si la carpeta ja existeix:
+    if not os.path.exists(output_folder):  
+        os.makedirs(output_folder)  # Crear la carpeta si no existeix
+
+        # Crear un boxplot per a cada columna numèrica:
+        for col in col_numeriques_filtered.columns:  
+            plt.figure(figsize=(8, 6))  # Configurar la mida del gràfic
+            sns.boxplot(x=col_numeriques_filtered[col])  # Crear el boxplot
+            plt.title(f"Boxplot de {col}")  # Títol del gràfic
+
+            # Ruta completa per guardar el gràfic:
+            output_path = os.path.join(output_folder, f"boxplot_{col}.png")
+            plt.savefig(output_path)  # Guardar el gràfic com a imatge
+
+            plt.close()  # Tancar el gràfic per alliberar memòria
+
+        print(f"Boxplots guardats a la carpeta '{output_folder}'.")
+    else:
+        print(f"La carpeta '{output_folder}' ja existeix. No s'han generat nous boxplots.")
+
+
+
+    # PROPORCIÓ DE REGISTRES ##############################################
     # count_mentalhealth = df['mentalhealth_survey'].value_counts()
     # print(count_mentalhealth, "\n")
     # count_occurence_mental = df['occurrence_mental'].value_counts()
