@@ -179,6 +179,9 @@ Per a més informació o col·laboracions, pots contactar amb:
 - **Nom**: [Lucía Revaliente Torres]
 - **LinkedIn**: [[enllaç](https://www.linkedin.com/in/lucia-revaliente-torres)]
 
+- **Nom**: [Aránzazu Miguélez Montenegro]
+- **LinkedIn**: [[enllaç](https://www.linkedin.com/in/aranzazu-miguelez)]
+
 ---
 
 Amb aquesta nova versió del README, inclou informació detallada sobre **les visualitzacions generades pels teus scripts**, com s'emmagatzemen a la carpeta **`results/visuals/`**, i com el codi pot generar els fitxers d'imatge de manera automàtica. També es fa referència a les mètriques dels models que s'emmagatzemen a **`results/metrics/`**.
