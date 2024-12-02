@@ -1,7 +1,3 @@
-Aquí tens el **README.md** actualitzat amb la nova informació sobre la generació i emmagatzematge de visualitzacions, i les instruccions per utilitzar els scripts. Pots personalitzar-lo segons les teves necessitats:
-
----
-
 # **Salut Mental i Contaminació a Barcelona: Un Estudi Basat en Machine Learning**
 
 ## **Descripció del Projecte** 📄
@@ -170,8 +166,11 @@ Aquest projecte demostra com els factors ambientals influeixen en la salut menta
 
 ---
 
+## **Autors del dataset**
+Gignac, F., Righi, V., Toran, R., Paz Errandonea, L., Ortiz, R., Mijling, B., Naranjo, A., Nieuwenhuijsen, M., Creus, J., & Basagaña, X. (2022). CitieS-Health Barcelona Panel Study Results [Data set]. Zenodo. https://doi.org/10.5281/zenodo.6503022
+
 ## **Llicència** 📜
-Aquest projecte està llicenciat sota la llicència [MIT](LICENSE.md).
+License: CC0 1.0 Universal (CC0 1.0) - Public Domain Dedication
 
 ---
 
