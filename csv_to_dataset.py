@@ -45,11 +45,19 @@ if __name__=="__main__":
     # OUTLIERS --> Creem boxplot per cada columna
     col_numeriques = df.select_dtypes(include=['float64', 'int64'])
     # print(col_numeriques.columns)
-    # col_numeriques.drop('ID_Zenodo')  # No té sentit analitzar els IDs
-    # col_numeriques.drop('yearbirth') # Tenim la variable 'age_yrs' que és equivalent
-    # print(col_numeriques.value_counts())
 
-    print(col_numeriques)
+    # print(col_numeriques['precip_12h_binary'].value_counts())
+    # print(col_numeriques['precip_24h_binary'].value_counts())
+    
+    columnes_a_eliminar = ['ID_Zenodo', # No té sentit analitzar els IDs
+                        'yearbirth', # Tenim la variable 'age_yrs' que és equivalent
+                        'precip_12h_binary', 'precip_24h_binary',  # Variables binàries
+                        'no2bcn_12h_x30', 'no2bcn_24h_x30', 'no2gps_12h_x30', 'no2gps_24h_x30' # Provenen d'altres variables (tenen un factor de 30)
+                        ]
+    col_numeriques_filtered = col_numeriques.drop(columns=columnes_a_eliminar)
+    # print(col_numeriques_filtered.columns)
+    # print(len(col_numeriques.columns))
+    # print(len(col_numeriques_filtered.columns))
 
     # for col in col_numeriques.columns:
     #     plt.figure(figsize=(8, 6))
