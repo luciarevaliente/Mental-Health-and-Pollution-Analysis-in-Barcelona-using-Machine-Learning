@@ -1,0 +1,5 @@
+1. Analitzar mètodes de substitució valors null
+2. Analitzem outliers --> veure quines variables té sentit analitzar numèricament i com analitzem les categòriques
+    En Kaggle ja hi ha una representació visual
+3. Escollir què fem amb els valors null --> natejar dataset
+3. Afegir el script 00 a readme

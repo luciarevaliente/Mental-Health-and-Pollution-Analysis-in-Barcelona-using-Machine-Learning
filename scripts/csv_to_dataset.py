@@ -5,7 +5,7 @@ import seaborn as sns
 import os
 
 # VARIABLES ######################################################################################
-DATASET = "CitieSHealth_BCN_DATA_PanelStudy_20220414.csv"
+DATASET = "data/CitieSHealth_BCN_DATA_PanelStudy_20220414.csv"
 
 # IMPORTACIÓ DATASET #############################################################################
 df = pd.read_csv(DATASET)
