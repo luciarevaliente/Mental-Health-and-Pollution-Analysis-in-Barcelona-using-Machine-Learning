@@ -169,7 +169,11 @@ Aquest projecte demostra com els factors ambientals influeixen en la salut menta
 Gignac, F., Righi, V., Toran, R., Paz Errandonea, L., Ortiz, R., Mijling, B., Naranjo, A., Nieuwenhuijsen, M., Creus, J., & Basagaña, X. (2022). CitieS-Health Barcelona Panel Study Results [Data set]. Zenodo. https://doi.org/10.5281/zenodo.6503022
 
 ## **Llicència** 📜
-License: CC0 1.0 Universal (CC0 1.0) - Public Domain Dedication
+Aquest projecte està llicenciat sota la **Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)**.
+
+Es permet utilitzar, modificar i distribuir el codi per a usos no comercials amb la condició que es reconegui l'autor original. L'ús comercial requereix el permís express de l'autor.
+
+Consulta el fitxer [LICENSE](LICENSE) per obtenir més informació.
 
 ---
 
