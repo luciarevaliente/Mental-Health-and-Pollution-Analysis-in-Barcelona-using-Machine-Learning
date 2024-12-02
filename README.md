@@ -28,7 +28,7 @@ por hacer
  ┃ ┣ 📂 metrics/ (resultats dels models)
  ┣ 📜 README.md (aquest fitxer)
  ┣ 📜 requirements.txt (llibreries necessàries)
- ┗ 📜 LICENSE.md (llicència del projecte)
+ ┗ 📜 LICENSE (llicència del projecte)
 ```
 
 ---
@@ -167,6 +167,8 @@ Aquest projecte demostra com els factors ambientals influeixen en la salut menta
 
 ## **Autors del dataset**
 Gignac, F., Righi, V., Toran, R., Paz Errandonea, L., Ortiz, R., Mijling, B., Naranjo, A., Nieuwenhuijsen, M., Creus, J., & Basagaña, X. (2022). CitieS-Health Barcelona Panel Study Results [Data set]. Zenodo. https://doi.org/10.5281/zenodo.6503022
+
+---
 
 ## **Llicència** 📜
 Aquest projecte està llicenciat sota la **Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0)**.
