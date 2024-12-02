@@ -115,6 +115,5 @@ Consulta el fitxer [LICENSE](LICENSE) per obtenir més informació.
 Per a més informació o col·laboracions, pots contactar amb:
 - **Nom**: [Lucía Revaliente Torres]
 - **LinkedIn**: [[enllaç](https://www.linkedin.com/in/lucia-revaliente-torres)]
-\n
 - **Nom**: [Aránzazu Miguélez Montenegro]
 - **LinkedIn**: [[enllaç](https://www.linkedin.com/in/aranzazu-miguelez)]
