@@ -19,3 +19,6 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
   7. Hi ha variables que estiguin directament correlacionades?
   8. Les variables de salut mental estan equilibrades? Hi ha molts més malalts que sans? En cas que sí, hem de tenir alguna cosa en compte en crear?
   9. Les medicions de la contaminació són suficient detallades com per analitzar barris, o només el districte de BCN?
+
+# Crèdits del Dataset
+Gignac, F., Righi, V., Toran, R., Paz Errandonea, L., Ortiz, R., Mijling, B., Naranjo, A., Nieuwenhuijsen, M., Creus, J., & Basagaña, X. (2022). CitieS-Health Barcelona Panel Study Results [Data set]. Zenodo. https://doi.org/10.5281/zenodo.6503022
