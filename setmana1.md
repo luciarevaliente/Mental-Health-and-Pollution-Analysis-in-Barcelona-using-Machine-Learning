@@ -31,7 +31,14 @@ Tot i això, hem analitzat la distribució de valors null per columna. Observem 
 2. **Característiques amb >5% i <10% valors null:** ['estres', 'occurrence_stroop', 'mean_incongruent', 'correct', 'response_duration_ms', 'performance', 'mean_congruent', 'inhib_control', 'z_performance', 'z_mean_incongruent', 'z_inhib_control', 'no2gps_24h', 'no2gps_12h', 'no2gps_12h_x30', 'no2gps_24h_x30', 'BCμg', 'noise_total_LDEN_55', 'access_greenbluespaces_300mbuff', 'µgm3', 'incidence_cat', 'start_day', 'start_month', 'start_year', 'start_hour', 'end_day', 'end_month', 'end_year', 'end_hour', 'Totaltime', 'Totaltime_estimated', 'Houron', 'Houroff', 'age_yrs', 'yearbirth', 'education', 'covid_mood', 'covid_sleep', 'covid_espacios', 'covid_aire', 'covid_motor', 'covid_electric', 'covid_bikewalk', 'covid_public_trans'].
 3. **Característiques amb >10% valors null:**  ['sec_noise55_day', 'sec_noise65_day', 'sec_greenblue_day', 'hours_noise_55_day', 'hours_noise_65_day', 'hours_greenblue_day', 'smoke', 'psycho'].
 
-**Gestió dels valors null:** 
+## Outliers: 
+Els outliers (valors atípics) són dades que es troben molt lluny de la resta de valors en un conjunt de dades. Aquests poden ser resultats d’errors de mesura, errors de registre, anomalies reals, o simplement punts inusuals en el conjunt de dades. Hi ha diverses tècniques per analitzar els outliers d'un dataset. Es poden identificar amb tècniques visuals (boxplots, scatterplots) o estadístiques (IQR, desviació estàndard). Per últim, el tractament dels outliers depèn del context: es poden eliminar, transformar o analitzar com a casos especials.
+
+En el nostre projecte, farem servir la **tècnica visual boxplot**. L’ús de **boxplots** és ideal perquè permet una visualització clara i ràpida dels **outliers** i de la distribució de les dades. Aquesta tècnica destaca els valors atípics d’una manera intuïtiva gràcies als **bigotis** i als punts fora del rang esperat, sense necessitat de càlculs complexos. A més, facilita la comparació entre múltiples variables numèriques de manera simultània. Tot i que hi ha tècniques alternatives (IQR, desviació estàndard), els boxplots són més comprensibles visualment i eficients per a una anàlisi inicial.
+
+Si cerquem l'apartat d'outliers en el codi 'csv_to_dataset.py', observem que hem generat els diferents gràfics per a les variables numèriques que poden tenir valors anòmals. 
+
+## Gestió dels valors null:
 1. **Eliminació de les files / columnes amb valors null:** és una manera ràpida i senzilla, només ens asseguraria treballar amb dades completes, ja que no afegim informació artificial. Però, com els valors null estan dispersos entre les files i columnes, això podria reduir significativament els registres disponibles per entrenar el model, afectant a la capacitat de generalitzar. D'altra banda, si els registres amb valors null tenen característiques diferents als complets, eliminar-los significaria introduir un biaix, ja que el model no representaria correctament les dades. Doncs, no farem servir aquesta tècnica per no disminuir la mostra del model. A més, perquè no seria correcte, ja que es recomanable eliminar registres quan la proporció de files amb null és <5% o quan es perd un 10% de la mostra original. En el nostre cas, la meitat dels registres (52.38%) contenen almenys un valor null, per tant, no seria adhient. Pel que respecta a les columnes, no sabem si les característiques són significatives, per tant, preferim mantenir-les per averiguar la seva importància en el model.
 
 2. Imputació simple (mitjana/moda): **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
@@ -40,12 +47,8 @@ Tot i això, hem analitzat la distribució de valors null per columna. Observem 
 
 4. Crear variables indicadores: **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
-## Outliers: 
-Els outliers (valors atípics) són dades que es troben molt lluny de la resta de valors en un conjunt de dades. Aquests poden ser resultats d’errors de mesura, errors de registre, anomalies reals, o simplement punts inusuals en el conjunt de dades. Hi ha diverses tècniques per analitzar els outliers d'un dataset. Es poden identificar amb tècniques visuals (boxplots, scatterplots) o estadístiques (IQR, desviació estàndard). Per últim, el tractament dels outliers depèn del context: es poden eliminar, transformar o analitzar com a casos especials.
-
-En el nostre projecte, farem servir la **tècnica visual boxplot**. L’ús de **boxplots** és ideal perquè permet una visualització clara i ràpida dels **outliers** i de la distribució de les dades. Aquesta tècnica destaca els valors atípics d’una manera intuïtiva gràcies als **bigotis** i als punts fora del rang esperat, sense necessitat de càlculs complexos. A més, facilita la comparació entre múltiples variables numèriques de manera simultània. Tot i que hi ha tècniques alternatives (IQR, desviació estàndard), els boxplots són més comprensibles visualment i eficients per a una anàlisi inicial.
-
-Si cerquem l'apartat d'outliers en el codi 'csv_to_dataset.py', observem que hem generat els diferents gràfics per a les variables numèriques que poden tenir valors anòmals. 
+## Gestió dels valors null:
+**por hacer????????????????????**
 
 ## Proporció dels registres de mentalhealth 
 per veure si Les variables de salut mental estan equilibrades? Hi ha molts més malalts que sans? En cas que sí, hem de tenir alguna cosa en compte en crear? --> **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
