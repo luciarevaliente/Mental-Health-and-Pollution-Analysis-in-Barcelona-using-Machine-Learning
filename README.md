@@ -80,7 +80,7 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
 
 - **`scripts/`**: Conté el codi principal per al processament de dades, l'anàlisi exploratòria i l'entrenament de models.
 - **`results/`**: Arxius generats durant l'execució del projecte, incloent visualitzacions i mètriques.
-- **`requirements.txt`**: Llista de dependències necessàries per a executar el projecte.
+- **`requirements.txt`**: Llista de dependències necessàries per a executar el projecte. 
 
 ---
 
