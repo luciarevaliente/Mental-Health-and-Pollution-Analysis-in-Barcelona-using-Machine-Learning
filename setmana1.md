@@ -1,4 +1,5 @@
-En aquest arxiu, farem un anàlisi genearl del dataset i respondrem les preguntes de la **setmana 1**.
+# Comprensió de les dades
+En aquest arxiu, farem un anàlisi general del dataset i respondrem les preguntes de la **setmana 1**. Comprovarem que inclou tant dades sobre la contaminació com dades sobre salut mental. A més, realitzarem una exploració inicial per entendre el conjunt de dades (tipus de variables, missing values, outliers, etc.).
 Les comandes executades per obtenir la informació exposada es troba en l'arxiu `csv_to_dataset.py`.
 
 # Anàlisi general
