@@ -1,12 +1,11 @@
 # **Salut Mental i Contaminació a Barcelona: Un Estudi Basat en Machine Learning**
-
 ## **Descripció del Projecte** 📄
-por hacer
+por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ---
 
 ## **Objectius del Projecte** 🎯
-por hacer
+por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ---
 
@@ -34,7 +33,6 @@ por hacer
 ---
 
 ## **Dataset** 📊
-
 ### Descripció del Dataset
 - **Nom**: CitieSHealth_BCN_DATA_PanelStudy_20220414.csv
 - **Nombre de registres**: 3348
@@ -45,12 +43,12 @@ por hacer
   - Altres factors: *activitat física, dieta, soroll ambiental, accés a espais verds/blaus.*
   
 ### Preprocessament
-por hacer
+por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ---
 
 ## **Metodologia** 🧠
-por hacer
+por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ---
 
@@ -85,11 +83,10 @@ pip install -r requirements.txt
 
 ## **Resultats i Conclusions** 📈
 ### **Resultats preliminars**
-- Les variables més correlacionades amb la salut mental són: [variables destacades].
-- Els nivells de NO₂ i PM₂.₅ presenten un impacte significatiu en [indicadors concrets].
+por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ### **Conclusió**
-Aquest projecte demostra com els factors ambientals influeixen en la salut mental. Els models desenvolupats poden servir com a base per a futures investigacions i polítiques públiques.
+por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ---
 
@@ -118,6 +115,6 @@ Consulta el fitxer [LICENSE](LICENSE) per obtenir més informació.
 Per a més informació o col·laboracions, pots contactar amb:
 - **Nom**: [Lucía Revaliente Torres]
 - **LinkedIn**: [[enllaç](https://www.linkedin.com/in/lucia-revaliente-torres)]
-
+\n
 - **Nom**: [Aránzazu Miguélez Montenegro]
 - **LinkedIn**: [[enllaç](https://www.linkedin.com/in/aranzazu-miguelez)]
