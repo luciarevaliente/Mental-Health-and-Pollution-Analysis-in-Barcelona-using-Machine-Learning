@@ -76,11 +76,14 @@ if __name__=="__main__":
 
             plt.close()  # Tancar el gràfic per alliberar memòria
 
-        print(f"Boxplots guardats a la carpeta '{output_folder}'.")
+        print(f"Boxplots guardats a la carpeta '{output_folder}'.\n")
     else:
-        print(f"La carpeta '{output_folder}' ja existeix. No s'han generat nous boxplots.")
+        print(f"La carpeta '{output_folder}' ja existeix. No s'han generat nous boxplots\n.")
 
-
+    # Anàlisi boxplots
+    for col in sorted(col_numeriques_filtered.columns):
+        print(f'La característica {col} --> MIN: {df[col].min()}, MAX: {df[col].max()}, MEAN: {df[col].mean()}')
+    
 
     # PROPORCIÓ DE REGISTRES ##############################################
     # count_mentalhealth = df['mentalhealth_survey'].value_counts()

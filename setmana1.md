@@ -1,5 +1,5 @@
 En aquest arxiu, farem un anàlisi genearl del dataset i respondrem les preguntes de la **setmana 1**.
-Les comandes executades per obtenir la informació exposada es troba en l'arxiu 'csv_to_dataset.py'.
+Les comandes executades per obtenir la informació exposada es troba en l'arxiu `csv_to_dataset.py`.
 
 # Anàlisi general
 El dataset té 3348 files (instàncies) i 95 columnes (característiques). Les dades són numèriques, categòriques i temporals. 
@@ -36,7 +36,11 @@ Els outliers (valors atípics) són dades que es troben molt lluny de la resta d
 
 En el nostre projecte, farem servir la **tècnica visual boxplot**. L’ús de **boxplots** és ideal perquè permet una visualització clara i ràpida dels **outliers** i de la distribució de les dades. Aquesta tècnica destaca els valors atípics d’una manera intuïtiva gràcies als **bigotis** i als punts fora del rang esperat, sense necessitat de càlculs complexos. A més, facilita la comparació entre múltiples variables numèriques de manera simultània. Tot i que hi ha tècniques alternatives (IQR, desviació estàndard), els boxplots són més comprensibles visualment i eficients per a una anàlisi inicial.
 
-Si cerquem l'apartat d'outliers en el codi 'csv_to_dataset.py', observem que hem generat els diferents gràfics per a les variables numèriques que poden tenir valors anòmals. 
+Si cerquem l'apartat d'outliers en el codi `csv_to_dataset.py`, observem que hem generat els diferents gràfics per a les variables numèriques que poden tenir valors anòmals. A continuació, s'explica les observacions realitzades a partir d'aquests:
+1. `age_yrs`: les enquestes s'han realitzat a persones d'entre 18 i 76 anys. La mitjana d'edat és 37.82 anys.
+2. `BCµg`: el valor mitjà és de 0.9478µg. Es consideren 3 outliers, els quals >2µg. Doncs, la contaminació sol prendre valors baixos.
+3. `bienestar`: la mesura de benestar comprèn el rang [0, 10]. El valor mitjà és de 7.22. Es consideren 3 outliers, els quals <3. Doncs, el benestar és bastant alt en general.
+4. **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
 ## Gestió dels valors null:
 1. **Eliminació de les files / columnes amb valors null:** és una manera ràpida i senzilla, només ens asseguraria treballar amb dades completes, ja que no afegim informació artificial. Però, com els valors null estan dispersos entre les files i columnes, això podria reduir significativament els registres disponibles per entrenar el model, afectant a la capacitat de generalitzar. D'altra banda, si els registres amb valors null tenen característiques diferents als complets, eliminar-los significaria introduir un biaix, ja que el model no representaria correctament les dades. Doncs, no farem servir aquesta tècnica per no disminuir la mostra del model. A més, perquè no seria correcte, ja que es recomanable eliminar registres quan la proporció de files amb null és <5% o quan es perd un 10% de la mostra original. En el nostre cas, la meitat dels registres (52.38%) contenen almenys un valor null, per tant, no seria adhient. Pel que respecta a les columnes, no sabem si les característiques són significatives, per tant, preferim mantenir-les per averiguar la seva importància en el model.
