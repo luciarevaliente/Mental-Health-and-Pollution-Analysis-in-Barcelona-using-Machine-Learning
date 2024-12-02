@@ -1,15 +1,12 @@
 # **Salut Mental i Contaminació a Barcelona: Un Estudi Basat en Machine Learning**
 
 ## **Descripció del Projecte** 📄
-Aquest projecte analitza la relació entre la salut mental i la contaminació ambiental a la ciutat de Barcelona utilitzant tècniques de Machine Learning. Amb un dataset complet que inclou factors relacionats amb el benestar, la qualitat de l'aire i altres variables contextuals, explorem patrons, prediccions i agrupacions que poden contribuir a comprendre millor aquests factors.
+por hacer
 
 ---
 
 ## **Objectius del Projecte** 🎯
-1. Analitzar la correlació entre factors de contaminació i salut mental.
-2. Predir indicadors de salut mental (estrès, energia, son) utilitzant models de regressió.
-3. Identificar grups poblacionals mitjançant tècniques de clustering basades en dades ambientals i demogràfiques.
-4. Proporcionar eines i conclusions que puguin ser útils per a polítiques públiques i intervencions urbanes.
+por hacer
 
 ---
 
@@ -25,9 +22,10 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
  ┃ ┣ 📜 02_exploratory_analysis.py (processa i analitza les dades)
  ┃ ┣ 📜 03_data_cleaning.py (neteja i preprocesament de dades)
  ┣ 📂 visualizations
+ ┃ ┣ 📂 boxplots/ (gràfiques per analitzar outliers)
  ┣ 📂 results
- ┃ ┣ 📜 visuals/ (gràfiques i visualitzacions generades)
- ┃ ┣ 📜 metrics/ (resultats dels models)
+ ┃ ┣ 📂 visuals/ (gràfiques i visualitzacions generades)
+ ┃ ┣ 📂 metrics/ (resultats dels models)
  ┣ 📜 README.md (aquest fitxer)
  ┣ 📜 requirements.txt (llibreries necessàries)
  ┗ 📜 LICENSE.md (llicència del projecte)
