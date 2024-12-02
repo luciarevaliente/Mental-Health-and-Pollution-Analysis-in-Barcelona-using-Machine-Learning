@@ -91,9 +91,7 @@ por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ---
 
 ## **Properes Etapes** 🚀
-- Millorar els models actuals amb tècniques més avançades (ex. XGBoost, PCA).
-- Incorporar dades de més anys per analitzar tendències temporals.
-- Automatitzar el procés per utilitzar-lo en temps real.
+por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ---
 
