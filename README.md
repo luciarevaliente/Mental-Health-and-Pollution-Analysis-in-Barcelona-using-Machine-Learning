@@ -15,7 +15,7 @@ por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 📦 Mental-Health-and-Pollution-Analysis-in-Barcelona-using-Machine-Learning
  ┣ 📂 data
  ┃ ┣ 📜 CitieSHealth_BCN_DATA_PanelStudy_20220414.csv (dataset principal)
- ┃ ┣ 📜 dataset.pkl (dataset format pkl)
+ ┃ ┣ 📜 dataset.pkl (dataset emprat en els scripts)
  ┣ 📂 scripts
  ┃ ┣ 📜 01_load_data.py (carrega les dades i les guarda en format pickle)
  ┃ ┣ 📜 02_exploratory_analysis.py (processa i analitza les dades)
