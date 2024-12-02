@@ -40,5 +40,10 @@ Tot i això, hem analitzat la distribució de valors null per columna. Observem 
 
 4. Crear variables indicadores: ***por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*
 
-##Outliers 
+## Outliers: 
+***por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*
+
+## Proporció dels registres de mentalhealth --> per veure si Les variables de salut mental estan equilibrades? Hi ha molts més malalts que sans? En cas que sí, hem de tenir alguna cosa en compte en crear?
+
+# Preguntes:
 ***por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*
