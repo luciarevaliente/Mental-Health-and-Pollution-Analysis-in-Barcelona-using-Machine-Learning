@@ -16,7 +16,7 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
 ## **Contingut del Repositori** 📁
 
 ```plaintext
-📦 Salut-Mental-Contaminacio-Barcelona
+📦 Mental-Health-and-Pollution-Analysis-in-Barcelona-using-Machine-Learning
  ┣ 📂 data
  ┃ ┣ 📜 CitieSHealth_BCN_DATA_PanelStudy_20220414.csv (dataset principal)
  ┣ 📂 scripts
