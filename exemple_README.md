@@ -177,7 +177,7 @@ License: CC0 1.0 Universal (CC0 1.0) - Public Domain Dedication
 ## **Contacte** 📬
 Per a més informació o col·laboracions, pots contactar amb:
 - **Nom**: [Lucía Revaliente Torres]
-- **LinkedIn**: [enllaç]
+- **LinkedIn**: [[enllaç](https://www.linkedin.com/in/lucia-revaliente-torres)]
 
 ---
 
