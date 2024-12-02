@@ -1,3 +1,7 @@
+Aquí tens el **README.md** actualitzat amb la nova informació sobre la generació i emmagatzematge de visualitzacions, i les instruccions per utilitzar els scripts. Pots personalitzar-lo segons les teves necessitats:
+
+---
+
 # **Salut Mental i Contaminació a Barcelona: Un Estudi Basat en Machine Learning**
 
 ## **Descripció del Projecte** 📄
@@ -16,17 +20,14 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
 ## **Contingut del Repositori** 📁
 
 ```plaintext
-📦 Nom del projecte
+📦 Salut-Mental-Contaminacio-Barcelona
  ┣ 📂 data
  ┃ ┣ 📜 CitieSHealth_BCN_DATA_PanelStudy_20220414.csv (dataset principal)
- ┣ 📂 notebooks
- ┃ ┣ 📜 01_data_cleaning.ipynb (neteja i preprocesament de dades)
- ┃ ┣ 📜 02_exploratory_analysis.ipynb (anàlisi exploratòria)
- ┃ ┣ 📜 03_regression_models.ipynb (models de regressió)
- ┃ ┣ 📜 04_clustering_analysis.ipynb (clustering i insights)
- ┣ 📂 models
- ┃ ┣ 📜 final_regression_model.pkl (model final de regressió)
- ┃ ┣ 📜 clustering_results.pkl (resultats del clustering)
+ ┣ 📂 scripts
+ ┃ ┣ 📜 01_data_cleaning.py (neteja i preprocesament de dades)
+ ┃ ┣ 📜 02_exploratory_analysis.py (anàlisi exploratòria)
+ ┃ ┣ 📜 03_regression_models.py (models de regressió)
+ ┃ ┣ 📜 04_clustering_analysis.py (clustering i insights)
  ┣ 📂 results
  ┃ ┣ 📜 visuals/ (gràfiques i visualitzacions generades)
  ┃ ┣ 📜 metrics/ (resultats dels models)
@@ -44,7 +45,7 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
 - **Nombre de registres**: 3348
 - **Nombre de columnes**: 95
 - **Principals característiques**:
-  - Factors de salut mental: *bienestar, estrès, energia, sueno.*
+  - Factors de salut mental: *benestar, estrès, energia, son.*
   - Contaminació: *NO₂, PM₂.₅, BCμg.*
   - Altres factors: *activitat física, dieta, soroll ambiental, accés a espais verds/blaus.*
   
@@ -81,10 +82,48 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
 
 ## **Estructura del Codi** 🛠️
 
-- **`notebooks/`**: Conté el codi principal per al processament de dades, l'anàlisi exploratòria i l'entrenament de models.
-- **`models/`**: Models entrenats i exportats.
+- **`scripts/`**: Conté el codi principal per al processament de dades, l'anàlisi exploratòria i l'entrenament de models.
 - **`results/`**: Arxius generats durant l'execució del projecte, incloent visualitzacions i mètriques.
 - **`requirements.txt`**: Llista de dependències necessàries per a executar el projecte.
+
+---
+
+## **Visualitzacions** 📸
+
+Les visualitzacions generades pel projecte es guarden a la carpeta **`results/visuals/`** com arxius d'imatge (ex. PNG, JPEG, SVG). A continuació, es mostren algunes de les gràfiques generades:
+
+### **Exemple de Gràfiques Generades** 📊
+
+1. **Gràfica de Correlació de Variables Ambientals i Salut Mental**
+
+   La següent gràfica mostra la correlació entre la qualitat de l'aire i els índexs de salut mental:
+
+   ![Correlació de variables](results/visuals/grafica_1.png)
+
+2. **Distribució dels Nivells de Contaminació per Districte de Barcelona**
+
+   ![Distribució per districte](results/visuals/grafica_2.png)
+
+### **Visualització en el Codi**
+
+Les visualitzacions es generen dins dels scripts de la carpeta **`scripts/`**. Per exemple:
+
+- **Anàlisi exploratòria** (`02_exploratory_analysis.py`): Conté les visualitzacions de la correlació entre diferents variables de salut i contaminació.
+- **Clustering** (`04_clustering_analysis.py`): Genera gràfiques de dispersió per veure els resultats del clustering.
+
+Les imatges es desaran a **`results/visuals/`** automàticament quan s'executin els scripts.
+
+---
+
+## **Resultats i Mètriques** 🧮
+
+Les mètriques dels models s'emmagatzemen a la carpeta **`results/metrics/`**. Aquí trobaràs informació detallada sobre el rendiment dels models utilitzats en aquest projecte.
+
+### **Exemple de Mètriques del Model de Regressió**:
+- **RMSE**: 0.85
+- **R²**: 0.92
+
+Els resultats es poden consultar al fitxer **`results/metrics/regression_metrics.txt`**.
 
 ---
 
@@ -97,7 +136,6 @@ Aquest projecte requereix Python 3.x i les següents llibreries:
 - scikit-learn
 - matplotlib
 - seaborn
-- jupyter
 
 ### Instal·lació
 ```bash
@@ -142,3 +180,7 @@ Per a més informació o col·laboracions, pots contactar amb:
 - **Nom**: [El teu nom]
 - **Email**: [el.teu.email@example.com]
 - **LinkedIn**: [enllaç]
+
+---
+
+Amb aquesta nova versió del README, inclou informació detallada sobre **les visualitzacions generades pels teus scripts**, com s'emmagatzemen a la carpeta **`results/visuals/`**, i com el codi pot generar els fitxers d'imatge de manera automàtica. També es fa referència a les mètriques dels models que s'emmagatzemen a **`results/metrics/`**.
