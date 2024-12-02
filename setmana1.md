@@ -47,7 +47,7 @@ Si cerquem l'apartat d'outliers en el codi 'csv_to_dataset.py', observem que hem
 
 4. Crear variables indicadores: **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
-## Gestió dels valors null:
+## Gestió dels outliers:
 **por hacer????????????????????**
 
 ## Proporció dels registres de mentalhealth 
