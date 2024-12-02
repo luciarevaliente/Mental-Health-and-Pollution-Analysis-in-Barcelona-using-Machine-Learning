@@ -2,10 +2,9 @@
 En aquest arxiu, farem un anàlisi general del dataset i respondrem les preguntes de la **setmana 1**. Comprovarem que inclou tant dades sobre la contaminació com dades sobre salut mental. A més, realitzarem una exploració inicial per entendre el conjunt de dades (tipus de variables, missing values, outliers, etc.).
 Les comandes executades per obtenir la informació exposada es troba en l'arxiu `csv_to_dataset.py`.
 
-# Anàlisi general
+## Característiques:
 El dataset té 3348 files (instàncies) i 95 columnes (característiques). Les dades són numèriques, categòriques i temporals. 
 
-## Característiques:
 1. **Dades temporals:**
     year, month, day, hour, dayoftheweek: Informació útil per analitzar variacions temporals en la contaminació o en la salut mental.
 2. **Indicadors de salut mental:**
