@@ -1,4 +1,4 @@
-En aquest arxiu, farem un anàlisi genearl del dataset i respondrem les preguntes de la setmana 1.
+En aquest arxiu, farem un anàlisi general del dataset i respondrem les preguntes de la **setmana 1**.
 Les comandes executades per obtenir la informació exposada es troba en l'arxiu "csv_to_dataset.py".
 
 # Anàlisi general
