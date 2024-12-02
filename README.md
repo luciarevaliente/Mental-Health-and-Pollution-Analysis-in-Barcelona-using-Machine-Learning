@@ -72,10 +72,10 @@ Aquest projecte requereix Python 3.x i les següents llibreries:
 ### Instal·lació
 ```bash
 # Clonar aquest repositori
-git clone https://github.com/usuari/nom-del-repositori.git
+git clone https://github.com/DCC-UAB/ACproject-19-grup.git
 
 # Navegar al directori del projecte
-cd nom-del-repositori
+cd ACproject-19-grup
 
 # Instal·lar les dependències
 pip install -r requirements.txt
