@@ -20,6 +20,7 @@ por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  ┃ ┣ 📜 01_load_data.py (carrega les dades i les guarda en format pickle)
  ┃ ┣ 📜 02_exploratory_analysis.py (processa i analitza les dades)
  ┃ ┣ 📜 03_data_cleaning.py (neteja i preprocesament de dades)
+ ┣ 📂 docs
  ┣ 📂 visualizations
  ┃ ┣ 📂 boxplots/ (gràfiques per analitzar outliers)
  ┣ 📂 results
