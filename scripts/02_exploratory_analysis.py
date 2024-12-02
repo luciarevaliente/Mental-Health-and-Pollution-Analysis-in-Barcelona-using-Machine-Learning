@@ -1,12 +1,23 @@
-"""POR REVISAR"""
+"""
+Script per analitzar dades de salut mental i contaminació de BCN
+Creat per: Lucía Revaliente i Aránzazu Miguélez
+Data de creació: 02/12/24
+Descripció: Aquest script carrega, processa i analitza dades de salut mental i contaminació.
+"""
 # 02_exploratory_analysis.py
-
+# IMPORTACIÓ
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# VARIABLES CONSTANTS
+PICKLE_PATH = 'data/dataset.pkl'
+
 # Cargar el DataFrame desde el archivo pickle guardado previamente
-df = pd.read_pickle('data/cleaned_data.pkl')
+df = pd.read_pickle(PICKLE_PATH)
+
+
+"""POR REVISAR"""
 
 # Verificar los tipos de datos y las primeras filas
 print("Tipos de datos y las primeras filas del DataFrame:")
