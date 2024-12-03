@@ -6,3 +6,4 @@
 5. Decidir cómo gestionamos los scripts: 
     - Funciones en un .py y llamadas en otro
     - Clases para cada proceso del proyecto...
+6. pasar el análisis de csv_to_dataset.py a 02_exploratory_analysis.py
