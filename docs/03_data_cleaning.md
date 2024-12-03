@@ -1,4 +1,4 @@
-# Data Cleaning: Preparació del Dataset per a l'Anàlisi
+# Data Cleaning
 En aquesta secció del projecte, es descriu el procés de neteja i preparació del conjunt de dades abans de realitzar qualsevol anàlisi o modelatge. L'objectiu és garantir que el dataset sigui consistent, lliure d'errors i preparat per al seu ús en anàlisis posteriors.
 
 ## Tractament de Valors Nuls
