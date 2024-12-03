@@ -18,7 +18,11 @@ Finalment, totes les columnes del dataset estan lliures de valors nuls, tal com 
 **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
 ## Eliminació dels duplicats
-**por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+Durant el procés de neteja de dades, hem revisat si hi ha files duplicades que poden afectar l'anàlisi. Per això, s'utilitza la funció `drop_duplicates()` de Pandas per eliminar qualsevol duplicat.
+
+Després de realitzar aquesta operació, es comprova que no hi ha duplicats al conjunt de dades, ja que no es troben files repetides.
+
+Aquesta etapa assegura que les dades són úniques i evita que la informació redundant influeixi en els resultats de l'anàlisi.
 
 ## Detecció i correcció dels errors tipogràfics o inconsistents
 **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**

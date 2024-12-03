@@ -36,8 +36,10 @@ for column in data.columns:
 res = data.drop_duplicates(inplace=True)
 print(f'Hi havia {res} duplicats')
 
-# CONVERTIM LES DADES EN EL TIPUS CORRECTE ########################################################################
-
+# CORREGIR ERRORS TIPOGRÀFICS ####################################################################################
+for column in data.select_dtypes(include=['object', 'string']).columns:
+    data[column] = data[column].str.lower().str.strip()  # Estandarditza
+print(data.select_dtypes(include=['object', 'string']).columns)
 
 # NORMALITZACIÓ ###################################################################################################
 # dades categòriques
