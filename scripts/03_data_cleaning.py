@@ -34,12 +34,17 @@ for column in data.columns:
 
 # ELIMINAR DUPLICATS ##############################################################################################
 res = data.drop_duplicates(inplace=True)
-print(f'Hi havia {res} duplicats')
+print(f'Hi havia {res} duplicats\n')
 
 # CORREGIR ERRORS TIPOGRÀFICS ####################################################################################
+# print(data.select_dtypes(include=['object', 'string']).columns)
 for column in data.select_dtypes(include=['object', 'string']).columns:
     data[column] = data[column].str.lower().str.strip()  # Estandarditza
-print(data.select_dtypes(include=['object', 'string']).columns)
+
+# CONVERTIR TIPUS DE DADES INCORRECTES ############################################################################
+for i, tipo in data.dtypes.items():
+    print(i, tipo)
+# canviar = 
 
 # NORMALITZACIÓ ###################################################################################################
 # dades categòriques
