@@ -102,7 +102,8 @@ for column in data.select_dtypes(include=['object', 'string']).columns:
     data[column] = data[column].str.lower().str.strip()  # Estandarditza
     print(data[column].value_counts())
     print()
-
+print(data['sueno'].dtype)
+# Como hay float en el dataset hay que eliminarlos de aquí!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 # GUARDEM EL DATASET NET ##########################################################################################
 data.to_pickle(CLEANED_PICKLE_PATH)
