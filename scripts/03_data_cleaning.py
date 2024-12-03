@@ -57,7 +57,7 @@ col_int_real = ['occurrence_mental', 'occurrence_stroop', 'correct', 'response_d
             'Totaltime', 'Houron', 'Houroff', 'age_yrs', 'yearbirth', 'hour_gps', 'sec_noise55_day',
             'sec_noise65_day', 'sec_greenblue_day', 'hours_noise_55_day', 'hours_noise_65_day', 'hours_greenblue_day', 'precip_12h_binary',
             'precip_24h_binary']
-col_str_real = ['dayoftheweek', 'mentalhealth_survey', 'bienestar', 'energia', 'estres', 'sueno', 'horasfuera', 'ordenador', 
+col_str_real = ['dayoftheweek', 'mentalhealth_survey', 'bienestar', 'energia', 'estres', 'sueno', 'ordenador', 
            'dieta', 'alcohol', 'drogas', 'enfermo', 'otrofactor', 'district', 'education', 'access_greenbluespaces_300mbuff',
            'smoke', 'psycho', 'gender', 'stroop_test', 'Totaltime_estimated']
 
@@ -96,21 +96,21 @@ if nan_check:
 else:
     print("No hi ha valors NaN al DataFrame.")
 
-# CORREGIR ERRORS TIPOGRÀFICS ####################################################################################
+# CORREGIR ERRORS TIPOGRÀFICS i NORMALITZACIÓ DADES CATEGÒRIQUES ####################################################
 # print(data.select_dtypes(include=['object', 'string']).columns)
 for column in data.select_dtypes(include=['object', 'string']).columns:
     data[column] = data[column].str.lower().str.strip()  # Estandarditza
+    print(data[column].value_counts())
+    print()
 
 
 # GUARDEM EL DATASET NET ##########################################################################################
 data.to_pickle(CLEANED_PICKLE_PATH)
 
 #################################################################################################################
-# Carregar el fitxer pickle
-# file_path = 'ruta/al/fitxer.pickle'  # Substitueix per la teva ruta
-data_pickle = pd.read_pickle(CLEANED_PICKLE_PATH)
+# data_pickle = pd.read_pickle(CLEANED_PICKLE_PATH)
 
-output_path = 'data/cleaned_dataset.xlsx'  # Substitueix per la ruta de sortida
-data.to_excel(output_path, index=False)
+# output_path = 'data/cleaned_dataset.xlsx'  # Substitueix per la ruta de sortida
+# data.to_excel(output_path, index=False)
 
-print(f"Fitxer Excel guardat a {output_path}")
+# print(f"Fitxer Excel guardat a {output_path}")
