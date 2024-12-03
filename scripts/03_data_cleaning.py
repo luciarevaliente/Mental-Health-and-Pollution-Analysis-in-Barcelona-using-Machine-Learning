@@ -101,5 +101,16 @@ else:
 for column in data.select_dtypes(include=['object', 'string']).columns:
     data[column] = data[column].str.lower().str.strip()  # Estandarditza
 
+
 # GUARDEM EL DATASET NET ##########################################################################################
 data.to_pickle(CLEANED_PICKLE_PATH)
+
+#################################################################################################################
+# Carregar el fitxer pickle
+# file_path = 'ruta/al/fitxer.pickle'  # Substitueix per la teva ruta
+data_pickle = pd.read_pickle(CLEANED_PICKLE_PATH)
+
+output_path = 'data/cleaned_dataset.xlsx'  # Substitueix per la ruta de sortida
+data.to_excel(output_path, index=False)
+
+print(f"Fitxer Excel guardat a {output_path}")

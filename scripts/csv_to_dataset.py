@@ -93,3 +93,7 @@ if __name__=="__main__":
     # print(count_occurence_mental, "\n")
     # count_bienestar = df['bienestar'].value_counts()
     # print(count_bienestar, "\n")
+
+    # ANALITZAR VALORS PER CADA COLUMNA --> així podrem normalitzar les dades categòriques
+    for i in df.columns:
+        df[i].value_counts()
