@@ -13,12 +13,12 @@ import numpy as np
 PICKLE_PATH = 'data/dataset.pkl'
 CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
 
-# Cargar el DataFrame desde el archivo pickle guardado previamente
+# CARREGAR EL DATASET #############################################################################################
 data = pd.read_pickle(PICKLE_PATH)
 # print(data.isnull().sum())
-print(data['performance'].mean())
+# print(data['performance'].mean())
 
-# Imputar valores nulos
+# TRANSFORMAR VALORS NULL #########################################################################################
 for column in data.columns:
     if data[column].isnull().any():  # Verifica si la columna tiene valores nulos
         if data[column].dtype == 'object' or data[column].dtype.name == 'category':  # Columnas categóricas
@@ -28,9 +28,20 @@ for column in data.columns:
             mean_value = data[column].mean()  # Calcular la media
             data[column] = data[column].fillna(mean_value)  # Reasignar a la columna
 
-# Guardar el dataset imputado nuevamente en un archivo pickle
-data.to_pickle(CLEANED_PICKLE_PATH)
-
-# Confirmar que ya no hay valores nulos
+# Confirmar que ya no hay valores nulos y ver cómo afectan los cambios realizados
 # print(data.isnull().sum())
-print(data['performance'].mean())
+# print(data['performance'].mean())
+
+# ELIMINAR DUPLICATS ##############################################################################################
+res = data.drop_duplicates(inplace=True)
+print(f'Hi havia {res} duplicats')
+
+# CONVERTIM LES DADES EN EL TIPUS CORRECTE ########################################################################
+
+
+# NORMALITZACIÓ ###################################################################################################
+# dades categòriques
+# dades numèriques?
+
+# GUARDEM EL DATASET NET ##########################################################################################
+data.to_pickle(CLEANED_PICKLE_PATH)
