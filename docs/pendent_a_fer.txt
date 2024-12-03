@@ -3,3 +3,6 @@
     En Kaggle ja hi ha una representació visual
 3. Afegir el script 00 a readme
 4. Crear funcions del data_cleaning perquè el codi sigui llegible
+5. Decidir cómo gestionamos los scripts: 
+    - Funciones en un .py y llamadas en otro
+    - Clases para cada proceso del proyecto...
