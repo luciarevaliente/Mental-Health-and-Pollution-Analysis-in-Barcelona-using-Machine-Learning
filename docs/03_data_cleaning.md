@@ -107,6 +107,9 @@ Efecitvament, després de fer els prints respectius, hem comprovat que en la doc
 
 És doncs, quan hem reformulat la classificació de les dades en les llistes i hem obtingut un resultat correcte, sense Nan. Aquestes conversions són necessàries per garantir que les dades siguin coherents amb el seu format esperat i per evitar errors en l'anàlisi posterior.
 
+### Canvi de valors
+Finalment, hem decidit transformar algunes variables float en int ja que així ho especificava la documentació. Després d'analitzar el significat, hem considerat adhient eliminar els decimals, tal i com indiquen els autors, donant per fet que els valors float era soroll del dataset. Per exemple, en les variables `energia`, `estres` o `sueno`. Aquestes són categòriques ja que s'han extret d'una enquesta. Per tant, no poden ser decimals perquè són una escala. 
+
 ---
 
 ## Detecció i correcció dels errors tipogràfics
