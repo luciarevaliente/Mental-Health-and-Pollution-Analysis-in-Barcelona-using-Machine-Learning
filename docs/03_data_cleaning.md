@@ -1,6 +1,8 @@
 # Data Cleaning
 En aquesta secció del projecte, es descriu el procés de neteja i preparació del conjunt de dades abans de realitzar qualsevol anàlisi o modelatge. L'objectiu és garantir que el dataset sigui consistent, lliure d'errors i preparat per al seu ús en anàlisis posteriors.
 
+---
+
 ## Tractament de Valors Nuls
 Un dels passos més importants del procés de neteja de dades és gestionar els valors nuls. En aquest projecte, les columnes del dataset contenien valors nuls que podien afectar la qualitat de l'anàlisi. Per resoldre això, s'ha aplicat un mètode d'imputació específic per a cada tipus de dada.
 
@@ -16,6 +18,8 @@ Finalment, totes les columnes del dataset estan lliures de valors nuls, tal com 
 
 ### Gestió de valors nuls en sèries temporals
 **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+
+---
 
 ## Eliminació dels duplicats
 Durant el procés de neteja de dades, hem revisat si hi ha files duplicades que poden afectar l'anàlisi. Per això, s'utilitza la funció `drop_duplicates()` de Pandas per eliminar qualsevol duplicat.
@@ -38,11 +42,11 @@ Per garantir aquesta coherència, s'aplica una transformació a totes les column
 
 Aquest pas garanteix que les dades textuals siguin estandarditzades i comparables, evitant problemes durant l'anàlisi o la creació de models.
 
+---
 
 ## Conversió de tipus de dades incorrectes
 A continuació, hem realitzat una sèrie de conversions per assegurar-nos que els tipus de dades del conjunt de dades eren correctes i estiguessin formats adequadament per al seu processament posterior. En els subapartats explicarem les diferents operacions que hem realitzat, així com els canvis que s'han fet a les columnes per corregir incongruències de tipus de dades que proposava la documentació del dataset.
 
-#### **Conversió de tipus de dades incorrectes**
 1. **Comprovació inicial dels tipus de dades:**
    Primer, hem fa una revisió dels tipus de dades actuals a les columnes del conjunt de dades després de la importació. Bàsicament, per identificar qualsevol discrepància entre el tipus de dades esperat i el tipus de dades real. Això es fa amb el següent codi comentat:
 
@@ -117,24 +121,37 @@ Efecitvament, després de fer els prints respectius, hem comprovat que en la doc
 
 És doncs, quan hem reformulat la classificació de les dades en les llistes i hem obtingut un resultat correcte, sense Nan. Aquestes conversions són necessàries per garantir que les dades siguin coherents amb el seu format esperat i per evitar errors en l'anàlisi posterior.
 
+---
 
 ## Normalització de dades categòriques
 **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
+---
+
 ## Tractament dels outliers
 **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+
+---
 
 ## Estandarització o escalat de les dades numèriques
 **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
+---
+
 ## Codificació de dades categòriques
 **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+
+---
 
 ## Revisió i manejament de valors constants
 **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
+---
+
 ## Correlació i redundància entre variables
 **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+
+---
 
 ## Revisió del balanç de classes
 **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
