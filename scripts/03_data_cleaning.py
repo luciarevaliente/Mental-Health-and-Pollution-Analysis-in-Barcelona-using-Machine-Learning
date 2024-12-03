@@ -34,7 +34,7 @@ for column in data.columns:
 
 # ELIMINAR DUPLICATS ##############################################################################################
 res = data.drop_duplicates(inplace=True)
-print(f'Hi havia {res} duplicats\n')
+print(f'Hi havia {res} registres duplicats\n')
 
 # CONVERTIR TIPUS DE DADES INCORRECTES ############################################################################
 # for i, tipo in data.dtypes.items():
@@ -81,7 +81,6 @@ for col in col_int_real:
 # Les columnes de tipus string (ja han de ser strings, però es poden netejar)
 for col in col_str_real:
     data[col] = data[col].astype(str)  # Assegura't que són strings
-    data[col] = data[col].str.lower().str.strip()  #Estàndard
 
 # Comprovar si hi ha NaN en tot el DataFrame
 nan_check = data.isna().any().any()  # Retorna True si hi ha qualsevol NaN al DataFrame
@@ -103,4 +102,4 @@ for column in data.select_dtypes(include=['object', 'string']).columns:
     data[column] = data[column].str.lower().str.strip()  # Estandarditza
 
 # GUARDEM EL DATASET NET ##########################################################################################
-# data.to_pickle(CLEANED_PICKLE_PATH)
+data.to_pickle(CLEANED_PICKLE_PATH)
