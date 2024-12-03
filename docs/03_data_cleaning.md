@@ -28,20 +28,6 @@ Després de realitzar aquesta operació, es comprova que no hi ha duplicats al c
 
 Aquesta etapa assegura que les dades són úniques i evita que la informació redundant influeixi en els resultats de l'anàlisi.
 
-## Detecció i correcció dels errors tipogràfics
-Una part important del procés de neteja de dades és assegurar que les columnes categòriques de text siguin consistents i lliures d'errors tipogràfics. Això inclou corregir problemes com:
-
-- Diferències entre majúscules i minúscules (per exemple, "Barcelona" i "barcelona").
-- Espais en blanc innecessaris al començament o al final dels valors (per exemple, " Barcelona ").
-- Altres inconsistències que dificulten l'anàlisi.
-
-Per garantir aquesta coherència, s'aplica una transformació a totes les columnes de tipus string. Això es fa convertint els valors a minúscules i eliminant els espais al voltant. Aquest procés s'automatitza mitjançant el següent enfocament:
-
-- Identifiquem totes les columnes amb dades de text (`object` o `string`).
-- Transformem els valors per assegurar la seva coherència.
-
-Aquest pas garanteix que les dades textuals siguin estandarditzades i comparables, evitant problemes durant l'anàlisi o la creació de models.
-
 ---
 
 ## Conversió de tipus de dades incorrectes
@@ -120,6 +106,22 @@ Efecitvament, després de fer els prints respectius, hem comprovat que en la doc
    - Les columnes `Houron` i `Houroff`, que estaven com enters (`int`), es van convertir a `datetime` per representar-les com hores en lloc de simples enters.
 
 És doncs, quan hem reformulat la classificació de les dades en les llistes i hem obtingut un resultat correcte, sense Nan. Aquestes conversions són necessàries per garantir que les dades siguin coherents amb el seu format esperat i per evitar errors en l'anàlisi posterior.
+
+---
+
+## Detecció i correcció dels errors tipogràfics
+Una part important del procés de neteja de dades és assegurar que les columnes categòriques de text siguin consistents i lliures d'errors tipogràfics. Això inclou corregir problemes com:
+
+- Diferències entre majúscules i minúscules (per exemple, "Barcelona" i "barcelona").
+- Espais en blanc innecessaris al començament o al final dels valors (per exemple, " Barcelona ").
+- Altres inconsistències que dificulten l'anàlisi.
+
+Per garantir aquesta coherència, s'aplica una transformació a totes les columnes de tipus string. Això es fa convertint els valors a minúscules i eliminant els espais al voltant. Aquest procés s'automatitza mitjançant el següent enfocament:
+
+- Identifiquem totes les columnes amb dades de text (`object` o `string`).
+- Transformem els valors per assegurar la seva coherència.
+
+Aquest pas garanteix que les dades textuals siguin estandarditzades i comparables, evitant problemes durant l'anàlisi o la creació de models.
 
 ---
 
