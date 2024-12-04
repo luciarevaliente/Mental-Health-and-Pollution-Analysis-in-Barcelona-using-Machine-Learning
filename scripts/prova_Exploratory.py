@@ -45,10 +45,16 @@ plt.ylabel('Nivell d\'estrès')
 plt.show()
 
 # 5. Correlació entre variables numèriques
-correlation_matrix = df.corr()
+# Filtrar només les columnes numèriques
+numeric_df = df.select_dtypes(include=[float, int])
+
+# Calcular la matriu de correlació només amb columnes numèriques
+correlation_matrix = numeric_df.corr()
+
+# Crear el heatmap de la matriu de correlació
 plt.figure(figsize=(12, 8))
 sns.heatmap(correlation_matrix, annot=False, cmap='coolwarm', cbar=True)
-plt.title('Matriz de correlació entre variables numèriques')
+plt.title('Matriu de correlació entre variables numèriques')
 plt.show()
 
 # 6. Distribució de variables de contaminació (exemple: no2bcn_24h i pm25bcn)
