@@ -100,8 +100,9 @@ else:
 # CORREGIR ERRORS TIPOGRÀFICS i NORMALITZACIÓ DADES CATEGÒRIQUES ####################################################
 for column in data.select_dtypes(include=['object', 'string']).columns:
     data[column] = data[column].str.lower().str.strip()  # Estandarditza
-    # print(data[column].value_counts())
-    # print()
+    print(data[column].value_counts())
+    print()
+    
 
 # Valors a normalitzar
 normalitzar = ['bienestar', 'energia', 'estres', 'sueno']  #Estan com str(float) però són valors enters
@@ -109,10 +110,10 @@ for col in normalitzar:
     data[col] = data[col].astype(float)
     data[col] = data[col].round().astype(int)
     data[col] = data[col].astype(str) #  ??????????????????????????????
-    print(data[col].value_counts())
-    print()
+    # print(data[col].value_counts())
+    # print()
 
-print(data['sueno'].dtype)
+# print(data['sueno'].dtype)
 # Como hay float en el dataset hay que eliminarlos de aquí!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
@@ -126,3 +127,5 @@ data.to_pickle(CLEANED_PICKLE_PATH)
 # data.to_excel(output_path, index=False)
 
 # print(f"Fitxer Excel guardat a {output_path}")
+
+print(data.dtypes.value_counts())

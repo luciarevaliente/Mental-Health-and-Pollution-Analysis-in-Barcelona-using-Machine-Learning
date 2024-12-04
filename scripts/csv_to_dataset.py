@@ -94,4 +94,4 @@ if __name__=="__main__":
     # count_bienestar = df['bienestar'].value_counts()
     # print(count_bienestar, "\n")
 
-    
+    print(data.dtypes)
