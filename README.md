@@ -19,7 +19,7 @@ por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  ┣ 📂 docs
  ┃ ┣ 📜 00_planificacio_setmanal_objectius_i_preguntes_clau.md (document on es planteja la cronologia del projecte, objectius i preguntes clau)
  ┃ ┣ 📜 02_exploratory_analysis.md (conté l'explicació del procediment i l'anàlisi dels resultats)
- ┃ ┣ 📜 03_data_cleaning.md (conté l'explicació del procediment i de la neteja, normalització de les dades)
+ ┃ ┣ 📜 03_data_cleaning.md (conté l'explicació del procediment i de la neteja, normalització, escalat i codificació de les dades)
  ┣ 📂 scripts
  ┃ ┣ 📜 01_load_data.py (carrega les dades i les guarda en format pickle)
  ┃ ┣ 📜 02_exploratory_analysis.py (processa i analitza les dades)
