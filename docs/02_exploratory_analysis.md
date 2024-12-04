@@ -109,7 +109,7 @@ Si cerquem l'apartat d'outliers en el codi `csv_to_dataset.py`, observem que hem
 Hem pogut generar un gràfic en el que hem escollit les variables 'Bienestar', 'mentalhealth_survey' i 'occurrence_mental', que són relacionades ammb la salut mental.En aquest gràfic hem torbat que el problema principal és que les categories de cadascun dels conjunts de dades no són coherents entre elles, fet que dificulta la comparació. És a dir, 'mentalhealth_survey' es compon per dades categòriques ('Yes', 'No'), i en canvi les altres dues són números del 1 al 10. Per tant, no podem trobar una proporció clara dels registres de mentalhealth. 
 És a dir,trobem que hi ha un desbalanç cap als malalts, ja que només hi ha 13 registres classificats com a malalts en comparació amb 3335 registres classificats com a sans. Això representa una proporció extremadament petita de malalts respecte als sans, la qual cosa pot complicar qualsevol anàlisi o model que es vulgui construir més endavant. Aquest desbalanç té diverses implicacions importants:
 
-    -  **Falta de representació del grup minoritari**: El grup de malalts és tan petit que pot ser difícil extreure conclusions fiables sobre les seves característiques.
+    - **Falta de representació del grup minoritari**: El grup de malalts és tan petit que pot ser difícil extreure conclusions fiables sobre les seves característiques.
     - **Esbiaix en resultats futurs**: Qualsevol model o anàlisi podria estar esbiaixat cap al grup majoritari (els sans), ja que tindrà més pes en els càlculs estadístics.
     - **Dificultat en la generalització**: Les dades actuals no permeten generalitzar fàcilment conclusions sobre els malalts perquè no representen adequadament aquest grup.
     
