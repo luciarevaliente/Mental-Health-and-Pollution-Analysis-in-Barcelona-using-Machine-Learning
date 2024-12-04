@@ -27,13 +27,19 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
 
 ### 1.2. Preguntes a respondre:
   1. **Tenim suficients dades?**
-  Considerem que sí tenim suficients dades ja que:
+  - Considerem que sí tenim suficients dades ja que:
   - Proporció de files/columnes: el número de files és 35x vegades el número de columnes, quan el mínim és 10x. Doncs, no caldrà fer cap redimensió del dataset, regularitzacions (Ridge, Lasso) o validació creuada.
+    
   2. **Les dades són consistents i adequades per al modelatge?**
+    
   3. **Com s'interpreten les dades i el seus valors?**
   - En el document `02_exploratory_analysis.md`, en l'apartat de *Característiques* hi ha un resum amb les diferents dades. En el fitxer `03_data_cleaning.md`, s'explica en l'apartat *Incongruències detectades* com els tipus de les dades està explicat en la documentació del dataset, excepte les variables `stroop_test`, `Totaltime_estimated`, `Houron` i `Houroff`, que són d'un tipus diferent.
 
-  4. Hi ha valors atípics?
+  4. **Hi ha valors atípics?**
+  - Els valors atípics s'exposen en el fitxer `03_data_cleaning.md`, concretament en l'apartat *Outliers*.
+  - Per identificar-los, hem fet servir boxplots. Es poden observar en el repositori: `visualizations/boxplots`.
+  - Que hi hagi valors atípics no significa que aquests siguin incorrectes. De fet, són dades inusuals però vàlides. Per tant, els boxplots amb els quals hem analitzats la info, mostren la variabilitat de les dades, etc.
+    
   5. Com s'han recopilat les dades? Quin rang geogràfic i temporal hi ha?
   6. Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?
   7. Hi ha variables que estiguin directament correlacionades?
