@@ -11,15 +11,15 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
 2. **Recopilació i exploració de dades:** 
 - Entendre les característiques de les dades (mida, tipus valors)
 - Realitzar anàlisi exploratori de les dades per identificar tendències i patrons clau
-Script: `02_exploratory_analysis.py` (conté el codi)
-Docs: `02_exploratory_analysis.md` (conté l'explicació del procediment i l'anàlisi dels resultats)
+- Script: `02_exploratory_analysis.py` (conté el codi)
+- Docs: `02_exploratory_analysis.md` (conté l'explicació del procediment i l'anàlisi dels resultats)
 
 3. **Preparació de les dades:**
 - Neteja de dades: eliminar/transformar valors null i outliers, duplicats...
 - Transformació de les dades: normalització, escalat, codificació de variables categòriques...
 - Dividir les dades en conjunts d'entrenament, validació i prova.
-Script: `03_data_cleaning.py` (conté el codi)
-Docs: `03_data_cleaning.md` (conté l'explicació del procediment i l'anàlisi dels resultats)
+- Script: `03_data_cleaning.py` (conté el codi)
+- Docs: `03_data_cleaning.md` (conté l'explicació del procediment i l'anàlisi dels resultats)
 
 4. **Establir hipòtesis**
 - Formular hipòtesis inicials sobre les relacions entre les variables
