@@ -21,13 +21,8 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
 - Formular hipòtesis inicials sobre les relacions entre les variables
 
 
----
-
-  1. Quines característiques ens aporten una major rellevància?
-  2. Una vegada sabem les característiques rellevants, com enfocarem el nostre model predictiu? Quin serà l'objectiu d'aquest?
-     
-### Possibles Preguntes a Respondre**
-  1. Tenim suficients dades?
+## Preguntes a respondre
+1. Tenim suficients dades?
   2. Les dades són consistents i adequades per al modelatge?
   3. Com s'interpreten les dades i el seus valors?
   4. Hi ha valors atípics?
@@ -37,4 +32,4 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
   8. Les variables de salut mental estan equilibrades? Hi ha molts més malalts que sans? En cas que sí, hem de tenir alguna cosa en compte en crear?
   9. Les medicions de la contaminació són suficient detallades com per analitzar barris, o només el districte de BCN?
 
-
+---
