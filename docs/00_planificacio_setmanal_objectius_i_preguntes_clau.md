@@ -24,6 +24,7 @@ Docs: `03_data_cleaning.md` (conté l'explicació del procediment i l'anàlisi d
 4. **Establir hipòtesis**
 - Formular hipòtesis inicials sobre les relacions entre les variables
 
+
 ### 1.2. Preguntes a respondre:
   1. **Tenim suficients dades?**
   Considerem que sí tenim suficients dades ja que:
