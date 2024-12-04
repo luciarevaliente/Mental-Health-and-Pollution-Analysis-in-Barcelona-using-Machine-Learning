@@ -46,14 +46,19 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
       - Que hi hagi valors atípics no significa que aquests siguin incorrectes. En general, en el nostre dataset els outliers estan contextualitzats com a casos extraordinaris (ex. vents forts, altes concentracions de NO₂). Per tant, són dades inusuals però vàlides. Doncs, els boxplots amb els quals hem analitzats la info, mostren la variabilitat de les dades, etc. 
     
   6. **Com s'han recopilat les dades? Quin rang geogràfic i temporal hi ha?**
+     -  **Recopilació de dades**
      -  Dades medioambientals i meteorològiques: s'han recollit de serveis meteorològics oficials i estacions de monitoreig ambiental de Barcelona. Algunes variables: `BCμg`, `noise_total_LDEN_55`, `humi_24h`, etc.
      -  Indicadors de salut mental i benestar: enquestes realitzades directament als participants, recopilades de manera digital. Algunes variables: `mentalhealth_survey`, `bienestar`, `estres`, etc.
      -  Dades cognitives: s'ha realitat l'Stroop test, un experiment cognitiu dissenyat per mesurar la capacidad de control inhibitorio y atención selectiva. Algunes variables: `stroop_test`, `response_duration`, `performance`, etc.
      -  Factos demogràfics i estil de vida: autoreport dels participants mitjançant els mateixos qüestionaris que per evaluar la salut mental. Algunes variables: `age_yrs`, `gender`, `education`, etc.
      -  Informació relacionada amb la COVID-19: enquestes específiques realitzades per evaluar l'impacte de la pandemia. Per tant, d'igual forma que per evaluar els indicadors de salut mental. Algunes variables: `covid_work`, `covid_mood`, `covid_sleep`, etc.
      -  En resum, les fonts són enquestes online, serveis meteorològics i estacions de monitoreig ambiental.
+     -  **Range geogràfic**
+     -      Les dades cobreixen diversos districtes de Barcelona, com Horta-Guinardó, Gràcia, Eixample, Sant Martí, Sants-Montjuïc, Ciutat Vella, Sant Andreu, Sarrià-Sant Gervasi, Nou Barris i Les Corts. No obstant això, hi ha alguns registres amb valors desconeguts ("nan") i una categoria etiquetada com "16", que podria ser un error o una agrupació no especificada.
+     -  **Rang temporal**
+     -      Pel que fa al rang temporal, sembla haver-hi un error en la interpretació de les dates. Els registres mostren dates codificades que apunten a l'any 1970 amb microsegons elevats, cosa que no sembla coherent amb les dades. Això suggereix que les dates han de ser revisades o convertides des d'un format codificat (com temps Unix) per obtenir informació temporal significativa. Aquesta revisió és crucial per determinar el rang temporal real de l'estudi.
     
-  7. **Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?**
+  8. **Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?**
      Sí, s’observen diverses relacions significatives entre contaminació i salut mental:
      - Estrès i NO₂ (no2bcn_24h): Existeix una correlació moderada positiva, suggerint que majors nivells de NO₂ estan associats amb un increment de l’estrès.
      - Benestar i NO₂ (no2bcn_24h): La correlació és negativa, indicant que nivells més alts de contaminació poden reduir la sensació de benestar.
