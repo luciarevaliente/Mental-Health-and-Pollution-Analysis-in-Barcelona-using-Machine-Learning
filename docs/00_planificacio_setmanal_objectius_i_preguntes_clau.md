@@ -59,7 +59,7 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
      - **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
   10. **Les medicions de la contaminació són suficient detallades com per analitzar barris, o només la ciutat de BCN?**
-     - **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!**
+    - **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
 ---
 
