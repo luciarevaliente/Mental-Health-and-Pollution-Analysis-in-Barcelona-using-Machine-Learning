@@ -19,7 +19,7 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
 - Transformació de les dades: normalització, escalat, codificació de variables categòriques...
 - Dividir les dades en conjunts d'entrenament, validació i prova.
 - Script: `03_data_cleaning.py` (conté el codi)
-- Docs: `03_data_cleaning.md` (conté l'explicació del procediment i l'anàlisi dels resultats)
+- Docs: `03_data_cleaning.md` (conté l'explicació del procediment i de la neteja, normalització, escalat i codificació de les dades)
 
 4. **Establir hipòtesis**
 - Formular hipòtesis inicials sobre les relacions entre les variables
