@@ -46,6 +46,8 @@ plt.savefig('results/visuals/estres_distribution.png')  # Guardar la imagen
 plt.show()
 
 
+# MÉS VISUALITZACIONS SOBRE LES RELACIONS ENTRE LES VARIABLES
+
 # Configuració de l'estil de visualització
 sns.set(style="whitegrid")
 
@@ -82,13 +84,35 @@ plt.ylabel('Nivell d\'estrès')
 plt.show()
 
 # 5. Correlació entre variables numèriques
-correlation_matrix = df.corr()
-plt.figure(figsize=(12, 8))
-sns.heatmap(correlation_matrix, annot=False, cmap='coolwarm', cbar=True)
-plt.title('Matriz de correlació entre variables numèriques')
+# Filtrar només les columnes numèriques
+numeric_df = df.select_dtypes(include=[float, int])
+
+# Calcular la matriu de correlació només amb columnes numèriques
+correlation_matrix = numeric_df.corr()
+
+# Configurar el tamany de la figura i estil
+plt.figure(figsize=(20, 20))  # Incrementa el tamany de la figura
+sns.set(style="whitegrid")
+
+# Crear el heatmap
+sns.heatmap(
+    correlation_matrix,
+    annot=False,  
+    cmap='coolwarm',
+    cbar=True,
+    square=True,
+    xticklabels=True,
+    yticklabels=True,
+    linewidths=0.5
+)
+
+# Ajustar etiquetes
+plt.xticks(rotation=90, fontsize=8)  # Rota i ajusta el tamany de les etiquetes eix X
+plt.yticks(fontsize=8)  # Ajusta el tamany de les etiquetes del eix Y
+plt.title('Matriu de correlació entre variables numèriques', fontsize=15)
 plt.show()
 
-# 6. Distribució de variables de contaminació (exemple: no2bcn_24h i pm25bcn)
+# 6. Distribució de variables de contaminació (no2bcn_24h i pm25bcn)
 plt.figure(figsize=(10, 6))
 sns.histplot(df['no2bcn_24h'], kde=True, color='blue', bins=30, label='NO2')
 sns.histplot(df['pm25bcn'], kde=True, color='green', bins=30, label='PM2.5')
