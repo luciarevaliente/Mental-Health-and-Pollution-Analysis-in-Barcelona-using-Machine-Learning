@@ -40,7 +40,14 @@ Si cerquem l'apartat d'outliers en el codi `csv_to_dataset.py`, observem que hem
 1. `age_yrs`: les enquestes s'han realitzat a persones d'entre 18 i 76 anys. La mitjana d'edat és 37.82 anys.
 2. `BCµg`: el valor mitjà és de 0.9478µg. Es consideren 3 outliers, els quals >2µg. Doncs, la contaminació sol prendre valors baixos.
 3. `bienestar`: la mesura de benestar comprèn el rang [0, 10]. El valor mitjà és de 7.22. Es consideren 3 outliers, els quals <3. Doncs, el benestar és bastant alt en general.
-4. **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+4. `µgm3`: el valor mitjà és 28.15 µg/m³. Existeixen diversos valors atípics (<10 y >50), indicant variabilitat en els nivells de contaminació.
+5. `correct`: Els valors correctes estan entre 9 i 11 amb una mitjana de 10.47. Es consideren outliers els valors inferiors a 8 i superiors a 12.
+6. `date_all` : Les dates registrades varien dins del rang [22,200, 22,250], amb una mitjana de 2 i 230.48. Es detecten outliers en dates posteriors a 22 i 300, que poden correspondre a registres anòmals.
+7. `day`: Els dies registrats comprenen el rang [1, 31]. La mitjana és de 15.45 i la mediana de 15.00. No es detecten outliers en aquesta variable.
+8. `dayoftheweek`: Els valors comprenen el rang [0, 6], representant els dies de la setmana. La mitjana és de 3.21. No hi ha outliers.
+9. `end_day`: Els dies finals comprenen el rang [1, 31], amb una mitjana de 15.58. No es detecten valors atípics en aquesta variable.
+10. `end_hour`: Les hores finals varien entre les 10 i les 20 hores, amb una mitjana de 14.82 hores. No es detecten outliers.
+
 
 ## Gestió dels valors null:
 **esto va en preprocessament de les dades!!!!!!!!!!!!!!!!!!!!**
