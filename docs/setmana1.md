@@ -57,7 +57,6 @@ Si cerquem l'apartat d'outliers en el codi `csv_to_dataset.py`, observem que hem
 18. `start_hour`: Els valors centrals són entre 8 i 12, amb una mediana de 10.0 i una mitjana de 9.8. Els outliers es troben abans de les 5 i després de les 20 hores, probablement per activitats irregulars.
 19. `z_mean_incongruent`: Els valors centrals estan propers a 0, amb una mitjana de 0.02. Els outliers van des de -2.0 fins a més de 10.0, indicant dispersió important.
 20. `z_performance`: La mediana és 0.00 i la mitjana és 0.05. S'han detectat outliers a ambdues bandes (< -3 i > 3), però la major part de les dades es troben en un rang ajustat.
-Si cerquem l'apartat d'outliers en el codi `csv_to_dataset.py`, observem que hem generat els diferents gràfics per a les variables numèriques que poden tenir valors anòmals. A continuació, s'explica les observacions realitzades a partir d'aquests:
 21. `energia`: Els valors estan principalment entre 6 i 8, amb una mediana de 7.5 i una mitjana de 7.3. Hi ha 3 outliers amb valors inferiors a 3, representant una baixa energia.
 22. `estres`: Els nivells d'estrès es distribueixen entre 2 i 8, amb una mediana de 5.0 i una mitjana de 5.1. No es detecten outliers destacats.
 23. `horasfuera`: Les hores fora varien entre 0 i 10, amb una mitjana de 4.8. Hi ha diversos outliers amb valors superiors a 15 hores, sent un valor màxim de 35 hores.
@@ -68,7 +67,26 @@ Si cerquem l'apartat d'outliers en el codi `csv_to_dataset.py`, observem que hem
 28. `hours_noise_65_day`: La distribució és similar a `hours_noise_55_day`, amb una mitjana de 1.9. Els outliers superen les 15 hores d'exposició al soroll de 65 dB.
 29. `humi_12h`: Els valors d'humitat relativa oscil·len entre 50% i 80%, amb una mitjana de 66.3%. No es detecten outliers significatius.
 30. `humi_24h`: Les dades d'humitat de 24 hores tenen un comportament similar a `humi_12h`, amb una mitjana de 66.8%. Els valors estan dins del rang esperat.
-
+31 . `maxwindspeed_24h`: la velocitat màxima del vent en 24 hores comprèn valors entre 0 i 25 m/s. El valor mitjà és de 2.34 m/s. Es consideren outliers els valors superiors a 10 m/s. Doncs, la velocitat del vent sol ser baixa la major part del temps.
+32. `mean_congruent`: el temps mitjà de resposta congruent varia entre 0 i 8000 ms. El valor mitjà és de 1312.45 ms. Es consideren outliers els valors >3000 ms. Doncs, la majoria de respostes congruents es donen ràpidament.
+33. `mean_incongruent`: el temps mitjà de resposta incongruent comprèn el rang de 0 a 6000 ms. El valor mitjà és de 1452.89 ms. Es consideren outliers els valors superiors a 4000 ms. Doncs, les respostes incongruents solen requerir més temps que les congruents.
+34. `min_gps`: el valor mínim de GPS (distància o temps segons la variable) oscil·la entre 0 i 1400 unitats. El valor mitjà és de 623.11 unitats. No s’identifiquen outliers evidents en aquesta variable.
+35. `month`: la distribució mensual indica que les observacions es concentren sobretot a la tardor (setembre, octubre, novembre). El valor mitjà és de 9.12 (corresponent a setembre). Es consideren outliers els mesos de gener, febrer i març.
+36. `no2bcn_12h`: la concentració de NO2 en 12 hores varia entre 10 i 80 µg/m³. El valor mitjà és de 34.67 µg/m³. Es consideren outliers els valors >60 µg/m³, que corresponen a episodis d’alta contaminació.
+37. `no2bcn_24h` la concentració de NO2 en 24 hores té un rang similar, amb un valor mitjà de 33.45 µg/m³. Els outliers també es consideren per sobre dels 60 µg/m³.
+38. `no2gps_12h`: el valor mitjà de NO2 mesurat per GPS en 12 hores és de 38.12 µg/m³. Es detecten diversos outliers >70 µg/m³, que podrien indicar zones amb alta densitat de trànsit o fonts de contaminació puntuals.
+39. `no2gps_24h`: la concentració mitjana en 24 hores és similar a la de 12 hores, amb un valor mitjà de 37.78 µg/m³. Els outliers també superen els 70 µg/m³.
+40. `noise_total_LDEN_55`: la mesura de soroll total (LDEN >55 dB) varia entre 0 i 1 (indicador binari). El valor mitjà és de 0.78, el que implica que en la majoria de casos es superen els 55 dB. Només s'identifiquen pocs casos amb valors propers a 0.
+41. `performance`: Aquesta variable mostra un rang de valors d'aproximadament 20 a 80. La mitjana del rendiment és de 50.32. Es consideren valors atípics (outliers) aquells que són inferiors a 20 o superiors a 80.
+42. `pm25bcn`: Els nivells de PM2.5 a Barcelona es troben principalment entre 10 i 20, amb una mitjana de 15.48. S'observen valors atípics significatius per sobre de 25, que reflecteixen episodis puntuals de contaminació.
+43. `precip_12h`: Les precipitacions acumulades en 12 hores són generalment baixes, amb una mitjana de 3.24 mm. No obstant això, s'identifiquen valors atípics per sobre de 30 mm, que representen episodis de pluja intensa.
+44. `precip_24h`: Les precipitacions acumulades en 24 hores tenen una mitjana de 5.68 mm. S'observen valors atípics per sobre de 40 mm, coincidint amb episodis de pluja intensa.
+45. `pressure_12h`: La pressió atmosfèrica en 12 hores varia entre 990 i 1030 hPa, amb una mitjana de 1012.78 hPa. Els valors inferiors a 990 hPa es consideren atípics i podrien estar associats a sistemes meteorològics significatius.
+46. `pressure_24h`: Aquesta variable segueix un patró semblant al de 12 hores, amb una mitjana de 1013.02 hPa i valors atípics similars.
+47. `response_duration_ms`: El temps de resposta varia àmpliament amb una mitjana de 15,482.32 ms. Els valors atípics es concentren a partir de 40,000 ms, indicant possibles problemes tècnics o interrupcions.
+48. `sec_greenblue_day`: Aquesta variable mostra el nombre de segons diaris exposats a zones verdes o blaves, amb una mitjana de 5,432 segons (1.5 hores). Els valors superiors a 20,000 segons es consideren atípics, representant exposicions molt altes.
+49. `sec_noise55_day`: Les exposicions diàries a nivells de soroll superiors a 55 dB tenen una mitjana de 7,890 segons (2.2 hores). Els valors atípics es troben a partir de 20,000 segons.
+50. `sec_noise65_day`: El temps diari en soroll intens (65 dB) és més limitat, amb una mitjana de 3,102 segons (0.86 hores). Els valors atípics superen els 10,000 segons, reflectint exposicions prolongades a entorns sorollosos.
 
 ## Gestió dels valors null:
 **esto va en preprocessament de les dades!!!!!!!!!!!!!!!!!!!!**
