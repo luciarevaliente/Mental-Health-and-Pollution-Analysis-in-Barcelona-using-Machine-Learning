@@ -31,28 +31,35 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
       - Proporció de files/columnes: el número de files és 35x vegades el número de columnes, quan el mínim és 10x. Doncs, no caldrà fer cap redimensió del dataset, regularitzacions (Ridge, Lasso) o validació creuada.
     
   2. **Les dades són consistents i adequades per al modelatge?**
-    
-  3. **Com s'interpreten les dades i el seus valors?**
+     - **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!**
+       
+  4. **Com s'interpreten les dades i el seus valors?**
       - En el document `02_exploratory_analysis.md`, en l'apartat de *Característiques* hi ha un resum amb les diferents dades. En el fitxer `03_data_cleaning.md`, s'explica en l'apartat *Incongruències detectades* com els tipus de les dades està explicat en la documentació del dataset, excepte les variables `stroop_test`, `Totaltime_estimated`, `Houron` i `Houroff`, que són d'un tipus diferent.
 
-  4. **Hi ha valors atípics?**
+  5. **Hi ha valors atípics?**
       - Els valors atípics s'exposen en el fitxer `03_data_cleaning.md`, concretament en l'apartat *Outliers*.
       - Per identificar-los, hem fet servir boxplots. Es poden observar en el repositori: `visualizations/boxplots`.
       - Que hi hagi valors atípics no significa que aquests siguin incorrectes. En general, en el nostre dataset els outliers estan contextualitzats com a casos extraordinaris (ex. vents forts, altes concentracions de NO₂). Per tant, són dades inusuals però vàlides. Doncs, els boxplots amb els quals hem analitzats la info, mostren la variabilitat de les dades, etc. 
     
-  5. **Com s'han recopilat les dades? Quin rang geogràfic i temporal hi ha?**
+  6. **Com s'han recopilat les dades? Quin rang geogràfic i temporal hi ha?**
      -  Dades medioambientals i meteorològiques: s'han recollit de serveis meteorològics oficials i estacions de monitoreig ambiental de Barcelona. Algunes variables: `BCμg`, `noise_total_LDEN_55`, `humi_24h`, etc.
      -  Indicadors de salut mental i benestar: enquestes realitzades directament als participants, recopilades de manera digital. Algunes variables: `mentalhealth_survey`, `bienestar`, `estres`, etc.
      -  Dades cognitives: s'ha realitat l'Stroop test, un experiment cognitiu dissenyat per mesurar la capacidad de control inhibitorio y atención selectiva. Algunes variables: `stroop_test`, `response_duration`, `performance`, etc.
      -  Factos demogràfics i estil de vida: autoreport dels participants mitjançant els mateixos qüestionaris que per evaluar la salut mental. Algunes variables: `age_yrs`, `gender`, `education`, etc.
      -  Informació relacionada amb la COVID-19: enquestes específiques realitzades per evaluar l'impacte de la pandemia. Per tant, d'igual forma que per evaluar els indicadors de salut mental. Algunes variables: `covid_work`, `covid_mood`, `covid_sleep`, etc.
-
-En resum, les fonts són enquestes online, serveis meteorològics i estacions de monitoreig ambiental.
+     -  En resum, les fonts són enquestes online, serveis meteorològics i estacions de monitoreig ambiental.
     
-  6. Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?
-  7. Hi ha variables que estiguin directament correlacionades?
-  8. Les variables de salut mental estan equilibrades? Hi ha molts més malalts que sans? En cas que sí, hem de tenir alguna cosa en compte en crear?
-  9. Les medicions de la contaminació són suficient detallades com per analitzar barris, o només el districte de BCN?
+  7. **Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?**
+     - **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!**  
+  
+  8. **Hi ha variables que estiguin directament correlacionades?**
+     - **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!**
+
+  9. **Les variables de salut mental estan equilibrades? Hi ha molts més malalts que sans? En cas que sí, hem de tenir alguna cosa en compte en crear?**
+     - **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!**
+
+  10. **Les medicions de la contaminació són suficient detallades com per analitzar barris, o només la ciutat de BCN?**
+     - **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
 ---
 
