@@ -116,79 +116,48 @@ Hem pogut generar un gràfic en el que hem escollit les variables 'Bienestar', '
 ---
 
 ## Correlació i redundància entre variables
-A continuació, realitzarem un anàlisi detallat basat en la matriu de correlació per identificar i validar relacions significatives entre les variables del dataset. Aquest anàlisi se centra en aquelles variables amb correlació moderada o alta (positiva o negativa), així com aquelles que poden tenir una rellevància important.
+Per tal d'evaluar la correlació i redundància entre variables, hem creat una matriu de correlació (heatmap). 
 
-### **1. Salut mental i contaminació**
-#### 1.1. Variables:
-- **Salut mental**: `estres`, `bienestar`, `energia`.
-- **Contaminació**: `no2bcn_24h`, `no2gps_24h`, `pm25bcn`.
+### Correlació alta/moderada
+Doncs, en aquest apartat explicarem les variables amb correlació moderada o alta (positiva o negativa) que ens han cridat l'atenció, així com aquelles que poden tenir una rellevància important.
 
-#### 1.2. Observacions:
-1. **Estrès (`estres`) i contaminació**:
-   - La correlació entre `estres` i `no2bcn_24h` és moderada (positiva). Això podria suggerir que l’exposició a nivells més alts de NO₂ durant 24 hores està associada a majors nivells d’estrès.
-   - Per `pm25bcn`, no hi ha una correlació forta, però val la pena analitzar-la en contextos específics, com dies d’alta contaminació.
+1. **Salut mental i contaminació**:
+   - Variables salut mental: `estres`, `bienestar`, `energia`.
+   - Variables contaminació: `no2bcn_24h`, `no2gps_24h`, `pm25bcn`.
+   - Observem una correlació moderada (positiva) entre `estres` i `no2bcn_24h`. Això podria suggerir que l’exposició a nivells més alts de NO₂ durant 24 hores està associada a majors nivells d’estrès.
+   - Observem una correlació moderada (negativa) entre `bienestar` i `no2bcn_24h`.  Aquesta relació indica que majors nivells de NO₂ podrien estar associats amb un sentiment de benestar reduït. Destaquem que la variable `energia` segueix una tendència similar amb NO₂, amb correlacions negatives.
+   - Observem una correlació moderada (positiva) entre les variables `sec_noise55_day` i `sec_noise65_day` amb `estres`. Aquesta associació és coherent amb estudis que relacionen el soroll ambiental amb l’augment de l’estrès.
+     
+2. **Hores de son i estrès**
+    -  Variables: `son` i `estres`.
+    -  Observem una correlació negativa entre `sueno` i `estres`. Doncs, menys hores de son estan associades a majors nivells d’estrès. Aquesta relació és consistent amb la literatura sobre els efectes de la privació del son en la salut mental.
+    -  També s’observa una correlació lleu (positiva) entre `sueno` i `bienestar`, la qual cosa indica que més hores de son es relacionen amb un major benestar.
 
-2. **Benestar (`bienestar`) i contaminació**:
-   - Hi ha una correlació negativa entre `bienestar` i `no2bcn_24h`. Aquesta relació indica que majors nivells de NO₂ podrien estar associats amb un sentiment de benestar reduït.
-   - La variable `energia` segueix una tendència similar amb NO₂, amb correlacions negatives.
+3. **Meteorologia i salut**
+    - Variables meteorològiques: `tmean_24h`, `pressure_24h`.
+    - Variables de salut mental: `estres`, `bienestar`, `energia`.
+    - Observem una correlació lleu amb `tmean_24h` i `estres`. Per tant, dies amb temperatures extremes podrien influir negativament en l’estrès, tot i que cal un anàlisi més profund. En canvi,  `tmean_24h` i `energia` és lleument positiva, suggerint que temperatures moderades podrien estar associades amb nivells més alts d’energia.
+    - Observem una correlació lleu negativa amb `pressure_24h` i `bienestar`, la qual  indica que variacions en la pressió poden influir en el sentiment de benestar. Això pot estar relacionat amb efectes fisiològics de la pressió en el cos humà.
 
-3. **Relació soroll i estrès**:
-   - Variables com `sec_noise55_day` i `sec_noise65_day` mostren correlació positiva amb `estres`. Aquesta associació és coherent amb estudis que relacionen el soroll ambiental amb l’augment de l’estrès.
-
-### **2. Relació entre hores de son i estrès**
-#### 2.1. Variables:
-- **Son**: `sueno`.
-- **Estrès**: `estres`.
-
-#### 2.2. Observacions:
-- La correlació entre `sueno` i `estres` és **negativa**. Menys hores de son estan associades a majors nivells d’estrès. Aquesta relació és consistent amb la literatura sobre els efectes de la privació del son en la salut mental.
-- També s’observa una correlació lleu entre `sueno` i `bienestar` (positiva), la qual cosa indica que més hores de son es relacionen amb un major benestar.
-
-
-### **3. Relació entre variables meteorològiques i salut**
-#### 3.1. Variables:
-- **Meteorologia**: `tmean_24h`, `pressure_24h`, `humi_24h`.
-- **Salut mental**: `estres`, `bienestar`, `energia`.
-
-#### 3.2. Observacions:
-1. **Temperatura (`tmean_24h`)**:
-   - `tmean_24h` mostra una lleu correlació amb `estres`. Dies amb temperatures extremes podrien influir negativament en l’estrès, tot i que cal un anàlisi més profund.
-   - La correlació amb `energia` és lleument positiva, suggerint que temperatures moderades podrien estar associades amb nivells més alts d’energia.
-
-2. **Humitat (`humi_24h`)**:
-   - No s’observen correlacions significatives amb variables de salut mental, però podria ser un factor moderador en combinació amb altres variables.
-
-3. **Pressió atmosfèrica (`pressure_24h`)**:
-   - Una lleugera correlació negativa amb `bienestar` indica que variacions en la pressió poden influir en el sentiment de benestar. Això pot estar relacionat amb efectes fisiològics de la pressió en el cos humà.
+4. **Relacions entre variables de contaminació**
+    - `no2bcn_24h` i `no2gps_24h` mostren una correlació gairebé perfecta (valors propers a 1), indicant que són pràcticament redundants. Doncs, potser es pot simplificar en 1 variable.
+    - La correlació entre `no2bcn_24h` i `pm25bcn` és moderada, la qual cosa és esperable, ja que ambdós són contaminants atmosfèrics comuns però amb fonts i dinàmiques diferents.
+      
+5. **Impacte del sorol ambiental**
+    - Variables de soroll: `sec_noise55_day`, `sec_noise65_day`, `hours_noise_55_day`.
+    - Variables de salut mental: `estres`.
+    - Observem una correlació positiva moderada entre `estres` amb `sec_noise55_day` i `sec_noise65_day`. Això indica que una exposició prolongada a sorolls per sobre de 55 dB i 65 dB està associada amb majors nivells d’estrès.
+    - La variable `hours_noise_55_day` també mostra una tendència similar, suggerint que tant la intensitat com la durada del soroll són factors importants.
+      
+6. **Variables temporals**
+    - Variables temporals: `day`, `hour`, `month`.
+    - Variable de salut mental: `estres`, `bienestar`.
+    - L’anàlisi temporal mostra que el mes (`month`) pot tenir un efecte en variables com `estres` i `bienestar`, probablement per factors estacionals (per exemple, estiu amb més contaminació o soroll).
+    - La variable `hour` pot influir en variables com `sueno`, reflectint diferències en la qualitat del descans segons l’hora del dia.
 
 
-### **4. Relacions entre variables de contaminació**
-#### 4.1. Variables:
-- **NO₂**: `no2bcn_24h`, `no2gps_24h`.
-- **PM2.5**: `pm25bcn`.
-
-#### 4.2. Observacions:
-- `no2bcn_24h` i `no2gps_24h` mostren una correlació gairebé perfecta (valors propers a 1), indicant que són pràcticament redundants.
-- La correlació entre `no2bcn_24h` i `pm25bcn` és moderada, la qual cosa és esperable, ja que ambdós són contaminants atmosfèrics comuns però amb fonts i dinàmiques diferents.
-
-### **5. Impacte del soroll ambiental**
-#### 5.1. Variables:
-- **Soroll**: `sec_noise55_day`, `sec_noise65_day`, `hours_noise_55_day`.
-- **Salut mental**: `estres`.
-
-#### 5.2. Observacions:
-- **Estrès i soroll**:
-   - Correlacions positives moderades amb `sec_noise55_day` i `sec_noise65_day`. Això indica que una exposició prolongada a sorolls per sobre de 55 dB i 65 dB està associada amb majors nivells d’estrès.
-   - La variable `hours_noise_55_day` també mostra una tendència similar, suggerint que tant la intensitat com la durada del soroll són factors importants.
-
-### **6. Variables temporals**
-#### 6.1. Variables:
-- **Data i hora**: `day`, `hour`, `month`.
-- **Salut mental**: `estres`, `bienestar`.
-
-#### 6.2. Observacions:
-- L’anàlisi temporal mostra que el mes (`month`) pot tenir un efecte en variables com `estres` i `bienestar`, probablement per factors estacionals (per exemple, estiu amb més contaminació o soroll).
-- La variable `hour` pot influir en variables com `sueno`, reflectint diferències en la qualitat del descans segons l’hora del dia.
+### Correlació neutra
+**por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
 ---
 
