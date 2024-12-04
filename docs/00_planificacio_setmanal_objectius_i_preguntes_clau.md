@@ -38,7 +38,7 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
   4. **Hi ha valors atípics?**
   - Els valors atípics s'exposen en el fitxer `03_data_cleaning.md`, concretament en l'apartat *Outliers*.
   - Per identificar-los, hem fet servir boxplots. Es poden observar en el repositori: `visualizations/boxplots`.
-  - Que hi hagi valors atípics no significa que aquests siguin incorrectes. De fet, són dades inusuals però vàlides. Per tant, els boxplots amb els quals hem analitzats la info, mostren la variabilitat de les dades, etc.
+  - Que hi hagi valors atípics no significa que aquests siguin incorrectes. En general, en el nostre dataset els outliers estan contextualitzats com a casos extraordinaris (ex. vents forts, altes concentracions de NO₂). Per tant, són dades inusuals però vàlides. Doncs, els boxplots amb els quals hem analitzats la info, mostren la variabilitat de les dades, etc. 
     
   5. Com s'han recopilat les dades? Quin rang geogràfic i temporal hi ha?
   6. Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?
