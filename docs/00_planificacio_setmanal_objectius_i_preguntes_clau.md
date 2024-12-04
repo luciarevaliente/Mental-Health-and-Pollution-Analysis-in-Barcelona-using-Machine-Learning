@@ -71,11 +71,11 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
       Hi ha un desbalanç significatiu en les dades, amb només 13 malalts enfront de 3335 sans. A més, la incoherència entre categories ('Yes/No' versus valors numèrics de l'1 al 10) dificulta la comparació. Aquest desbalanç limita la representació dels malalts, pot generar biaixos en anàlisis futures i complica la generalització de conclusions.Podem veure l'anàlisi detallat a /02_exploratory_analysis.md
 
   12. **Les medicions de la contaminació són suficient detallades com per analitzar barris, o només la ciutat de BCN?**
-      
-    Basat en el gràfic que hem creat(/visualitzacions/registres_per_districtes), la distribució dels registres de contaminació és desigual entre els districtes de Barcelona. Alguns districtes, com Sant Martí, l'Eixample i Gràcia, tenen un nombre significativament més alt de registres en comparació amb altres districtes com Les Corts o Nou Barris.
-  14. **Hi ha variables redundants per la determinació de la salut mental?**
-      
-    Segons la matriu de correlació (/visualitzacions/matriu_correlacio), hi ha variables redundants en la determinació de la salut mental. Per exemple, no2bcn_24h i no2gps_24h mostren una correlació gairebé perfecta, suggerint que només cal una d’elles. Les variables de soroll ambiental (sec_noise55_day i sec_noise65_day) també podrien combinar-se en una única mètrica per simplificar l’anàlisi. Pel que fa a les variables de salut mental, com estres, bienestar i energia, presenten correlacions significatives, reflectint aspectes interconnectats que haurien d’analitzar-se conjuntament per evitar duplicacions.
+  
+      Basat en el gràfic que hem creat(/visualitzacions/registres_per_districtes), la distribució dels registres de contaminació és desigual entre els districtes de Barcelona. Alguns districtes, com Sant Martí, l'Eixample i Gràcia, tenen un nombre significativament més alt de registres en comparació amb altres districtes com Les Corts o Nou Barris.
+  15. **Hi ha variables redundants per la determinació de la salut mental?**
+
+      Segons la matriu de correlació (/visualitzacions/matriu_correlacio), hi ha variables redundants en la determinació de la salut mental. Per exemple, no2bcn_24h i no2gps_24h mostren una correlació gairebé perfecta, suggerint que només cal una d’elles. Les variables de soroll ambiental (sec_noise55_day i sec_noise65_day) també podrien combinar-se en una única mètrica per simplificar l’anàlisi. Pel que fa a les variables de salut mental, com estres, bienestar i energia, presenten correlacions significatives, reflectint aspectes interconnectats que haurien d’analitzar-se conjuntament per evitar duplicacions.
 
 
 ---
