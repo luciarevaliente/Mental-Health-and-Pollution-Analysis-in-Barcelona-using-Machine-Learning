@@ -20,8 +20,7 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
 4. **Establir hipòtesis**
 - Formular hipòtesis inicials sobre les relacions entre les variables
 
-
-## Preguntes a respondre
+### Preguntes a respondre
 1. Tenim suficients dades?
   2. Les dades són consistents i adequades per al modelatge?
   3. Com s'interpreten les dades i el seus valors?
