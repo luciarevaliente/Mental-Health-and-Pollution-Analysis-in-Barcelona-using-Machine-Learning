@@ -96,19 +96,31 @@ if nan_check:
 else:
     print("No hi ha valors NaN al DataFrame.")
 
+
 # CORREGIR ERRORS TIPOGRÀFICS i NORMALITZACIÓ DADES CATEGÒRIQUES ####################################################
-# print(data.select_dtypes(include=['object', 'string']).columns)
 for column in data.select_dtypes(include=['object', 'string']).columns:
     data[column] = data[column].str.lower().str.strip()  # Estandarditza
     print(data[column].value_counts())
     print()
-print(data['sueno'].dtype)
+
+# Valors a normalitzar
+normalitzar = {'bienestar':'7.22089825847846', 'energia':'6.938571874025569', 'estres':'4.250866687677277', 'sueno':'6.897492163009405'}
+for k, v in normalitzar.items():
+    v_int = round(float(v))
+    print(v, v_int, type(v_int))
+    data[k] = data[k].replace(v, f"{v_int:.1f}")
+    print(data[k].value_counts())
+    print()
+
+
+# print(data['sueno'].dtype)
 # Como hay float en el dataset hay que eliminarlos de aquí!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 # GUARDEM EL DATASET NET ##########################################################################################
 data.to_pickle(CLEANED_PICKLE_PATH)
 
-#################################################################################################################
+# GUARDEM PICKLE COM A EXCEL PER COMPROVAR QUE TOT ÉS CORRECTE ####################################################
 # data_pickle = pd.read_pickle(CLEANED_PICKLE_PATH)
 
 # output_path = 'data/cleaned_dataset.xlsx'  # Substitueix per la ruta de sortida
