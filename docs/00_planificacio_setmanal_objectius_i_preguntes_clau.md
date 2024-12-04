@@ -41,11 +41,18 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
       - Que hi hagi valors atípics no significa que aquests siguin incorrectes. En general, en el nostre dataset els outliers estan contextualitzats com a casos extraordinaris (ex. vents forts, altes concentracions de NO₂). Per tant, són dades inusuals però vàlides. Doncs, els boxplots amb els quals hem analitzats la info, mostren la variabilitat de les dades, etc. 
     
   5. **Com s'han recopilat les dades? Quin rang geogràfic i temporal hi ha?**
-     - Stroop Test: para evaluar su capacidad de control inhibitorio y atención selectiva. 
-  7. Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?
-  8. Hi ha variables que estiguin directament correlacionades?
-  9. Les variables de salut mental estan equilibrades? Hi ha molts més malalts que sans? En cas que sí, hem de tenir alguna cosa en compte en crear?
-  10. Les medicions de la contaminació són suficient detallades com per analitzar barris, o només el districte de BCN?
+     -  Dades medioambientals i meteorològiques: s'han recollit de serveis meteorològics oficials i estacions de monitoreig ambiental de Barcelona. Algunes variables: `BCμg`, `noise_total_LDEN_55`, `humi_24h`, etc.
+     -  Indicadors de salut mental i benestar: enquestes realitzades directament als participants, recopilades de manera digital. Algunes variables: `mentalhealth_survey`, `bienestar`, `estres`, etc.
+     -  Dades cognitives: s'ha realitat l'Stroop test, un experiment cognitiu dissenyat per mesurar la capacidad de control inhibitorio y atención selectiva. Algunes variables: `stroop_test`, `response_duration`, `performance`, etc.
+     -  Factos demogràfics i estil de vida: autoreport dels participants mitjançant els mateixos qüestionaris que per evaluar la salut mental. Algunes variables: `age_yrs`, `gender`, `education`, etc.
+     -  Informació relacionada amb la COVID-19: enquestes específiques realitzades per evaluar l'impacte de la pandemia. Per tant, d'igual forma que per evaluar els indicadors de salut mental. Algunes variables: `covid_work`, `covid_mood`, `covid_sleep`, etc.
+
+En resum, les fonts són enquestes online, serveis meteorològics i estacions de monitoreig ambiental.
+    
+  6. Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?
+  7. Hi ha variables que estiguin directament correlacionades?
+  8. Les variables de salut mental estan equilibrades? Hi ha molts més malalts que sans? En cas que sí, hem de tenir alguna cosa en compte en crear?
+  9. Les medicions de la contaminació són suficient detallades com per analitzar barris, o només el districte de BCN?
 
 ---
 
