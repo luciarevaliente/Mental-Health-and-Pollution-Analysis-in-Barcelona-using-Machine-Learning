@@ -30,7 +30,8 @@ Docs: `03_data_cleaning.md` (conté l'explicació del procediment i l'anàlisi d
   - Proporció de files/columnes: el número de files és 35x vegades el número de columnes, quan el mínim és 10x. Doncs, no caldrà fer cap redimensió del dataset, regularitzacions (Ridge, Lasso) o validació creuada.
   2. **Les dades són consistents i adequades per al modelatge?**
   3. **Com s'interpreten les dades i el seus valors?**
-  - En el document `02_exploratory_analysis.md`, en l'apartat de *característiques* hi ha un resum amb les diferents dades. En aquest mateix fitxer, s'explica en l'apartat *?* com els tipus de les dades està explicat en la documentació del dataset, excepte les variables ``, `` i ``.
+  - En el document `02_exploratory_analysis.md`, en l'apartat de *Característiques* hi ha un resum amb les diferents dades. En el fitxer `03_data_cleaning.md`, s'explica en l'apartat *Incongruències detectades* com els tipus de les dades està explicat en la documentació del dataset, excepte les variables `stroop_test`, `Totaltime_estimated`, `Houron` i `Houroff`, que són d'un tipus diferent.
+
   4. **Hi ha valors atípics?**
   5. Com s'han recopilat les dades? Quin rang geogràfic i temporal hi ha?
   6. Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?
