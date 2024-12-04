@@ -84,9 +84,9 @@ plt.ylabel('Nivell d\'estrès')
 plt.show()
 
 # 5. Correlació entre variables numèriques
+
 # Filtrar només les columnes numèriques
 numeric_df = df.select_dtypes(include=[float, int])
-
 # Calcular la matriu de correlació només amb columnes numèriques
 correlation_matrix = numeric_df.corr()
 
