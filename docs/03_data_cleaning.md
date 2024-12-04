@@ -19,6 +19,17 @@ Finalment, totes les columnes del dataset estan lliures de valors nuls, tal com 
 ### Gestió de valors nuls en sèries temporals
 **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
+
+### Altres gestions dels valors null:
+**esto va en preprocessament de les dades!!!!!!!!!!!!!!!!!!!!**
+1. **Eliminació de les files / columnes amb valors null:** és una manera ràpida i senzilla, només ens asseguraria treballar amb dades completes, ja que no afegim informació artificial. Però, com els valors null estan dispersos entre les files i columnes, això podria reduir significativament els registres disponibles per entrenar el model, afectant a la capacitat de generalitzar. D'altra banda, si els registres amb valors null tenen característiques diferents als complets, eliminar-los significaria introduir un biaix, ja que el model no representaria correctament les dades. Doncs, no farem servir aquesta tècnica per no disminuir la mostra del model. A més, perquè no seria correcte, ja que es recomanable eliminar registres quan la proporció de files amb null és <5% o quan es perd un 10% de la mostra original. En el nostre cas, la meitat dels registres (52.38%) contenen almenys un valor null, per tant, no seria adhient. Pel que respecta a les columnes, no sabem si les característiques són significatives, per tant, preferim mantenir-les per averiguar la seva importància en el model.
+
+2. Imputació simple (mitjana/moda): **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+
+3. Models predictius per imputar els nulls: **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+
+4. Crear variables indicadores: **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+
 ---
 
 ## Eliminació dels duplicats
@@ -173,6 +184,8 @@ Tot i que aquesta neteja ens la podríem haver estalviat en l'anàlisi de les da
 
 ## Revisió del balanç de classes
 **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+
+---
 
 ## Validació final
 **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
