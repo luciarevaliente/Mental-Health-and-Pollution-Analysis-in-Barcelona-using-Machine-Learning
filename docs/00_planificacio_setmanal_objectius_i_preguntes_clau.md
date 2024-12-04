@@ -56,10 +56,10 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
      -  En resum, les fonts són enquestes online, serveis meteorològics i estacions de monitoreig ambiental.
     
        **Rang geogràfic**
-     -      Les dades cobreixen diversos districtes de Barcelona, com Horta-Guinardó, Gràcia, Eixample, Sant Martí, Sants-Montjuïc, Ciutat Vella, Sant Andreu, Sarrià-Sant Gervasi, Nou Barris i Les Corts. No obstant això, hi ha alguns registres amb valors desconeguts ("nan") i una categoria etiquetada com "16", que podria ser un error o una agrupació no especificada.
+     - Les dades cobreixen diversos districtes de Barcelona, com Horta-Guinardó, Gràcia, Eixample, Sant Martí, Sants-Montjuïc, Ciutat Vella, Sant Andreu, Sarrià-Sant Gervasi, Nou Barris i Les Corts. No obstant això, hi ha alguns registres amb valors desconeguts ("nan") i una categoria etiquetada com "16", que podria ser un error o una agrupació no especificada.
        
        **Rang temporal**
-     -      Pel que fa al rang temporal, sembla haver-hi un error en la interpretació de les dates. Els registres mostren dates codificades que apunten a l'any 1970 amb microsegons elevats, cosa que no sembla coherent amb les dades. Això suggereix que les dates han de ser revisades o convertides des d'un format codificat (com temps Unix) per obtenir informació temporal significativa. Aquesta revisió és crucial per determinar el rang temporal real de l'estudi.
+     - Pel que fa al rang temporal, sembla haver-hi un error en la interpretació de les dates. Els registres mostren dates codificades que apunten a l'any 1970 amb microsegons elevats, cosa que no sembla coherent amb les dades. Això suggereix que les dates han de ser revisades o convertides des d'un format codificat (com temps Unix) per obtenir informació temporal significativa. Aquesta revisió és crucial per determinar el rang temporal real de l'estudi.
     
   8. **Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?**
      Sí, s’observen diverses relacions significatives entre contaminació i salut mental:
