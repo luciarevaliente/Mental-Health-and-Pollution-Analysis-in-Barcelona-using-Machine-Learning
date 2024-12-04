@@ -2,10 +2,6 @@
 2. Analitzem outliers --> veure quines variables té sentit analitzar numèricament i com analitzem les categòriques
     En Kaggle ja hi ha una representació visual
 3. Afegir el script 00 a readme
-4. Crear funcions del data_cleaning perquè el codi sigui llegible
-5. Decidir cómo gestionamos los scripts: 
-    - Funciones en un .py y llamadas en otro
-    - Clases para cada proceso del proyecto...
+4. Crear funcions del data_cleaning perquè el codi sigui llegiblegit 
 6. pasar el análisis de csv_to_dataset.py a 02_exploratory_analysis.py
-7. normalizar los str de la carpeta normalització_dades_categòriques
 8. Veure la proporció de registres de salut mental (csv_to_dataset.py)
