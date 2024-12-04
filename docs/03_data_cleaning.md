@@ -116,7 +116,8 @@ Efecitvament, després de fer els prints respectius, hem comprovat que en la doc
    - La columna `Totaltime_estimated`, que també era d'enter (`int`), contenia valors de tipus cadena (`str`). Així mateix, es va convertir a `str` per reflectir correctament els seus valors.
    - Les columnes `Houron` i `Houroff`, que estaven com enters (`int`), es van convertir a `datetime` per representar-les com hores en lloc de simples enters.
 
-És doncs, quan hem reformulat la classificació de les dades en les llistes i hem obtingut un resultat correcte, sense Nan. Aquestes conversions són necessàries per garantir que les dades siguin coherents amb el seu format esperat i per evitar errors en l'anàlisi posterior.
+És doncs, quan hem reformulat la classificació de les dades en les llistes i hem obtingut un resultat correcte, sense Nan. Aquestes conversions són necessàries per garantir que les dades siguin coherents amb el seu format esperat i per evitar errors en l'anàlisi posterior. Finalment, hi ha 53 variables float64, 32 variables categòriques, 9 variables int64 i 1 variable de tipus data.
+
 
 ### Canvi de valors
 Finalment, hem decidit transformar algunes variables float en int ja que així ho especificava la documentació. Després d'analitzar el significat, hem considerat adhient eliminar els decimals, tal i com indiquen els autors, donant per fet que els valors float era soroll del dataset. Per exemple, en les variables `energia`, `estres` o `sueno`. Aquestes són categòriques ja que s'han extret d'una enquesta. Per tant, no poden ser decimals perquè són una escala. 
