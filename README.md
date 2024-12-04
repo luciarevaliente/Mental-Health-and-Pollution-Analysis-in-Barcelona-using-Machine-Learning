@@ -16,11 +16,14 @@ por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  ┣ 📂 data
  ┃ ┣ 📜 CitieSHealth_BCN_DATA_PanelStudy_20220414.csv (dataset principal)
  ┃ ┣ 📜 dataset.pkl (dataset emprat en els scripts)
+ ┣ 📂 docs
+ ┃ ┣ 📜 00_planificacio_setmanal_objectius_i_preguntes_clau.md (document on es planteja la cronologia del projecte, objectius i preguntes clau)
+ ┃ ┣ 📜 02_exploratory_analysis.md 
+ ┃ ┣ 📜 03_data_cleaning.md 
  ┣ 📂 scripts
  ┃ ┣ 📜 01_load_data.py (carrega les dades i les guarda en format pickle)
  ┃ ┣ 📜 02_exploratory_analysis.py (processa i analitza les dades)
  ┃ ┣ 📜 03_data_cleaning.py (neteja i preprocesament de dades)
- ┣ 📂 docs
  ┣ 📂 visualizations
  ┃ ┣ 📂 boxplots/ (gràfiques per analitzar outliers)
  ┣ 📂 results
