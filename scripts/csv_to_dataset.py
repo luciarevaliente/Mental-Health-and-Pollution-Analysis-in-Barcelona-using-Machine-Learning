@@ -58,7 +58,7 @@ if __name__=="__main__":
     # print(len(col_numeriques.columns), len(col_numeriques_filtered.columns))
 
     # Carpeta on guardar els gràfics:
-    output_folder = "boxplots"
+    output_folder = "visualizations/boxplots"
 
     # Comprovar si la carpeta ja existeix:
     if not os.path.exists(output_folder):  

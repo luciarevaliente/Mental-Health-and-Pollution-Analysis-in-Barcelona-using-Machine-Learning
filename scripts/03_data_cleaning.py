@@ -100,20 +100,19 @@ else:
 # CORREGIR ERRORS TIPOGRÀFICS i NORMALITZACIÓ DADES CATEGÒRIQUES ####################################################
 for column in data.select_dtypes(include=['object', 'string']).columns:
     data[column] = data[column].str.lower().str.strip()  # Estandarditza
-    print(data[column].value_counts())
-    print()
+    # print(data[column].value_counts())
+    # print()
 
 # Valors a normalitzar
-normalitzar = {'bienestar':'7.22089825847846', 'energia':'6.938571874025569', 'estres':'4.250866687677277', 'sueno':'6.897492163009405'}
-for k, v in normalitzar.items():
-    v_int = round(float(v))
-    print(v, v_int, type(v_int))
-    data[k] = data[k].replace(v, f"{v_int:.1f}")
-    print(data[k].value_counts())
+normalitzar = ['bienestar', 'energia', 'estres', 'sueno']  #Estan com str(float) però són valors enters
+for col in normalitzar:
+    data[col] = data[col].astype(float)
+    data[col] = data[col].round().astype(int)
+    data[col] = data[col].astype(str) #  ??????????????????????????????
+    print(data[col].value_counts())
     print()
 
-
-# print(data['sueno'].dtype)
+print(data['sueno'].dtype)
 # Como hay float en el dataset hay que eliminarlos de aquí!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 

@@ -129,7 +129,20 @@ Aquest pas garanteix que les dades textuals siguin estandarditzades i comparable
 ---
 
 ## Normalització de dades categòriques
-**por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+Mentre realitzàvem la detecció de errors tipgràfics, amb la comanda `print(data[column].value_counts())` vam estar observant els valors de les columnes categòriques. Vam adonar-nos doncs, que hi havia **columnes que contenien valors numèrics representats com a strings amb decimals** (per exemple, `"3.0"`, `"4.2"`) però que haurien de ser considerats com a enters i finalment transformats a strings coherents. El motiu és perquè aquestes dades s'havien recopilat mitjançant enquestes, i les possibles respostes eren números enters, en un rang del 0 al 10.
+
+Els passos realitzats són:
+1. **Columnes a normalitzar:** S'ha identificat que algunes columnes (com `bienestar`, `energia`, `estres`, i `sueno`) tenen valors que aparentment són enters, però estan representats de manera incorrecta com a `str(float)`.
+
+2. **Conversió a `float`:** Cada columna especificada es converteix de `str` a `float` amb la funció `astype(float)` per poder aplicar operacions matemàtiques com l'arrodoniment.
+
+3. **Arrodoniment al nombre enter més proper:** Els valors es transformen a enters utilitzant `.round()` per eliminar decimals sense perdre precisió significativa.
+
+4. **Conversió a `str`:** Finalment, els valors es converteixen a `str` utilitzant `astype(str)` per mantenir el tipus de dada com a `object`. Això ho apliquem perquè són columnes categòriques, els valors representen una escala.
+
+5. **Comprovació:** Amb `value_counts()` es mostren les freqüències dels valors resultants per verificar que la normalització s'ha fet correctament.
+
+Tot i que aquesta neteja ens la podríem haver estalviat en l'anàlisi de les dades observant amb detall els valors de cada columna i el tipus, ho fem ara per assegurar-nos que totes les categories en aquestes columnes siguin consistents i evitin confusions durant l'anàlisi posterior. A més, concloïm que la presència de floats en columnes categòriques implica soroll, ja que en la documentació surt que aquestes característiques han de ser str. 
 
 ---
 

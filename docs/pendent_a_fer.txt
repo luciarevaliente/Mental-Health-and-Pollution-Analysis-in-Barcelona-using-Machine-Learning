@@ -7,3 +7,5 @@
     - Funciones en un .py y llamadas en otro
     - Clases para cada proceso del proyecto...
 6. pasar el análisis de csv_to_dataset.py a 02_exploratory_analysis.py
+7. normalizar los str de la carpeta normalització_dades_categòriques
+8. Veure la proporció de registres de salut mental (csv_to_dataset.py)
