@@ -177,11 +177,6 @@ Tot i que aquesta neteja ens la podríem haver estalviat en l'anàlisi de les da
 
 ---
 
-## Correlació i redundància entre variables
-**por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
-
----
-
 ## Revisió del balanç de classes
 **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
