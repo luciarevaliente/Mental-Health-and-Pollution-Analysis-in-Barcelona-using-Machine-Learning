@@ -32,3 +32,19 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
   9. Les medicions de la contaminació són suficient detallades com per analitzar barris, o només el districte de BCN?
 
 ---
+
+## SETMANA 2: ?
+### Objectius
+***por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*
+
+### Preguntes a respondre
+***por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*
+
+---
+
+## SETMANA 3: ?
+### Objectius
+***por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*
+
+### Preguntes a respondre
+***por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*
