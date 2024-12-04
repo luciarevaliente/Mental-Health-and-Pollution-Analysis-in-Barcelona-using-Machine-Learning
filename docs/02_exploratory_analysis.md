@@ -116,10 +116,7 @@ Hem pogut generar un gràfic en el que hem escollit les variables 'Bienestar', '
 ---
 
 ## Correlació i redundància entre variables
-Per tal d'evaluar la correlació i redundància entre variables, hem creat una matriu de correlació (heatmap). 
-
-### Correlació alta/moderada
-Doncs, en aquest apartat explicarem les variables amb correlació moderada o alta (positiva o negativa) que ens han cridat l'atenció, així com aquelles que poden tenir una rellevància important.
+Per tal d'evaluar la correlació i redundància entre variables, hem creat una matriu de correlació (heatmap). Doncs, en aquest apartat explicarem les variables amb correlació moderada o alta (positiva o negativa) que ens han cridat l'atenció, així com aquelles que poden tenir una rellevància important.
 
 1. **Salut mental i contaminació**:
    - Variables salut mental: `estres`, `bienestar`, `energia`.
@@ -154,10 +151,6 @@ Doncs, en aquest apartat explicarem les variables amb correlació moderada o alt
     - Variable de salut mental: `estres`, `bienestar`.
     - L’anàlisi temporal mostra que el mes (`month`) pot tenir un efecte en variables com `estres` i `bienestar`, probablement per factors estacionals (per exemple, estiu amb més contaminació o soroll).
     - La variable `hour` pot influir en variables com `sueno`, reflectint diferències en la qualitat del descans segons l’hora del dia.
-
-
-### Correlació neutra
-**por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
 ---
 
