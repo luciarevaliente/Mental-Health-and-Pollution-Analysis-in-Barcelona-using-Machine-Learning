@@ -31,7 +31,11 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
       - Proporció de files/columnes: el número de files és 35x vegades el número de columnes, quan el mínim és 10x. Doncs, no caldrà fer cap redimensió del dataset, regularitzacions (Ridge, Lasso) o validació creuada.
     
   2. **Les dades són consistents i adequades per al modelatge?**
-     - **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!**
+     - Les dades presenten valors null de manera dispersa al llarg del dataset. En total hi ha 3348 registres null, d'un dataset amb 3348x95 valors. Per tant, les dades inconsistents representen un 1.05% de les dades. Igualment, es poden transformar perquè no suposin cap problema posterior.
+     - Si analitzem les distribucions per columnes, aquestes tenen un 7% dels valors com a null. Doncs, les característiques del dataset contenen informació suficient per realitzar el modelatge i no cal eliminar cap columna. Al menys fins que analitzem amb profunditat la importància de cada variable.
+     - Si observem les dades categòriques, la majoria estan ben definides. Tot i això, hem detectat errors en les variables `estres`, `sueno`, `bienestar`, `energia`, les quals contenen soroll i estan emmagatzemades amb números float.
+     - A més, les columnes disponibles són rellevants i s'han identificat correlacions significatives entre salut mental i contaminació, so i estrés, meteorologia i salut, etc.
+     - En conclusió, les dades necessiten petits ajustos com transformació de nulls, normalització de variables categòriques, etc. perquè siguin adequades per al modelatge.
        
   4. **Com s'interpreten les dades i el seus valors?**
       - En el document `02_exploratory_analysis.md`, en l'apartat de *Característiques* hi ha un resum amb les diferents dades. En el fitxer `03_data_cleaning.md`, s'explica en l'apartat *Incongruències detectades* com els tipus de les dades està explicat en la documentació del dataset, excepte les variables `stroop_test`, `Totaltime_estimated`, `Houron` i `Houroff`, que són d'un tipus diferent.
@@ -59,6 +63,9 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
      - **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
   10. **Les medicions de la contaminació són suficient detallades com per analitzar barris, o només la ciutat de BCN?**
+    - **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!**
+
+  11. **Hi ha variables redundants per la determinació de la salut mental?**
     - **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
 ---
