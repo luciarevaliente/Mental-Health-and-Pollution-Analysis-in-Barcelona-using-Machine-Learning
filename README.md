@@ -28,6 +28,8 @@ por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  ┃ ┣ 📜 03_data_cleaning.py (neteja i preprocesament de dades)
  ┣ 📂 visualizations
  ┃ ┣ 📂 boxplots/ (gràfiques per analitzar outliers)
+ ┃ ┣ 📂 analisi_correlacio/ (gràfiques per analitzar la correlació entre variables)
+ ┃ ┣ 📂 normalització_dades_categòriques/ (variables categòriques a normalitzar)
  ┣ 📂 results
  ┃ ┣ 📂 visuals/ (gràfiques i visualitzacions generades)
  ┃ ┣ 📂 metrics/ (resultats dels models)
