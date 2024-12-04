@@ -116,7 +116,7 @@ Hem pogut generar un gràfic en el que hem escollit les variables 'Bienestar', '
 ---
 
 ## Correlació i redundància entre variables
-A continuació, realitzarem un anàlisi detallat basat en la matriu de correlació per identificar i validar relacions significatives entre les variables del dataset. Aquest anàlisi se centra en aquelles variables amb correlació moderada o alta (positiva o negativa), així com aquelles que poden tenir una rellevància interpretativa.
+A continuació, realitzarem un anàlisi detallat basat en la matriu de correlació per identificar i validar relacions significatives entre les variables del dataset. Aquest anàlisi se centra en aquelles variables amb correlació moderada o alta (positiva o negativa), així com aquelles que poden tenir una rellevància important.
 
 ### **1. Salut mental i contaminació**
 #### 1.1. Variables:
