@@ -41,11 +41,11 @@ En el següent README exposem els objectius setmanals per desenvolupar el projec
       - Que hi hagi valors atípics no significa que aquests siguin incorrectes. En general, en el nostre dataset els outliers estan contextualitzats com a casos extraordinaris (ex. vents forts, altes concentracions de NO₂). Per tant, són dades inusuals però vàlides. Doncs, els boxplots amb els quals hem analitzats la info, mostren la variabilitat de les dades, etc. 
     
   5. **Com s'han recopilat les dades? Quin rang geogràfic i temporal hi ha?**
-         - Stroop Test: para evaluar su capacidad de control inhibitorio y atención selectiva. 
-  6. Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?
-  7. Hi ha variables que estiguin directament correlacionades?
-  8. Les variables de salut mental estan equilibrades? Hi ha molts més malalts que sans? En cas que sí, hem de tenir alguna cosa en compte en crear?
-  9. Les medicions de la contaminació són suficient detallades com per analitzar barris, o només el districte de BCN?
+     - Stroop Test: para evaluar su capacidad de control inhibitorio y atención selectiva. 
+  7. Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?
+  8. Hi ha variables que estiguin directament correlacionades?
+  9. Les variables de salut mental estan equilibrades? Hi ha molts més malalts que sans? En cas que sí, hem de tenir alguna cosa en compte en crear?
+  10. Les medicions de la contaminació són suficient detallades com per analitzar barris, o només el districte de BCN?
 
 ---
 
