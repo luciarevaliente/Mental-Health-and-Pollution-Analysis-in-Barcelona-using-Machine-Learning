@@ -184,7 +184,7 @@ A continuació, realitzarem un anàlisi detallat basat en la matriu de correlaci
 - L’anàlisi temporal mostra que el mes (`month`) pot tenir un efecte en variables com `estres` i `bienestar`, probablement per factors estacionals (per exemple, estiu amb més contaminació o soroll).
 - La variable `hour` pot influir en variables com `sueno`, reflectint diferències en la qualitat del descans segons l’hora del dia.
 
-### **Conclusió de les relacions assegurades**
+### **7. Conclusió de les relacions assegurades**
 1. **Salut mental i contaminació**:
    - Existeix una relació moderada entre contaminació (NO₂) i estrès/benestar.
    - Els nivells alts de soroll ambiental augmenten l’estrès.
