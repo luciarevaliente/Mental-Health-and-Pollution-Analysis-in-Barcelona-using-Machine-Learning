@@ -19,34 +19,34 @@ df = pd.read_pickle(PICKLE_PATH)
 
 # """POR REVISAR"""
 
-# Verificar los tipos de datos y las primeras filas
-print("Tipos de datos y las primeras filas del DataFrame:")
-print(df.info())
+# # Verificar los tipos de datos y las primeras filas
+# print("Tipos de datos y las primeras filas del DataFrame:")
+# print(df.info())
 
-# Descripción estadística de las columnas numéricas
-print("\nEstadísticas descriptivas:")
-print(df.describe())
+# # Descripción estadística de las columnas numéricas
+# print("\nEstadísticas descriptivas:")
+# print(df.describe())
 
-# Revisar la cantidad de valores nulos por columna
-print("\nValores nulos por columna:")
-print(df.isnull().sum())
+# # Revisar la cantidad de valores nulos por columna
+# print("\nValores nulos por columna:")
+# print(df.isnull().sum())
 
-# Visualización de la correlación entre variables numéricas
-plt.figure(figsize=(10, 8))
-sns.heatmap(df.corr(), annot=True, cmap='coolwarm', fmt='.2f')
-plt.title('Mapa de Correlación entre Variables')
-plt.savefig('results/visuals/correlation_heatmap.png')  # Guardar la imagen
-plt.show()
+# # Visualización de la correlación entre variables numéricas
+# plt.figure(figsize=(10, 8))
+# sns.heatmap(df.corr(), annot=True, cmap='coolwarm', fmt='.2f')
+# plt.title('Mapa de Correlación entre Variables')
+# plt.savefig('results/visuals/correlation_heatmap.png')  # Guardar la imagen
+# plt.show()
 
-# Visualización de la distribución de valores en una columna de ejemplo (por ejemplo, 'estres')
-plt.figure(figsize=(8, 6))
-sns.histplot(df['estres'].dropna(), kde=True, bins=30)
-plt.title('Distribución de Estrés')
-plt.savefig('results/visuals/estres_distribution.png')  # Guardar la imagen
-plt.show()
+# # Visualización de la distribución de valores en una columna de ejemplo (por ejemplo, 'estres')
+# plt.figure(figsize=(8, 6))
+# sns.histplot(df['estres'].dropna(), kde=True, bins=30)
+# plt.title('Distribución de Estrés')
+# plt.savefig('results/visuals/estres_distribution.png')  # Guardar la imagen
+# plt.show()
 
-
-# MÉS VISUALITZACIONS SOBRE LES RELACIONS ENTRE LES VARIABLES
+# ---------------------------------------------------------------------------------------------------------------------------------------------
+#  VISUALITZACIONS SOBRE LES RELACIONS ENTRE LES VARIABLES
 
 # Configuració de l'estil de visualització
 sns.set(style="whitegrid")
@@ -142,25 +142,30 @@ plt.ylabel('Variables')
 plt.show()
 
 # Proporció de registres de salut mental
-plt.figure(figsize=(8, 6))
-mentalhealth_counts = df['mentalhealth_survey'].value_counts(normalize=True) * 100  # Percentatges
-mentalhealth_counts.plot(kind='bar', color=['skyblue', 'orange'], alpha=0.8)
-plt.title('Proporció de registres de salut mental')
-plt.xlabel('Estat de salut mental')
-plt.ylabel('Percentatge (%)')
-plt.xticks(rotation=0)
-plt.show()
+ 
+mentalhealth_counts = df['mentalhealth_survey'].value_counts(normalize=True) * 100
+ocurrence_counts = df['occurrence_mental'].value_counts(normalize=True) * 100
+bienestar_counts = df['bienestar'].value_counts(normalize=True) * 100
 
-# Alternativa: Pie Chart
-plt.figure(figsize=(8, 8))
-df['mentalhealth'].value_counts().plot(
-    kind='pie', 
-    autopct='%1.1f%%', 
-    startangle=90, 
-    colors=['skyblue', 'orange'], 
-    explode=[0.1, 0], 
-    shadow=True
-)
-plt.title('Distribució de salut mental (pie chart)')
-plt.ylabel('')
+mentalhealth_counts.index = mentalhealth_counts.index.astype(str)
+ocurrence_counts.index = ocurrence_counts.index.astype(str)
+bienestar_counts.index = bienestar_counts.index.astype(str)
+
+combined_data = pd.DataFrame({
+    'Mental Health Survey': mentalhealth_counts,
+    'Occurrence Mental': ocurrence_counts,
+    'Bienestar': bienestar_counts
+}).fillna(0)  # Omplir valors nuls amb 0
+
+# Crear el gràfic
+plt.figure(figsize=(10, 6))
+combined_data.plot(kind='bar', figsize=(12, 6), alpha=0.8)
+
+# Etiquetes i títol
+plt.title('Proporció de registres de salut mental', fontsize=14)
+plt.xlabel('Estat de salut mental', fontsize=12)
+plt.ylabel('Percentatge (%)', fontsize=12)
+plt.xticks(rotation=0)
+plt.legend(title='Categories')
+plt.tight_layout()
 plt.show()
