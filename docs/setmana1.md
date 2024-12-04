@@ -77,7 +77,16 @@ Si cerquem l'apartat d'outliers en el codi `csv_to_dataset.py`, observem que hem
 38. `no2gps_12h`: el valor mitjà de NO2 mesurat per GPS en 12 hores és de 38.12 µg/m³. Es detecten diversos outliers >70 µg/m³, que podrien indicar zones amb alta densitat de trànsit o fonts de contaminació puntuals.
 39. `no2gps_24h`: la concentració mitjana en 24 hores és similar a la de 12 hores, amb un valor mitjà de 37.78 µg/m³. Els outliers també superen els 70 µg/m³.
 40. `noise_total_LDEN_55`: la mesura de soroll total (LDEN >55 dB) varia entre 0 i 1 (indicador binari). El valor mitjà és de 0.78, el que implica que en la majoria de casos es superen els 55 dB. Només s'identifiquen pocs casos amb valors propers a 0.
-
+41. `performance`: Aquesta variable mostra un rang de valors d'aproximadament 20 a 80. La mitjana del rendiment és de 50.32. Es consideren valors atípics (outliers) aquells que són inferiors a 20 o superiors a 80.
+42. `pm25bcn`: Els nivells de PM2.5 a Barcelona es troben principalment entre 10 i 20, amb una mitjana de 15.48. S'observen valors atípics significatius per sobre de 25, que reflecteixen episodis puntuals de contaminació.
+43. `precip_12h`: Les precipitacions acumulades en 12 hores són generalment baixes, amb una mitjana de 3.24 mm. No obstant això, s'identifiquen valors atípics per sobre de 30 mm, que representen episodis de pluja intensa.
+44. `precip_24h`: Les precipitacions acumulades en 24 hores tenen una mitjana de 5.68 mm. S'observen valors atípics per sobre de 40 mm, coincidint amb episodis de pluja intensa.
+45. `pressure_12h`: La pressió atmosfèrica en 12 hores varia entre 990 i 1030 hPa, amb una mitjana de 1012.78 hPa. Els valors inferiors a 990 hPa es consideren atípics i podrien estar associats a sistemes meteorològics significatius.
+46. `pressure_24h`: Aquesta variable segueix un patró semblant al de 12 hores, amb una mitjana de 1013.02 hPa i valors atípics similars.
+47. `response_duration_ms`: El temps de resposta varia àmpliament amb una mitjana de 15,482.32 ms. Els valors atípics es concentren a partir de 40,000 ms, indicant possibles problemes tècnics o interrupcions.
+48. `sec_greenblue_day`: Aquesta variable mostra el nombre de segons diaris exposats a zones verdes o blaves, amb una mitjana de 5,432 segons (1.5 hores). Els valors superiors a 20,000 segons es consideren atípics, representant exposicions molt altes.
+49. `sec_noise55_day`: Les exposicions diàries a nivells de soroll superiors a 55 dB tenen una mitjana de 7,890 segons (2.2 hores). Els valors atípics es troben a partir de 20,000 segons.
+50. `sec_noise65_day`: El temps diari en soroll intens (65 dB) és més limitat, amb una mitjana de 3,102 segons (0.86 hores). Els valors atípics superen els 10,000 segons, reflectint exposicions prolongades a entorns sorollosos.
 
 ## Gestió dels valors null:
 **esto va en preprocessament de les dades!!!!!!!!!!!!!!!!!!!!**
