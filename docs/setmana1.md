@@ -47,6 +47,27 @@ Si cerquem l'apartat d'outliers en el codi `csv_to_dataset.py`, observem que hem
 8. `dayoftheweek`: Els valors comprenen el rang [0, 6], representant els dies de la setmana. La mitjana és de 3.21. No hi ha outliers.
 9. `end_day`: Els dies finals comprenen el rang [1, 31], amb una mitjana de 15.58. No es detecten valors atípics en aquesta variable.
 10. `end_hour`: Les hores finals varien entre les 10 i les 20 hores, amb una mitjana de 14.82 hores. No es detecten outliers.
+11. `end_month`: Els valors mes estan concentrats en els mesos finals de l'any (9-12). La mediana és 10.00 i la mitjana és 9.8. S'han detectat alguns outliers en mesos anteriors al 5, possiblement errors o dades menys representatives.
+12. `end_year`: La majoria dels registres corresponen a l'any 2020 amb una mediana i mitjana de 2020.0. Hi ha un outlier a l'any 2021, que podria indicar un registre anòmal.
+13. `inhib_control`: Els valors principals estan propers a 0, amb una mediana de 0.05 i una mitjana de -0.12. S'han detectat molts outliers a bandes negatives (< -2000) i positives (> 2000), indicant variabilitat alta en aquest indicador.
+14. `maxwindspeed_12h`: Els valors típics són baixos (0-5 m/s), amb una mediana de 1.2 m/s i una mitjana de 2.0 m/s. Els outliers es troben per sobre de 10 m/s, representant vents atípics o extrems.
+15. `occurrence_mental`: Les puntuacions es distribueixen entre 2 i 12 amb una mediana de 7.0 i una mitjana de 7.3. No s'han detectat outliers significatius.
+16. `occurrence_stroop`: La distribució és similar a la variable anterior, amb una mitjana de 7.1. No hi ha valors extrems destacats.
+17. `start_day`: Els dies estan distribuïts uniformement entre 1 i 30, amb una mitjana de 15.3. No s'han detectat outliers.
+18. `start_hour`: Els valors centrals són entre 8 i 12, amb una mediana de 10.0 i una mitjana de 9.8. Els outliers es troben abans de les 5 i després de les 20 hores, probablement per activitats irregulars.
+19. `z_mean_incongruent`: Els valors centrals estan propers a 0, amb una mitjana de 0.02. Els outliers van des de -2.0 fins a més de 10.0, indicant dispersió important.
+20. `z_performance`: La mediana és 0.00 i la mitjana és 0.05. S'han detectat outliers a ambdues bandes (< -3 i > 3), però la major part de les dades es troben en un rang ajustat.
+Si cerquem l'apartat d'outliers en el codi `csv_to_dataset.py`, observem que hem generat els diferents gràfics per a les variables numèriques que poden tenir valors anòmals. A continuació, s'explica les observacions realitzades a partir d'aquests:
+21. `energia`: Els valors estan principalment entre 6 i 8, amb una mediana de 7.5 i una mitjana de 7.3. Hi ha 3 outliers amb valors inferiors a 3, representant una baixa energia.
+22. `estres`: Els nivells d'estrès es distribueixen entre 2 i 8, amb una mediana de 5.0 i una mitjana de 5.1. No es detecten outliers destacats.
+23. `horasfuera`: Les hores fora varien entre 0 i 10, amb una mitjana de 4.8. Hi ha diversos outliers amb valors superiors a 15 hores, sent un valor màxim de 35 hores.
+24. `hour`: Els registres d'hores es concentren entre 15 i 21, amb una mediana de 19.0 i una mitjana de 18.7. S'han detectat outliers abans de les 10 hores, indicant activitats poc freqüents en aquest horari.
+25. `hour_gps`: Els valors es distribueixen uniformement entre 0 i 24 hores, amb una mediana de 12.0 i una mitjana de 12.1. No hi ha valors extrems destacats.
+26. `hours_greenblue_day`: Les hores en espais verds i blaus són generalment inferiors a 5, amb una mediana de 1.0 i una mitjana de 2.3. S'han detectat diversos outliers superiors a 20 hores.
+27. `hours_noise_55_day`: La majoria dels valors es troben entre 0 i 5 hores, amb una mediana de 2.0 i una mitjana de 2.7. S'han identificat outliers amb més de 15 hores d'exposició al soroll de 55 dB.
+28. `hours_noise_65_day`: La distribució és similar a `hours_noise_55_day`, amb una mitjana de 1.9. Els outliers superen les 15 hores d'exposició al soroll de 65 dB.
+29. `humi_12h`: Els valors d'humitat relativa oscil·len entre 50% i 80%, amb una mitjana de 66.3%. No es detecten outliers significatius.
+30. `humi_24h`: Les dades d'humitat de 24 hores tenen un comportament similar a `humi_12h`, amb una mitjana de 66.8%. Els valors estan dins del rang esperat.
 
 
 ## Gestió dels valors null:
