@@ -1,15 +1,32 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/USx538Ll)
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=17348921&assignment_repo_type=AssignmentRepo)
-
-**SEGUIMENT I PLANIFICACIÓ DEL PROJECTE**
+# Planificación setmanal: Objectius i Preguntes Clau
 En el següent README exposem els objectius setmanals per desenvolupar el projecte, juntament amb preguntes necessàries pel correcte plantejament i execució del model.
 
-**SETMANA 1: Recopilació i comprensió de les dades. Definició del problema**
-  **Objectiu:**
+## SETMANA 1: Preparació de Dades i Comprensió del Problema
+### Objectius
+**Objectiu principal:** Assegurar una base sòlida per al model, treballant amb les dades i definint clarament el problema.
+1. **Definició del problema:**
+- Comprendre l'objectiu del model
+- Identificar mètriques d'avaluació
+
+2. **Recopilació i exploració de dades:** 
+- Entendre les característiques de les dades (mida, tipus valors)
+- Realitzar anàlisi exploratori de les dades per identificar tendències i patrons clau
+
+3. **Preparació de les dades:**
+- Neteja de dades: eliminar/transformar valors null i outliers, duplicats...
+- Transformació de les dades: normalització, escalat, codificació de variables categòriques...
+- Dividir les dades en conjunts d'entrenament, validació i prova.
+
+4. **Establir hipòtesis**
+- Formular hipòtesis inicials sobre les relacions entre les variables
+
+
+---
+
   1. Quines característiques ens aporten una major rellevància?
   2. Una vegada sabem les característiques rellevants, com enfocarem el nostre model predictiu? Quin serà l'objectiu d'aquest?
      
-**Possibles Preguntes a Respondre**
+### Possibles Preguntes a Respondre**
   1. Tenim suficients dades?
   2. Les dades són consistents i adequades per al modelatge?
   3. Com s'interpreten les dades i el seus valors?
