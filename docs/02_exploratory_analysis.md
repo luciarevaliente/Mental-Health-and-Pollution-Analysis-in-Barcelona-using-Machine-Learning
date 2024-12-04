@@ -25,6 +25,7 @@ El dataset té 3348 files (instàncies) i 95 columnes (característiques). Les d
 7. **Exposició espacial i temporal:**
     min_gps, hour_gps, access_greenbluespaces_300mbuff: Dades de localització i accés a espais verds/blaus.
 
+
 ---
 
 ## Valors null:
