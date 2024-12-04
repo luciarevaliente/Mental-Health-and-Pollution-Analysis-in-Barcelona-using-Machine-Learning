@@ -27,9 +27,10 @@ Docs: `03_data_cleaning.md` (conté l'explicació del procediment i l'anàlisi d
 ### 1.2. Preguntes a respondre:
   1. **Tenim suficients dades?**
   Considerem que sí tenim suficients dades ja que:
-  - Proporció de files/columnes: el número de files és 35x vegades el número de columnes, quan el mínim és 10x. Doncs, no caldrà fer cap redimensió del dataset, regularitzacions (Ridge, Lasso) o validació creuada.
+   - Proporció de files/columnes: el número de files és 35x vegades el número de columnes, quan el mínim és 10x. Doncs, no caldrà fer cap redimensió del dataset, regularitzacions (Ridge, Lasso) o validació creuada.
   2. **Les dades són consistents i adequades per al modelatge?**
   3. **Com s'interpreten les dades i el seus valors?**
+    - En el document `02_exploratory_analysis.md`, en l'apartat de *característiques* hi ha un resum amb les diferents dades i els seus valors.
   4. **Hi ha valors atípics?**
   5. Com s'han recopilat les dades? Quin rang geogràfic i temporal hi ha?
   6. Existeixen relacions a priori que siguin evidents entre la contaminació i la salut mental?
