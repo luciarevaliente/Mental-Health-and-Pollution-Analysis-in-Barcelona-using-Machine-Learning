@@ -1,7 +1,6 @@
+from sklearn.impute import KNNImputer
 from sklearn.preprocessing import OneHotEncoder
-import numpy as np
 import pandas as pd
-import datawig
 
 PICKLE_PATH = 'data/dataset.pkl'
 
@@ -11,32 +10,41 @@ data = pd.read_pickle(PICKLE_PATH)
 # Copia del DataFrame
 data_cleaned = data.copy()
 
-# Iterar por columnas y aplicar imputación con DataWig
-for column in data_cleaned.columns:
-    if data_cleaned[column].isnull().sum() > 0:  # Si hay valores nulos en la columna
-        # Configurar las columnas de entrada (todas las demás columnas) y la columna de salida (actual)
-        input_columns = [col for col in data_cleaned.columns if col != column]
-        output_column = column
+# Eliminar columnas con demasiados valores faltantes (más del 50% de NaN)
+data_cleaned = data_cleaned.loc[:, data_cleaned.isnull().mean() < 0.5]
 
-        # Crear el imputador de DataWig
-        imputer = datawig.SimpleImputer(
-            input_columns=input_columns,  # Columnas de entrada
-            output_column=output_column   # Columna objetivo a rellenar
-        )
+# Usar KNNImputer para imputar valores numéricos
+knn_imputer = KNNImputer(n_neighbors=5)
+data_imputed = knn_imputer.fit_transform(data_cleaned.select_dtypes(include=['number']))
 
-        # Entrenar el modelo
-        imputer.fit()
+# Actualizar el DataFrame con los valores imputados
+data_cleaned[data_cleaned.select_dtypes(include=['number']).columns] = data_imputed
 
-        # Rellenar los valores nulos de la columna actual
-        data_cleaned = imputer.predict(data_cleaned)
+# Imputar columnas categóricas con la moda
+for column in data_cleaned.select_dtypes(include=['object']).columns:
+    data_cleaned[column].fillna(data_cleaned[column].mode()[0], inplace=True)
 
-# Resultado
+# Resultado después de la imputación
 print("Dataset con valores nulos imputados:")
 print(data_cleaned.head())
 
-# Aplicar One-Hot Encoding a las columnas categóricas
-# data_ohe = pd.get_dummies(data_cleaned, drop_first=True)
+# # Aplicar One-Hot Encoding a las columnas categóricas
+# categorical_columns = data_cleaned.select_dtypes(include=['object']).columns
+# encoder = OneHotEncoder(drop='first', sparse=False)
+# encoded_categorical = encoder.fit_transform(data_cleaned[categorical_columns])
+
+# # Convertir el resultado codificado a un DataFrame
+# encoded_df = pd.DataFrame(
+#     encoded_categorical,
+#     columns=encoder.get_feature_names_out(categorical_columns),
+#     index=data_cleaned.index
+# )
+
+# # Unir el DataFrame codificado con las columnas numéricas
+# data_ohe = pd.concat(
+#     [data_cleaned.drop(columns=categorical_columns), encoded_df],
+#     axis=1
+# )
+
 # print("\nDataset después de One-Hot Encoding:")
 # print(data_ohe.head())
-
-
