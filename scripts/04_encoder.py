@@ -1,42 +1,44 @@
 from sklearn.preprocessing import OneHotEncoder
 import numpy as np
 import pandas as pd
+
+import pandas as pd
+import datawig
+
 PICKLE_PATH = 'data/dataset.pkl'
 
-
+# Cargar el dataset
 data = pd.read_pickle(PICKLE_PATH)
-# print(data.head)
 
-# Reemplazar valores nulos siguiendo la probabilidad de cada columna
+# Copia del DataFrame
 data_cleaned = data.copy()
-for column in data_cleaned.columns: # per cada categoria
-    if data_cleaned[column].isnull().sum() > 0: # si es null
-        if data_cleaned[column].dtype == 'object':
-            # Reemplazar valores categóricos nulos según su distribución de frecuencias
-            probabilities = data_cleaned[column].value_counts(normalize=True)
-            print('prob',probabilities)
-            data_cleaned[column] = data_cleaned[column].apply(
-                lambda x: np.random.choice(probabilities.index, p=probabilities.values) if pd.isnull(x) else x)
-            # Calcula las probabilidades de frecuencia de cada categoría en la columna. Esto genera un objeto que representa las proporciones relativas de cada categoría.
-        else:
-            # Reemplazar valores numéricos nulos según su distribución
-            valid_values = data_cleaned[column].dropna()
-            data_cleaned[column] = data_cleaned[column].apply(
-                lambda x: np.random.choice(valid_values) if pd.isnull(x) else x
-            )
-        print(data_cleaned[column])
 
-# # Aplicar One-Hot Encoding (OHE) a las columnas categóricas
-# categorical_columns = data_cleaned.select_dtypes(include=['object']).columns
-# encoder = OneHotEncoder(sparse=False, drop='first')
-# categorical_encoded = encoder.fit_transform(data_cleaned[categorical_columns])
-# encoded_df = pd.DataFrame(categorical_encoded, columns=encoder.get_feature_names_out(categorical_columns))
+# Iterar por columnas y aplicar imputación con DataWig
+for column in data_cleaned.columns:
+    if data_cleaned[column].isnull().sum() > 0:  # Si hay valores nulos en la columna
+        # Configurar las columnas de entrada (todas las demás columnas) y la columna de salida (actual)
+        input_columns = [col for col in data_cleaned.columns if col != column]
+        output_column = column
 
-# # Concatenar las columnas OHE con las demás columnas numéricas
-# numerical_data = data_cleaned.select_dtypes(exclude=['object'])
-# final_data = pd.concat([numerical_data.reset_index(drop=True), encoded_df.reset_index(drop=True)], axis=1)
+        # Crear el imputador de DataWig
+        imputer = datawig.SimpleImputer(
+            input_columns=input_columns,  # Columnas de entrada
+            output_column=output_column   # Columna objetivo a rellenar
+        )
 
-# # Mostrar las primeras filas del dataset procesado
-# import ace_tools as tools; tools.display_dataframe_to_user(name="Dataset Procesado para Predicción de Estrés", dataframe=final_data)
+        # Entrenar el modelo
+        imputer.fit()
 
-# final_data.head()
+        # Rellenar los valores nulos de la columna actual
+        data_cleaned = imputer.predict(data_cleaned)
+
+# Resultado
+print("Dataset con valores nulos imputados:")
+print(data_cleaned.head())
+
+# Aplicar One-Hot Encoding a las columnas categóricas
+# data_ohe = pd.get_dummies(data_cleaned, drop_first=True)
+# print("\nDataset después de One-Hot Encoding:")
+# print(data_ohe.head())
+
+
