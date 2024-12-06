@@ -53,5 +53,5 @@ codificated_dataset = codificacio_dades_categoriques(cleaned_dataset)
 codificated_dataset.to_pickle(CODIF_PICKLE_PATH)
 
 # El convertim en excel per comprovar el resultat
-# output_path = 'data/codif_dataset.xlsx'  # Substitueix per la ruta de sortida
-# codificated_dataset.to_excel(output_path, index=False)
+output_path = 'data/codif_dataset.xlsx'  # Substitueix per la ruta de sortida
+codificated_dataset.to_excel(output_path, index=False)
