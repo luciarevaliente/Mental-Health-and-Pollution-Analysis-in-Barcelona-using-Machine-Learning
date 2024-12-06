@@ -9,6 +9,7 @@ Descripció: Aquest script nateja les dades de salut mental i contaminació.
 import pandas as pd
 import numpy as np
 from sklearn.impute import KNNImputer
+from sklearn.preprocessing import OneHotEncoder
 
 # VARIABLES CONSTANTS
 PICKLE_PATH = 'data/dataset.pkl'
@@ -140,6 +141,52 @@ for col in normalitzar:
 
 # print(cleaned_dataset['sueno'].dtype)
 # Como hay float en el dataset hay que eliminarlos de aquí!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+# ESCALAT DE DADES NUMÈRIQUES ####################################################################################
+
+# CODIFICACIÓ DE LES DADES CATEGÒRIQUES
+def codificacio_dades_categoriques(dataset):
+    """
+    Breve descripción de lo que hace la función.
+
+    Args:
+        param1 (tipo): Descripción del primer parámetro.
+        param2 (tipo): Descripción del segundo parámetro.
+
+    Returns:
+        tipo: Descripción de lo que retorna la función.
+
+    Raises:
+        Excepcion: Descripción de las excepciones que la función puede lanzar (si aplica).
+    
+    Examples:
+        Ejemplo simple de uso:
+        >>> resultado = nombre_funcion(valor1, valor2)
+        >>> print(resultado)
+    """
+    # Seleccionamos las columnas categóricas
+    categorical_columns = dataset.select_dtypes(include=['object']).columns
+
+    # Aplicamos One-Hot Encoding a las columnas categóricas
+    encoder = OneHotEncoder(#drop='first',  #Si tienes un dataset muy grande y muchas categorías en tus columnas, eliminar una categoría por variable puede reducir significativamente el número de columnas generadas, mejorando el rendimiento del modelo y ahorrando memoria.
+                            sparse=False)  # sparse=False: resultado en forma de array y no de matriz
+    
+    encoded_categorical = encoder.fit_transform(dataset[categorical_columns]) # Adaptem el codificador a dades categòriques
+
+    # Convertir el resultado codificado a un DataFrame
+    encoded_dataset = pd.DataFrame(encoded_categorical, # Convertim l'array codificat en un nou dataset
+            columns = encoder.get_feature_names_out(categorical_columns),  # Generem les noves columnes codificades amb el format: columnaOriginal_categoria
+            index = dataset.index  # Ens assegurem que les files coincideixin
+    )
+
+    # Unir el DataFrame codificado con las columnas numéricas
+    final_dataset = pd.concat(
+        [dataset.drop(columns=categorical_columns), encoded_dataset],  # Eliminem les dades categòriques inicials i afegim les codificades
+        axis=1  # Indiquem que són columnes
+    )
+    return final_dataset
+
 
 
 # GUARDEM EL DATASET NET ##########################################################################################
