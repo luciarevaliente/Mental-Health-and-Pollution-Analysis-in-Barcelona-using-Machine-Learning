@@ -9,7 +9,6 @@ Descripció: Aquest script nateja les dades de salut mental i contaminació.
 import pandas as pd
 import numpy as np
 from sklearn.impute import KNNImputer
-from sklearn.preprocessing import OneHotEncoder
 
 # VARIABLES CONSTANTS
 PICKLE_PATH = 'data/dataset.pkl'
@@ -59,54 +58,38 @@ print("Dataset con valores nulos imputados:")
 print(cleaned_dataset.isnull().any())
 
 # ELIMINAR DUPLICATS ##############################################################################################
-res = cleaned_dataset.drop_duplicates(inplace=True)
+def eliminacio_files_duplicades(dataset):
+    return dataset.drop_duplicates(inplace=True)
+
+res = eliminacio_files_duplicades(cleaned_dataset)
 print(f'\nHi havia {res} registres duplicats\n')
 
 # CONVERTIR TIPUS DE DADES INCORRECTES ############################################################################
-# for i, tipo in data.dtypes.items():
-#     print(i, tipo)
+def convertir_tipus_de_dades(dataset, datetime=[], hora=[], enter=[], caracter=[]):
+    """Modifica el dataset que es passa com a paràmetre"""
+    if datetime:
+        for col in datetime:
+            dataset[col] = pd.to_datetime(dataset[col], errors='coerce')  # 'coerce' per gestionar errors
+    if hora:
+        for col in hora:
+            dataset[col] = pd.to_timedelta(dataset[col], errors='coerce')
+    if enter:
+        for col in enter:
+            dataset[col] = pd.to_numeric(dataset[col], errors='coerce')  # 'coerce' per substituir errors amb NaN
+    if caracter:
+        for col in caracter:
+            dataset[col] = dataset[col].astype(str)  # Assegura't que són strings
 
-col_date_docu = ['date_all']
-col_int_docu = ['occurrence_mental', 'stroop_test', 'occurrence_stroop', 'correct', 'response_duration_ms', 'start_day',
-            'start_month', 'start_year', 'start_hour', 'end_day', 'end_month', 'end_year', 'end_hour', 
-            'Totaltime', 'Totaltime_estimated', 'Houron', 'Houroff', 'age_yrs', 'yearbirth', 'hour_gps', 'sec_noise55_day',
+transform_to_date = ['date_all']
+transform_to_hour = ['Houron', 'Houroff']
+transform_to_int = ['occurrence_mental', 'occurrence_stroop', 'correct', 'response_duration_ms', 'start_day',
+            'start_month', 'start_year', 'start_hour', 'end_day', 'end_month', 'end_year', 'end_hour', 'age_yrs', 'yearbirth', 'hour_gps', 'sec_noise55_day',
             'sec_noise65_day', 'sec_greenblue_day', 'hours_noise_55_day', 'hours_noise_65_day', 'hours_greenblue_day', 'precip_12h_binary',
-            'precip_24h_binary']
-col_str_docu = ['dayoftheweek', 'mentalhealth_survey', 'bienestar', 'energia', 'estres', 'sueno', 'horasfuera', 'ordenador', 
-           'dieta', 'alcohol', 'drogas', 'enfermo', 'otrofactor', 'district', 'education', 'access_greenbluespaces_300mbuff',
-           'smoke', 'psycho', 'gender']
-
-col_date_real = ['date_all']
-col_hour_real = ['Houron', 'Houroff']
-col_int_real = ['occurrence_mental', 'occurrence_stroop', 'correct', 'response_duration_ms', 'start_day',
-            'start_month', 'start_year', 'start_hour', 'end_day', 'end_month', 'end_year', 'end_hour', 
-            'Totaltime', 'Houron', 'Houroff', 'age_yrs', 'yearbirth', 'hour_gps', 'sec_noise55_day',
-            'sec_noise65_day', 'sec_greenblue_day', 'hours_noise_55_day', 'hours_noise_65_day', 'hours_greenblue_day', 'precip_12h_binary',
-            'precip_24h_binary']
-col_str_real = ['dayoftheweek', 'mentalhealth_survey', 'bienestar', 'energia', 'estres', 'sueno', 'ordenador', 
-           'dieta', 'alcohol', 'drogas', 'enfermo', 'otrofactor', 'district', 'education', 'access_greenbluespaces_300mbuff',
+            'precip_24h_binary', 'dayoftheweek', 'year', 'month', 'day','hour', 'bienestar', 'energia', 'estres', 'sueno', 'occurrence_stroop', 'correct']
+transform_to_str = ['mentalhealth_survey',  'ordenador', 'dieta', 'alcohol', 'drogas', 'enfermo', 'otrofactor', 'district', 'education', 'access_greenbluespaces_300mbuff',
            'smoke', 'psycho', 'gender', 'stroop_test', 'Totaltime_estimated']
 
-# print(data['stroop_test'])
-# print(data['Totaltime_estimated'])
-# print(data['Houron'])
-# print(data['Houroff'])
-
-# Convertir les columnes de dates a tipus datetime
-for col in col_date_real:
-    cleaned_dataset[col] = pd.to_datetime(cleaned_dataset[col], errors='coerce')  # 'coerce' per gestionar errors
-
-# Convertir les columnes de hores a Format HH:MM
-for col in col_hour_real:
-    cleaned_dataset[col] = pd.to_timedelta(cleaned_dataset[col], errors='coerce')
-    
-# Convertir les columnes d'enteres a tipus numèric
-for col in col_int_real:
-    cleaned_dataset[col] = pd.to_numeric(cleaned_dataset[col], errors='coerce')  # 'coerce' per substituir errors amb NaN
-
-# Les columnes de tipus string (ja han de ser strings, però es poden netejar)
-for col in col_str_real:
-    cleaned_dataset[col] = cleaned_dataset[col].astype(str)  # Assegura't que són strings
+convertir_tipus_de_dades(cleaned_dataset, datetime=transform_to_date, hora=transform_to_hour, enter=transform_to_int, caracter=transform_to_str)
 
 # Comprovar si hi ha NaN en tot el DataFrame
 nan_check = cleaned_dataset.isna().any().any()  # Retorna True si hi ha qualsevol NaN al DataFrame
@@ -122,72 +105,26 @@ if nan_check:
 else:
     print("No hi ha valors NaN al DataFrame.")
 
-
 # CORREGIR ERRORS TIPOGRÀFICS i NORMALITZACIÓ DADES CATEGÒRIQUES ####################################################
 for column in cleaned_dataset.select_dtypes(include=['object', 'string']).columns:
     cleaned_dataset[column] = cleaned_dataset[column].str.lower().str.strip()  # Estandarditza
-    print(cleaned_dataset[column].value_counts())
-    print()
+    # print(cleaned_dataset[column].value_counts())
+    # print()
     
-
 # Valors a normalitzar
 normalitzar = ['bienestar', 'energia', 'estres', 'sueno']  #Estan com str(float) però són valors enters
 for col in normalitzar:
-    cleaned_dataset[col] = cleaned_dataset[col].astype(float)
+    # cleaned_dataset[col] = cleaned_dataset[col].astype(float)
     cleaned_dataset[col] = cleaned_dataset[col].round().astype(int)
-    cleaned_dataset[col] = cleaned_dataset[col].astype(str) #  ??????????????????????????????
-    # print(cleaned_dataset[col].value_counts())
+    # cleaned_dataset[col] = cleaned_dataset[col].astype(str) #  ??????????????????????????????
+    print(cleaned_dataset[col].value_counts())
     # print()
 
-# print(cleaned_dataset['sueno'].dtype)
-# Como hay float en el dataset hay que eliminarlos de aquí!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
 # ESCALAT DE DADES NUMÈRIQUES ####################################################################################
+# ?
 
-# CODIFICACIÓ DE LES DADES CATEGÒRIQUES
-def codificacio_dades_categoriques(dataset):
-    """
-    Breve descripción de lo que hace la función.
-
-    Args:
-        param1 (tipo): Descripción del primer parámetro.
-        param2 (tipo): Descripción del segundo parámetro.
-
-    Returns:
-        tipo: Descripción de lo que retorna la función.
-
-    Raises:
-        Excepcion: Descripción de las excepciones que la función puede lanzar (si aplica).
-    
-    Examples:
-        Ejemplo simple de uso:
-        >>> resultado = nombre_funcion(valor1, valor2)
-        >>> print(resultado)
-    """
-    # Seleccionamos las columnas categóricas
-    categorical_columns = dataset.select_dtypes(include=['object']).columns
-
-    # Aplicamos One-Hot Encoding a las columnas categóricas
-    encoder = OneHotEncoder(#drop='first',  #Si tienes un dataset muy grande y muchas categorías en tus columnas, eliminar una categoría por variable puede reducir significativamente el número de columnas generadas, mejorando el rendimiento del modelo y ahorrando memoria.
-                            sparse=False)  # sparse=False: resultado en forma de array y no de matriz
-    
-    encoded_categorical = encoder.fit_transform(dataset[categorical_columns]) # Adaptem el codificador a dades categòriques
-
-    # Convertir el resultado codificado a un DataFrame
-    encoded_dataset = pd.DataFrame(encoded_categorical, # Convertim l'array codificat en un nou dataset
-            columns = encoder.get_feature_names_out(categorical_columns),  # Generem les noves columnes codificades amb el format: columnaOriginal_categoria
-            index = dataset.index  # Ens assegurem que les files coincideixin
-    )
-
-    # Unir el DataFrame codificado con las columnas numéricas
-    final_dataset = pd.concat(
-        [dataset.drop(columns=categorical_columns), encoded_dataset],  # Eliminem les dades categòriques inicials i afegim les codificades
-        axis=1  # Indiquem que són columnes
-    )
-    return final_dataset
-
-
+# CODIFICCIÓ DADES CATEGÒRIQUES ##################################################################################
+# ?
 
 # GUARDEM EL DATASET NET ##########################################################################################
 cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
@@ -196,6 +133,6 @@ cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
 # data_pickle = pd.read_pickle(CLEANED_PICKLE_PATH)
 
 # output_path = 'data/cleaned_dataset.xlsx'  # Substitueix per la ruta de sortida
-# data.to_excel(output_path, index=False)
+# cleaned_dataset.to_excel(output_path, index=False)
 
 # print(f"Fitxer Excel guardat a {output_path}")
