@@ -1,4 +1,4 @@
-# from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split
 # from sklearn.preprocessing import OneHotEncoder, StandardScaler
 import pandas as pd
 
@@ -39,4 +39,4 @@ def separacio_train_test(data, target_columns):
 #     X_processed = pd.concat(
 #         [X.drop(columns=nominal_columns), pd.DataFrame(X_nominal_encoded)], axis=1
 #     )
-    return train_test_split(X_processed, y, test_size=0.2, random_state=42)
+    return train_test_split(X, y, test_size=0.2, random_state=42)

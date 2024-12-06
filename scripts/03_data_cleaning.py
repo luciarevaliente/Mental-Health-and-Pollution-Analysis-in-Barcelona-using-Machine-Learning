@@ -15,10 +15,15 @@ from sklearn.preprocessing import StandardScaler
 PICKLE_PATH = 'data/dataset.pkl'
 CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
 k = 5
+ESBORRAR = ['date_all']
 
 # CARREGAR EL DATASET #############################################################################################
 # Carreguem el pickle del dataset original
 data = pd.read_pickle(PICKLE_PATH)
+
+# Eliminació de característiques no necessaries
+for col in ESBORRAR:
+    data.drop(col, axis='columns')
 
 # TRANSFORMAR VALORS NULL #########################################################################################
 def filtrar_valors_null(dataset, k):
@@ -67,12 +72,12 @@ print(f'\nHi havia {res} registres duplicats\n')
 # CONVERTIR TIPUS DE DADES INCORRECTES ############################################################################
 def convertir_tipus_de_dades(dataset, datetime=[], hora=[], enter=[], caracter=[]):
     """Modifica el dataset que es passa com a paràmetre"""
-    if datetime:
-        for col in datetime:
-            dataset[col] = pd.to_datetime(dataset[col], errors='coerce')  # 'coerce' per gestionar errors
-    if hora:
-        for col in hora:
-            dataset[col] = pd.to_timedelta(dataset[col], errors='coerce')
+    # if datetime:
+    #     for col in datetime:
+    #         dataset[col] = pd.to_datetime(dataset[col], errors='coerce')  # 'coerce' per gestionar errors
+    # if hora:
+    #     for col in hora:
+    #         dataset[col] = pd.to_timedelta(dataset[col], errors='coerce')
     if enter:
         for col in enter:
             dataset[col] = pd.to_numeric(dataset[col], errors='coerce').astype(int)  # 'coerce' per substituir errors amb NaN
@@ -80,8 +85,6 @@ def convertir_tipus_de_dades(dataset, datetime=[], hora=[], enter=[], caracter=[
         for col in caracter:
             dataset[col] = dataset[col].astype(str)  # Assegura't que són strings
 
-transform_to_date = ['date_all']
-transform_to_hour = ['Houron', 'Houroff']
 transform_to_int = ['occurrence_mental', 'occurrence_stroop', 'correct', 'response_duration_ms', 'start_day',
             'start_month', 'start_year', 'start_hour', 'end_day', 'end_month', 'end_year', 'end_hour', 'age_yrs', 'yearbirth', 'hour_gps', 'sec_noise55_day',
             'sec_noise65_day', 'sec_greenblue_day', 'hours_noise_55_day', 'hours_noise_65_day', 'hours_greenblue_day', 'precip_12h_binary',
@@ -89,7 +92,7 @@ transform_to_int = ['occurrence_mental', 'occurrence_stroop', 'correct', 'respon
 transform_to_str = ['mentalhealth_survey',  'ordenador', 'dieta', 'alcohol', 'drogas', 'enfermo', 'otrofactor', 'district', 'education', 'access_greenbluespaces_300mbuff',
            'smoke', 'psycho', 'gender', 'stroop_test', 'Totaltime_estimated']
 
-convertir_tipus_de_dades(cleaned_dataset, datetime=transform_to_date, hora=transform_to_hour, enter=transform_to_int, caracter=transform_to_str)
+convertir_tipus_de_dades(cleaned_dataset, enter=transform_to_int, caracter=transform_to_str)
 
 # for i, v in cleaned_dataset.dtypes.items():
 #     print(i, v)
@@ -108,6 +111,35 @@ if nan_check:
     # print(nan_per_column)
 else:
     print("No hi ha valors NaN al DataFrame.")
+
+
+
+# Transformació característiques d'hora
+# Comprobar si hay valores no finitos
+print(data['Houron'].isnull().sum())  # Verificar si hay NaNs
+print((data['Houron'] == float('inf')).sum())  # Verificar si hay infinitos
+print((data['Houron'] == float('-inf')).sum())  # Verificar si hay infinitos negativos
+print((data['Houron'] == 0).sum())  # Verificar si hay ceros
+
+# Convertir las columnas 'Houron' y 'Houroff' a tipo datetime
+data['Houron'] = pd.to_datetime(data['Houron'])
+data['Houroff'] = pd.to_datetime(data['Houroff'])
+print('convertit')
+
+# Extraer hora y minuto de 'Houron'
+data['Houron_hour'] = data['Houron'].dt.hour.astype(int)
+data['Houron_minute'] = data['Houron'].dt.minute.astype(int)
+print('houron hecho')
+
+# Extraer hora y minuto de 'Houroff'
+data['Houroff_hour'] = data['Houroff'].dt.hour.astype(int)
+data['Houroff_minute'] = data['Houroff'].dt.minute.astype(int)
+print('houroff hecho')
+
+data.drop(columns=['Houron', 'Houroff'])
+print('eliminado')
+exit
+
 
 # CORREGIR ERRORS TIPOGRÀFICS i NORMALITZACIÓ DADES CATEGÒRIQUES ####################################################
 for column in cleaned_dataset.select_dtypes(include=['object', 'string']).columns:

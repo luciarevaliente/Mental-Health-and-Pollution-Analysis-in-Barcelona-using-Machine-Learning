@@ -1,10 +1,10 @@
-from preparation import load_data, separacio_train_test
-from models import RegressionModels
-from evaluation import evaluate_model
+from preparation import *
+from models import *
+from evaluation import *
 
 # VARIABLES CONSTANTS
-DATA_PATH = "data/salud_mental.csv"
-TARGET_COLUMNS = ["estrés", "energía", "sueño"]
+DATA_PATH = "data/scaled_dataset.pkl"
+TARGET_COLUMNS = ["estres"]
 MODEL_TYPES = ["linear", "ridge", "lasso", "random_forest", "xgboost"]
 
 def main():
