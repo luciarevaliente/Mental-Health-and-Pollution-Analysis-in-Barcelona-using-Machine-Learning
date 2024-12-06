@@ -253,8 +253,8 @@ def convertir_tipus_de_dades(dataset, enter=[], caracter=[]):
             # Verificar si la columna existe en el dataset
             if col in dataset.columns:
                 dataset[col] = dataset[col].astype(str)  # Convertir a cadena
-
-
+    
+    return dataset
 
 
 # Definimos las columnas a transformar
@@ -265,17 +265,99 @@ transform_to_int = ['occurrence_mental', 'occurrence_stroop', 'correct', 'respon
 transform_to_str = ['mentalhealth_survey', 'ordenador', 'dieta', 'alcohol', 'drogas', 'enfermo', 'otrofactor', 'district',
                     'education', 'access_greenbluespaces_300mbuff', 'smoke', 'psycho', 'gender', 'stroop_test', 'Totaltime_estimated']
 
-convertir_tipus_de_dades(cleaned_dataset, enter=transform_to_int, caracter=transform_to_str)
+cleaned_dataset = convertir_tipus_de_dades(cleaned_dataset, enter=transform_to_int, caracter=transform_to_str)
 
 # NORMALIZACIÓN Y CORRECCIÓN DE DATOS ########################################
 # Estandarizar valores categóricos
-for column in cleaned_dataset.select_dtypes(include=['object', 'string']).columns:
-    cleaned_dataset[column] = cleaned_dataset[column].str.lower().str.strip()
+def estandarditzar_valors_categorics(dataset, normalitzar=[]):
+    for column in dataset.select_dtypes(include=['object', 'string']).columns:
+        dataset[column] = dataset[column].str.lower().str.strip()
 
-# Normalizar columnas específicas
-normalitzar = ['bienestar', 'energia', 'estres', 'sueno']
-for col in normalitzar:
-    cleaned_dataset[col] = cleaned_dataset[col].round().astype('Int64')
+    # Normalizar columnas específicas
+    for col in normalitzar:
+        dataset[col] = dataset[col].round().astype('Int64')
+
+    return dataset
+
+cleaned_dataset = estandarditzar_valors_categorics(cleaned_dataset,['bienestar', 'energia', 'estres', 'sueno'])
+
+# Tractament dels outliers ####################################################
+def tractar_outliers(dataset, numeric_columns):
+    """
+    Identifica y elimina outliers usando el rango intercuartil (IQR).
+
+    Args:
+        dataset (DataFrame): Dataset a procesar.
+        numeric_columns (list): Lista de columnas numéricas a tratar.
+
+    Returns:
+        DataFrame: Dataset sin outliers.
+    """
+    for col in numeric_columns:
+        if col in dataset.columns:
+            Q1 = dataset[col].quantile(0.25)
+            Q3 = dataset[col].quantile(0.75)
+            IQR = Q3 - Q1
+            lower_bound = Q1 - 1.5 * IQR
+            upper_bound = Q3 + 1.5 * IQR
+            # Filtrar valores dentro de los límites
+            dataset = dataset[(dataset[col] >= lower_bound) & (dataset[col] <= upper_bound)]
+    return dataset
+
+# Aplicar el tratamiento a las columnas numéricas
+numeric_columns = cleaned_dataset.select_dtypes(include=['number']).columns
+cleaned_dataset = tractar_outliers(cleaned_dataset, numeric_columns)
+
+from sklearn.preprocessing import StandardScaler
+
+# Estandarització de dades numèriques ########################################
+def escalar_dades(dataset, numeric_columns):
+    """
+    Estandariza los datos numéricos utilizando el StandardScaler.
+
+    Args:
+        dataset (DataFrame): Dataset a procesar.
+        numeric_columns (list): Lista de columnas numéricas a escalar.
+
+    Returns:
+        DataFrame: Dataset con columnas numéricas escaladas.
+    """
+    scaler = StandardScaler()
+    dataset[numeric_columns] = scaler.fit_transform(dataset[numeric_columns])
+    return dataset
+
+# Aplicar el escalado a las columnas numéricas
+cleaned_dataset = escalar_dades(cleaned_dataset, numeric_columns)
+
+from sklearn.preprocessing import OneHotEncoder
+
+# Codificació de dades categòriques #########################################
+def codificar_dades_categoriques(dataset, categorical_columns):
+    """
+    Codifica las columnas categóricas utilizando OneHotEncoder.
+
+    Args:
+        dataset (DataFrame): Dataset a procesar.
+        categorical_columns (list): Lista de columnas categóricas a codificar.
+
+    Returns:
+        DataFrame: Dataset con columnas categóricas codificadas.
+    """
+    encoder = OneHotEncoder(sparse_output=False, drop='first')  # Evita colinealidad
+    encoded_data = encoder.fit_transform(dataset[categorical_columns])
+    encoded_columns = encoder.get_feature_names_out(categorical_columns)
+    encoded_df = pd.DataFrame(encoded_data, columns=encoded_columns, index=dataset.index)
+    
+    # Eliminar columnas originales y agregar las codificadas
+    dataset = dataset.drop(columns=categorical_columns)
+    dataset = pd.concat([dataset, encoded_df], axis=1)
+    return dataset
+
+# Aplicar la codificación a las columnas categóricas
+categorical_columns = cleaned_dataset.select_dtypes(include=['object', 'string']).columns
+cleaned_dataset = codificar_dades_categoriques(cleaned_dataset, categorical_columns)
+
+
 
 # GUARDAR EL DATASET LIMPIO ##################################################
 cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
