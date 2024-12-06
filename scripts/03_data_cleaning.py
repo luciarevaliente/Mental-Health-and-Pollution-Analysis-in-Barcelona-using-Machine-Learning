@@ -13,11 +13,11 @@ from sklearn.impute import KNNImputer
 # VARIABLES CONSTANTS
 PICKLE_PATH = 'data/dataset.pkl'
 CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
+k = 5
 
 # CARREGAR EL DATASET #############################################################################################
 # Carreguem el pickle del dataset original
 data = pd.read_pickle(PICKLE_PATH)
-
 
 # TRANSFORMAR VALORS NULL #########################################################################################
 def filtrar_valors_null(dataset, k):
@@ -39,7 +39,7 @@ def filtrar_valors_null(dataset, k):
     data_cleaned = data_cleaned.loc[:, data_cleaned.isnull().mean() < 0.5]
 
     # Usar KNNImputer para imputar valores numéricos
-    knn_imputer = KNNImputer(n_neighbors=5)
+    knn_imputer = KNNImputer(n_neighbors=k)
     data_imputed = knn_imputer.fit_transform(data_cleaned.select_dtypes(include=['number']))
 
     # Actualizar el DataFrame con los valores imputados
@@ -51,15 +51,15 @@ def filtrar_valors_null(dataset, k):
 
     return data_cleaned
 
-cleaned_dataset = filtrar_valors_null(data)
+cleaned_dataset = filtrar_valors_null(data, k)
 
 # Resultado después de la imputación
 print("Dataset con valores nulos imputados:")
-print(cleaned_dataset.head())
+print(cleaned_dataset.isnull().any())
 
 # ELIMINAR DUPLICATS ##############################################################################################
 res = cleaned_dataset.drop_duplicates(inplace=True)
-print(f'Hi havia {res} registres duplicats\n')
+print(f'\nHi havia {res} registres duplicats\n')
 
 # CONVERTIR TIPUS DE DADES INCORRECTES ############################################################################
 # for i, tipo in data.dtypes.items():
