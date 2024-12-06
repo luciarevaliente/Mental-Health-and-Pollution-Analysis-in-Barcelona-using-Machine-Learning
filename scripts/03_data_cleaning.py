@@ -47,15 +47,15 @@ def filtrar_valors_null(dataset, k):
 
     # Imputar columnas categóricas con la moda
     for column in data_cleaned.select_dtypes(include=['object']).columns:
-        data_cleaned[column].fillna(data_cleaned[column].mode()[0], inplace=True)
-
+        mode_value = data_cleaned[column].mode()[0]  # Obtener la moda
+        data_cleaned[column] = data_cleaned[column].fillna(mode_value)  # Rellenar los NaN con la moda
+        
     return data_cleaned
 
 cleaned_dataset = filtrar_valors_null(data, k)
 
 # Resultado después de la imputación
-print("Dataset con valores nulos imputados:")
-print(cleaned_dataset.isnull().any())
+print(f'Dataset con valores nulos imputados: {cleaned_dataset.isnull().any().sum()}')
 
 # ELIMINAR DUPLICATS ##############################################################################################
 def eliminacio_files_duplicades(dataset):
@@ -117,7 +117,7 @@ for col in normalitzar:
     # cleaned_dataset[col] = cleaned_dataset[col].astype(float)
     cleaned_dataset[col] = cleaned_dataset[col].round().astype(int)
     # cleaned_dataset[col] = cleaned_dataset[col].astype(str) #  ??????????????????????????????
-    print(cleaned_dataset[col].value_counts())
+    # print(cleaned_dataset[col].value_counts())
     # print()
 
 # ESCALAT DE DADES NUMÈRIQUES ####################################################################################

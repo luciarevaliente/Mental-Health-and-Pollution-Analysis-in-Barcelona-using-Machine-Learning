@@ -1,9 +1,9 @@
 from sklearn.preprocessing import OneHotEncoder
 import pandas as pd
 
+# VARIABLES
 CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
 CODIF_PICKLE_PATH = 'data/codif_dataset.pkl'
-cleaned_dataset = pd.read_pickle(CLEANED_PICKLE_PATH)
 
 # CODIFICACIÓ DE LES DADES CATEGÒRIQUES
 def codificacio_dades_categoriques(dataset):
@@ -42,10 +42,16 @@ def codificacio_dades_categoriques(dataset):
     )
     return final_dataset
 
+# MAIN
+# Llegim el dataset
+cleaned_dataset = pd.read_pickle(CLEANED_PICKLE_PATH)
+
+# El codifiquem
 codificated_dataset = codificacio_dades_categoriques(cleaned_dataset)
 
+# El convertim en pickle
 codificated_dataset.to_pickle(CODIF_PICKLE_PATH)
-data_pickle = pd.read_pickle(CLEANED_PICKLE_PATH)
 
+# El convertim en excel per comprovar el resultat
 output_path = 'data/codif_dataset.xlsx'  # Substitueix per la ruta de sortida
 codificated_dataset.to_excel(output_path, index=False)
