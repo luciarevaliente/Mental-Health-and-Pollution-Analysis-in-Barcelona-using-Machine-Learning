@@ -20,6 +20,8 @@ if __name__=="__main__":
     row, col = df.shape
     print(f'\nLes dimensions del dataset són {row}x{col}.')
 
+    # TIPUS VARIABLES #######################################################
+    print(data.dtypes.value_counts())
 
     # VALORS NULL ###########################################################
     registres_null = df.isnull()
@@ -94,4 +96,3 @@ if __name__=="__main__":
     # count_bienestar = df['bienestar'].value_counts()
     # print(count_bienestar, "\n")
 
-    print(data.dtypes)

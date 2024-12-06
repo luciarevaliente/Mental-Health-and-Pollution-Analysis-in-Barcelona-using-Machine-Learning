@@ -127,5 +127,3 @@ data.to_pickle(CLEANED_PICKLE_PATH)
 # data.to_excel(output_path, index=False)
 
 # print(f"Fitxer Excel guardat a {output_path}")
-
-print(data.dtypes.value_counts())
