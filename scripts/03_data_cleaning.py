@@ -11,35 +11,208 @@ import numpy as np
 from sklearn.impute import KNNImputer
 from sklearn.preprocessing import StandardScaler
 
-# VARIABLES CONSTANTS
+# # VARIABLES CONSTANTS
+# PICKLE_PATH = 'data/dataset.pkl'
+# CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
+# k = 5
+# ESBORRAR = ['date_all']
+
+# # CARREGAR EL DATASET #############################################################################################
+# # Carreguem el pickle del dataset original
+# data = pd.read_pickle(PICKLE_PATH)
+
+# # Eliminació de característiques no necessaries
+# for col in ESBORRAR:
+#     data.drop(col, axis='columns')
+
+# # TRANSFORMAR VALORS NULL #########################################################################################
+# def filtrar_valors_null(dataset, k):
+#     """
+#     Funció que elimina o transforma els valors nulls d'un dataset. Per cada columna, si té més d'un 50% de valors null, l'elimina. 
+#     Si en té menys d'un 50%, imputa els valors faltants mitjançant els k veïns més propers.
+
+#     Args:
+#         dataset (DataFrame): Dataset a natejar.
+#         k (int): K veïns més propers.
+
+#     Returns:
+#         cleaned_dataset: Dataset amb els valors null natejats.
+#     """
+#     # Copia del DataFrame
+#     data_cleaned = data.copy()
+
+#     # Eliminar columnas con demasiados valores faltantes (más del 50% de NaN)
+#     data_cleaned = data_cleaned.loc[:, data_cleaned.isnull().mean() < 0.5]
+
+#     # Usar KNNImputer para imputar valores numéricos
+#     knn_imputer = KNNImputer(n_neighbors=k)
+#     data_imputed = knn_imputer.fit_transform(data_cleaned.select_dtypes(include=['number']))
+
+#     # Actualizar el DataFrame con los valores imputados
+#     data_cleaned[data_cleaned.select_dtypes(include=['number']).columns] = data_imputed
+
+#     # Imputar columnas categóricas con la moda
+#     for column in data_cleaned.select_dtypes(include=['object']).columns:
+#         mode_value = data_cleaned[column].mode()[0]  # Obtener la moda
+#         data_cleaned[column] = data_cleaned[column].fillna(mode_value)  # Rellenar los NaN con la moda 
+#     return data_cleaned
+
+# cleaned_dataset = filtrar_valors_null(data, k)
+
+# # Resultado después de la imputación
+# print(f'Dataset con valores nulos imputados: {cleaned_dataset.isnull().any().sum()}')
+
+# # ELIMINAR DUPLICATS ##############################################################################################
+# def eliminacio_files_duplicades(dataset):
+#     return dataset.drop_duplicates(inplace=True)
+
+# res = eliminacio_files_duplicades(cleaned_dataset)
+# print(f'\nHi havia {res} registres duplicats\n')
+
+# # CONVERTIR TIPUS DE DADES INCORRECTES ############################################################################
+# def convertir_tipus_de_dades(dataset, datetime=[], hora=[], enter=[], caracter=[]):
+#     """Modifica el dataset que es passa com a paràmetre"""
+#     # if datetime:
+#     #     for col in datetime:
+#     #         dataset[col] = pd.to_datetime(dataset[col], errors='coerce')  # 'coerce' per gestionar errors
+#     # if hora:
+#     #     for col in hora:
+#     #         dataset[col] = pd.to_timedelta(dataset[col], errors='coerce')
+#     if enter:
+#         for col in enter:
+#             dataset[col] = pd.to_numeric(dataset[col], errors='coerce').astype(int)  # 'coerce' per substituir errors amb NaN
+#     if caracter:
+#         for col in caracter:
+#             dataset[col] = dataset[col].astype(str)  # Assegura't que són strings
+
+# transform_to_int = ['occurrence_mental', 'occurrence_stroop', 'correct', 'response_duration_ms', 'start_day',
+#             'start_month', 'start_year', 'start_hour', 'end_day', 'end_month', 'end_year', 'end_hour', 'age_yrs', 'yearbirth', 'hour_gps', 'sec_noise55_day',
+#             'sec_noise65_day', 'sec_greenblue_day', 'hours_noise_55_day', 'hours_noise_65_day', 'hours_greenblue_day', 'precip_12h_binary',
+#             'precip_24h_binary', 'dayoftheweek', 'year', 'month', 'day','hour', 'bienestar', 'energia', 'estres', 'sueno', 'occurrence_stroop', 'correct']
+# transform_to_str = ['mentalhealth_survey',  'ordenador', 'dieta', 'alcohol', 'drogas', 'enfermo', 'otrofactor', 'district', 'education', 'access_greenbluespaces_300mbuff',
+#            'smoke', 'psycho', 'gender', 'stroop_test', 'Totaltime_estimated']
+
+# convertir_tipus_de_dades(cleaned_dataset, enter=transform_to_int, caracter=transform_to_str)
+
+# # for i, v in cleaned_dataset.dtypes.items():
+# #     print(i, v)
+# # exit
+
+# # Comprovar si hi ha NaN en tot el DataFrame
+# nan_check = cleaned_dataset.isna().any().any()  # Retorna True si hi ha qualsevol NaN al DataFrame
+
+# if nan_check:
+#     print("Hi ha valors NaN al DataFrame.")
+#     # Mostrar totes les files amb almenys un NaN
+#     nan_per_column = cleaned_dataset.isna().sum()
+#     for i, v in nan_per_column.items():
+#         if v!=0:
+#             print(i,v)
+#     # print(nan_per_column)
+# else:
+#     print("No hi ha valors NaN al DataFrame.")
+
+
+
+# # Transformació característiques d'hora
+# # Comprobar si hay valores no finitos
+# print(data['Houron'].isnull().sum())  # Verificar si hay NaNs
+# print((data['Houron'] == float('inf')).sum())  # Verificar si hay infinitos
+# print((data['Houron'] == float('-inf')).sum())  # Verificar si hay infinitos negativos
+# print((data['Houron'] == 0).sum())  # Verificar si hay ceros
+
+# # Convertir las columnas 'Houron' y 'Houroff' a tipo datetime
+# data['Houron'] = pd.to_datetime(data['Houron'])
+# data['Houroff'] = pd.to_datetime(data['Houroff'])
+# print('convertit')
+
+# # Extraer hora y minuto de 'Houron'
+# data['Houron_hour'] = data['Houron'].dt.hour.astype(int)
+# data['Houron_minute'] = data['Houron'].dt.minute.astype(int)
+# print('houron hecho')
+
+# # Extraer hora y minuto de 'Houroff'
+# data['Houroff_hour'] = data['Houroff'].dt.hour.astype(int)
+# data['Houroff_minute'] = data['Houroff'].dt.minute.astype(int)
+# print('houroff hecho')
+
+# data.drop(columns=['Houron', 'Houroff'])
+# print('eliminado')
+# exit
+
+
+# # CORREGIR ERRORS TIPOGRÀFICS i NORMALITZACIÓ DADES CATEGÒRIQUES ####################################################
+# for column in cleaned_dataset.select_dtypes(include=['object', 'string']).columns:
+#     cleaned_dataset[column] = cleaned_dataset[column].str.lower().str.strip()  # Estandarditza
+#     # print(cleaned_dataset[column].value_counts())
+#     # print()
+    
+# # Valors a normalitzar
+# normalitzar = ['bienestar', 'energia', 'estres', 'sueno']  #Estan com str(float) però són valors enters
+# for col in normalitzar:
+#     # cleaned_dataset[col] = cleaned_dataset[col].astype(float)
+#     cleaned_dataset[col] = cleaned_dataset[col].round().astype(int)
+#     # cleaned_dataset[col] = cleaned_dataset[col].astype(str) #  ??????????????????????????????
+#     # print(cleaned_dataset[col].value_counts())
+#     # print()
+
+# # GUARDEM EL DATASET NET ##########################################################################################
+# cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
+
+# # GUARDEM PICKLE COM A EXCEL PER COMPROVAR QUE TOT ÉS CORRECTE ####################################################
+# # data_pickle = pd.read_pickle(CLEANED_PICKLE_PATH)
+
+# # output_path = 'data/cleaned_dataset.xlsx'  # Substitueix per la ruta de sortida
+# # cleaned_dataset.to_excel(output_path, index=False)
+
+# # print(f"Fitxer Excel guardat a {output_path}")
+
+
+
+# VARIABLES CONSTANTES
 PICKLE_PATH = 'data/dataset.pkl'
 CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
 k = 5
 ESBORRAR = ['date_all']
 
-# CARREGAR EL DATASET #############################################################################################
-# Carreguem el pickle del dataset original
+# CARGAR EL DATASET
+# Cargamos el pickle del dataset original
 data = pd.read_pickle(PICKLE_PATH)
 
-# Eliminació de característiques no necessaries
-for col in ESBORRAR:
-    data.drop(col, axis='columns')
+# Eliminación de características no necesarias
+data = data.drop(columns=ESBORRAR, errors='ignore')
 
-# TRANSFORMAR VALORS NULL #########################################################################################
+# CONVERSIÓN DE FORMATOS ######################################################
+# Convertir columnas de tiempo a datetime
+data['Houron'] = pd.to_datetime(data['Houron'], format='%H:%M:%S', errors='coerce')
+data['Houroff'] = pd.to_datetime(data['Houroff'], format='%H:%M:%S', errors='coerce')
+
+# Extraer hora y minuto de 'Houron' y 'Houroff'
+data['Houron_hour'] = data['Houron'].dt.hour.astype('Int64')
+data['Houron_minute'] = data['Houron'].dt.minute.astype('Int64')
+data['Houroff_hour'] = data['Houroff'].dt.hour.astype('Int64')
+data['Houroff_minute'] = data['Houroff'].dt.minute.astype('Int64')
+
+# Eliminar las columnas originales de tiempo si ya no son necesarias
+data = data.drop(columns=['Houron', 'Houroff'], errors='ignore')
+
+# VALORES NULOS ####################################################
 def filtrar_valors_null(dataset, k):
     """
-    Funció que elimina o transforma els valors nulls d'un dataset. Per cada columna, si té més d'un 50% de valors null, l'elimina. 
-    Si en té menys d'un 50%, imputa els valors faltants mitjançant els k veïns més propers.
+    Función que elimina o transforma los valores nulos de un dataset.
+    Para cada columna:
+    - Si tiene más de un 50% de valores nulos, se elimina.
+    - Si tiene menos de un 50%, imputa los valores faltantes mediante los k vecinos más cercanos.
 
     Args:
-        dataset (DataFrame): Dataset a natejar.
-        k (int): K veïns més propers.
+        dataset (DataFrame): Dataset a limpiar.
+        k (int): Número de vecinos más cercanos para imputación.
 
     Returns:
-        cleaned_dataset: Dataset amb els valors null natejats.
+        cleaned_dataset: Dataset con los valores nulos limpios.
     """
     # Copia del DataFrame
-    data_cleaned = data.copy()
+    data_cleaned = dataset.copy()
 
     # Eliminar columnas con demasiados valores faltantes (más del 50% de NaN)
     data_cleaned = data_cleaned.loc[:, data_cleaned.isnull().mean() < 0.5]
@@ -53,116 +226,66 @@ def filtrar_valors_null(dataset, k):
 
     # Imputar columnas categóricas con la moda
     for column in data_cleaned.select_dtypes(include=['object']).columns:
-        mode_value = data_cleaned[column].mode()[0]  # Obtener la moda
-        data_cleaned[column] = data_cleaned[column].fillna(mode_value)  # Rellenar los NaN con la moda 
+        mode_value = data_cleaned[column].mode()[0]
+        data_cleaned[column] = data_cleaned[column].fillna(mode_value)
     return data_cleaned
 
 cleaned_dataset = filtrar_valors_null(data, k)
 
-# Resultado después de la imputación
-print(f'Dataset con valores nulos imputados: {cleaned_dataset.isnull().any().sum()}')
+# ELIMINACIÓN DE DUPLICADOS ##################################################
+cleaned_dataset.drop_duplicates(inplace=True)
 
-# ELIMINAR DUPLICATS ##############################################################################################
-def eliminacio_files_duplicades(dataset):
-    return dataset.drop_duplicates(inplace=True)
-
-res = eliminacio_files_duplicades(cleaned_dataset)
-print(f'\nHi havia {res} registres duplicats\n')
-
-# CONVERTIR TIPUS DE DADES INCORRECTES ############################################################################
-def convertir_tipus_de_dades(dataset, datetime=[], hora=[], enter=[], caracter=[]):
-    """Modifica el dataset que es passa com a paràmetre"""
-    # if datetime:
-    #     for col in datetime:
-    #         dataset[col] = pd.to_datetime(dataset[col], errors='coerce')  # 'coerce' per gestionar errors
-    # if hora:
-    #     for col in hora:
-    #         dataset[col] = pd.to_timedelta(dataset[col], errors='coerce')
+# CONVERSIÓN DE TIPOS DE DATOS ###############################################
+def convertir_tipus_de_dades(dataset, enter=[], caracter=[]):
+    """
+    Convierte los tipos de datos en un dataset según las columnas especificadas.
+    """
     if enter:
         for col in enter:
-            dataset[col] = pd.to_numeric(dataset[col], errors='coerce').astype(int)  # 'coerce' per substituir errors amb NaN
+            # Verificar si la columna existe en el dataset
+            if col in dataset.columns:
+                # Manejar valores flotantes y no finitos
+                dataset[col] = pd.to_numeric(dataset[col], errors='coerce')  # Convertir a numérico
+                dataset[col] = dataset[col].round()  # Redondear los valores flotantes
+                dataset[col] = dataset[col].fillna(0).astype('Int64')  # Rellenar NaN y convertir a entero
     if caracter:
         for col in caracter:
-            dataset[col] = dataset[col].astype(str)  # Assegura't que són strings
+            # Verificar si la columna existe en el dataset
+            if col in dataset.columns:
+                dataset[col] = dataset[col].astype(str)  # Convertir a cadena
 
+
+
+
+# Definimos las columnas a transformar
 transform_to_int = ['occurrence_mental', 'occurrence_stroop', 'correct', 'response_duration_ms', 'start_day',
-            'start_month', 'start_year', 'start_hour', 'end_day', 'end_month', 'end_year', 'end_hour', 'age_yrs', 'yearbirth', 'hour_gps', 'sec_noise55_day',
-            'sec_noise65_day', 'sec_greenblue_day', 'hours_noise_55_day', 'hours_noise_65_day', 'hours_greenblue_day', 'precip_12h_binary',
-            'precip_24h_binary', 'dayoftheweek', 'year', 'month', 'day','hour', 'bienestar', 'energia', 'estres', 'sueno', 'occurrence_stroop', 'correct']
-transform_to_str = ['mentalhealth_survey',  'ordenador', 'dieta', 'alcohol', 'drogas', 'enfermo', 'otrofactor', 'district', 'education', 'access_greenbluespaces_300mbuff',
-           'smoke', 'psycho', 'gender', 'stroop_test', 'Totaltime_estimated']
+                    'start_month', 'start_year', 'start_hour', 'end_day', 'end_month', 'end_year', 'end_hour', 'age_yrs', 'yearbirth', 'hour_gps', 'sec_noise55_day',
+                    'sec_noise65_day', 'sec_greenblue_day', 'hours_noise_55_day', 'hours_noise_65_day', 'hours_greenblue_day', 'precip_12h_binary',
+                    'precip_24h_binary', 'dayoftheweek', 'year', 'month', 'day', 'hour', 'bienestar', 'energia', 'estres', 'sueno']
+transform_to_str = ['mentalhealth_survey', 'ordenador', 'dieta', 'alcohol', 'drogas', 'enfermo', 'otrofactor', 'district',
+                    'education', 'access_greenbluespaces_300mbuff', 'smoke', 'psycho', 'gender', 'stroop_test', 'Totaltime_estimated']
 
 convertir_tipus_de_dades(cleaned_dataset, enter=transform_to_int, caracter=transform_to_str)
 
-# for i, v in cleaned_dataset.dtypes.items():
-#     print(i, v)
-# exit
-
-# Comprovar si hi ha NaN en tot el DataFrame
-nan_check = cleaned_dataset.isna().any().any()  # Retorna True si hi ha qualsevol NaN al DataFrame
-
-if nan_check:
-    print("Hi ha valors NaN al DataFrame.")
-    # Mostrar totes les files amb almenys un NaN
-    nan_per_column = cleaned_dataset.isna().sum()
-    for i, v in nan_per_column.items():
-        if v!=0:
-            print(i,v)
-    # print(nan_per_column)
-else:
-    print("No hi ha valors NaN al DataFrame.")
-
-
-
-# Transformació característiques d'hora
-# Comprobar si hay valores no finitos
-print(data['Houron'].isnull().sum())  # Verificar si hay NaNs
-print((data['Houron'] == float('inf')).sum())  # Verificar si hay infinitos
-print((data['Houron'] == float('-inf')).sum())  # Verificar si hay infinitos negativos
-print((data['Houron'] == 0).sum())  # Verificar si hay ceros
-
-# Convertir las columnas 'Houron' y 'Houroff' a tipo datetime
-data['Houron'] = pd.to_datetime(data['Houron'])
-data['Houroff'] = pd.to_datetime(data['Houroff'])
-print('convertit')
-
-# Extraer hora y minuto de 'Houron'
-data['Houron_hour'] = data['Houron'].dt.hour.astype(int)
-data['Houron_minute'] = data['Houron'].dt.minute.astype(int)
-print('houron hecho')
-
-# Extraer hora y minuto de 'Houroff'
-data['Houroff_hour'] = data['Houroff'].dt.hour.astype(int)
-data['Houroff_minute'] = data['Houroff'].dt.minute.astype(int)
-print('houroff hecho')
-
-data.drop(columns=['Houron', 'Houroff'])
-print('eliminado')
-exit
-
-
-# CORREGIR ERRORS TIPOGRÀFICS i NORMALITZACIÓ DADES CATEGÒRIQUES ####################################################
+# NORMALIZACIÓN Y CORRECCIÓN DE DATOS ########################################
+# Estandarizar valores categóricos
 for column in cleaned_dataset.select_dtypes(include=['object', 'string']).columns:
-    cleaned_dataset[column] = cleaned_dataset[column].str.lower().str.strip()  # Estandarditza
-    # print(cleaned_dataset[column].value_counts())
-    # print()
-    
-# Valors a normalitzar
-normalitzar = ['bienestar', 'energia', 'estres', 'sueno']  #Estan com str(float) però són valors enters
-for col in normalitzar:
-    # cleaned_dataset[col] = cleaned_dataset[col].astype(float)
-    cleaned_dataset[col] = cleaned_dataset[col].round().astype(int)
-    # cleaned_dataset[col] = cleaned_dataset[col].astype(str) #  ??????????????????????????????
-    # print(cleaned_dataset[col].value_counts())
-    # print()
+    cleaned_dataset[column] = cleaned_dataset[column].str.lower().str.strip()
 
-# GUARDEM EL DATASET NET ##########################################################################################
+# Normalizar columnas específicas
+normalitzar = ['bienestar', 'energia', 'estres', 'sueno']
+for col in normalitzar:
+    cleaned_dataset[col] = cleaned_dataset[col].round().astype('Int64')
+
+# GUARDAR EL DATASET LIMPIO ##################################################
 cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
 
-# GUARDEM PICKLE COM A EXCEL PER COMPROVAR QUE TOT ÉS CORRECTE ####################################################
-# data_pickle = pd.read_pickle(CLEANED_PICKLE_PATH)
+print("Limpieza completada. Dataset guardado en:", CLEANED_PICKLE_PATH)
 
-# output_path = 'data/cleaned_dataset.xlsx'  # Substitueix per la ruta de sortida
-# cleaned_dataset.to_excel(output_path, index=False)
-
-# print(f"Fitxer Excel guardat a {output_path}")
+# Abrir el archivo y exportarlo
+try:
+    dataset = pd.read_pickle(CLEANED_PICKLE_PATH)
+    dataset.to_excel('data/cleaned_dataset.xlsx', index=False)  # Exportar a Excel sin índices
+    print(f"El archivo ha sido exportado a: {'data/cleaned_dataset.xlsx'}")
+except Exception as e:
+    print(f"Error: {e}")
