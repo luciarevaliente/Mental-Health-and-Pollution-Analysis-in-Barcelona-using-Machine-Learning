@@ -168,6 +168,9 @@ from sklearn.preprocessing import StandardScaler
 # # print(f"Fitxer Excel guardat a {output_path}")
 
 
+import pandas as pd
+from sklearn.impute import KNNImputer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
 # VARIABLES CONSTANTES
 PICKLE_PATH = 'data/dataset.pkl'
@@ -175,124 +178,49 @@ CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
 k = 5
 ESBORRAR = ['date_all']
 
-# CARGAR EL DATASET
-# Cargamos el pickle del dataset original
-data = pd.read_pickle(PICKLE_PATH)
+# FUNCIONES ###############################################################
 
-# Eliminación de características no necesarias
-data = data.drop(columns=ESBORRAR, errors='ignore')
-
-# CONVERSIÓN DE FORMATOS ######################################################
-# Convertir columnas de tiempo a datetime
-data['Houron'] = pd.to_datetime(data['Houron'], format='%H:%M:%S', errors='coerce')
-data['Houroff'] = pd.to_datetime(data['Houroff'], format='%H:%M:%S', errors='coerce')
-
-# Extraer hora y minuto de 'Houron' y 'Houroff'
-data['Houron_hour'] = data['Houron'].dt.hour.astype('Int64')
-data['Houron_minute'] = data['Houron'].dt.minute.astype('Int64')
-data['Houroff_hour'] = data['Houroff'].dt.hour.astype('Int64')
-data['Houroff_minute'] = data['Houroff'].dt.minute.astype('Int64')
-
-# Eliminar las columnas originales de tiempo si ya no son necesarias
-data = data.drop(columns=['Houron', 'Houroff'], errors='ignore')
-
-# VALORES NULOS ####################################################
+# Eliminar valores nulos
 def filtrar_valors_null(dataset, k):
-    """
-    Función que elimina o transforma los valores nulos de un dataset.
-    Para cada columna:
-    - Si tiene más de un 50% de valores nulos, se elimina.
-    - Si tiene menos de un 50%, imputa los valores faltantes mediante los k vecinos más cercanos.
-
-    Args:
-        dataset (DataFrame): Dataset a limpiar.
-        k (int): Número de vecinos más cercanos para imputación.
-
-    Returns:
-        cleaned_dataset: Dataset con los valores nulos limpios.
-    """
-    # Copia del DataFrame
     data_cleaned = dataset.copy()
+    data_cleaned = data_cleaned.loc[:, data_cleaned.isnull().mean() < 0.5]  # Eliminar columnas con más del 50% de NaN
 
-    # Eliminar columnas con demasiados valores faltantes (más del 50% de NaN)
-    data_cleaned = data_cleaned.loc[:, data_cleaned.isnull().mean() < 0.5]
-
-    # Usar KNNImputer para imputar valores numéricos
     knn_imputer = KNNImputer(n_neighbors=k)
     data_imputed = knn_imputer.fit_transform(data_cleaned.select_dtypes(include=['number']))
-
-    # Actualizar el DataFrame con los valores imputados
     data_cleaned[data_cleaned.select_dtypes(include=['number']).columns] = data_imputed
 
-    # Imputar columnas categóricas con la moda
     for column in data_cleaned.select_dtypes(include=['object']).columns:
         mode_value = data_cleaned[column].mode()[0]
         data_cleaned[column] = data_cleaned[column].fillna(mode_value)
     return data_cleaned
 
-cleaned_dataset = filtrar_valors_null(data, k)
+# Eliminar duplicados
+def eliminar_duplicados(dataset):
+    return dataset.drop_duplicates()
 
-# ELIMINACIÓN DE DUPLICADOS ##################################################
-cleaned_dataset.drop_duplicates(inplace=True)
-
-# CONVERSIÓN DE TIPOS DE DATOS ###############################################
+# Convertir tipos de datos
 def convertir_tipus_de_dades(dataset, enter=[], caracter=[]):
-    """
-    Convierte los tipos de datos en un dataset según las columnas especificadas.
-    """
     if enter:
         for col in enter:
-            # Verificar si la columna existe en el dataset
             if col in dataset.columns:
-                # Manejar valores flotantes y no finitos
-                dataset[col] = pd.to_numeric(dataset[col], errors='coerce')  # Convertir a numérico
-                dataset[col] = dataset[col].round()  # Redondear los valores flotantes
-                dataset[col] = dataset[col].fillna(0).astype('Int64')  # Rellenar NaN y convertir a entero
+                dataset[col] = pd.to_numeric(dataset[col], errors='coerce')
+                dataset[col] = dataset[col].round().fillna(0).astype('Int64')
     if caracter:
         for col in caracter:
-            # Verificar si la columna existe en el dataset
             if col in dataset.columns:
-                dataset[col] = dataset[col].astype(str)  # Convertir a cadena
-    
+                dataset[col] = dataset[col].astype(str)
     return dataset
 
-
-# Definimos las columnas a transformar
-transform_to_int = ['occurrence_mental', 'occurrence_stroop', 'correct', 'response_duration_ms', 'start_day',
-                    'start_month', 'start_year', 'start_hour', 'end_day', 'end_month', 'end_year', 'end_hour', 'age_yrs', 'yearbirth', 'hour_gps', 'sec_noise55_day',
-                    'sec_noise65_day', 'sec_greenblue_day', 'hours_noise_55_day', 'hours_noise_65_day', 'hours_greenblue_day', 'precip_12h_binary',
-                    'precip_24h_binary', 'dayoftheweek', 'year', 'month', 'day', 'hour', 'bienestar', 'energia', 'estres', 'sueno']
-transform_to_str = ['mentalhealth_survey', 'ordenador', 'dieta', 'alcohol', 'drogas', 'enfermo', 'otrofactor', 'district',
-                    'education', 'access_greenbluespaces_300mbuff', 'smoke', 'psycho', 'gender', 'stroop_test', 'Totaltime_estimated']
-
-cleaned_dataset = convertir_tipus_de_dades(cleaned_dataset, enter=transform_to_int, caracter=transform_to_str)
-
-# NORMALIZACIÓN Y CORRECCIÓN DE DATOS ########################################
-# Estandarizar valores categóricos
+# Normalizar valores categóricos
 def estandarditzar_valors_categorics(dataset, normalitzar=[]):
     for column in dataset.select_dtypes(include=['object', 'string']).columns:
         dataset[column] = dataset[column].str.lower().str.strip()
-
-    # Normalizar columnas específicas
     for col in normalitzar:
         dataset[col] = dataset[col].round().astype('Int64')
-
     return dataset
 
-cleaned_dataset = estandarditzar_valors_categorics(cleaned_dataset,['bienestar', 'energia', 'estres', 'sueno'])
-
-# Tractament dels outliers ####################################################
+# Tratar outliers
 def tractar_outliers(dataset, numeric_columns):
-    """
-    Identifica y elimina outliers usando el rango intercuartil (IQR).
-
-    Args:
-        dataset (DataFrame): Dataset a procesar.
-        numeric_columns (list): Lista de columnas numéricas a tratar.
-
-    Returns:
-        DataFrame: Dataset sin outliers.
-    """
     for col in numeric_columns:
         if col in dataset.columns:
             Q1 = dataset[col].quantile(0.25)
@@ -300,74 +228,80 @@ def tractar_outliers(dataset, numeric_columns):
             IQR = Q3 - Q1
             lower_bound = Q1 - 1.5 * IQR
             upper_bound = Q3 + 1.5 * IQR
-            # Filtrar valores dentro de los límites
             dataset = dataset[(dataset[col] >= lower_bound) & (dataset[col] <= upper_bound)]
     return dataset
 
-# Aplicar el tratamiento a las columnas numéricas
-numeric_columns = cleaned_dataset.select_dtypes(include=['number']).columns
-cleaned_dataset = tractar_outliers(cleaned_dataset, numeric_columns)
-
-from sklearn.preprocessing import StandardScaler
-
-# Estandarització de dades numèriques ########################################
+# Escalar datos numéricos
 def escalar_dades(dataset, numeric_columns):
-    """
-    Estandariza los datos numéricos utilizando el StandardScaler.
-
-    Args:
-        dataset (DataFrame): Dataset a procesar.
-        numeric_columns (list): Lista de columnas numéricas a escalar.
-
-    Returns:
-        DataFrame: Dataset con columnas numéricas escaladas.
-    """
     scaler = StandardScaler()
     dataset[numeric_columns] = scaler.fit_transform(dataset[numeric_columns])
     return dataset
 
-# Aplicar el escalado a las columnas numéricas
-cleaned_dataset = escalar_dades(cleaned_dataset, numeric_columns)
-
-from sklearn.preprocessing import OneHotEncoder
-
-# Codificació de dades categòriques #########################################
+# Codificar datos categóricos
 def codificar_dades_categoriques(dataset, categorical_columns):
-    """
-    Codifica las columnas categóricas utilizando OneHotEncoder.
-
-    Args:
-        dataset (DataFrame): Dataset a procesar.
-        categorical_columns (list): Lista de columnas categóricas a codificar.
-
-    Returns:
-        DataFrame: Dataset con columnas categóricas codificadas.
-    """
-    encoder = OneHotEncoder(sparse_output=False, drop='first')  # Evita colinealidad
+    encoder = OneHotEncoder(sparse_output=False, drop='first')
     encoded_data = encoder.fit_transform(dataset[categorical_columns])
     encoded_columns = encoder.get_feature_names_out(categorical_columns)
     encoded_df = pd.DataFrame(encoded_data, columns=encoded_columns, index=dataset.index)
-    
-    # Eliminar columnas originales y agregar las codificadas
     dataset = dataset.drop(columns=categorical_columns)
     dataset = pd.concat([dataset, encoded_df], axis=1)
     return dataset
 
-# Aplicar la codificación a las columnas categóricas
+# PROCESAMIENTO ##########################################################
+
+# Cargar datos
+data = pd.read_pickle(PICKLE_PATH)
+
+# Eliminar columnas innecesarias
+data = data.drop(columns=ESBORRAR, errors='ignore')
+
+# Conversión de formatos
+data['Houron'] = pd.to_datetime(data['Houron'], format='%H:%M:%S', errors='coerce')
+data['Houroff'] = pd.to_datetime(data['Houroff'], format='%H:%M:%S', errors='coerce')
+data['Houron_hour'] = data['Houron'].dt.hour.astype('Int64')
+data['Houron_minute'] = data['Houron'].dt.minute.astype('Int64')
+data['Houroff_hour'] = data['Houroff'].dt.hour.astype('Int64')
+data['Houroff_minute'] = data['Houroff'].dt.minute.astype('Int64')
+data = data.drop(columns=['Houron', 'Houroff'], errors='ignore')
+
+# Paso 1: Tratar valores nulos
+cleaned_dataset = filtrar_valors_null(data, k)
+
+# Paso 2: Eliminar duplicados
+cleaned_dataset = eliminar_duplicados(cleaned_dataset)
+
+# Paso 3: Convertir tipos de datos
+transform_to_int = ['occurrence_mental', 'occurrence_stroop', 'correct', 'response_duration_ms', 'start_day',
+                    'start_month', 'start_year', 'start_hour', 'end_day', 'end_month', 'end_year', 'end_hour', 
+                    'age_yrs', 'yearbirth', 'hour_gps', 'sec_noise55_day', 'sec_noise65_day', 'sec_greenblue_day',
+                    'hours_noise_55_day', 'hours_noise_65_day', 'hours_greenblue_day', 'precip_12h_binary',
+                    'precip_24h_binary', 'dayoftheweek', 'year', 'month', 'day', 'hour', 'bienestar', 'energia', 
+                    'estres', 'sueno']
+transform_to_str = ['mentalhealth_survey', 'ordenador', 'dieta', 'alcohol', 'drogas', 'enfermo', 'otrofactor', 
+                    'district', 'education', 'access_greenbluespaces_300mbuff', 'smoke', 'psycho', 'gender', 
+                    'stroop_test', 'Totaltime_estimated']
+cleaned_dataset = convertir_tipus_de_dades(cleaned_dataset, enter=transform_to_int, caracter=transform_to_str)
+
+# Paso 4: Normalizar valores categóricos
+cleaned_dataset = estandarditzar_valors_categorics(cleaned_dataset, ['bienestar', 'energia', 'estres', 'sueno'])
+
+# Paso 5: Tratar outliers
+numeric_columns = cleaned_dataset.select_dtypes(include=['number']).columns
+cleaned_dataset = tractar_outliers(cleaned_dataset, numeric_columns)
+
+# Paso 6: Escalar datos numéricos
+# cleaned_dataset = escalar_dades(cleaned_dataset, numeric_columns)
+
+# Paso 7: Codificar datos categóricos
 categorical_columns = cleaned_dataset.select_dtypes(include=['object', 'string']).columns
 cleaned_dataset = codificar_dades_categoriques(cleaned_dataset, categorical_columns)
 
-
-
-# GUARDAR EL DATASET LIMPIO ##################################################
+# GUARDAR EL DATASET ######################################################
 cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
 
-print("Limpieza completada. Dataset guardado en:", CLEANED_PICKLE_PATH)
-
-# Abrir el archivo y exportarlo
+# Exportar a Excel
 try:
-    dataset = pd.read_pickle(CLEANED_PICKLE_PATH)
-    dataset.to_excel('data/cleaned_dataset.xlsx', index=False)  # Exportar a Excel sin índices
-    print(f"El archivo ha sido exportado a: {'data/cleaned_dataset.xlsx'}")
+    cleaned_dataset.to_excel('data/cleaned_dataset.xlsx', index=False)
+    print(f"El archivo ha sido exportado a: 'data/cleaned_dataset.xlsx'")
 except Exception as e:
     print(f"Error: {e}")
