@@ -9,6 +9,7 @@ Descripció: Aquest script nateja les dades de salut mental i contaminació.
 import pandas as pd
 import numpy as np
 from sklearn.impute import KNNImputer
+from sklearn.preprocessing import StandardScaler
 
 # VARIABLES CONSTANTS
 PICKLE_PATH = 'data/dataset.pkl'
@@ -48,8 +49,7 @@ def filtrar_valors_null(dataset, k):
     # Imputar columnas categóricas con la moda
     for column in data_cleaned.select_dtypes(include=['object']).columns:
         mode_value = data_cleaned[column].mode()[0]  # Obtener la moda
-        data_cleaned[column] = data_cleaned[column].fillna(mode_value)  # Rellenar los NaN con la moda
-        
+        data_cleaned[column] = data_cleaned[column].fillna(mode_value)  # Rellenar los NaN con la moda 
     return data_cleaned
 
 cleaned_dataset = filtrar_valors_null(data, k)
@@ -75,7 +75,7 @@ def convertir_tipus_de_dades(dataset, datetime=[], hora=[], enter=[], caracter=[
             dataset[col] = pd.to_timedelta(dataset[col], errors='coerce')
     if enter:
         for col in enter:
-            dataset[col] = pd.to_numeric(dataset[col], errors='coerce')  # 'coerce' per substituir errors amb NaN
+            dataset[col] = pd.to_numeric(dataset[col], errors='coerce').astype(int)  # 'coerce' per substituir errors amb NaN
     if caracter:
         for col in caracter:
             dataset[col] = dataset[col].astype(str)  # Assegura't que són strings
@@ -90,6 +90,10 @@ transform_to_str = ['mentalhealth_survey',  'ordenador', 'dieta', 'alcohol', 'dr
            'smoke', 'psycho', 'gender', 'stroop_test', 'Totaltime_estimated']
 
 convertir_tipus_de_dades(cleaned_dataset, datetime=transform_to_date, hora=transform_to_hour, enter=transform_to_int, caracter=transform_to_str)
+
+# for i, v in cleaned_dataset.dtypes.items():
+#     print(i, v)
+# exit
 
 # Comprovar si hi ha NaN en tot el DataFrame
 nan_check = cleaned_dataset.isna().any().any()  # Retorna True si hi ha qualsevol NaN al DataFrame
@@ -119,12 +123,6 @@ for col in normalitzar:
     # cleaned_dataset[col] = cleaned_dataset[col].astype(str) #  ??????????????????????????????
     # print(cleaned_dataset[col].value_counts())
     # print()
-
-# ESCALAT DE DADES NUMÈRIQUES ####################################################################################
-# ?
-
-# CODIFICCIÓ DADES CATEGÒRIQUES ##################################################################################
-# ?
 
 # GUARDEM EL DATASET NET ##########################################################################################
 cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
