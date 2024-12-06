@@ -290,7 +290,7 @@ numeric_columns = cleaned_dataset.select_dtypes(include=['number']).columns
 cleaned_dataset = tractar_outliers(cleaned_dataset, numeric_columns)
 
 # Paso 6: Escalar datos numéricos
-# cleaned_dataset = escalar_dades(cleaned_dataset, numeric_columns)
+cleaned_dataset = escalar_dades(cleaned_dataset, numeric_columns) # DEPENDE!!!!!!!!!!!!!!!!!!!!!!!!
 
 # Paso 7: Codificar datos categóricos
 categorical_columns = cleaned_dataset.select_dtypes(include=['object', 'string']).columns
