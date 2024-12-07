@@ -14,14 +14,33 @@ L'objectiu d'aquest apartat és identificar grups poblacionals mitjançant tècn
 ## Pregunta 1: tipus de dades
 En el nostre dataset hi ha: 
 1. **Variables numèriques:** 
-        - Ordinales: `bienestar`, `sueno`, `estres`, etc.
-        - Continues: `z_performance`, `no2bcn_24h`, `maxwindspeed_12h`, etc.
+        - Ordinales: `bienestar`, `sueno`, `estres`, etc. --> *no cal escalar si el rang es petit i les destàncies són iguals. es pot escalar si el model utilitza distànies* --> *Si tu modelo se basa en distancias, debes escalar todas las variables numéricas (tanto ordinales como continuas) para asegurarte de que el modelo no se vea sesgado por las diferencias de rango entre las variables. Esto permite que todas las variables tengan una influencia equitativa en el cálculo de la distancia y mejora la precisión del modelo.*
+        - Continues: `z_performance`, `no2bcn_24h`, `maxwindspeed_12h`, etc. --> *normalització o estandarització segons la distribució o escala*
 
-2. **Variables categòriques:** 
-        - Nominals: `smoke`,  `gender`, `district`, etc. --> OneHotEncoder
-        - Ordinals: `education`, `covid_work`, `covid_mood`, etc. --> LabelEncoding
+2. **Variables categòriques:** --> *No se escalan porque el modelo interpreta que son etiquetas o son números binarios.*
+        - Nominals: `smoke`,  `gender`, `district`, etc. Codifiquem amb **OneHotEncoder** ja que no tenen un ordre. Aquest crea una columna binària per cada categoria de la variable nominal.
+        - Ordinals: `education`, `covid_work`, `covid_mood`, etc. Codifiquem amb **LabelEncoding** per respectar l'ordre de les categories. Aquest assigna un número a cada categoria.
 
-Les variables **categòriques ordinals** tenen un ordre, pel que les podem deixar tal qual. Les variables **categòriques nominals** les hem de codificar amb OneHotEncoder ja que no tenen un ordre. Aquest crea una columna binària per cada categoria de la variable nominal. 
+## Pregunta 2: Escalat de les dades
+Els algoritmes de clustering solen basar-se en les distàncies pel que si les nostres variables tenen escales molt diferents (p.e. `maxwindspeed_12h`, `z_performance`, etc.) algunes variables dominaran el procés, concretament les de rang major (major distància). És per aquest motiu és important les variables abans de fer clustering, perquè totes tinguin un imacte similar. A més, molts algoritmes com KMeans o SVM donen per fet que les dades són escalades i, si no és així, afectarà el resultat de l'algoritme.
+
+Recordem que **escalar** les dades significa transformar-les perquè tinguin un rang comú. Doncs, és vital quan les variables tenen diferents magnituds. Algunes tècniques comuns són:
+    1. Estandarització: transforma les dades perquè tinguin una mitja de 0 i desv. estàndard d'1. Se sol utilitzar quan les dades segueixen una distribució normal i les variables tenen diferents unitats o escales. És molt útil per algoritmes com KMeans o SVM i no afecta la distribució de les dades. 
+    2. Normalització (Min-Max Scaling): Transforma les dades perquè estiguin dins d'un rang específic, generalment entre 0 i 1. S’utilitza quan les dades no segueixen una distribució normal o quan cal mantenir les relacions entre variables dins d’un rang uniforme. És útil per algoritmes com les xarxes neuronals i el KNN, i assegura que totes les variables tinguin el mateix pes.
+    3. Escalatge Robust (Robust Scaling): Utilitza la mediana i el rang interquartílic (IQR) per escalar les dades, fent-lo menys sensible als valors atípics. S’utilitza quan les dades contenen outliers que podrien distorsionar l’escalat. És adequat per algoritmes que no volen que els outliers tinguin un gran impacte en el model, com K-means en presència de dades extremes.
+    4. Escalatge per Quantils (Quantile Transformation): Transforma les dades perquè segueixin una distribució uniforme o normal. És útil quan les dades no segueixen una distribució normal i es volen ajustar per millorar el rendiment de certs algoritmes. També ajuda a suavitzar les dades extremadament disperses i a millorar el comportament dels models, especialment per models que assumeixen distribucions normals.
+
+
+
+## Pregunta 3: Sel·lecció de variables rellevants
+
+## Pregunta 4: El·lecció de l'algoritme de clustering
+
+## Pregunta 5: Validació del clustering
+
+## Pregunta 6: Interpretació dels resultats
+
+
 
 Només cal escalar les variables numèriques, no les codificades. El motiu és perquè les numèriques tenen valots continus que poden tenir diferents rangs o unitats (edat, km^2, etc.). Escalar aquest tipus de variables ajuda a que totes tinguin el mateix pes durant el procés de clustering, especialment quan s'utilitzen algoritmes que depenen de les distàncies entre punts.
 
