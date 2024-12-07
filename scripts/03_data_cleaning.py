@@ -289,11 +289,11 @@ if __name__=="__main__":
     cleaned_dataset = tractar_outliers(cleaned_dataset, numeric_columns)
 
     # Paso 6: Escalar datos numéricos
-    cleaned_dataset = escalar_dades(cleaned_dataset, numeric_columns) # DEPENDE!!!!!!!!!!!!!!!!!!!!!!!!
+    # cleaned_dataset = escalar_dades(cleaned_dataset, numeric_columns) # DEPENDE!!!!!!!!!!!!!!!!!!!!!!!!
 
     # Paso 7: Codificar datos categóricos
-    categorical_columns = cleaned_dataset.select_dtypes(include=['object', 'string']).columns
-    cleaned_dataset = codificar_dades_categoriques(cleaned_dataset, categorical_columns)
+    # categorical_columns = cleaned_dataset.select_dtypes(include=['object', 'string']).columns
+    # cleaned_dataset = codificar_dades_categoriques(cleaned_dataset, categorical_columns)
 
     # GUARDAR EL DATASET ######################################################
     cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
