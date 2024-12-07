@@ -24,7 +24,7 @@ def escalar(dataset):
     scaler = StandardScaler()
 
     # Sel·leccionem les columnes numèriques float
-    numerical_columns = dataset.select_dtypes(include=['float']).columns
+    numerical_columns = dataset.select_dtypes(include=['float64','int64']).columns
 
     # Escalem
     dataset[numerical_columns] = scaler.fit_transform(dataset[numerical_columns])  # algunas características con rangos grandes (como la temperatura o tiempo en milisegundos) pueden dominar la predicción

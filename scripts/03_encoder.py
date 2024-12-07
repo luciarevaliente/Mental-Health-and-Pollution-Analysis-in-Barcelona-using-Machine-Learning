@@ -5,53 +5,69 @@ import pandas as pd
 CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
 CODIF_PICKLE_PATH = 'data/codif_dataset.pkl'
 
-# CODIFICACIÓ DE LES DADES CATEGÒRIQUES
-def codificacio_dades_categoriques(dataset):
-    """
-    Función que codifica los datos categóricos de un dataset utilizando OneHotCoder.
+from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
+import pandas as pd
 
-    Usamos OneHotEncoder ya que no introduce un orden artificial, así el modelo no interpreta un una relación de rango entre las categorías, lo cual no es 
-    cierto para datos nominales. Además, OneHotEncoder es adecuado tanto para variables binarias como para nominales, ya que genera una representación 
-    independiente para cada categoría.
+def codificar_columnas(dataset):
+    """
+    Codifica las columnas categóricas:
+    - OrdinalEncoder para columnas ordinales.
+    - OneHotEncoder para columnas nominales.
 
     Args:
-        dataset (DataFrame): Dataset amb dades numèriques i categòriques.
+        dataset (DataFrame): Dataset con columnas categóricas y numéricas.
 
     Returns:
-        final_dataset: DataFrame amb dades numèriques i les categòriques codificades.
+        DataFrame: Dataset con columnas categóricas codificadas.
     """
-    # Seleccionamos las columnas categóricas
-    categorical_columns = dataset.select_dtypes(include=['object']).columns
+    # Definir las columnas ordinales y sus órdenes
+    ordinal_columns = {
+        "education": ["Primario o menos", "Bachillerato", "Universitario"],
+        "covid_work": ["Ha empeorado mucho", "Ha empeorado un poco", "No ha cambiado", "Ha mejorado un poco", "Ha mejorado mucho"],
+        "covid_mood": ["Ha empeorado mucho", "Ha empeorado un poco", "No ha cambiado", "Ha mejorado un poco", "Ha mejorado mucho"],
+        "covid_sleep": ["Ha empeorado mucho", "Ha empeorado un poco", "No ha cambiado", "Ha mejorado un poco", "Ha mejorado mucho"],
+        "covid_espacios": ["Le doy menos importancia que antes", "No ha cambiado", "Le doy más importancia que antes"],
+        "covid_aire": ["Le doy menos importancia que antes", "No ha cambiado", "Le doy más importancia que antes"],
+        "covid_motor": ["Lo utilizo menos que antes", "Lo utilizo igual que antes", "Lo utilizo más que antes"],
+        "covid_electric": ["Lo utilizo menos que antes", "Lo utilizo igual que antes", "Lo utilizo más que antes"],
+        "covid_bikewalk": ["Lo utilizo menos que antes", "Lo utilizo igual que antes", "Lo utilizo más que antes"],
+        "covid_public_trans": ["Lo utilizo menos que antes", "Lo utilizo igual que antes", "Lo utilizo más que antes"]
+    }
 
-    # Aplicamos One-Hot Encoding a las columnas categóricas
-    encoder = OneHotEncoder(#drop='first',  #Si tienes un dataset muy grande y muchas categorías en tus columnas, eliminar una categoría por variable puede reducir significativamente el número de columnas generadas, mejorando el rendimiento del modelo y ahorrando memoria.
-                            sparse_output=False)  # sparse=False: resultado en forma de array y no de matriz
-    
-    encoded_categorical = encoder.fit_transform(dataset[categorical_columns]) # Adaptem el codificador a dades categòriques
+    # Separar columnas nominales
+    nominal_columns = dataset.select_dtypes(include=['object']).columns.difference(ordinal_columns.keys())
 
-    # Convertir el resultado codificado a un DataFrame
-    encoded_dataset = pd.DataFrame(encoded_categorical, # Convertim l'array codificat en un nou dataset
-            columns = encoder.get_feature_names_out(categorical_columns),  # Generem les noves columnes codificades amb el format: columnaOriginal_categoria
-            index = dataset.index  # Ens assegurem que les files coincideixin
-    )
+    # Codificar las columnas ordinales
+    if ordinal_columns:
+        print(f"Codificando columnas ordinales: {list(ordinal_columns.keys())}")
+        ordinal_encoder = OrdinalEncoder(categories=list(ordinal_columns.values()))
+        dataset[list(ordinal_columns.keys())] = ordinal_encoder.fit_transform(dataset[list(ordinal_columns.keys())])
 
-    # Unir el DataFrame codificado con las columnas numéricas
-    final_dataset = pd.concat(
-        [dataset.drop(columns=categorical_columns), encoded_dataset],  # Eliminem les dades categòriques inicials i afegim les codificades
-        axis=1  # Indiquem que són columnes
-    )
-    return final_dataset
+    # Codificar las columnas nominales
+    if len(nominal_columns) > 0:
+        print(f"Codificando columnas nominales: {list(nominal_columns)}")
+        nominal_encoder = OneHotEncoder(sparse_output=False)
+        encoded_nominals = nominal_encoder.fit_transform(dataset[nominal_columns])
 
-# MAIN
-# Llegim el dataset
-cleaned_dataset = pd.read_pickle(CLEANED_PICKLE_PATH)
+        # Convertir a DataFrame y concatenar con las columnas restantes
+        encoded_df = pd.DataFrame(
+            encoded_nominals,
+            columns=nominal_encoder.get_feature_names_out(nominal_columns),
+            index=dataset.index
+        )
+        dataset = pd.concat([dataset.drop(columns=nominal_columns), encoded_df], axis=1)
 
-# El codifiquem
-codificated_dataset = codificacio_dades_categoriques(cleaned_dataset)
+    return dataset
 
-# El convertim en pickle
-codificated_dataset.to_pickle(CODIF_PICKLE_PATH)
+# Cargar el dataset
+dataset_path = '/mnt/data/CitieSHealth_BCN_DATA_PanelStudy_20220414.csv'
+data = pd.read_csv(dataset_path)
 
-# El convertim en excel per comprovar el resultat
-# output_path = 'data/codif_dataset.xlsx'  # Substitueix per la ruta de sortida
-# codificated_dataset.to_excel(output_path, index=False)
+# Aplicar codificación
+dataset_codificado = codificar_columnas(data)
+
+# Guardar el resultado
+dataset_codificado.to_pickle('data/codif_dataset.pkl')
+dataset_codificado.to_excel('data/codif_dataset.xlsx', index=False)
+print("Dataset codificado guardado.")
+

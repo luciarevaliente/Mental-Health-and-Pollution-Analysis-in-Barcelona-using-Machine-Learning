@@ -285,7 +285,7 @@ if __name__=="__main__":
     cleaned_dataset = estandarditzar_valors_categorics(cleaned_dataset, ['bienestar', 'energia', 'estres', 'sueno'])
 
     # Paso 5: Tratar outliers
-    numeric_columns = cleaned_dataset.select_dtypes(include=['number']).columns
+    numeric_columns = cleaned_dataset.select_dtypes(include=['float64', 'int64']).columns.tolist()
     cleaned_dataset = tractar_outliers(cleaned_dataset, numeric_columns)
 
     # Paso 6: Escalar datos numéricos
