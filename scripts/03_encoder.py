@@ -1,12 +1,6 @@
-from sklearn.preprocessing import OneHotEncoder
-import pandas as pd
-
-# VARIABLES
-CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
-CODIF_PICKLE_PATH = 'data/codif_dataset.pkl'
-
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
 import pandas as pd
+CLEANED_DATASET_PATH = 'data\cleaned_dataset.pkl'
 
 def codificar_columnas(dataset):
     """
@@ -22,17 +16,24 @@ def codificar_columnas(dataset):
     """
     # Definir las columnas ordinales y sus órdenes
     ordinal_columns = {
-        "education": ["Primario o menos", "Bachillerato", "Universitario"],
-        "covid_work": ["Ha empeorado mucho", "Ha empeorado un poco", "No ha cambiado", "Ha mejorado un poco", "Ha mejorado mucho"],
-        "covid_mood": ["Ha empeorado mucho", "Ha empeorado un poco", "No ha cambiado", "Ha mejorado un poco", "Ha mejorado mucho"],
-        "covid_sleep": ["Ha empeorado mucho", "Ha empeorado un poco", "No ha cambiado", "Ha mejorado un poco", "Ha mejorado mucho"],
-        "covid_espacios": ["Le doy menos importancia que antes", "No ha cambiado", "Le doy más importancia que antes"],
-        "covid_aire": ["Le doy menos importancia que antes", "No ha cambiado", "Le doy más importancia que antes"],
-        "covid_motor": ["Lo utilizo menos que antes", "Lo utilizo igual que antes", "Lo utilizo más que antes"],
-        "covid_electric": ["Lo utilizo menos que antes", "Lo utilizo igual que antes", "Lo utilizo más que antes"],
-        "covid_bikewalk": ["Lo utilizo menos que antes", "Lo utilizo igual que antes", "Lo utilizo más que antes"],
-        "covid_public_trans": ["Lo utilizo menos que antes", "Lo utilizo igual que antes", "Lo utilizo más que antes"]
-    }
+    "education": ["primario o menos", "bachillerato", "universitario"],
+    "covid_work": ["ha empeorado mucho", "ha empeorado un poco", "no ha cambiado", "ha mejorado un poco", "ha mejorado mucho"],
+    "covid_mood": ["ha empeorado mucho", "ha empeorado un poco", "no ha cambiado", "ha mejorado un poco", "ha mejorado mucho"],
+    "covid_sleep": ["ha empeorado mucho", "ha empeorado un poco", "no ha cambiado", "ha mejorado un poco", "ha mejorado mucho"],
+    "covid_espacios": ["le doy menos importancia que antes", "no ha cambiado", "le doy más importancia que antes"],
+    "covid_aire": ["le doy menos importancia que antes", "no ha cambiado", "le doy más importancia que antes"],
+    "covid_motor": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"],
+    "covid_electric": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"],
+    "covid_bikewalk": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"],
+    "covid_public_trans": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"]
+}
+
+
+    # Manejar valores faltantes en columnas ordinales
+    # for col in ordinal_columns.keys():
+    #     dataset[col] = dataset[col].fillna("Desconocido")
+    #     if "Desconocido" not in ordinal_columns[col]:
+    #         ordinal_columns[col].append("Desconocido")
 
     # Separar columnas nominales
     nominal_columns = dataset.select_dtypes(include=['object']).columns.difference(ordinal_columns.keys())
@@ -60,8 +61,8 @@ def codificar_columnas(dataset):
     return dataset
 
 # Cargar el dataset
-dataset_path = '/mnt/data/CitieSHealth_BCN_DATA_PanelStudy_20220414.csv'
-data = pd.read_csv(dataset_path)
+dataset_path = CLEANED_DATASET_PATH
+data = pd.read_pickle(dataset_path)
 
 # Aplicar codificación
 dataset_codificado = codificar_columnas(data)
@@ -70,4 +71,3 @@ dataset_codificado = codificar_columnas(data)
 dataset_codificado.to_pickle('data/codif_dataset.pkl')
 dataset_codificado.to_excel('data/codif_dataset.xlsx', index=False)
 print("Dataset codificado guardado.")
-
