@@ -24,7 +24,7 @@ class RegressionModels:
 
     def train(self, X_train, y_train):
         """Entrena el modelo."""
-        self.model.fit(X_train, y_train)
+        self.model.fit(X_train, y_train.ravel())
 
     def predict(self, X_test):
         """Realiza predicciones."""

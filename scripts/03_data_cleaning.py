@@ -179,7 +179,6 @@ k = 5
 ESBORRAR = ['date_all']
 
 # FUNCIONES ###############################################################
-
 # Eliminar valores nulos
 def filtrar_valors_null(dataset, k):
     data_cleaned = dataset.copy()
@@ -248,60 +247,60 @@ def codificar_dades_categoriques(dataset, categorical_columns):
     return dataset
 
 # PROCESAMIENTO ##########################################################
+if __name__=="__main__":
+    # Cargar datos
+    data = pd.read_pickle(PICKLE_PATH)
 
-# Cargar datos
-data = pd.read_pickle(PICKLE_PATH)
+    # Eliminar columnas innecesarias
+    data = data.drop(columns=ESBORRAR, errors='ignore')
 
-# Eliminar columnas innecesarias
-data = data.drop(columns=ESBORRAR, errors='ignore')
+    # Conversión de formatos
+    data['Houron'] = pd.to_datetime(data['Houron'], format='%H:%M:%S', errors='coerce')
+    data['Houroff'] = pd.to_datetime(data['Houroff'], format='%H:%M:%S', errors='coerce')
+    data['Houron_hour'] = data['Houron'].dt.hour.astype('Int64')
+    data['Houron_minute'] = data['Houron'].dt.minute.astype('Int64')
+    data['Houroff_hour'] = data['Houroff'].dt.hour.astype('Int64')
+    data['Houroff_minute'] = data['Houroff'].dt.minute.astype('Int64')
+    data = data.drop(columns=['Houron', 'Houroff'], errors='ignore')
 
-# Conversión de formatos
-data['Houron'] = pd.to_datetime(data['Houron'], format='%H:%M:%S', errors='coerce')
-data['Houroff'] = pd.to_datetime(data['Houroff'], format='%H:%M:%S', errors='coerce')
-data['Houron_hour'] = data['Houron'].dt.hour.astype('Int64')
-data['Houron_minute'] = data['Houron'].dt.minute.astype('Int64')
-data['Houroff_hour'] = data['Houroff'].dt.hour.astype('Int64')
-data['Houroff_minute'] = data['Houroff'].dt.minute.astype('Int64')
-data = data.drop(columns=['Houron', 'Houroff'], errors='ignore')
+    # Paso 1: Tratar valores nulos
+    cleaned_dataset = filtrar_valors_null(data, k)
 
-# Paso 1: Tratar valores nulos
-cleaned_dataset = filtrar_valors_null(data, k)
+    # Paso 2: Eliminar duplicados
+    cleaned_dataset = eliminar_duplicados(cleaned_dataset)
 
-# Paso 2: Eliminar duplicados
-cleaned_dataset = eliminar_duplicados(cleaned_dataset)
+    # Paso 3: Convertir tipos de datos
+    transform_to_int = ['occurrence_mental', 'occurrence_stroop', 'correct', 'response_duration_ms', 'start_day',
+                        'start_month', 'start_year', 'start_hour', 'end_day', 'end_month', 'end_year', 'end_hour', 
+                        'age_yrs', 'yearbirth', 'hour_gps', 'sec_noise55_day', 'sec_noise65_day', 'sec_greenblue_day',
+                        'hours_noise_55_day', 'hours_noise_65_day', 'hours_greenblue_day', 'precip_12h_binary',
+                        'precip_24h_binary', 'dayoftheweek', 'year', 'month', 'day', 'hour', 'bienestar', 'energia', 
+                        'estres', 'sueno']
+    transform_to_str = ['mentalhealth_survey', 'ordenador', 'dieta', 'alcohol', 'drogas', 'enfermo', 'otrofactor', 
+                        'district', 'education', 'access_greenbluespaces_300mbuff', 'smoke', 'psycho', 'gender', 
+                        'stroop_test', 'Totaltime_estimated']
+    cleaned_dataset = convertir_tipus_de_dades(cleaned_dataset, enter=transform_to_int, caracter=transform_to_str)
 
-# Paso 3: Convertir tipos de datos
-transform_to_int = ['occurrence_mental', 'occurrence_stroop', 'correct', 'response_duration_ms', 'start_day',
-                    'start_month', 'start_year', 'start_hour', 'end_day', 'end_month', 'end_year', 'end_hour', 
-                    'age_yrs', 'yearbirth', 'hour_gps', 'sec_noise55_day', 'sec_noise65_day', 'sec_greenblue_day',
-                    'hours_noise_55_day', 'hours_noise_65_day', 'hours_greenblue_day', 'precip_12h_binary',
-                    'precip_24h_binary', 'dayoftheweek', 'year', 'month', 'day', 'hour', 'bienestar', 'energia', 
-                    'estres', 'sueno']
-transform_to_str = ['mentalhealth_survey', 'ordenador', 'dieta', 'alcohol', 'drogas', 'enfermo', 'otrofactor', 
-                    'district', 'education', 'access_greenbluespaces_300mbuff', 'smoke', 'psycho', 'gender', 
-                    'stroop_test', 'Totaltime_estimated']
-cleaned_dataset = convertir_tipus_de_dades(cleaned_dataset, enter=transform_to_int, caracter=transform_to_str)
+    # Paso 4: Normalizar valores categóricos
+    cleaned_dataset = estandarditzar_valors_categorics(cleaned_dataset, ['bienestar', 'energia', 'estres', 'sueno'])
 
-# Paso 4: Normalizar valores categóricos
-cleaned_dataset = estandarditzar_valors_categorics(cleaned_dataset, ['bienestar', 'energia', 'estres', 'sueno'])
+    # Paso 5: Tratar outliers
+    numeric_columns = cleaned_dataset.select_dtypes(include=['number']).columns
+    cleaned_dataset = tractar_outliers(cleaned_dataset, numeric_columns)
 
-# Paso 5: Tratar outliers
-numeric_columns = cleaned_dataset.select_dtypes(include=['number']).columns
-cleaned_dataset = tractar_outliers(cleaned_dataset, numeric_columns)
+    # Paso 6: Escalar datos numéricos
+    cleaned_dataset = escalar_dades(cleaned_dataset, numeric_columns) # DEPENDE!!!!!!!!!!!!!!!!!!!!!!!!
 
-# Paso 6: Escalar datos numéricos
-cleaned_dataset = escalar_dades(cleaned_dataset, numeric_columns) # DEPENDE!!!!!!!!!!!!!!!!!!!!!!!!
+    # Paso 7: Codificar datos categóricos
+    categorical_columns = cleaned_dataset.select_dtypes(include=['object', 'string']).columns
+    cleaned_dataset = codificar_dades_categoriques(cleaned_dataset, categorical_columns)
 
-# Paso 7: Codificar datos categóricos
-categorical_columns = cleaned_dataset.select_dtypes(include=['object', 'string']).columns
-cleaned_dataset = codificar_dades_categoriques(cleaned_dataset, categorical_columns)
+    # GUARDAR EL DATASET ######################################################
+    cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
 
-# GUARDAR EL DATASET ######################################################
-cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
-
-# Exportar a Excel
-try:
-    cleaned_dataset.to_excel('data/cleaned_dataset.xlsx', index=False)
-    print(f"El archivo ha sido exportado a: 'data/cleaned_dataset.xlsx'")
-except Exception as e:
-    print(f"Error: {e}")
+    # Exportar a Excel
+    try:
+        cleaned_dataset.to_excel('data/cleaned_dataset.xlsx', index=False)
+        print(f"El archivo ha sido exportado a: 'data/cleaned_dataset.xlsx'")
+    except Exception as e:
+        print(f"Error: {e}")
