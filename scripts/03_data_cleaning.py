@@ -299,8 +299,8 @@ if __name__=="__main__":
     cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
 
     # Exportar a Excel
-    try:
-        cleaned_dataset.to_excel('data/cleaned_dataset.xlsx', index=False)
-        print(f"El archivo ha sido exportado a: 'data/cleaned_dataset.xlsx'")
-    except Exception as e:
-        print(f"Error: {e}")
+    # try:
+    #     cleaned_dataset.to_excel('data/cleaned_dataset.xlsx', index=False)
+    #     print(f"El archivo ha sido exportado a: 'data/cleaned_dataset.xlsx'")
+    # except Exception as e:
+    #     print(f"Error: {e}")

@@ -15,9 +15,6 @@ PICKLE_PATH = 'data/dataset.pkl'
 # Carguem l'arxiu CSV en un DataFrame
 df = pd.read_csv(CSV_PATH)
 
-# Mostrem les primeras filas para verificar la càrrega
-print(df.head())
-
 # Guardem el DataFrame com un arxiu pickle per fer-se servir en altres scripts
 df.to_pickle(PICKLE_PATH)
 
