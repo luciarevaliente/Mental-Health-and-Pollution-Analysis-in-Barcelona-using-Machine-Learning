@@ -55,7 +55,7 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
   - Altres factors: *activitat física, dieta, soroll ambiental, accés a espais verds/blaus.*
   
 ### Preprocessament
-- Gestió de valors nuls: [Hacer!]. **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+- Gestió de valors nuls: [KNN Imputer]. 
 - Escalament de variables: [Sí: StandardScaler (ordinals i contínues)].
 - Codificació de variables categòriques: [Sí: OneHotEncoders (nominals) i OrdinalEncoder (ordinals)].
 
