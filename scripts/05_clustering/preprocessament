@@ -1,10 +1,27 @@
+"""
+Script per preprocessader les dades de salut mental i contaminació de BCN
+
+Creat per: Lucía Revaliente i Aránzazu Miguélez
+
+Data de creació: 08/12/24
+
+Objectiu: L'objectiu d'aquest script és garantir que les dades s'ajustin de manera òptima 
+a un model d'anàlisi o aprenentatge automàtic, evitant que certs tipus de dades prevalguin 
+indegudament i permetent una comparació justa entre les diferents variables.
+
+Descripció: Aquest script codifica les dades categòriques i numèriques:
+                1. Categòriques nominals: OneHotEncoder
+                2. Categòriques ordinals: StandardScaler
+                3. Numèriques (ordinals i contínues): 
+"""
 # IMPORTACIÓ
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, OrdinalEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 import pandas as pd
 
-# VARIABLES CONSTANTS
+# VARIABLES 
+# Noms dels arxius pickle
 DATASET_PATH = 'data/cleaned_dataset.pkl'
 OUTPUT_PATH = 'data/preprocessed_data.pkl'  # Ruta donde se guardará el archivo pickle
 
@@ -40,16 +57,17 @@ nominal_cols = data.select_dtypes(include=['object']).columns.difference(ordinal
 #     print()
 
 # Crear transformadors específics per a cada tipus de variable
-numerical_transformer = StandardScaler()       # Escalar numèriques
-ordinal_transformer = OrdinalEncoder(categories=list(ordinal_cols.values()))  # Codificar ordinals
-nominal_transformer = OneHotEncoder()          # Codificar nominals (one-hot)
+NUMERICAL_TRANSFORMER = StandardScaler()       # Escalar numèriques
+ORDINAL_TRANSFORMER = OrdinalEncoder(categories=list(ordinal_cols.values()))  # Codificar ordinals
+NOMINAL_TRANSFORMER = OneHotEncoder()          # Codificar nominals (one-hot)
+
 
 # Configurar el ColumnTransformer
 preprocessor = ColumnTransformer(
     transformers=[
-        ('num', numerical_transformer, num_cols),           # Escalar numèriques
-        ('ord', ordinal_transformer, list(ordinal_cols.keys())),         # Codificar ordinals
-        ('nom', nominal_transformer, nominal_cols)          # Codificar nominals
+        ('num', NUMERICAL_TRANSFORMER, num_cols),           # Escalar numèriques
+        ('ord', ORDINAL_TRANSFORMER, list(ordinal_cols.keys())),         # Codificar ordinals
+        ('nom', NOMINAL_TRANSFORMER, nominal_cols)          # Codificar nominals
     ]
 )
 
