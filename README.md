@@ -55,7 +55,9 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
   - Altres factors: *activitat física, dieta, soroll ambiental, accés a espais verds/blaus.*
   
 ### Preprocessament
-por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+- Gestió de valors nuls: [s]por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!.
+- Escalament de variables: [Sí: StandardScaler].
+- Codificació de variables categòriques: [Sí: OneHotEncoders(Nominals) i OrdinalEncoder(ordinals)].
 
 ---
 
