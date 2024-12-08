@@ -60,11 +60,8 @@ Doncs, abans de realitzar un procés de clustering (agrupament), és fonamental 
 
 Cal destacar que hem d'escalar i codificar abans de reduir la dimensionalitat del dataset ja que la majoria dels mètodes depenen de la variabilitat de les dades. Per tant, per no fer una mala representació de les dades, codifiquem i escalem. 
 
-Hem escollit fer-ho amb PCA perquè **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
-
 
 ### Correlació entre variables
-Com en el dataset tenim moltes característiques, exactament 123, i no tenim una intuició clara sobre quines són les més importants, aplicarem el PCA directament i observarem els resultats.
 **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
 ### Reducció de dimensions
