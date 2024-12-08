@@ -56,8 +56,8 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
   
 ### Preprocessament
 - Gestió de valors nuls: [Hacer!]. **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
-- Escalament de variables: [Sí: StandardScaler].
-- Codificació de variables categòriques: [Sí: OneHotEncoders(Nominals) i OrdinalEncoder(ordinals)].
+- Escalament de variables: [Sí: StandardScaler (ordinals i contínues)].
+- Codificació de variables categòriques: [Sí: OneHotEncoders (nominals) i OrdinalEncoder (ordinals)].
 
 ---
 
