@@ -47,15 +47,6 @@ ordinal_cols = {
 
 nominal_cols = data.select_dtypes(include=['object']).columns.difference(ordinal_cols.keys())  # Categòriques nominals
 
-# print(len(num_cols)+len(ordinal_cols.keys())+len(nominal_cols)==len(data.columns))
-
-# for col in ordinal_cols.keys():
-#     print(f"Columna: {col}, Valors únics: {data[col].unique()}")
-#     print()
-# for col in nominal_cols:
-#     print(f"Columna: {col}, Valors únics: {data[col].unique()}")
-#     print()
-
 # Crear transformadors específics per a cada tipus de variable
 NUMERICAL_TRANSFORMER = StandardScaler()       # Escalar numèriques
 ORDINAL_TRANSFORMER = OrdinalEncoder(categories=list(ordinal_cols.values()))  # Codificar ordinals

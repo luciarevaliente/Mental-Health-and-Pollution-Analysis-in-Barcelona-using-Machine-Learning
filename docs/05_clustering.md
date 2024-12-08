@@ -47,6 +47,9 @@ En aquest cas, farem servir un **pipeline**. Aquesta és una eina de scikit-lear
 Finalment, el codi que conté el pipeline que codifica i escala les dades és `scripts/preprocessament.py`.
 
 ## Pregunta 3: Sel·lecció de variables rellevants
+Abans de realitzar un procés de clustering (agrupament), és fonamental assegurar-se que les variables que s’utilitzen siguin rellevants per identificar grups o segments dins de la població. Alguns dels motius són:
+        - Evitar overfitting: quan tenim massa variables, el model pot començar a "aprofitar-se" de petites variacions o sorolls en les dades que no són rellevants, però que influeixen de manera significativa en el resulta.
+        - Millor interpretació: amb un conjunt de dades amb moltes variables, pot ser molt difícil interpretar els resultats del model. Reduir les variables a les més rellevants ajuda a simplificar els models, facilitant l'anàlisi i la comprensió del que està passant. Això és especialment útil quan es volen obtenir conclusions pràctiques sobre els grups que es detecten en el clustering, que és just el que volem fer.
 
 ## Pregunta 4: El·lecció de l'algoritme de clustering
 
