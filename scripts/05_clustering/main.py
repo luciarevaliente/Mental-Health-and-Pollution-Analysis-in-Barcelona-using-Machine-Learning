@@ -117,13 +117,11 @@ class ClusteringModel:
         plt.show()
 
 if __name__=="__main__":
-    # 1. Codificació i escalat --> Carreguem les dades preprocessades
+    # 1 i 2. Codificació i escalat --> Carreguem les dades preprocessades
     df = pd.read_pickle("data/preprocessed_data.pkl")
 
-    # 2. Sel·lecció de variables rellevants 
+    # 3. Sel·lecció de variables rellevants 
     # print(len(df.columns))
-
-    # 3. Sel·lecció de variables rellevants?
 
     # 4. El·lecció algoritme clustering: inicialitzar la classe ClusteringModel i provar els diferents algoritmes
     # clustering_kmeans = ClusteringModel(df, algorithm='kmeans')
