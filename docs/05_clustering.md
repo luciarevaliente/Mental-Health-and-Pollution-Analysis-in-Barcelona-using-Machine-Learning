@@ -47,9 +47,28 @@ En aquest cas, farem servir un **pipeline**. Aquesta és una eina de scikit-lear
 Finalment, el codi que conté el pipeline que codifica i escala les dades és `scripts/preprocessament.py`.
 
 ## Pregunta 3: Sel·lecció de variables rellevants
-Abans de realitzar un procés de clustering (agrupament), és fonamental assegurar-se que les variables que s’utilitzen siguin rellevants per identificar grups o segments dins de la població. Alguns dels motius són:
-        - Evitar overfitting: quan tenim massa variables, el model pot començar a "aprofitar-se" de petites variacions o sorolls en les dades que no són rellevants, però que influeixen de manera significativa en el resulta.
-        - Millor interpretació: amb un conjunt de dades amb moltes variables, pot ser molt difícil interpretar els resultats del model. Reduir les variables a les més rellevants ajuda a simplificar els models, facilitant l'anàlisi i la comprensió del que està passant. Això és especialment útil quan es volen obtenir conclusions pràctiques sobre els grups que es detecten en el clustering, que és just el que volem fer.
+Actualment, el nostre conjunt de dades té un nombre relativament elevat de característiques (123), en comparació amb el nombre d'instàncies (3348). Tot i que no existeix una regla fixa, tenir un gran nombre de característiques pot comportar alguns reptes:
+        - **Problema de la "maledicció de la dimensionalitat"**: A mesura que augmenta el nombre de característiques, els espais d'alta dimensionalitat poden esdevenir molt dispersos. Això pot dificultar la identificació de clústers ben definits, ja que les distàncies entre instàncies en espais de molta dimensió són generalment més grans.
+        - **Redundància d'informació:** Si tens característiques molt correlacionades, podries estar incloent informació redundants que pot afectar el rendiment del clustering. 
+        - **Rendiment computacional:** Clustering amb un gran nombre de variables pot ser costós computacionalment. Dependrà de l'algorisme que fem servir, però algorismes com K-means poden veure's afectats per la complexitat computacional quan hi ha moltes característiques.
+
+Doncs, abans de realitzar un procés de clustering (agrupament), és fonamental assegurar-se que les variables que s’utilitzen siguin rellevants per identificar grups o segments dins de la població. Alguns motius per fer-ho són:
+        - **Evitar overfitting:** quan tenim massa variables, el model pot començar a "aprofitar-se" de petites variacions o sorolls en les dades que no són rellevants, però que influeixen de manera significativa en el resulta.
+        - **Millor interpretació:** amb un conjunt de dades amb moltes variables, pot ser molt difícil interpretar els resultats del model. Reduir les variables a les més rellevants ajuda a simplificar els models, facilitant l'anàlisi i la comprensió del que està passant. Això és especialment útil quan es volen obtenir conclusions pràctiques sobre els grups que es detecten en el clustering, que és just el que volem fer.
+        - **Millorar l'eficència computacional:** com hem explicat abans.
+        - **Reducció de la redundància:** com hem dit, si dues variables expliquen el mateix fenomen, no aportaran més informació útil al model i, per tant, podrien ser eliminades sense perdre valor. La reducció de dimensions ajuda a eliminar aquesta redundància, millorant la qualitat del model.
+
+Cal destacar que hem d'escalar i codificar abans de reduir la dimensionalitat del dataset ja que la majoria dels mètodes depenen de la variabilitat de les dades. Per tant, per no fer una mala representació de les dades, codifiquem i escalem. 
+
+Hem escollit fer-ho amb PCA perquè **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+
+
+### Correlació entre variables
+Com en el dataset tenim moltes característiques, exactament 123, i no tenim una intuició clara sobre quines són les més importants, aplicarem el PCA directament i observarem els resultats.
+**por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+
+### Reducció de dimensions
+**por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
 ## Pregunta 4: El·lecció de l'algoritme de clustering
 
@@ -57,8 +76,3 @@ Abans de realitzar un procés de clustering (agrupament), és fonamental assegur
 
 ## Pregunta 6: Interpretació dels resultats
 
-
-
-Només cal escalar les variables numèriques, no les codificades. El motiu és perquè les numèriques tenen valors continus que poden tenir diferents rangs o unitats (edat, km^2, etc.). Escalar aquest tipus de variables ajuda a que totes tinguin el mateix pes durant el procés de clustering, especialment quan s'utilitzen algoritmes que depenen de les distàncies entre punts.
-
-Doncs, no té sentit escalar variables nominals codificades perquè aquestes són binàries. Per tant, escalar-les no té sentit perquè no tenen un ordre que s'hagi de normalitzar. D'altra banda, **hay que decidir si las variables estres, sueno, etc son categóricas o numéricas!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
