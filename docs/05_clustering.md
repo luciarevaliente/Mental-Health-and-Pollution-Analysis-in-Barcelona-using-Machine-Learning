@@ -30,7 +30,9 @@ Recordem que **escalar** les dades significa transformar-les perquè tinguin un 
     3. Escalatge Robust (Robust Scaling): Utilitza la mediana i el rang interquartílic (IQR) per escalar les dades, fent-lo menys sensible als valors atípics. S’utilitza quan les dades contenen outliers que podrien distorsionar l’escalat. És adequat per algoritmes que no volen que els outliers tinguin un gran impacte en el model, com K-means en presència de dades extremes.
     4. Escalatge per Quantils (Quantile Transformation): Transforma les dades perquè segueixin una distribució uniforme o normal. És útil quan les dades no segueixen una distribució normal i es volen ajustar per millorar el rendiment de certs algoritmes. També ajuda a suavitzar les dades extremadament disperses i a millorar el comportament dels models, especialment per models que assumeixen distribucions normals.
 
-Gràcies a l'anàlisi previ del script `02_exploratory_data.py`, hem pogut observar en `visualizations/violin_plots` com la majoria de les dades no segueixen una distribució normal. Tot i això, hem hagut de realitzar un test 
+Gràcies a l'anàlisi previ del script `02_exploratory_data.py`, hem pogut observar en `visualizations/violin_plots` com la majoria de les dades no segueixen una distribució normal. Tot i això, hem hagut de realitzar un test de Shapiro per corroborar el que suposàvem. Efectivament, després dels tests, verifiquem que les dades numèriques a escalar no són normals. 
+
+Doncs, per això i ja que volem que es preservi l'ordre lògic de les dades, farem servir normalizació (Min-Max Scaling). D'aquesta manera, tots els valors tindran un rang homogeni i no hi haurà valors extrems.
 
 ## Pregunta 3: Sel·lecció de variables rellevants
 
