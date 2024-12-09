@@ -27,14 +27,6 @@ def codificar_columnas(dataset):
     "covid_bikewalk": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"],
     "covid_public_trans": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"]
 }
-
-
-    # Manejar valores faltantes en columnas ordinales
-    # for col in ordinal_columns.keys():
-    #     dataset[col] = dataset[col].fillna("Desconocido")
-    #     if "Desconocido" not in ordinal_columns[col]:
-    #         ordinal_columns[col].append("Desconocido")
-
     # Separar columnas nominales
     nominal_columns = dataset.select_dtypes(include=['object']).columns.difference(ordinal_columns.keys())
 
