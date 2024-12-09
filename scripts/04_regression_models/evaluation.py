@@ -7,7 +7,7 @@ from sklearn.inspection import permutation_importance
 import pandas as pd
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from models import RegressionModels
-import matplotlib as plt
+import matplotlib.pyplot as plt
 import numpy as np
 
 # Ruta al dataset preprocesado
@@ -49,7 +49,9 @@ def evaluate_model(y_test, predictions, model_name):
     mae = mean_absolute_error(y_test, predictions)
     rmse = np.sqrt(mse)
     r2 = r2_score(y_test, predictions)
-    
+#     RMSE (Root Mean Squared Error): Penaliza grandes errores. Más bajo es mejor.
+# MAE (Mean Absolute Error): Promedio de errores absolutos. Más bajo es mejor.
+# R² (Coeficiente de determinación): Mide qué tan bien el modelo explica la varianza en los datos. Más cercano a 1 es mejor.
     print(f"\n--- Desempeño del modelo: {model_name} ---")
     print(f"RMSE: {rmse:.4f}")
     print(f"MAE: {mae:.4f}")

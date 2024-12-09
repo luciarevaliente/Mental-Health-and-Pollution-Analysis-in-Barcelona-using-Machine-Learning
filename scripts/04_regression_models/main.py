@@ -5,6 +5,7 @@ from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from xgboost import XGBRegressor
 from sklearn.inspection import permutation_importance
 import pandas as pd
+from evaluation import get_best_model
 
 # Definir la cuadrícula de parámetros para cada modelo
 GRID_PARAMS = {
@@ -40,21 +41,6 @@ X_train, X_test, y_train, y_test = separacio_train_test(data, TARGET_COLUMNS)
 
 # Resultados de importancia de características
 results = {}
-
-# Función para ejecutar GridSearchCV y obtener el mejor modelo
-def get_best_model(model_name, model, param_grid):
-    print(f"\n--- Buscando mejores parámetros para {model_name} ---")
-    grid_search = GridSearchCV(
-        estimator=model,
-        param_grid=param_grid,
-        scoring="neg_mean_squared_error",
-        cv=5,
-        verbose=1,
-        n_jobs=-1
-    )
-    grid_search.fit(X_train, y_train)
-    print(f"Mejores parámetros para {model_name}: {grid_search.best_params_}")
-    return grid_search.best_estimator_
 
 # Modelos
 models = {
