@@ -176,7 +176,8 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 PICKLE_PATH = 'data/dataset.pkl'
 CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
 k = 5
-ESBORRAR = ['date_all', 'year', 'month', 'day', 'start_year','start_month', 'start_day', 'start_hour', 'end_year','end_month', 'end_day', 'end_hour']  # Les dades temporals de l'enquesta no aporten info, només per controlar dataset
+ESBORRAR = ['date_all', 'year', 'month', 'day', 'start_year','start_month', 'start_day', 'start_hour', 'end_year','end_month', 'end_day', 'end_hour', # Les dades temporals de l'enquesta no aporten info, només per controlar dataset
+            'stroop_test']  # Només pren un valor
 
 # FUNCIONES ###############################################################
 # Eliminar valores nulos

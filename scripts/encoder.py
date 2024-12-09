@@ -29,12 +29,10 @@ def codificar_columnas(dataset):
 }
     # Separar columnas nominales
     nominal_columns = dataset.select_dtypes(include=['object']).columns.difference(ordinal_columns.keys())
-    binary_columns = [col for col in nominal_columns 
-                      if set(dataset[col].unique()) == 2]
-    nominal_columns = nominal_columns.difference(binary_columns)
-    print(nominal_columns)
 
-    exit
+    binary_columns = ['mentalhealth_survey', 'Totaltime_estimated', 'access_greenbluespaces_300mbuff', 'actividadfisica', 'alcohol', 'bebida', 'dieta', 'drogas', 'enfermo', 'gender', 'ordenador', 'otrofactor', 'psycho', 'smoke']
+    nominal_columns = nominal_columns.difference(binary_columns)
+    
     # Codificar las columnas ordinales
     if ordinal_columns:
         print(f"Codificando columnas ordinales: {list(ordinal_columns.keys())}")
