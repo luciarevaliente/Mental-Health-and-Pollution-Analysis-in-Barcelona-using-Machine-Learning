@@ -30,7 +30,7 @@ def codificar_columnas(dataset):
     # Separar columnas nominales
     nominal_columns = dataset.select_dtypes(include=['object']).columns.difference(ordinal_columns.keys())
     binary_columns = [col for col in nominal_columns 
-                      if set(dataset[col].unique()) == {'yes', 'no'}]
+                      if set(dataset[col].unique()) == 2]
     nominal_columns = nominal_columns.difference(binary_columns)
     print(nominal_columns)
 
