@@ -1,5 +1,5 @@
 from sklearn.linear_model import LinearRegression, Ridge, Lasso
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from xgboost import XGBRegressor
 
 class RegressionModels:
@@ -19,6 +19,8 @@ class RegressionModels:
             self.model = RandomForestRegressor(**kwargs)
         elif model_type == "xgboost":
             self.model = XGBRegressor(**kwargs)
+        elif model_type == "gradient_boosting":
+            self.model = GradientBoostingRegressor(**kwargs)
         else:
             raise ValueError("Modelo no reconocido.")
 
