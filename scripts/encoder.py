@@ -41,7 +41,8 @@ def codificar_columnas(dataset):
 
     # Codificar las columnas binarias
     for col in binary_columns:
-        dataset[col] = dataset[col].map({'yes':1, 'no':-1})
+        dataset[col] = dataset[col].map({'yes':1, 'no':-1, 
+                                         'hombre':1, 'mujer':-1})
 
     # Codificar las columnas nominales 
     if len(nominal_columns) > 0:
