@@ -176,7 +176,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 PICKLE_PATH = 'data/dataset.pkl'
 CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
 k = 5
-ESBORRAR = ['date_all']
+ESBORRAR = ['date_all', 'year', 'month', 'day', 'start_year','start_month', 'start_day', 'start_hour', 'end_year','end_month', 'end_day', 'end_hour']  # Les dades temporals de l'enquesta no aporten info, només per controlar dataset
 
 # FUNCIONES ###############################################################
 # Eliminar valores nulos
@@ -287,13 +287,6 @@ if __name__=="__main__":
     # Paso 5: Tratar outliers
     numeric_columns = cleaned_dataset.select_dtypes(include=['float64', 'int64']).columns.tolist()
     cleaned_dataset = tractar_outliers(cleaned_dataset, numeric_columns)
-
-    # Paso 6: Escalar datos numéricos
-    # cleaned_dataset = escalar_dades(cleaned_dataset, numeric_columns) # DEPENDE!!!!!!!!!!!!!!!!!!!!!!!!
-
-    # Paso 7: Codificar datos categóricos
-    # categorical_columns = cleaned_dataset.select_dtypes(include=['object', 'string']).columns
-    # cleaned_dataset = codificar_dades_categoriques(cleaned_dataset, categorical_columns)
 
     # GUARDAR EL DATASET ######################################################
     cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
