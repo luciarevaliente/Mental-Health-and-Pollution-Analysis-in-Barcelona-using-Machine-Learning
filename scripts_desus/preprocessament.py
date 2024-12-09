@@ -1,5 +1,5 @@
 """
-Script per preprocessader les dades de salut mental i contaminació de BCN
+Script per preprocessader les dades de salut mental i contaminació de BCN --> En desús perquè primer volem codificar i 
 
 Creat per: Lucía Revaliente i Aránzazu Miguélez
 
@@ -12,7 +12,7 @@ indegudament i permetent una comparació justa entre les diferents variables.
 Descripció: Aquest script codifica les dades categòriques i numèriques:
                 1. Categòriques nominals: OneHotEncoder
                 2. Categòriques ordinals: StandardScaler
-                3. Numèriques (ordinals i contínues): 
+                3. Numèriques (ordinals i contínues)
 """
 # IMPORTACIÓ
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, OrdinalEncoder

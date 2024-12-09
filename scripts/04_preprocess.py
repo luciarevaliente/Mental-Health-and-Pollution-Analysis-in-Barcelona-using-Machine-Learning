@@ -1,5 +1,6 @@
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler
 import pandas as pd
+import numpy as np
 
 CLEANED_DATASET_PATH = 'data/cleaned_dataset.pkl'
 
@@ -22,6 +23,7 @@ def codificar_columnas(dataset, ordinal_columns, binary_columns, nominal_columns
         dataset[list(ordinal_columns.keys())] = ordinal_encoder.fit_transform(dataset[list(ordinal_columns.keys())])
 
     # Codificar las columnas binarias
+    print(f"Codificando columnas binarias: {list(binary_columns)}")
     for col in binary_columns:
         dataset[col] = dataset[col].map({'yes':1, 'no':-1, 
                                          'hombre':1, 'mujer':-1, 
@@ -65,9 +67,6 @@ def escalar(dataset, numerical_columns):
         scaler = StandardScaler()
         dataset[numerical_columns] = scaler.fit_transform(dataset[numerical_columns])
 
-        print("Primeras filas de las columnas escaladas:")
-        print(dataset[numerical_columns].head())
-
 
 if __name__=="__main__":
     # Cargar el dataset
@@ -75,9 +74,8 @@ if __name__=="__main__":
     data = pd.read_pickle(dataset_path)
 
     # Seleccionar columnas numéricas
-    numerical_columns = data.select_dtypes(include=['float64', 'int64']).columns
-    numerical_columns.drop(['precip_12h_binary', 'precip_24h_binary'])
-    
+    cols_int_to_change = ['precip_12h_binary', 'precip_24h_binary']  # Eliminem pq son binàries de tipus int --> excepció
+    numerical_columns = data.select_dtypes(include=['float64', 'int64']).columns.difference(cols_int_to_change)
 
     # Definir las columnas ordinales y sus órdenes
     ordinal_columns = {
@@ -94,13 +92,15 @@ if __name__=="__main__":
     }
 
     # Separar columnas nominales y binarias
-    nominal_columns = data.select_dtypes(include=['object']).columns.difference(ordinal_columns.keys())
-
-    binary_columns = ['mentalhealth_survey', 'Totaltime_estimated', 'access_greenbluespaces_300mbuff', 'actividadfisica', 'alcohol', 'bebida', 'dieta', 'drogas', 'enfermo', 'gender', 'ordenador', 'otrofactor', 'psycho', 'smoke', 'precip_12h_binary', 'precip_24h_binary']
-    nominal_columns = nominal_columns.difference(binary_columns)
+    binary_columns = ['mentalhealth_survey', 'Totaltime_estimated', 'access_greenbluespaces_300mbuff', 'actividadfisica', 'alcohol', 'bebida', 'dieta', 'drogas', 'enfermo', 'gender', 'ordenador', 'otrofactor', 'psycho', 'smoke']
+    nominal_columns = data.select_dtypes(include=['object']).columns.difference(ordinal_columns.keys()).difference(binary_columns)
         
     # Aplicar codificación
     codificar_columnas(data, ordinal_columns, binary_columns, nominal_columns)
+
+    # Codifiquem les columnes numèriques binàries que falten
+    for col in cols_int_to_change:
+        data[col] = np.where(data[col] == 0.0, -1, data[col])  # Aplicar modificació
 
     # Guardar el resultado
     data.to_pickle('data/codif_dataset.pkl')
@@ -108,6 +108,10 @@ if __name__=="__main__":
     print("Dataset codificado guardado.")
 
     escalar(data, numerical_columns)  # No afegim la resta perquè estan codificades entre [-1,1]
+    
+    # print("Primeras filas de las columnas escaladas:")
+    # print(dataset[numerical_columns].head())
+
     data.to_pickle('data/scaled_dataset.pkl')
     data.to_excel('data/scaled_dataset.xlsx', index=False)
-    print("Dataset codificado guardado.")
+    print("Dataset escalado guardado.")
