@@ -71,6 +71,6 @@ data = pd.read_pickle(dataset_path)
 dataset_codificado = codificar_columnas(data)
 
 # Guardar el resultado
-dataset_codificado.to_pickle('data/cleaned_dataset.pkl')
-dataset_codificado.to_excel('data/cleaned_dataset.xlsx', index=False)
+dataset_codificado.to_pickle('data/codif_dataset.pkl')
+dataset_codificado.to_excel('data/codif_dataset.xlsx', index=False)
 print("Dataset codificado guardado.")
