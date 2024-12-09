@@ -1,4 +1,4 @@
-from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
+from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler
 import pandas as pd
 
 CLEANED_DATASET_PATH = 'data/cleaned_dataset.pkl'
@@ -24,7 +24,8 @@ def codificar_columnas(dataset, ordinal_columns, binary_columns, nominal_columns
     # Codificar las columnas binarias
     for col in binary_columns:
         dataset[col] = dataset[col].map({'yes':1, 'no':-1, 
-                                         'hombre':1, 'mujer':-1})
+                                         'hombre':1, 'mujer':-1, 
+                                          0: -1}) #'precip_12h_binary', 'precip_24h_binary'. Si és 1, no cal fer-ho
 
     # Codificar las columnas nominales 
     if len(nominal_columns) > 0:
@@ -44,9 +45,8 @@ def codificar_columnas(dataset, ordinal_columns, binary_columns, nominal_columns
         )
         dataset = pd.concat([dataset.drop(columns=nominal_columns), encoded_df], axis=1)
 
-    return dataset
 
-def escalar(dataset):
+def escalar(dataset, numerical_columns):
     """
     Función que escala los datos numéricos de un dataset utilizando StandardScaler (Estandarización, Z-score).
 
@@ -60,53 +60,54 @@ def escalar(dataset):
     Returns:
         DataFrame: Dataset con datos numéricos escalados.
     """
-    # Crear copia del dataset para no modificar el original
-    dataset_scaled = dataset.copy()
+    if not numerical_columns.empty:
+        # Aplicar escalado
+        scaler = StandardScaler()
+        dataset[numerical_columns] = scaler.fit_transform(dataset[numerical_columns])
+
+        print("Primeras filas de las columnas escaladas:")
+        print(dataset[numerical_columns].head())
+
+
+if __name__=="__main__":
+    # Cargar el dataset
+    dataset_path = CLEANED_DATASET_PATH
+    data = pd.read_pickle(dataset_path)
 
     # Seleccionar columnas numéricas
-    numerical_columns = dataset_scaled.select_dtypes(include=['float64', 'int64']).columns
-
-    if numerical_columns.empty:
-        print("No se encontraron columnas numéricas para escalar.")
-        return dataset_scaled
-
-    # Aplicar escalado
-    scaler = StandardScaler()
-    dataset_scaled[numerical_columns] = scaler.fit_transform(dataset_scaled[numerical_columns])
-
-    print("Primeras filas de las columnas escaladas:")
-    print(dataset_scaled[numerical_columns].head())
-
-    return dataset_scaled
-
-# Cargar el dataset
-dataset_path = CLEANED_DATASET_PATH
-data = pd.read_pickle(dataset_path)
-
-# Definir las columnas ordinales y sus órdenes
-ordinal_columns = {
-    "education": ["primario o menos", "bachillerato", "universitario"],
-    "covid_work": ["ha empeorado mucho", "ha empeorado un poco", "no ha cambiado", "ha mejorado un poco", "ha mejorado mucho"],
-    "covid_mood": ["ha empeorado mucho", "ha empeorado un poco", "no ha cambiado", "ha mejorado un poco", "ha mejorado mucho"],
-    "covid_sleep": ["ha empeorado mucho", "ha empeorado un poco", "no ha cambiado", "ha mejorado un poco", "ha mejorado mucho"],
-    "covid_espacios": ["le doy menos importancia que antes", "no ha cambiado", "le doy más importancia que antes"],
-    "covid_aire": ["le doy menos importancia que antes", "no ha cambiado", "le doy más importancia que antes"],
-    "covid_motor": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"],
-    "covid_electric": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"],
-    "covid_bikewalk": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"],
-    "covid_public_trans": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"]
-}
-
-# Separar columnas nominales y binarias
-nominal_columns = dataset.select_dtypes(include=['object']).columns.difference(ordinal_columns.keys())
-
-binary_columns = ['mentalhealth_survey', 'Totaltime_estimated', 'access_greenbluespaces_300mbuff', 'actividadfisica', 'alcohol', 'bebida', 'dieta', 'drogas', 'enfermo', 'gender', 'ordenador', 'otrofactor', 'psycho', 'smoke']
-nominal_columns = nominal_columns.difference(binary_columns)
+    numerical_columns = data.select_dtypes(include=['float64', 'int64']).columns
+    numerical_columns.drop(['precip_12h_binary', 'precip_24h_binary'])
     
-# Aplicar codificación
-dataset_codificado = codificar_columnas(data, ordinal_columns, binary_columns, nominal_columns)
 
-# Guardar el resultado
-dataset_codificado.to_pickle('data/codif_dataset.pkl')
-dataset_codificado.to_excel('data/codif_dataset.xlsx', index=False)
-print("Dataset codificado guardado.")
+    # Definir las columnas ordinales y sus órdenes
+    ordinal_columns = {
+        "education": ["primario o menos", "bachillerato", "universitario"],
+        "covid_work": ["ha empeorado mucho", "ha empeorado un poco", "no ha cambiado", "ha mejorado un poco", "ha mejorado mucho"],
+        "covid_mood": ["ha empeorado mucho", "ha empeorado un poco", "no ha cambiado", "ha mejorado un poco", "ha mejorado mucho"],
+        "covid_sleep": ["ha empeorado mucho", "ha empeorado un poco", "no ha cambiado", "ha mejorado un poco", "ha mejorado mucho"],
+        "covid_espacios": ["le doy menos importancia que antes", "no ha cambiado", "le doy más importancia que antes"],
+        "covid_aire": ["le doy menos importancia que antes", "no ha cambiado", "le doy más importancia que antes"],
+        "covid_motor": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"],
+        "covid_electric": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"],
+        "covid_bikewalk": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"],
+        "covid_public_trans": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"]
+    }
+
+    # Separar columnas nominales y binarias
+    nominal_columns = data.select_dtypes(include=['object']).columns.difference(ordinal_columns.keys())
+
+    binary_columns = ['mentalhealth_survey', 'Totaltime_estimated', 'access_greenbluespaces_300mbuff', 'actividadfisica', 'alcohol', 'bebida', 'dieta', 'drogas', 'enfermo', 'gender', 'ordenador', 'otrofactor', 'psycho', 'smoke', 'precip_12h_binary', 'precip_24h_binary']
+    nominal_columns = nominal_columns.difference(binary_columns)
+        
+    # Aplicar codificación
+    codificar_columnas(data, ordinal_columns, binary_columns, nominal_columns)
+
+    # Guardar el resultado
+    data.to_pickle('data/codif_dataset.pkl')
+    data.to_excel('data/codif_dataset.xlsx', index=False)
+    print("Dataset codificado guardado.")
+
+    escalar(data, numerical_columns)  # No afegim la resta perquè estan codificades entre [-1,1]
+    data.to_pickle('data/scaled_dataset.pkl')
+    data.to_excel('data/scaled_dataset.xlsx', index=False)
+    print("Dataset codificado guardado.")
