@@ -25,7 +25,8 @@ En aquest procés, s'apliquen diferents tècniques de codificació i escalat que
     - A més, alguns models d'aprenentatge automàtic, funcionen millor amb dades centrades al voltant de 0 i amb distribucions simètriques. Per tant, aquest canvi de rang facilita l'optimització i la convergència del model.
 
 5. **Variable Binària Codificada per Separat**:
-    - Algunes variables binàries, com `precip_12h_binary` i `precip_24h_binary`, han estat processades per separat a causa de la seva naturalesa específica. Aquestes columnes, que contenen valors `0` o `1`, es gestionen de manera diferent per mantenir la integritat de la codificació binària.
+    - Algunes variables binàries, com `precip_12h_binary` i `precip_24h_binary`, han estat processades per separat a causa de la seva naturalesa específica. Aquestes columnes, que contenen valors `0.0` o `1.0`, es gestionen de manera diferent per mantenir la integritat de la codificació binària (està pensada per valors de tipus string i no float). 
+    - Tot i això, el resultat és el mateix: [-1,1], de tipus int.
 
 6. **Visualització i Emmagatzematge**:
     - Després de realitzar totes les codificacions i escalats, el dataset processat es guarda en dos formats:
@@ -34,25 +35,20 @@ En aquest procés, s'apliquen diferents tècniques de codificació i escalat que
     - Finalment, el dataset amb les columnes escalades es guarda en l'arxiu `scaled_dataset.pkl` i `scaled_dataset.xlsx` per al seu posterior ús.
 
 ## Detalls Tècnics
-
 ### Codificació de Columnes Categòriques
-
 - **Columnes Ordinals**: Es codifiquen mitjançant el `OrdinalEncoder`, que assigna nombres enters d'acord amb un ordre especificat prèviament al diccionari `ordinal_columns`. Això és essencial per a les variables que tenen un ordre natural entre les seves categories.
   
 - **Columnes Nominals**: Per a les variables nominales (sense un ordre intrínsec), s'utilitza el `OneHotEncoder`, que converteix cada valor únic d'una columna en una columna separada, assignant un valor binari (0 o 1) segons si l'observació pertany o no a aquella categoria.
 
 ### Escalat de Variables Numèriques
-
-- **`StandardScaler`**: Aquest escalat assegura que totes les variables numèriques estiguin centrades en 0 i tinguin una desviació estàndard de 1, el que és fonamental perquè el model no es vegi influenciat per les diferències de magnitud entre les variables.
-
-### Modificació de Columnes Binàries
-
-- **Per què canviem de [0,1] a [-1,1]**: Aquest canvi d'escala es fa per evitar problemes als algoritmes d'aprenentatge automàtic que poden sorgir a causa de les diferències en l'escala de les característiques. Sovint, els algoritmes funcionen millor quan les variables numèriques estan centrades en zero i en un rang de valors simètric.
-
-### Emmagatzematge en Excel
-
-- **Motiu**: Guardar el dataset en format Excel permet una fàcil inspecció visual de les dades, la qual cosa pot ser útil per revisar i validar la codificació i l'escalat. També facilita l'anàlisi del dataset sense haver de carregar-lo en un entorn de programació.
+- **`StandardScaler`**: Aquest escalat assegura que totes les variables numèriques estiguin centrades en 0 i tinguin una desviació estàndard de 1, el que és fonamental perquè el model no es vegi influenciat per les diferències de magnitud entre les variables. 
+- Doncs, la resta de variables no escalades prenen valors de [-1, 1] per tal de seguir amb la normalitat del dataset.
 
 ## Conclusió
+Aquest procés de preparació de dades és fonamental per garantir que el conjunt de dades estigui adequat per a l'entrenament de models d'aprenentatge automàtic. A través de la **codificació de les variables categòriques**, la **transformació de les variables binàries** a un rang de [-1, 1] i l'**escalat de les variables numèriques** mitjançant **StandardScaler**, es busca una uniformitat en la representació de les dades. Aquestes transformacions són essencials perquè els models puguin interpretar les dades de manera eficient i sense biaisos derivats de les escales de les variables.
 
-Aquest script proporciona un procés complet per preparar un dataset abans d'entrenar models d'aprenentatge automàtic. La codificació de les columnes categòriques i l'escalat de les variables numèriques són passos fonamentals per assegurar-se que els models puguin aprendre de les dades de manera eficaç. Al separar les diferents formes de codificació, aquest script assegura que cada tipus de dada es gestioni de la manera més adequada, millorant així la capacitat predictiva del model. A més, l'ús de `StandardScaler` per a les variables numèriques i la codificació en el rang [-1,1] contribueixen a una millor convergència i rendiment als algoritmes d'Aprenentatge Automàtic.
+En particular, l'ús de **StandardScaler** per escalar les variables numèriques ajuda a garantir que totes les variables tinguin una importància similar en el model, millorant així la convergència i l'estabilitat dels algoritmes, especialment aquells basats en el descens per gradient. La separació de les variables binàries i el canvi de codificació a [-1, 1] evita passos addicionals d'escalat i assegura que aquestes variables no desestabilitzin el model per tenir una distribució més equilibrada.
+
+Finalment, emmagatzemar el dataset processat en formats com **Excel** facilita la visualització i revisió manual de les dades, permetent una millor comprensió de les transformacions realitzades i oferint una eina útil per a l'anàlisi posterior.
+
+Aquest conjunt de passos facilita la creació d'un conjunt de dades net, equilibrat i escalat, que es pot utilitzar de manera eficient per entrenar models d'aprenentatge automàtic, amb l'objectiu de millorar la qualitat i el rendiment de les prediccions.
