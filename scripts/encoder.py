@@ -1,6 +1,6 @@
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
 import pandas as pd
-CLEANED_DATASET_PATH = 'data\cleaned_dataset.pkl'
+CLEANED_DATASET_PATH = 'data/cleaned_dataset.pkl'
 
 def codificar_columnas(dataset):
     """
@@ -30,18 +30,29 @@ def codificar_columnas(dataset):
     # Separar columnas nominales
     nominal_columns = dataset.select_dtypes(include=['object']).columns.difference(ordinal_columns.keys())
 
+    binary_columns = [col for col in nominal_columns if dataset[col].nunique()==2]
+    nominal_columns = nominal_columns.difference(binary_columns)
+
     # Codificar las columnas ordinales
     if ordinal_columns:
         print(f"Codificando columnas ordinales: {list(ordinal_columns.keys())}")
         ordinal_encoder = OrdinalEncoder(categories=list(ordinal_columns.values()))
         dataset[list(ordinal_columns.keys())] = ordinal_encoder.fit_transform(dataset[list(ordinal_columns.keys())])
 
-    # Codificar las columnas nominales
+    # Codificar las columnas binarias
+    for col in binary_columns:
+        dataset[col] = dataset[col].map({'yes':1, 'no':-1})
+
+    # Codificar las columnas nominales 
     if len(nominal_columns) > 0:
         print(f"Codificando columnas nominales: {list(nominal_columns)}")
         nominal_encoder = OneHotEncoder(sparse_output=False)
         encoded_nominals = nominal_encoder.fit_transform(dataset[nominal_columns])
 
+        # Els valors que siguin 0, els cambien a -1
+        encoded_nominals_zero = encoded_nominals==0
+        encoded_nominals[encoded_nominals_zero] = -1
+        
         # Convertir a DataFrame y concatenar con las columnas restantes
         encoded_df = pd.DataFrame(
             encoded_nominals,
@@ -60,6 +71,6 @@ data = pd.read_pickle(dataset_path)
 dataset_codificado = codificar_columnas(data)
 
 # Guardar el resultado
-dataset_codificado.to_pickle('data/codif_dataset.pkl')
-dataset_codificado.to_excel('data/codif_dataset.xlsx', index=False)
+dataset_codificado.to_pickle('data/cleaned_dataset.pkl')
+dataset_codificado.to_excel('data/cleaned_dataset.xlsx', index=False)
 print("Dataset codificado guardado.")
