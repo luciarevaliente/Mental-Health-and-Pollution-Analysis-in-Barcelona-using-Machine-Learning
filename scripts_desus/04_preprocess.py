@@ -9,6 +9,12 @@ def codificar_columnas(dataset, ordinal_columns, binary_columns, nominal_columns
     Codifica las columnas categóricas:
     - OrdinalEncoder para columnas ordinales.
     - OneHotEncoder para columnas nominales.
+
+    Args:
+        dataset (DataFrame): Dataset con columnas categóricas y numéricas.
+
+    Returns:
+        DataFrame: Dataset con columnas categóricas codificadas.
     """
     # Codificar las columnas ordinales
     if ordinal_columns:
@@ -19,41 +25,52 @@ def codificar_columnas(dataset, ordinal_columns, binary_columns, nominal_columns
     # Codificar las columnas binarias
     print(f"Codificando columnas binarias: {list(binary_columns)}")
     for col in binary_columns:
-        dataset[col] = dataset[col].map({'yes': 1, 'no': -1, 'hombre': 1, 'mujer': -1, 0: -1})
+        dataset[col] = dataset[col].map({'yes':1, 'no':-1, 
+                                         'hombre':1, 'mujer':-1, 
+                                          0: -1}) #'precip_12h_binary', 'precip_24h_binary'. Si és 1, no cal fer-ho
 
-    # Codificar las columnas nominales
+    # Codificar las columnas nominales 
     if len(nominal_columns) > 0:
         print(f"Codificando columnas nominales: {list(nominal_columns)}")
-        
-        # Inicializamos el OneHotEncoder
-        nominal_encoder = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
-
-        # Ajustamos y transformamos las columnas nominales
+        nominal_encoder = OneHotEncoder(sparse_output=False)
         encoded_nominals = nominal_encoder.fit_transform(dataset[nominal_columns])
 
-        # Crear DataFrame con las columnas codificadas
+        # Els valors que siguin 0, els cambien a -1
+        encoded_nominals_zero = encoded_nominals==0
+        encoded_nominals[encoded_nominals_zero] = -1
+        
+        # Convertir a DataFrame y concatenar con las columnas restantes
         encoded_df = pd.DataFrame(
             encoded_nominals,
             columns=nominal_encoder.get_feature_names_out(nominal_columns),
             index=dataset.index
         )
-
-        # Concatenamos el DataFrame codificado con el original (sin las columnas nominales originales)
         dataset = pd.concat([dataset.drop(columns=nominal_columns), encoded_df], axis=1)
-    
-    # Retornar el dataset modificado
-    return dataset
+
+
+
 
 def escalar(dataset, numerical_columns):
     """
     Función que escala los datos numéricos de un dataset utilizando StandardScaler (Estandarización, Z-score).
+
+    StandardScaler estandariza las características para que tengan una media de 0 y una desviación estándar de 1. 
+    Este tipo de escalado es útil si deseas que todas las características tengan un peso uniforme en el modelo, 
+    sin que algunas sean más importantes simplemente debido a su escala.
+
+    Args:
+        dataset (DataFrame): Dataset con datos numéricos y categóricos.
+
+    Returns:
+        DataFrame: Dataset con datos numéricos escalados.
     """
     if not numerical_columns.empty:
         # Aplicar escalado
         scaler = StandardScaler()
         dataset[numerical_columns] = scaler.fit_transform(dataset[numerical_columns])
 
-if __name__ == "__main__":
+
+if __name__=="__main__":
     # Cargar el dataset
     dataset_path = CLEANED_DATASET_PATH
     data = pd.read_pickle(dataset_path)
@@ -79,9 +96,11 @@ if __name__ == "__main__":
     # Separar columnas nominales y binarias
     binary_columns = ['mentalhealth_survey', 'Totaltime_estimated', 'access_greenbluespaces_300mbuff', 'actividadfisica', 'alcohol', 'bebida', 'dieta', 'drogas', 'enfermo', 'gender', 'ordenador', 'otrofactor', 'psycho', 'smoke']
     nominal_columns = data.select_dtypes(include=['object']).columns.difference(ordinal_columns.keys()).difference(binary_columns)
-
+    print(nominal_columns.dtype)
+    exit
+        
     # Aplicar codificación
-    data = codificar_columnas(data, ordinal_columns, binary_columns, nominal_columns)
+    codificar_columnas(data, ordinal_columns, binary_columns, nominal_columns)
 
     # Codifiquem les columnes numèriques binàries que falten
     for col in cols_int_to_change:
@@ -92,10 +111,11 @@ if __name__ == "__main__":
     data.to_excel('data/codif_dataset.xlsx', index=False)
     print("Dataset codificado guardado.")
 
-    # Escalar datos numéricos
-    escalar(data, numerical_columns)
+    escalar(data, numerical_columns)  # No afegim la resta perquè estan codificades entre [-1,1]
+    
+    # print("Primeras filas de las columnas escaladas:")
+    # print(dataset[numerical_columns].head())
 
-    # Guardar dataset escalado
     data.to_pickle('data/scaled_dataset.pkl')
     data.to_excel('data/scaled_dataset.xlsx', index=False)
     print("Dataset escalado guardado.")

@@ -79,6 +79,6 @@ for model_name, (model, param_grid) in models.items():
 
 # Guardar resultados
 for method, importance_df in results.items():
-    output_path = f"data/importance_{method}.xlsx"
+    output_path = f"data/regression/mportance_{method}_scaled.xlsx"
     importance_df.to_excel(output_path, index=False)
     print(f"Guardado {method} en {output_path}")
