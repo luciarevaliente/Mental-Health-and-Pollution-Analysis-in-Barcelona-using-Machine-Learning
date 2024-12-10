@@ -61,7 +61,7 @@ for model_name, (model, param_grid) in models.items():
     if model_name in ["ridge", "lasso"]:
         coefficients = pd.DataFrame({
             'Feature': X_train.columns,
-            'Coefficient': best_model.coef_
+            'Coefficient': abs(best_model.coef_
         }).sort_values(by='Coefficient', ascending=False)
         print(f"--- Importancia de características para {model_name} ---")
         print(coefficients)
