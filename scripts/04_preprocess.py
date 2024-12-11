@@ -101,7 +101,10 @@ if __name__ == "__main__":
     # Escalar datos numéricos
     escalar(data, numerical_columns)
 
+    # Hacer shuffle de las filas después de escalar
+    data = data.sample(frac=1, random_state=42).reset_index(drop=False)
+
     # Guardar dataset escalado
-    data.to_pickle('data/scaled_dataset.pkl')
-    data.to_excel('data/scaled_dataset.xlsx', index=False)
+    data.to_pickle('data/shuffled_scaled_dataset.pkl')
+    data.to_excel('data/shuffled_scaled_dataset.xlsx', index=False)
     print("Dataset escalado guardado.")

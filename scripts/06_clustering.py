@@ -10,7 +10,10 @@ from scipy.stats import shapiro
 import numpy as np
 
 # VARIABLES CONSTANTS
-PATH_DATASET = "data/scaled_dataset.pkl"
+# PATH_DATASET = "data/scaled_dataset.pkl"
+# PATH_DATASET = "data/complete_scaled_dataset.pkl"
+PATH_DATASET = "data/shuffled_scaled_dataset.pkl"
+
 
 # FUNCIONS
 def estudiar_normalitat(df):
@@ -35,6 +38,7 @@ import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.decomposition import PCA
+from yellowbrick.cluster import KElbowVisualizer
 
 class ClusteringModel:
     def __init__(self, data, n_clusters=3, algorithm='kmeans'):
@@ -105,18 +109,21 @@ class ClusteringModel:
         if self.algorithm != 'kmeans':
             raise ValueError("El mètode del codo només és aplicable per a KMeans.")
         
-        inertia = []  # Llista per emmagatzemar les inèrcies per a cada nombre de clusters
-        for n in range(1, max_clusters+1):
-            kmeans = KMeans(n_clusters=n, random_state=42)
-            kmeans.fit(self.data)
-            inertia.append(kmeans.inertia_)
+        # Crear el model KMeans
+        kmeans = KMeans(random_state=42)
         
-        # Dibuixar la gràfica per veure el "codo"
-        plt.plot(range(1, max_clusters+1), inertia, marker='o')
-        plt.title(f'Mètode del Colze. Sense reducció de var. max_clusters={max_clusters}')
-        plt.xlabel('Nombre de clusters')
-        plt.ylabel('Inèrcia')
-        plt.show()
+        # Crear el visualizador del codo (Elbow)
+        visualizer = KElbowVisualizer(kmeans, k=(1, max_clusters))  # Evaluar entre 1 y max_clusters clusters
+        
+        # Ajustar el visualizador al dataset
+        visualizer.fit(self.data)
+        
+        # Mostrar la gráfica del codo
+        visualizer.show()
+        
+        # El número óptimo de clusters se obtiene directamente
+        print(f"El número óptimo de clusters es: {visualizer.elbow_value_}")
+        return visualizer.elbow_value_
 
     def plot_clusters(self):
         """
@@ -176,15 +183,18 @@ if __name__=="__main__":
     # 1 i 2. Codificació i escalat --> Carreguem les dades preprocessades
     df = pd.read_pickle(PATH_DATASET)
     print('hola2')
-    # 3. Sel·lecció de variables rellevants 
-    col_importants = ['otrofactor', 'ordenador', 'covid_motor', 'dayoftheweek', 'bienestar'] #'district_horta-guinardo', 'tmean_24h']
-    reduced_dataset = df[col_importants]
 
-    clustering_kmeans = ClusteringModel(df, n_clusters=3, algorithm='kmeans')
-    clustering_kmeans.fit()
-    clustering_kmeans.evaluate()
-    clustering_kmeans.plot_clusters()
-    clustering_kmeans.plot_clusters_3d()
+    # 3. Sel·lecció de variables rellevants 
+    # col_importants = ['otrofactor', 'ordenador', 'covid_motor', 'dayoftheweek', 'bienestar','district_horta-guinardo', 'tmean_24h']
+    # reduced_dataset = df[col_importants]
+
+    # clustering_kmeans = ClusteringModel(df, algorithm='kmeans')
+    # clustering_kmeans.elbow_method(max_clusters=50)
+
+    # clustering_kmeans.fit()
+    # clustering_kmeans.evaluate()
+    # clustering_kmeans.plot_clusters()
+    # clustering_kmeans.plot_clusters_3d()
 
     # reduced_dataset['cluster'] = clustering_kmeans.get_labels() 
     # cluster_stats = reduced_dataset.groupby('cluster').mean()
@@ -192,17 +202,17 @@ if __name__=="__main__":
     # for col in cluster_stats:
     #     print(cluster_stats[col])
     
-
-
-
+    ###############################################################################################################3
 
     # 4. El·lecció algoritme clustering: inicialitzar la classe ClusteringModel i provar els diferents algoritmes
-    # clustering_kmeans = ClusteringModel(df, algorithm='kmeans')
-    # clustering_kmeans.elbow_method(max_clusters=100)
+    clustering_kmeans = ClusteringModel(df, algorithm='kmeans')
+    best_k = clustering_kmeans.elbow_method(max_clusters=50)
 
-    # clustering_kmeans = ClusteringModel(df, n_clusters=3, algorithm='kmeans')
-    # clustering_kmeans.fit()
-    # clustering_kmeans.evaluate()
+    clustering_kmeans = ClusteringModel(df, n_clusters=best_k, algorithm='kmeans')
+    clustering_kmeans.fit()
+    clustering_kmeans.evaluate()
+    clustering_kmeans.plot_clusters()
+    clustering_kmeans.plot_clusters_3d()
     
     # clustering_spectral = ClusteringModel(df, n_clusters=3, algorithm='spectral')
     # clustering_spectral.fit()
