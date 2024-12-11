@@ -1,27 +1,11 @@
 from preparation import load_data, separacio_train_test
-from sklearn.model_selection import GridSearchCV
-from sklearn.linear_model import LinearRegression, Lasso, Ridge
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from xgboost import XGBRegressor
-from sklearn.inspection import permutation_importance
+from sklearn.model_selection import GridSearchCV, cross_val_score
 import pandas as pd
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from models import RegressionModels
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Ruta al dataset preprocesado
-DATA_PATH = "data/scaled_dataset.pkl"
-TARGET_COLUMNS = ["estres"]  # Cambia por la columna objetivo
-
-# Cargar el dataset
-data = load_data(DATA_PATH)
-
-# Dividir en conjunto de entrenamiento y prueba
-X_train, X_test, y_train, y_test = separacio_train_test(data, TARGET_COLUMNS)
-
-# Resultados de importancia de características
-results = {}
 GRID_PARAMS = {
     "ridge": {"alpha": [0.1, 1.0, 10.0]},
     "lasso": {"alpha": [0.01, 0.1, 1.0]},
@@ -40,24 +24,43 @@ GRID_PARAMS = {
         "max_depth": [3, 6, 10],
         "learning_rate": [0.01, 0.1],
         "subsample": [0.8, 1.0]
+    },
+    "svr": {
+        "C": [0.1, 1.0, 10.0],
+        "kernel": ["linear", "rbf"],
+        "epsilon": [0.01, 0.1, 1.0]
+    },
+    "polynomial_regression": {
+        "polynomialfeatures__degree": [2, 3, 4]
     }
 }
+
+# Ruta al dataset preprocesado
+DATA_PATH = "data/scaled_dataset.pkl"
+TARGET_COLUMNS = ["estres"]  # Cambia por la columna objetivo
+
+# Cargar el dataset
+data = load_data(DATA_PATH)
+
+# Dividir en conjunto de entrenamiento y prueba
+X_train, X_test, y_train, y_test = separacio_train_test(data, TARGET_COLUMNS)
+
+# Resultados de importancia de características
+results = {}
 
 # Evaluar modelos
 def evaluate_model(y_test, predictions, model_name):
     mse = mean_squared_error(y_test, predictions)
     mae = mean_absolute_error(y_test, predictions)
     rmse = np.sqrt(mse)
-    r2 = r2_score(y_test, predictions)
 #     RMSE (Root Mean Squared Error): Penaliza grandes errores. Más bajo es mejor.
 # MAE (Mean Absolute Error): Promedio de errores absolutos. Más bajo es mejor.
-# R² (Coeficiente de determinación): Mide qué tan bien el modelo explica la varianza en los datos. Más cercano a 1 es mejor.
-    print(f"\n--- Desempeño del modelo: {model_name} ---")
+    print(f"\n--- Error del modelo: {model_name} ---")
     print(f"RMSE: {rmse:.4f}")
     print(f"MAE: {mae:.4f}")
-    print(f"R²: {r2:.4f}")
+  
     
-    return {"Model": model_name, "RMSE": rmse, "MAE": mae, "R2": r2}
+    return {"Model": model_name, "RMSE": rmse, "MAE": mae}
 
 # Visualizaciones
 def plot_real_vs_pred_multiple(y_test, predictions_dict):
@@ -72,18 +75,6 @@ def plot_real_vs_pred_multiple(y_test, predictions_dict):
     plt.grid(True)
     plt.show()
 
-def plot_residuals_multiple(y_test, predictions_dict):
-    plt.figure(figsize=(10, 6))
-    for model_name, predictions in predictions_dict.items():
-        residuals = y_test - predictions
-        plt.scatter(predictions, residuals, alpha=0.6, label=model_name)
-    plt.axhline(y=0, color='red', linestyle='--', linewidth=2, label='Sin Error')
-    plt.xlabel("Predicciones")
-    plt.ylabel("Residuales")
-    plt.title("Residuales por Modelo")
-    plt.legend()
-    plt.grid(True)
-    plt.show()
 
 # Función para obtener el mejor modelo con GridSearchCV
 def get_best_model(model_name, base_model, param_grid):
@@ -100,8 +91,25 @@ def get_best_model(model_name, base_model, param_grid):
     print(f"Mejores parámetros para {model_name}: {grid_search.best_params_}")
     return grid_search.best_estimator_
 
+def cross_validate_model(model, X_train, y_train):
+    """
+    Realiza validación cruzada y devuelve el puntaje promedio.
+
+    Args:
+        model: Modelo a validar.
+        X_train (DataFrame): Datos de entrenamiento.
+        y_train (Series): Valores objetivo de entrenamiento.
+
+    Returns:
+        float: Puntaje promedio de validación cruzada.
+    """
+    cv_scores = cross_val_score(model, X_train, y_train, cv=5, scoring="neg_mean_squared_error")
+    mean_score = -cv_scores.mean()
+    print(f"Validación cruzada (MSE promedio): {mean_score:.4f} (+/- {cv_scores.std():.4f})")
+    return mean_score
+
 # Modelos a evaluar
-model_types = ["ridge", "lasso", "random_forest", "gradient_boosting", "xgboost"]
+model_types = ["ridge", "lasso", "random_forest", "gradient_boosting", "xgboost","svr", "polynomial_regression"]
 
 performance = []
 predictions_dict = {}
@@ -128,10 +136,7 @@ print("\n--- Comparación de modelos ---")
 print(performance_df)
 
 # Visualizar métricas
-performance_df.plot(x="Model", y=["RMSE", "MAE", "R2"], kind="bar", figsize=(10, 6), rot=0, title="Comparación de Modelos")
+performance_df.plot(x="Model", y=["RMSE", "MAE"], kind="bar", figsize=(10, 6), rot=0, title="Comparación de Modelos")
 
 # Visualizar predicciones
 plot_real_vs_pred_multiple(y_test, predictions_dict)
-
-# Visualizar residuales
-plot_residuals_multiple(y_test, predictions_dict)
