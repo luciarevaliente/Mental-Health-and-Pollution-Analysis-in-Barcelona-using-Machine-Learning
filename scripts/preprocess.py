@@ -99,9 +99,9 @@ def preprocess(CLEANED_DATASET_PATH, TARGET):
         data[col] = np.where(data[col] == 0.0, -1, data[col])  # Aplicar modificació
 
     # Guardar el resultado
-    data.to_pickle('data/codif_dataset.pkl')
-    data.to_excel('data/codif_dataset.xlsx', index=False)
-    print("Dataset codificado guardado.")
+    # data.to_pickle('data/codif_dataset.pkl')
+    # data.to_excel('data/codif_dataset.xlsx', index=False)
+    # print("Dataset codificado guardado.")
 
     # Escalar datos numéricos
     escalar(data, numerical_columns)
@@ -112,6 +112,8 @@ def preprocess(CLEANED_DATASET_PATH, TARGET):
     data = data.sample(frac=1, random_state=42).reset_index(drop=False)
 
     # Guardar dataset escalado
-    data.to_pickle('data/shuffled_scaled_dataset.pkl')
-    data.to_excel('data/shuffled_scaled_dataset.xlsx', index=False)
-    print("Dataset escalado guardado.")
+    # data.to_pickle('data/shuffled_scaled_dataset.pkl')
+    # data.to_excel('data/shuffled_scaled_dataset.xlsx', index=False)
+    # print("Dataset escalado guardado.")
+    
+    return data

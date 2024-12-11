@@ -95,7 +95,24 @@ def generar_violin_plots(col_numeriques_filtered, output_folder="visualizations/
     else:
         print(f"La carpeta '{output_folder}' ja existeix. No s'han generat nous violin plots.\n")
 
+# FUNCIONS
+def estudiar_normalitat(df):
+    # Aplicar Shapiro-Wilk a cada columna numérica
+    resultados = {}
+    for columna in df.select_dtypes(include=['float64', 'int64']).columns:  # Solo columnas numéricas
+        stat, p_value = shapiro(df[columna].dropna())  # Ignora valores NaN
+        resultados[columna] = {"Estadístico W": stat, "Valor p": p_value}
 
+    # Mostrar resultados
+    for columna, res in resultados.items():
+        print(f"Columna: {columna}")
+        print(f"  Estadístico W: {res['Estadístico W']:.4f}")
+        print(f"  Valor p: {res['Valor p']:.4f}")
+        if res["Valor p"] > 0.05:
+            print("  → Los datos parecen seguir una distribución normal.")
+        else:
+            print("  → Los datos no siguen una distribución normal.")
+            
 # ANÀLISI CONTINGUT #########################################################################################################################
 if __name__=="__main__":
     df = pd.read_pickle(PICKLE_PATH)

@@ -1,5 +1,5 @@
 # Clustering
-L'objectiu d'aquest apartat és identificar grups poblacionals mitjançant tècniques de clustering. 
+L'objectiu d'aquest apartat és identificar grups poblacionals mitjançant tècniques de clustering. Per fer això, eliminem la variable TARGET emprada en la regressió per veure si quadra amb el resultat obtingut en aquesta. 
 
 ## Preguntes
 1. Les variables són numèriques, categòriques o ambdues? Necessitem transformar alguna variable?
