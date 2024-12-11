@@ -53,8 +53,6 @@ def evaluate_model(y_test, predictions, model_name):
     mse = mean_squared_error(y_test, predictions)
     mae = mean_absolute_error(y_test, predictions)
     rmse = np.sqrt(mse)
-#     RMSE (Root Mean Squared Error): Penaliza grandes errores. Más bajo es mejor.
-# MAE (Mean Absolute Error): Promedio de errores absolutos. Más bajo es mejor.
     print(f"\n--- Error del modelo: {model_name} ---")
     print(f"RMSE: {rmse:.4f}")
     print(f"MAE: {mae:.4f}")
