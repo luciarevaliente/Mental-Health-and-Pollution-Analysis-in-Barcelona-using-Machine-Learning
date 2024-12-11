@@ -36,7 +36,9 @@ def codificar_columnas(dataset, ordinal_columns, binary_columns, nominal_columns
 
         # Ajustamos y transformamos las columnas nominales
         encoded_nominals = nominal_encoder.fit_transform(dataset[nominal_columns])
-
+        zeros = encoded_nominals == 0
+        encoded_nominals[zeros] = -1
+        
         # Crear DataFrame con las columnas codificadas
         encoded_df = pd.DataFrame(
             encoded_nominals,
@@ -44,6 +46,8 @@ def codificar_columnas(dataset, ordinal_columns, binary_columns, nominal_columns
             index=dataset.index
         )
 
+        # for col in encoded_df:
+        #     dataset[col] = np.where(dataset[col] == 0.0, -1, data[col])  # Aplicar modificació
         # Concatenamos el DataFrame codificado con el original (sin las columnas nominales originales)
         dataset = pd.concat([dataset.drop(columns=nominal_columns), encoded_df], axis=1)
     

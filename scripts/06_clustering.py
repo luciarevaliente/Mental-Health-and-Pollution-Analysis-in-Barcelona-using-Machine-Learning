@@ -10,9 +10,9 @@ from scipy.stats import shapiro
 import numpy as np
 
 # VARIABLES CONSTANTS
-# PATH_DATASET = "data/scaled_dataset.pkl"
+PATH_DATASET = "data/scaled_dataset.pkl"
 # PATH_DATASET = "data/complete_scaled_dataset.pkl"
-PATH_DATASET = "data/shuffled_scaled_dataset.pkl"
+# PATH_DATASET = "data/shuffled_scaled_dataset.pkl"
 
 
 # FUNCIONS
@@ -185,16 +185,16 @@ if __name__=="__main__":
     print('hola2')
 
     # 3. Sel·lecció de variables rellevants 
-    # col_importants = ['otrofactor', 'ordenador', 'covid_motor', 'dayoftheweek', 'bienestar','district_horta-guinardo', 'tmean_24h']
-    # reduced_dataset = df[col_importants]
+    col_importants = ['otrofactor', 'ordenador', 'covid_motor', 'dayoftheweek', 'bienestar','district_horta-guinardo', 'tmean_24h']
+    reduced_dataset = df[col_importants]
 
-    # clustering_kmeans = ClusteringModel(df, algorithm='kmeans')
-    # clustering_kmeans.elbow_method(max_clusters=50)
+    clustering_kmeans = ClusteringModel(df, algorithm='kmeans')
+    clustering_kmeans.elbow_method(max_clusters=50)
 
-    # clustering_kmeans.fit()
-    # clustering_kmeans.evaluate()
-    # clustering_kmeans.plot_clusters()
-    # clustering_kmeans.plot_clusters_3d()
+    clustering_kmeans.fit()
+    clustering_kmeans.evaluate()
+    clustering_kmeans.plot_clusters()
+    clustering_kmeans.plot_clusters_3d()
 
     # reduced_dataset['cluster'] = clustering_kmeans.get_labels() 
     # cluster_stats = reduced_dataset.groupby('cluster').mean()
@@ -205,14 +205,14 @@ if __name__=="__main__":
     ###############################################################################################################3
 
     # 4. El·lecció algoritme clustering: inicialitzar la classe ClusteringModel i provar els diferents algoritmes
-    clustering_kmeans = ClusteringModel(df, algorithm='kmeans')
-    best_k = clustering_kmeans.elbow_method(max_clusters=50)
+    # clustering_kmeans = ClusteringModel(df, algorithm='kmeans')
+    # best_k = clustering_kmeans.elbow_method(max_clusters=50)
 
-    clustering_kmeans = ClusteringModel(df, n_clusters=best_k, algorithm='kmeans')
-    clustering_kmeans.fit()
-    clustering_kmeans.evaluate()
-    clustering_kmeans.plot_clusters()
-    clustering_kmeans.plot_clusters_3d()
+    # clustering_kmeans = ClusteringModel(df, n_clusters=best_k, algorithm='kmeans')
+    # clustering_kmeans.fit()
+    # clustering_kmeans.evaluate()
+    # clustering_kmeans.plot_clusters()
+    # clustering_kmeans.plot_clusters_3d()
     
     # clustering_spectral = ClusteringModel(df, n_clusters=3, algorithm='spectral')
     # clustering_spectral.fit()
