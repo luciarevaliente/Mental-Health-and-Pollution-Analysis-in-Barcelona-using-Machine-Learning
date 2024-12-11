@@ -9,6 +9,7 @@ import pandas as pd
 import numpy as np
 
 CLEANED_DATASET_PATH = 'data/cleaned_dataset.pkl'
+TARGET = 'estres'
 
 def codificar_columnas(dataset, ordinal_columns, binary_columns, nominal_columns):
     """
@@ -46,8 +47,7 @@ def codificar_columnas(dataset, ordinal_columns, binary_columns, nominal_columns
             index=dataset.index
         )
 
-        # for col in encoded_df:
-        #     dataset[col] = np.where(dataset[col] == 0.0, -1, data[col])  # Aplicar modificació
+
         # Concatenamos el DataFrame codificado con el original (sin las columnas nominales originales)
         dataset = pd.concat([dataset.drop(columns=nominal_columns), encoded_df], axis=1)
     
@@ -63,10 +63,11 @@ def escalar(dataset, numerical_columns):
         scaler = StandardScaler()
         dataset[numerical_columns] = scaler.fit_transform(dataset[numerical_columns])
 
-if __name__ == "__main__":
+def preprocess(CLEANED_DATASET_PATH, TARGET):
+    """Li passem el dataset a codificar i escalar i la variable target"""
     # Cargar el dataset
-    dataset_path = CLEANED_DATASET_PATH
-    data = pd.read_pickle(dataset_path)
+    initial_dataset = pd.read_pickle(CLEANED_DATASET_PATH)
+    data = initial_dataset.drop(TARGET, axis=1)
 
     # Seleccionar columnas numéricas
     cols_int_to_change = ['precip_12h_binary', 'precip_24h_binary']  # Eliminem pq son binàries de tipus int --> excepció
@@ -104,7 +105,9 @@ if __name__ == "__main__":
 
     # Escalar datos numéricos
     escalar(data, numerical_columns)
-
+    
+    data[TARGET] = initial_dataset[TARGET]
+    
     # Hacer shuffle de las filas después de escalar
     data = data.sample(frac=1, random_state=42).reset_index(drop=False)
 
