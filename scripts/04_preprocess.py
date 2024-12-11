@@ -1,3 +1,9 @@
+"""
+Script per preprocessar les dades de salut mental i contaminació de BCN
+Creat per: Lucía Revaliente i Aránzazu Miguélez
+Data de creació: 08/12/24
+Descripció: Aquest script carrega, codifica i escala les dades de salut mental i contaminació.
+"""
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler
 import pandas as pd
 import numpy as np

@@ -7,9 +7,10 @@ Antes:
 # IMPORTACIÓ
 import pandas as pd
 from scipy.stats import shapiro
+import numpy as np
 
 # VARIABLES CONSTANTS
-PATH_DATASET = "data/cleaned_dataset.pkl"
+PATH_DATASET = "data/scaled_dataset.pkl"
 
 # FUNCIONS
 def estudiar_normalitat(df):
@@ -33,6 +34,7 @@ def estudiar_normalitat(df):
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
+from sklearn.decomposition import PCA
 
 class ClusteringModel:
     def __init__(self, data, n_clusters=3, algorithm='kmeans'):
@@ -116,12 +118,83 @@ class ClusteringModel:
         plt.ylabel('Inèrcia')
         plt.show()
 
-if __name__=="__main__":
-    # 1 i 2. Codificació i escalat --> Carreguem les dades preprocessades
-    df = pd.read_pickle("data/preprocessed_data.pkl")
+    def plot_clusters(self):
+        """
+        Visualiza los datos en un gráfico 2D coloreados según el cluster.
+        Utiliza PCA para reducir la dimensionalidad si hay más de 2 características.
+        """
+        if self.labels is None:
+            raise ValueError("El modelo debe ser ajustado antes de graficar los clusters.")
+        
+        # Reducir a 2 dimensiones si es necesario
+        if self.data.shape[1] > 2:
+            pca = PCA(n_components=2)
+            reduced_data = pca.fit_transform(self.data)
+        else:
+            reduced_data = self.data
+        
+        # Crear el scatter plot
+        plt.figure(figsize=(8, 6))
+        scatter = plt.scatter(
+            reduced_data[:, 0], reduced_data[:, 1], 
+            c=self.labels, cmap='viridis', s=50, alpha=0.6, edgecolor='k'
+        )
+        plt.title(f'Clusters Visualitzats ({self.algorithm})')
+        plt.xlabel('Component 1')
+        plt.ylabel('Component 2')
+        plt.colorbar(scatter, label='Cluster')
+        plt.grid(True)
+        plt.show()
 
+    def plot_clusters_3d(self):
+        """Visualitzar els clusters en un gràfic 3D"""
+        # Si les dades tenen més de 3 dimensions, reduir a 3D amb PCA
+        if self.data.shape[1] > 3:
+            pca = PCA(n_components=3)
+            reduced_data = pca.fit_transform(self.data)
+        else:
+            reduced_data = self.data
+
+        # Crear el gràfic 3D amb els colors dels clusters
+        fig = plt.figure(figsize=(10, 8))
+        ax = fig.add_subplot(111, projection='3d')
+
+        scatter = ax.scatter(
+            reduced_data[:, 0], reduced_data[:, 1], reduced_data[:, 2],
+            c=self.labels, cmap='viridis', s=50, alpha=0.8
+        )
+        ax.set_title(f'Clusters segons {self.algorithm}')
+        ax.set_xlabel('Componente 1')
+        ax.set_ylabel('Componente 2')
+        ax.set_zlabel('Componente 3')
+        fig.colorbar(scatter, label='Cluster')
+        plt.show()
+
+
+if __name__=="__main__":
+    print('hola')
+    # 1 i 2. Codificació i escalat --> Carreguem les dades preprocessades
+    df = pd.read_pickle(PATH_DATASET)
+    print('hola2')
     # 3. Sel·lecció de variables rellevants 
-    # print(len(df.columns))
+    col_importants = ['otrofactor', 'ordenador', 'covid_motor', 'dayoftheweek', 'bienestar'] #'district_horta-guinardo', 'tmean_24h']
+    reduced_dataset = df[col_importants]
+
+    clustering_kmeans = ClusteringModel(df, n_clusters=3, algorithm='kmeans')
+    clustering_kmeans.fit()
+    clustering_kmeans.evaluate()
+    clustering_kmeans.plot_clusters()
+    clustering_kmeans.plot_clusters_3d()
+
+    # reduced_dataset['cluster'] = clustering_kmeans.get_labels() 
+    # cluster_stats = reduced_dataset.groupby('cluster').mean()
+    # # cluster_stats[:,0]
+    # for col in cluster_stats:
+    #     print(cluster_stats[col])
+    
+
+
+
 
     # 4. El·lecció algoritme clustering: inicialitzar la classe ClusteringModel i provar els diferents algoritmes
     # clustering_kmeans = ClusteringModel(df, algorithm='kmeans')
