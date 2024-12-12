@@ -81,7 +81,7 @@ def save_results(results, output_dir):
         print(f"Guardado {method} en {output_path}")
 
 # Extraer las características comunes más importantes
-def extract_common_features(results, top_n=5):
+def extract_common_features(results, top_n=10):
     top_features_sets = []
     for importance_df in results.values():
         top_features = set(importance_df.head(top_n)['Feature'])
@@ -92,7 +92,7 @@ def extract_common_features(results, top_n=5):
 # Ejecución principal
 if __name__ == "__main__":
     results = evaluate_models(models, X_train, y_train)
-    save_results(results, "data/regression/scaled_shuffle/")
+    # save_results(results, "data/regression/scaled_shuffle/")
     # Imprimir las 5 características más importantes comunes
     common_features = extract_common_features(results, top_n=5)
     print("Las 5 características más importantes comunes son:")
