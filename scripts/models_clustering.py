@@ -8,6 +8,7 @@ from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from yellowbrick.cluster import KElbowVisualizer
 from mpl_toolkits.mplot3d import Axes3D
+import seaborn as sns
 
 # CLASSE
 class ClusteringModel:
@@ -206,3 +207,56 @@ class ClusteringModel:
         ax.set_zlabel('Componente 3')
         fig.colorbar(scatter, label='Cluster')
         plt.show()
+
+        return reduced_data
+    
+    def analisi_components_centroides(self):
+        pass
+
+    def analisi_components_tsne_correlacio(self, reduced_data):
+        """
+        Realiza un análisis de correlación entre las características originales del conjunto de datos
+        y las componentes obtenidas mediante reducción dimensional con t-SNE. Esta función calcula 
+        las correlaciones entre cada componente de t-SNE y las variables originales, y devuelve una 
+        lista de las 5 características con las correlaciones más fuertes (tanto positivas como negativas) 
+        para cada componente.
+
+        Parámetros:
+        - reduced_data: ndarray o DataFrame que contiene los datos reducidos a través de t-SNE.
+        Debe tener el mismo número de filas que self.data, y debe contener las componentes reducidas 
+        generadas por t-SNE.
+
+        Retorna:
+        - dic_correlacions: un diccionario que contiene, para cada componente de t-SNE, las 5 variables 
+        originales con las correlaciones más altas (positivas y negativas). La estructura es la siguiente:
+        {
+            'Component 1': [top_5_positive, top_5_negative],
+            'Component 2': [top_5_positive, top_5_negative],
+            'Component 3': [top_5_positive, top_5_negative],
+        }
+        Donde top_5_positive y top_5_negative son listas de las 5 características más correlacionadas
+        de forma positiva y negativa, respectivamente.
+        """
+        COMPONENTS = ["Component 1", "Component 2", "Component 3"]
+
+        # Convertir las coordenadas a un DataFrame
+        tsne_df = pd.DataFrame(reduced_data, columns=COMPONENTS)
+
+        # Analizar correlaciones
+        combined_df = pd.concat([self.data, tsne_df], axis=1)
+        correlations = combined_df.corr()[COMPONENTS]
+       
+        # Mostrar las correlaciones significativas
+        dic_correlacions = {}
+
+        for comp in correlations.columns:
+            correlacions = correlations[comp].drop(labels=[comp])
+
+            # print(f"Correlaciones para {comp}")
+            top_5_positive = correlacions.sort_values(ascending=False).head(5)
+            top_5_negative = correlacions.sort_values(ascending=True).head(5)
+
+            dic_correlacions[comp] = [top_5_positive, top_5_negative]
+
+        return dic_correlacions
+        

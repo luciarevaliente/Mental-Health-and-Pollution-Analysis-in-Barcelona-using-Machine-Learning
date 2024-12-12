@@ -23,6 +23,8 @@ PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset natejat
 ALGORITHMS = ['kmeans', 'spectral', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
 TARGET = 'estres'
 VARIABLES_RELLEVANTS = []
+COMPONENTS = ["Component 1", "Component 2", "Component 3"]
+THRESHOLD = 0.6
 
 if __name__=="__main__":
     # 1 i 2. Codificació i escalat
@@ -36,20 +38,27 @@ if __name__=="__main__":
     # 4. Elecció de l'algoritme de clústering: Inicialitzem la classe i provem
     for algoritme in ALGORITHMS:
         if algoritme == 'kmeans':
-            clustering_kmeans = ClusteringModel(preprocessed_df, algorithm='kmeans')  
-            clustering_kmeans.elbow_method(max_clusters=50)
+            # clustering_kmeans = ClusteringModel(preprocessed_df, algorithm='kmeans')  
+            # clustering_kmeans.elbow_method(max_clusters=50)
+            # clustering_kmeans.fit()
+            # clustering_kmeans.plot_clusters_PCA_2d()
+            # clustering_kmeans.plot_clusters_PCA_3d()
+            # clustering_kmeans.plot_clusters_TSNE_2d()
+            clustering_kmeans = ClusteringModel(preprocessed_df, n_clusters=4,algorithm='kmeans')
             clustering_kmeans.fit()
-            clustering_kmeans.plot_clusters_PCA_2d()
-            clustering_kmeans.plot_clusters_PCA_3d()
-            clustering_kmeans.plot_clusters_TSNE_2d()
-            clustering_kmeans.plot_clusters_TSNE_3d()
+            reduced_data = clustering_kmeans.plot_clusters_TSNE_3d()  # Obtenim les característiques que més afecten a cada component (correlació )--> top 5
+            
+            diccionar_correlacions = clustering_kmeans.analisi_components_tsne_correlacio(reduced_data)
+            
             clustering_kmeans.evaluate()
-
-            # reduced_dataset['cluster'] = clustering_kmeans.get_labels() 
-            # cluster_stats = reduced_dataset.groupby('cluster').mean()
-            # # cluster_stats[:,0]
-            # for col in cluster_stats:
-            #     print(cluster_stats[col])
+            
+            # Observem les
+            for comp in diccionar_correlacions.keys():
+                print(f'Component {comp}:') 
+                print(diccionar_correlacions[comp][0])
+                print()
+                print(diccionar_correlacions[comp][1])
+                print('\n\n')
 
         elif algoritme == 'spectral':
             print('en desenvolupament')
