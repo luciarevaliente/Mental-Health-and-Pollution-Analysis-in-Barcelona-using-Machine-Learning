@@ -1,8 +1,8 @@
-from preparation import load_data, separacio_train_test
-from sklearn.model_selection import GridSearchCV, cross_val_score
+from preparation_regression import load_data, separacio_train_test
+from sklearn.model_selection import GridSearchCV, cross_val_score, RandomizedSearchCV
 import pandas as pd
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-from models import RegressionModels
+from models_regression import RegressionModels
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -31,7 +31,7 @@ GRID_PARAMS = {
         "epsilon": [0.01, 0.1, 1.0]
     },
     "polynomial_regression": {
-        "polynomialfeatures__degree": [2, 3, 4]
+        "polynomialfeatures__degree": [2]
     }
 }
 
@@ -75,66 +75,70 @@ def plot_real_vs_pred_multiple(y_test, predictions_dict):
 
 
 # Función para obtener el mejor modelo con GridSearchCV
+
 def get_best_model(model_name, base_model, param_grid):
     print(f"\n--- Buscando mejores parámetros para {model_name} ---")
-    grid_search = GridSearchCV(
+    random_search = RandomizedSearchCV(
         estimator=base_model,
-        param_grid=param_grid,
+        param_distributions=param_grid,
         scoring="neg_mean_squared_error",
+        n_iter=10,  # Limitar a 10 combinaciones
         cv=5,
         verbose=1,
-        n_jobs=-1
+        n_jobs=-1,
+        random_state=42
     )
-    grid_search.fit(X_train, y_train)
-    print(f"Mejores parámetros para {model_name}: {grid_search.best_params_}")
-    return grid_search.best_estimator_
+    random_search.fit(X_train, y_train)
+    print(f"Mejores parámetros para {model_name}: {random_search.best_params_}")
+    return random_search.best_estimator_
 
-def cross_validate_model(model, X_train, y_train):
-    """
-    Realiza validación cruzada y devuelve el puntaje promedio.
 
-    Args:
-        model: Modelo a validar.
-        X_train (DataFrame): Datos de entrenamiento.
-        y_train (Series): Valores objetivo de entrenamiento.
+# def cross_validate_model(model, X_train, y_train):
+#     """
+#     Realiza validación cruzada y devuelve el puntaje promedio.
 
-    Returns:
-        float: Puntaje promedio de validación cruzada.
-    """
-    cv_scores = cross_val_score(model, X_train, y_train, cv=5, scoring="neg_mean_squared_error")
-    mean_score = -cv_scores.mean()
-    print(f"Validación cruzada (MSE promedio): {mean_score:.4f} (+/- {cv_scores.std():.4f})")
-    return mean_score
+#     Args:
+#         model: Modelo a validar.
+#         X_train (DataFrame): Datos de entrenamiento.
+#         y_train (Series): Valores objetivo de entrenamiento.
 
-# Modelos a evaluar
-model_types = ["ridge", "lasso", "random_forest", "gradient_boosting", "xgboost","svr", "polynomial_regression"]
+#     Returns:
+#         float: Puntaje promedio de validación cruzada.
+#     """
+#     cv_scores = cross_val_score(model, X_train, y_train, cv=5, scoring="neg_mean_squared_error")
+#     mean_score = -cv_scores.mean()
+#     print(f"Validación cruzada (MSE promedio): {mean_score:.4f} (+/- {cv_scores.std():.4f})")
+#     return mean_score
 
-performance = []
-predictions_dict = {}
+# # Modelos a evaluar
+# model_types = ["ridge", "lasso", "random_forest", "gradient_boosting", "xgboost","svr", "polynomial_regression"]
 
-for model_type in model_types:
-    # Obtener modelo base y parámetros
-    base_model = RegressionModels(model_type=model_type).get_model()
-    param_grid = GRID_PARAMS.get(model_type, {})
+# performance = []
+# predictions_dict = {}
+
+# # for model_type in model_types:
+# #     # Obtener modelo base y parámetros
+# #     base_model = RegressionModels(model_type=model_type).get_model()
+# #     param_grid = GRID_PARAMS.get(model_type, {})
     
-    # Buscar el mejor modelo con GridSearchCV
-    best_model = get_best_model(model_type, base_model, param_grid)
-    best_model.fit(X_train, y_train)
+# #     # Buscar el mejor modelo con GridSearchCV
+# #     best_model = get_best_model(model_type, base_model, param_grid)
+# #     best_model.fit(X_train, y_train)
     
-    # Predicciones
-    predictions = best_model.predict(X_test)
+# #     # Predicciones
+# #     predictions = best_model.predict(X_test)
     
-    # Evaluar y guardar resultados
-    performance.append(evaluate_model(y_test, predictions, model_type))
-    predictions_dict[model_type] = predictions
+# #     # Evaluar y guardar resultados
+# #     performance.append(evaluate_model(y_test, predictions, model_type))
+# #     predictions_dict[model_type] = predictions
 
-# Comparación de métricas
-performance_df = pd.DataFrame(performance)
-print("\n--- Comparación de modelos ---")
-print(performance_df)
+# # # Comparación de métricas
+# # performance_df = pd.DataFrame(performance)
+# # print("\n--- Comparación de modelos ---")
+# # print(performance_df)
 
-# Visualizar métricas
-performance_df.plot(x="Model", y=["RMSE", "MAE"], kind="bar", figsize=(10, 6), rot=0, title="Comparación de Modelos")
+# # # Visualizar métricas
+# performance_df.plot(x="Model", y=["RMSE", "MAE"], kind="bar", figsize=(10, 6), rot=0, title="Comparación de Modelos")
 
-# Visualizar predicciones
-plot_real_vs_pred_multiple(y_test, predictions_dict)
+# # Visualizar predicciones
+# plot_real_vs_pred_multiple(y_test, predictions_dict)

@@ -1,4 +1,4 @@
-from preparation import load_data, separacio_train_test
+from scripts.preparation_regression import load_data, separacio_train_test
 from sklearn.model_selection import GridSearchCV, cross_val_score, train_test_split
 from sklearn.linear_model import Ridge, Lasso
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor

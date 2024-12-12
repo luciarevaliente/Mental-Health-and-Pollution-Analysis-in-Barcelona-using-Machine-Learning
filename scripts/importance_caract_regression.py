@@ -40,7 +40,10 @@ models = {
 # Evaluar modelos y calcular importancia de características
 def evaluate_models(models, X_train, y_train):
     results = {}
+    count=0
     for model_name, (model, param_grid) in models.items():
+        count+=1
+        print('buscando',count)
         best_model = get_best_model(model_name, model, param_grid)
         best_model.fit(X_train, y_train)
 
@@ -57,8 +60,10 @@ def evaluate_models(models, X_train, y_train):
                 'Importance': best_model.feature_importances_
             }).sort_values(by='Importance', ascending=False)
             results[model_name] = importances
-
+        
+        
         elif model_name == "svr":
+            print('aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii')
             perm_importance = permutation_importance(best_model, X_train, y_train, random_state=42)
             importances = pd.DataFrame({
                 'Feature': X_train.columns,
@@ -75,7 +80,20 @@ def save_results(results, output_dir):
         importance_df.to_excel(output_path, index=False)
         print(f"Guardado {method} en {output_path}")
 
+# Extraer las características comunes más importantes
+def extract_common_features(results, top_n=5):
+    top_features_sets = []
+    for importance_df in results.values():
+        top_features = set(importance_df.head(top_n)['Feature'])
+        top_features_sets.append(top_features)
+    common_features = set.intersection(*top_features_sets)
+    return common_features
+
 # Ejecución principal
 if __name__ == "__main__":
     results = evaluate_models(models, X_train, y_train)
     save_results(results, "data/regression/scaled_shuffle/")
+    # Imprimir las 5 características más importantes comunes
+    common_features = extract_common_features(results, top_n=5)
+    print("Las 5 características más importantes comunes son:")
+    print(common_features)

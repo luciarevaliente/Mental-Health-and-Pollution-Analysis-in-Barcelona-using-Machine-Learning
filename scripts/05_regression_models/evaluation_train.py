@@ -1,4 +1,4 @@
-from preparation import load_data, separacio_train_test
+from scripts.preparation_regression import load_data, separacio_train_test
 from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LinearRegression, Lasso, Ridge
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
@@ -6,7 +6,7 @@ from xgboost import XGBRegressor
 from sklearn.inspection import permutation_importance
 import pandas as pd
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-from models import RegressionModels
+from scripts.models_regression import RegressionModels
 import matplotlib.pyplot as plt
 import numpy as np
 
