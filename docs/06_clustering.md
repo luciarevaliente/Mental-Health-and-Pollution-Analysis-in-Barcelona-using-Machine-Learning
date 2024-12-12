@@ -91,15 +91,18 @@ Per tal de visualitzar les agrupacions, hem provat dues tècniques de visualitza
 ### Kmeans amb dataset complet
 A continuació, es visualitza el resultat del clustering realitzat amb l'algoritme K-Means. S'ha utilitzat PCA i t-SNE. 
 
-![Clustering PCA 2D k=4](/visualizations/clustering/overf_shuf_scaled_PCA2d_k4.png) ![Clustering PCA 3D k=4](/visualizations/clustering/overf_shuf_scaled_PCA3d_k4.png)
-
 ![Clustering TSNE 2D k=4](/visualizations/clustering/overf_shuf_scaled_TSNE2d_k4.png) ![Clustering TSNE 3D k=4](/visualizations/clustering/overf_shuf_scaled_TSNE3d_k4.png)
 
 #### Observacions principals:
-Les observacions principals del resultat és:
-        - **Formes en espiral o anells:** Els punts es distribueixen en estructures clarament separades que semblen tenir formes circulars o en espiral. Això suggereix que els grups poden estar relacionats amb variacions circulars o periòdiques en les dades originals.
-        - **Separació dels clusters:** Els quatre clusters són clarament distingibles gràcies a la codificació de colors i a l'estructura 3D, cosa que indica que el model K-Means ha estat capaç de captar diferències significatives entre els grups.
-        - **Dimensionalitat no lineal:** Reforcem el valor d’utilitzar t-SNE, ja que aquesta tècnica pot capturar estructures no lineals que el PCA no hauria representat de manera adequada (com s'ha vist en el gràfic 2D anterior).
+- **Formes en espiral o anells:** Els punts es distribueixen en estructures clarament separades que semblen tenir formes circulars o en espiral. Això suggereix que els grups poden estar relacionats amb variacions circulars o periòdiques en les dades originals.
+- **Separació dels clusters:** Els quatre clusters són clarament distingibles gràcies a la codificació de colors i a l'estructura 3D, cosa que indica que el model K-Means ha estat capaç de captar diferències significatives entre els grups.
+- **Dimensionalitat no lineal:** Reforcem el valor d’utilitzar t-SNE, ja que aquesta tècnica pot capturar estructures no lineals que el PCA no hauria representat de manera adequada (es pot observar el resultat del PCA 2D i 3D en `/visualizations/clustering/overf_shuf_scaled_PCA2d_k4.png` i `/visualizations/clustering/overf_shuf_scaled_PCA3d_k4.png`).
+
+#### Possibles Interpretacions:
+- **Periodicitat en les dades:** Les formes circulars podrien indicar que les variables originals tenen components cíclics o repetitius (com poden ser dades temporals o periòdiques).
+- **Interacció de múltiples factors:** La distribució pot ser el resultat de la interacció complexa entre múltiples variables que generen aquestes trajectòries en espiral.
+- **Relacions no lineals:** És possible que els clusters representin grups amb relacions més subtils que no són lineals, una cosa que t-SNE ajuda a visualitzar.
+
 
 
 
