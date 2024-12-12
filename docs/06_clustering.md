@@ -89,7 +89,17 @@ Per tal de visualitzar les agrupacions, hem provat dues tècniques de visualitza
 
 ## Pregunta 6: Interpretació dels resultats
 ### Kmeans amb dataset complet
-A continuació, s'interpreta la gràfica generada amb el clustering de Kmeans. Aquesta es troba a `../visualizations/overf_suf_scaled_TSNE3d_k4.png`: ![Clustering TSNE k=4](/visualizations/clustering/overf_shuf_scaled_TSNE3d_k4.png)
+A continuació, es visualitza el resultat del clustering realitzat amb l'algoritme K-Means. S'ha utilitzat PCA i t-SNE. 
+
+![Clustering PCA 2D k=4](/visualizations/clustering/overf_shuf_scaled_PCA2d_k4.png) ![Clustering PCA 3D k=4](/visualizations/clustering/overf_shuf_scaled_PCA3d_k4.png)
+
+![Clustering TSNE 2D k=4](/visualizations/clustering/overf_shuf_scaled_TSNE2d_k4.png) ![Clustering TSNE 3D k=4](/visualizations/clustering/overf_shuf_scaled_TSNE3d_k4.png)
+
+#### Observacions principals:
+Les observacions principals del resultat és:
+        - **Formes en espiral o anells:** Els punts es distribueixen en estructures clarament separades que semblen tenir formes circulars o en espiral. Això suggereix que els grups poden estar relacionats amb variacions circulars o periòdiques en les dades originals.
+        - **Separació dels clusters:** Els quatre clusters són clarament distingibles gràcies a la codificació de colors i a l'estructura 3D, cosa que indica que el model K-Means ha estat capaç de captar diferències significatives entre els grups.
+        - **Dimensionalitat no lineal:** Reforcem el valor d’utilitzar t-SNE, ja que aquesta tècnica pot capturar estructures no lineals que el PCA no hauria representat de manera adequada (com s'ha vist en el gràfic 2D anterior).
 
 
 
