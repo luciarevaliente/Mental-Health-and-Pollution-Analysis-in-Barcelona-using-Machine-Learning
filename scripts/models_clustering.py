@@ -117,7 +117,7 @@ class ClusteringModel:
             reduced_data[:, 0], reduced_data[:, 1], 
             c=self.labels, cmap='viridis', s=50, alpha=0.6, edgecolor='k'
         )
-        plt.title(f'Clusters Visualitzats ({self.algorithm})')
+        plt.title(f'Clusters Visualitzats ({self.algorithm}). PCA 2D.k={self.n_clusters}.')
         plt.xlabel('Component 1')
         plt.ylabel('Component 2')
         plt.colorbar(scatter, label='Cluster')
@@ -141,7 +141,7 @@ class ClusteringModel:
             reduced_data[:, 0], reduced_data[:, 1], reduced_data[:, 2],
             c=self.labels, cmap='viridis', s=50, alpha=0.8
         )
-        ax.set_title(f'Clusters segons {self.algorithm}')
+        ax.set_title(f'Clusters segons {self.algorithm}. PCA 3D.. k={self.n_clusters}.')
         ax.set_xlabel('Componente 1')
         ax.set_ylabel('Componente 2')
         ax.set_zlabel('Componente 3')
@@ -169,7 +169,7 @@ class ClusteringModel:
             reduced_data[:, 0], reduced_data[:, 1], 
             c=self.labels, cmap='viridis', s=50, alpha=0.6, edgecolor='k'
         )
-        plt.title(f'Clusters Visualizados ({self.algorithm})')
+        plt.title(f'Clusters Visualizados ({self.algorithm}). TSNE 2D. k={self.n_clusters}.')
         plt.xlabel('Componente 1')
         plt.ylabel('Componente 2')
         plt.colorbar(scatter, label='Cluster')
@@ -200,7 +200,7 @@ class ClusteringModel:
             reduced_data[:, 0], reduced_data[:, 1], reduced_data[:, 2],
             c=self.labels, cmap='viridis', s=50, alpha=0.6, edgecolor='k'
         )
-        ax.set_title(f'Clusters Visualizados ({self.algorithm})')
+        ax.set_title(f'Clusters Visualizados ({self.algorithm}). TSNE 3D. k={self.n_clusters}.')
         ax.set_xlabel('Componente 1')
         ax.set_ylabel('Componente 2')
         ax.set_zlabel('Componente 3')
