@@ -75,6 +75,8 @@ class ClusteringModel:
         """
         Aplica el mètode del codo per trobar el millor nombre de clusters per KMeans i estableix en n_clusters el millor k
         
+        Nota: Esta función solo es aplicable para el algoritmo KMeans.
+
         :param max_clusters: El màxim nombre de clusters a provar per al mètode del codo.
         :param grafica: Si és True, mostra la gràfica del codo.
         """
@@ -210,8 +212,53 @@ class ClusteringModel:
 
         return reduced_data
     
+
     def analisi_components_centroides(self):
-        pass
+        """
+        Analiza los centroides de los clusters para identificar las características más relevantes
+        en cada cluster. Esto es útil para interpretar los resultados del clustering.
+
+        Nota: Esta función solo es aplicable para el algoritmo KMeans.
+
+        Retorna:
+        - Un DataFrame que muestra los valores medios de cada característica para cada cluster.
+        - Un diccionario que contiene, para cada cluster, las características con los valores medios
+        más altos y más bajos.
+        """
+        if self.algorithm != 'kmeans':
+            raise ValueError("Este análisis solo está disponible para el algoritmo KMeans.")
+
+        if self.labels is None or self.model is None:
+            raise ValueError("El modelo debe ser ajustado antes de realizar este análisis.")
+
+        # Asegurarse de que el modelo tiene centroides
+        if not hasattr(self.model, 'cluster_centers_'):
+            raise ValueError("El modelo KMeans no tiene centroides calculados.")
+
+        # Obtener los centroides del modelo
+        centroides = self.model.cluster_centers_
+
+        # Convertir los centroides en un DataFrame para facilitar la interpretación
+        centroides_df = pd.DataFrame(centroides, columns=self.data.columns)
+        centroides_df.index.name = 'Cluster'
+
+        # Identificar las características más relevantes por cluster
+        dic_caracteristiques = {}
+
+        for cluster in range(centroides_df.shape[0]):
+            cluster_values = centroides_df.iloc[cluster]
+            top_5_high = cluster_values.nlargest(5)
+            top_5_low = cluster_values.nsmallest(5)
+
+            dic_caracteristiques[cluster] = {
+                'Top 5 Altas': top_5_high,
+                'Top 5 Bajas': top_5_low
+            }
+
+        # Retornar los resultados
+        return centroides_df, dic_caracteristiques
+
+
 
     def analisi_components_tsne_correlacio(self, reduced_data):
         """
