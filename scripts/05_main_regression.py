@@ -1,7 +1,7 @@
 from evaluation_regression import get_best_model
 from preparation_regression import load_data, separacio_train_test
 from preprocess import preprocess
-from 05_models_regression import RegressionModels, GRID_PARAMS. get_best_model
+from models_regression import RegressionModels, GRID_PARAMS, get_best_model
 import pandas as pd
 import os
 
