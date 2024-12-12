@@ -7,7 +7,7 @@ from models_regression import get_best_model
 from models_regression import RegressionModels, GRID_PARAMS
 
 # Configuración
-FEATURES = ['ordenador', 'otrofactor', 'dayoftheweek', 'bienestar','covid_motor','alcohol','drogas']
+FEATURES = ['ordenador', 'otrofactor', 'dayoftheweek', 'bienestar','covid_motor','drogas']
 TARGET_COLUMN = "estres"
 RESULTS_DIR = "data/regression/final_results"
 
@@ -34,12 +34,21 @@ def evaluate_model(model_name, X_train, X_test, y_train, y_test):
     Entrena y evalúa un modelo, devolviendo métricas clave y guardando resultados.
     """
     print(f"Evaluando {model_name}...")
+    
     model_instance = RegressionModels(model_type=model_name)
     param_grid = GRID_PARAMS.get(model_name, {})
-    best_model = get_best_model(model_name, model_instance.get_model(), param_grid, X_train, y_train)
+    best_model = get_best_model(model_name, model_instance.get_model(), param_grid, X_train, y_train,X_test,y_test)
 
     # Entrenar el modelo
-    best_model.fit(X_train, y_train)
+    if model_name == "xgboost":
+        best_model.fit(
+            X_train, y_train,
+            eval_set=[(X_test, y_test)],  # Conjunto de validación
+              # Número de iteraciones sin mejora antes de detenerse
+            verbose=False
+        )
+    else:
+        best_model.fit(X_train, y_train)
 
     # Predicciones
     y_train_pred = best_model.predict(X_train)

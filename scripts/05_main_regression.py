@@ -23,7 +23,7 @@ def evaluate_models(model_types, X_train, y_train):
         print(f"Evaluando {model_name}...")
         model_instance = RegressionModels(model_type=model_name)
         param_grid = GRID_PARAMS.get(model_name, {})
-        best_model = get_best_model(model_name, model_instance.get_model(), param_grid,X_train, y_train)
+        best_model = get_best_model(model_name, model_instance.get_model(), param_grid,X_train, y_train,X_test, y_test)
         best_model.fit(X_train, y_train)
 
         # Obtener importancia de características
@@ -59,7 +59,7 @@ def save_results(results, output_dir="data/regression/results"):
         print(f"Resultados guardados para {model_name} en {output_dir}")
 
 # Extraer las 10 características más importantes comunes entre los métodos
-def extract_top_common_features(results, top_n=10):
+def extract_top_common_features(results, top_n=50):
     """
     Extrae las características comunes más importantes de los resultados.
     
