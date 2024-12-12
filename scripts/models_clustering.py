@@ -213,7 +213,7 @@ class ClusteringModel:
         return reduced_data
     
 
-    def analisi_components_centroides(self):
+    def analisi_components_centroides(self, preprocessed_df):
         """
         Analiza los centroides de los clusters para identificar las características más relevantes
         en cada cluster. Esto es útil para interpretar los resultados del clustering.
@@ -235,32 +235,40 @@ class ClusteringModel:
         if not hasattr(self.model, 'cluster_centers_'):
             raise ValueError("El modelo KMeans no tiene centroides calculados.")
 
-        # Obtener los centroides del modelo
-        centroides = self.model.cluster_centers_
+        centroids = self.model.cluster_centers_  
+        columns = preprocessed_df.columns  # Obtener los nombres de las columnas originales
 
-        # Convertir los centroides en un DataFrame para facilitar la interpretación
-        centroides_df = pd.DataFrame(centroides, columns=self.data.columns)
-        centroides_df.index.name = 'Cluster'
+        # Convertir los centroides a un DataFrame
+        centroides_df = pd.DataFrame(centroids, columns=columns)
+        centroides_df.index = [f'Cluster {i}' for i in range(len(centroides_df))]
 
-        # Identificar las características más relevantes por cluster
-        dic_caracteristiques = {}
+        # Imprimir los centroides
+        print("Centroides de los clusters:")
+        print(centroides_df)
 
-        for cluster in range(centroides_df.shape[0]):
-            cluster_values = centroides_df.iloc[cluster]
-            top_5_high = cluster_values.nlargest(5)
-            top_5_low = cluster_values.nsmallest(5)
+        # Visualización de los centroides
+        centroides_df.reset_index(inplace=True)
+        centroides_long = centroides_df.melt(id_vars='index', var_name='Variable', value_name='Valor')
 
-            dic_caracteristiques[cluster] = {
-                'Top 5 Altas': top_5_high,
-                'Top 5 Bajas': top_5_low
-            }
+        # Asegurarse de que 'index' sea una columna de tipo string para el hue
+        centroides_long['index'] = centroides_long['index'].astype(str)  # Convertir a string
 
-        # Retornar los resultados
-        return centroides_df, dic_caracteristiques
+        # Visualización de los centroides con un gráfico de barras
+        sns.barplot(data=centroides_long, x='Variable', y='Valor', hue='index', palette='Set2')
+        plt.title('Centroides por Cluster')
+        plt.xticks(rotation=45)
+        plt.show()
+
+        # Si quieres asignar los clusters al dataset original
+        labels = self.model.labels_  # Obtener etiquetas (clusters asignados)
+        preprocessed_df['Cluster'] = labels
+
+        # Visualización de los datos por cluster
+        sns.pairplot(preprocessed_df, hue='Cluster', palette='Set2')
+        plt.show()
 
 
-
-    def analisi_components_tsne_correlacio(self, reduced_data):
+    def analisi_components_tsne_correlacio(self, reduced_data, k=5):
         """
         Realiza un análisis de correlación entre las características originales del conjunto de datos
         y las componentes obtenidas mediante reducción dimensional con t-SNE. Esta función calcula 
@@ -277,11 +285,11 @@ class ClusteringModel:
         - dic_correlacions: un diccionario que contiene, para cada componente de t-SNE, las 5 variables 
         originales con las correlaciones más altas (positivas y negativas). La estructura es la siguiente:
         {
-            'Component 1': [top_5_positive, top_5_negative],
-            'Component 2': [top_5_positive, top_5_negative],
-            'Component 3': [top_5_positive, top_5_negative],
+            'Component 1': [top_k_positive, top_k_negative],
+            'Component 2': [top_k_positive, top_k_negative],
+            'Component 3': [top_k_positive, top_k_negative],
         }
-        Donde top_5_positive y top_5_negative son listas de las 5 características más correlacionadas
+        Donde top_k_positive y top_k_negative son listas de las k características más correlacionadas
         de forma positiva y negativa, respectivamente.
         """
         COMPONENTS = ["Component 1", "Component 2", "Component 3"]
@@ -300,10 +308,10 @@ class ClusteringModel:
             correlacions = correlations[comp].drop(labels=[comp])
 
             # print(f"Correlaciones para {comp}")
-            top_5_positive = correlacions.sort_values(ascending=False).head(5)
-            top_5_negative = correlacions.sort_values(ascending=True).head(5)
+            top_k_positive = correlacions.sort_values(ascending=False).head(k)
+            top_k_negative = correlacions.sort_values(ascending=True).head(k)
 
-            dic_correlacions[comp] = [top_5_positive, top_5_negative]
+            dic_correlacions[comp] = [top_k_positive, top_k_negative]
 
         return dic_correlacions
         

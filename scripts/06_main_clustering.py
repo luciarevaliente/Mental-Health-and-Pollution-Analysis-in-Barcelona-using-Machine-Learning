@@ -48,8 +48,8 @@ if __name__=="__main__":
             clustering_kmeans.fit()
 
             # Grups segons els centroides
-            centroides_df, dic_caracteristiques = clustering_kmeans.analisi_components_centroides()
-
+            # centroides_df, dic_caracteristiques =  clustering_kmeans.analisi_components_centroides()
+            clustering_kmeans.analisi_components_centroides(preprocessed_df)
             for comp in dic_caracteristiques.keys():
                 print(f'Component {comp}:') 
                 print(dic_caracteristiques[comp])
