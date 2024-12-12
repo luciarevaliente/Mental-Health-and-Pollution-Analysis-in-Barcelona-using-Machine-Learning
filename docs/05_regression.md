@@ -132,8 +132,71 @@ Aquest fitxer executa tota la pipeline per entrenar, avaluar i visualitzar model
   - Proporcionar gràfics intuïtius per entendre l'ajust i els errors dels models.
 
 ---
+Dado el análisis de tus datos y las gráficas proporcionadas, aquí hay algunos modelos que **no serían adecuados** para predecir el estrés en tu caso, junto con las razones:
 
-#### **Extensions possibles:**
-- Afegir més models (p. ex. regressió amb vectors de suport o xarxes neuronals).
-- Automatitzar més etapes del preprocessament.
-- Incorporar tècniques avançades de selecció de característiques.
+---
+
+### **Modelos que No Deberías Usar**
+#### 1. **Regresión Lineal Simple**
+   - **Por qué no:** La relación entre las variables predictoras (bienestar, ordenador, otrofactor) y el estrés no parece ser lineal, lo que significa que este modelo no capturará bien la complejidad de los datos.
+   - **Alternativa:** Usa modelos que manejen relaciones no lineales, como Random Forest o Gradient Boosting.
+
+---
+
+#### 2. **Regresión Lineal Regularizada (Ridge y Lasso)**
+   - **Por qué no:** Estos modelos funcionan bien para relaciones lineales, pero tus datos no muestran una relación clara en este sentido. Además, Lasso selecciona variables automáticamente, lo que podría ser problemático si las variables categóricas codificadas tienen poca relación con `estres`.
+   - **Alternativa:** Si aún necesitas regularización, considera **ElasticNet**, que combina Ridge y Lasso, pero es más flexible.
+
+---
+
+#### 3. **Support Vector Regressor (SVR) con Kernel Lineal**
+   - **Por qué no:** El kernel lineal asume relaciones lineales entre las características y la variable objetivo. En tu caso, las relaciones son más complejas.
+   - **Alternativa:** Si usas SVR, opta por un kernel no lineal como el kernel RBF.
+
+---
+
+#### 4. **Modelos Basados en Suposiciones de Distribución (e.g., Bayesian Ridge)**
+   - **Por qué no:** Estos modelos asumen distribuciones específicas para las variables y los residuos (normalidad, independencia). Si los datos no siguen estas suposiciones, el modelo será inadecuado.
+   - **Alternativa:** Modelos de boosting como **XGBoost** o **LightGBM**, que no dependen de estas suposiciones.
+
+---
+
+#### 5. **Modelos Muy Sensibles a la Escala sin Escalar Previamente**
+   - Ejemplos: SVR, Ridge, Lasso.
+   - **Por qué no:** Tus datos no están completamente escalados, lo que puede causar problemas con estos modelos. Si decides usarlos, es obligatorio escalar tanto las características predictoras como `estres`.
+
+---
+
+#### 6. **Regresión Polinómica con Grados Altos**
+   - **Por qué no:** Aumentar el grado polinómico podría sobreajustar tus datos, especialmente si las relaciones no son polinómicas sino más complejas.
+   - **Alternativa:** Usa modelos como Random Forest, que captura relaciones no lineales sin requerir transformaciones manuales.
+
+---
+
+### **Cuándo Deberías Evitar Otros Modelos**
+#### **Modelos lineales en general:**
+   Si las relaciones no son lineales, cualquier modelo lineal tendrá un bajo rendimiento.
+
+#### **Modelos con Suposiciones Fijas:**
+   - Ejemplo: Modelos que requieren normalidad de datos o relaciones directas entre las variables.
+
+#### **Modelos Muy Simples:**
+   - Ejemplo: K-Nearest Neighbors (KNN) para un problema con muchas características o ruido. Aunque KNN puede funcionar, es computacionalmente costoso y no necesariamente el más eficiente.
+
+---
+
+### **Recomendaciones**
+Para tus datos, evita modelos que:
+- Solo manejen relaciones lineales (Regresión Lineal, Ridge, Lasso).
+- Requieran datos completamente escalados y normalizados si no estás escalando las variables adecuadamente.
+- No puedan manejar interacciones complejas (e.g., Regresión Polinómica sin ajuste cuidadoso).
+
+---
+
+### **Qué Modelos Usar**
+Con base en tus datos:
+1. **Random Forest Regressor**: Captura relaciones no lineales e interacciones complejas.
+2. **Gradient Boosting Regressor** o **XGBoost**: Ideales para conjuntos de datos tabulares con relaciones no lineales.
+3. **CatBoost o LightGBM**: Rápidos y eficientes, especialmente con datos categóricos.
+
+¿Quieres ayuda para configurar o implementar alguno de estos modelos? ¡Avísame!
