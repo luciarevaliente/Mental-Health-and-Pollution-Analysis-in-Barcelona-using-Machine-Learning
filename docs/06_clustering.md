@@ -89,7 +89,7 @@ Per tal de visualitzar les agrupacions, hem provat dues tècniques de visualitza
 
 ## Pregunta 6: Interpretació dels resultats
 ### Kmeans amb dataset complet
-A continuació, s'interpreta la gràfica generada amb el clustering de Kmeans. Aquesta es troba a `../visualizations/overf_suf_scaled_TSNE3d_k4.png`: ![Clustering TSNE k=4](/visualizations/overf_suf_scaled_TSNE3d_k4.png)
+A continuació, s'interpreta la gràfica generada amb el clustering de Kmeans. Aquesta es troba a `../visualizations/overf_suf_scaled_TSNE3d_k4.png`: ![Clustering TSNE k=4](/visualizations/clustering/overf_shuf_scaled_TSNE3d_k4.png)
 
 
 
