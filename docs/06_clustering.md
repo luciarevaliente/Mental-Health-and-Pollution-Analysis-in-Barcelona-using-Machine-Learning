@@ -91,7 +91,11 @@ Per tal de visualitzar les agrupacions, hem provat dues tècniques de visualitza
 ### Kmeans amb dataset complet
 A continuació, es visualitza el resultat del clustering realitzat amb l'algoritme K-Means. S'ha utilitzat PCA i t-SNE. 
 
-![Clustering TSNE 2D k=4](/visualizations/clustering/overf_shuf_scaled_TSNE2d_k4.png) ![Clustering TSNE 3D k=4](/visualizations/clustering/overf_shuf_scaled_TSNE3d_k4.png)
+<div style="display: flex; justify-content: space-around; align-items: center;">
+  <img src="/visualizations/clustering/overf_shuf_scaled_TSNE2d_k4.png" alt="Clustering TSNE 2D k=4" width="45%">
+  <img src="/visualizations/clustering/overf_shuf_scaled_TSNE3d_k4.png" alt="Clustering TSNE 3D k=4" width="45%">
+</div>
+
 
 #### Observacions principals:
 - **Formes en espiral o anells:** Els punts es distribueixen en estructures clarament separades que semblen tenir formes circulars o en espiral. Això suggereix que els grups poden estar relacionats amb variacions circulars o periòdiques en les dades originals.
