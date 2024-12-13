@@ -213,7 +213,7 @@ class ClusteringModel:
         return reduced_data
     
 
-    def analisi_components_centroides(self, preprocessed_df):
+    def analisi_components_centroides(self, preprocessed_df, k=5):
         """
         Analiza los centroides de los clusters para identificar las características más relevantes
         en cada cluster. Esto es útil para interpretar los resultados del clustering.
@@ -242,30 +242,22 @@ class ClusteringModel:
         centroides_df = pd.DataFrame(centroids, columns=columns)
         centroides_df.index = [f'Cluster {i}' for i in range(len(centroides_df))]
 
-        # Imprimir los centroides
-        print("Centroides de los clusters:")
-        print(centroides_df)
+        # Diccionario para almacenar las características más relevantes
+        relevant_features = {}
 
-        # Visualización de los centroides
-        centroides_df.reset_index(inplace=True)
-        centroides_long = centroides_df.melt(id_vars='index', var_name='Variable', value_name='Valor')
+        for cluster_idx, row in centroides_df.iterrows():
+            # Obtener las características con los valores más altos y más bajos
+            top_features = row.nlargest(k).index.tolist()  # Top k valores más altos
+            low_features = row.nsmallest(k).index.tolist()  # Top k valores más bajos
 
-        # Asegurarse de que 'index' sea una columna de tipo string para el hue
-        centroides_long['index'] = centroides_long['index'].astype(str)  # Convertir a string
+            # Guardar en el diccionario
+            relevant_features[cluster_idx] = {
+                'top': top_features,
+                'low': low_features
+            }
 
-        # Visualización de los centroides con un gráfico de barras
-        sns.barplot(data=centroides_long, x='Variable', y='Valor', hue='index', palette='Set2')
-        plt.title('Centroides por Cluster')
-        plt.xticks(rotation=45)
-        plt.show()
-
-        # Si quieres asignar los clusters al dataset original
-        labels = self.model.labels_  # Obtener etiquetas (clusters asignados)
-        preprocessed_df['Cluster'] = labels
-
-        # Visualización de los datos por cluster
-        sns.pairplot(preprocessed_df, hue='Cluster', palette='Set2')
-        plt.show()
+        # Retornar el DataFrame de centroides y el diccionario
+        return centroides_df, relevant_features
 
 
     def analisi_components_tsne_correlacio(self, reduced_data, k=5):
