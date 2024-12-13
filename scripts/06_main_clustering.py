@@ -68,13 +68,14 @@ if __name__=="__main__":
             # Grups segons les correlacions de cada dimensió
             dic_correlacions = clustering_kmeans.analisi_components_tsne_correlacio(reduced_data)  
 
-            # Ver las características más relevantes por cluster
-            print("Característiques segons components:")
-            for comp in dic_correlacions.keys():
-                print(f'Component {comp}:') 
-                print(f"  Variables más altas: {dic_correlacions[comp][0]}")
-                print(f"  Variables más bajas: {dic_correlacions[comp][1]}")
-            print()    
+            # Ver las características más relevantes por componente
+            correlations_df, dic_correlacions = clustering_kmeans.analisi_components_tsne_correlacio(reduced_data, k=5)
+            # Ver las correlaciones más significativas para cada componente
+            for comp, correlaciones in dic_correlacions.items():
+                print(f"Componente: {comp}")
+                print(f"  Top positivas: {correlaciones['top_positive']}")
+                print(f"  Top negativas: {correlaciones['top_negative']}")
+
 
             # Evaluació final del model
             clustering_kmeans.evaluate()

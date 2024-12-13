@@ -274,15 +274,13 @@ class ClusteringModel:
         generadas por t-SNE.
 
         Retorna:
+        - correlations_df: DataFrame con las correlaciones completas.
         - dic_correlacions: un diccionario que contiene, para cada componente de t-SNE, las 5 variables 
         originales con las correlaciones más altas (positivas y negativas). La estructura es la siguiente:
         {
-            'Component 1': [top_k_positive, top_k_negative],
-            'Component 2': [top_k_positive, top_k_negative],
-            'Component 3': [top_k_positive, top_k_negative],
+            'Component 1': {'top_positive': [var1, var2, ...], 'top_negative': [var3, var4, ...]},
+            ...
         }
-        Donde top_k_positive y top_k_negative son listas de las k características más correlacionadas
-        de forma positiva y negativa, respectivamente.
         """
         COMPONENTS = ["Component 1", "Component 2", "Component 3"]
 
@@ -292,18 +290,22 @@ class ClusteringModel:
         # Analizar correlaciones
         combined_df = pd.concat([self.data, tsne_df], axis=1)
         correlations = combined_df.corr()[COMPONENTS]
-       
-        # Mostrar las correlaciones significativas
+
+        # Diccionario para guardar las correlaciones más significativas
         dic_correlacions = {}
 
         for comp in correlations.columns:
             correlacions = correlations[comp].drop(labels=[comp])
 
-            # print(f"Correlaciones para {comp}")
+            # Obtener las k correlaciones más fuertes positivas y negativas
             top_k_positive = correlacions.sort_values(ascending=False).head(k)
             top_k_negative = correlacions.sort_values(ascending=True).head(k)
 
-            dic_correlacions[comp] = [top_k_positive, top_k_negative]
+            # Almacenar en el diccionario
+            dic_correlacions[comp] = {
+                'top_positive': top_k_positive.index.tolist(),
+                'top_negative': top_k_negative.index.tolist()
+            }
 
-        return dic_correlacions
-        
+        # Retornar el DataFrame completo y el diccionario de correlaciones
+        return correlations, dic_correlacions
