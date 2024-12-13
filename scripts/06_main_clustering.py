@@ -55,25 +55,26 @@ if __name__=="__main__":
             print(centroides)
 
             # Ver las características más relevantes por cluster
+            print("Característiques segons centroides:")
             for cluster, data in caracteristicas_relevantes.items():
                 print(f"Cluster {cluster}:")
                 print(f"  Variables más altas: {data['top']}")
                 print(f"  Variables más bajas: {data['low']}")
-
-            import sys
-            sys.exit()
+            print()
 
             # Visualitzem el cluster
             reduced_data = clustering_kmeans.plot_clusters_TSNE_3d()  # Obtenim les característiques que més afecten a cada component (correlació )--> top 5
             
             # Grups segons les correlacions de cada dimensió
-            dic_correlacions = clustering_kmeans.analisi_components_tsne_correlacio(reduced_data)      
+            dic_correlacions = clustering_kmeans.analisi_components_tsne_correlacio(reduced_data)  
+
+            # Ver las características más relevantes por cluster
+            print("Característiques segons components:")
             for comp in dic_correlacions.keys():
                 print(f'Component {comp}:') 
-                print(dic_correlacions[comp][0])
-                print()
-                print(dic_correlacions[comp][1])
-                print('\n\n')
+                print(f"  Variables más altas: {dic_correlacions[comp][0]}")
+                print(f"  Variables más bajas: {dic_correlacions[comp][1]}")
+            print()    
 
             # Evaluació final del model
             clustering_kmeans.evaluate()
