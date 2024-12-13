@@ -71,17 +71,7 @@ class ClusteringModel:
         score = self.silhouette_score()
         print(f"Puntuació de silueta per {self.algorithm}: {score}")
         return score
-    
-    from sklearn.cluster import KMeans, SpectralClustering, AgglomerativeClustering
-from sklearn.mixture import GaussianMixture
-from yellowbrick.cluster import KElbowVisualizer, SilhouetteVisualizer
-
-class ClusteringModel:
-    def __init__(self, algorithm='kmeans', data=None):
-        self.algorithm = algorithm
-        self.data = data
-        self.n_clusters = None  # Inicializamos el número de clusters como None
-
+   
     def elbow_method(self, max_clusters=10):
         """
         Aplica el mètode del codo per trobar el millor nombre de clusters per a diversos algoritmes de clustering
