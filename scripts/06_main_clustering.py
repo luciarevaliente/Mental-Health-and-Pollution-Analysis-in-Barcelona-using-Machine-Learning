@@ -16,10 +16,6 @@ VARIABLES_RELLEVANTS = []
 
 ALGORITHMS = ['kmeans', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
 MAX_CLUSTERS = 50
-GMM_PARAM_GRID = {
-    'n_components': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],  # Diferentes valores de k (componentes)
-    'covariance_type': ['full', 'tied', 'diag', 'spherical'],  # Tipos de covarianza
-}
 
 COMPONENTS = ["Component 1", "Component 2", "Component 3"]
 
@@ -38,7 +34,8 @@ if __name__=="__main__":
         print(f'\nModel {algoritme}')
         model = ClusteringModel(data=preprocessed_df, algorithm=algoritme)
         if algoritme == 'gmm':
-            model.best_k()
+            # model.gmm_best_k()
+            model.n_clusters=4
         else:
             model.elbow_method(max_clusters=MAX_CLUSTERS)
         model.fit()
