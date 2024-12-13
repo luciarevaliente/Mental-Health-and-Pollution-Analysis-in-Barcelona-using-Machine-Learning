@@ -23,8 +23,8 @@ PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset natejat
 ALGORITHMS = ['kmeans', 'spectral', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
 TARGET = 'estres'
 VARIABLES_RELLEVANTS = []
+MAX_CLUSTERS = 50
 COMPONENTS = ["Component 1", "Component 2", "Component 3"]
-THRESHOLD = 0.6
 
 if __name__=="__main__":
     # 1 i 2. Codificació i escalat
@@ -37,53 +37,15 @@ if __name__=="__main__":
 
     # 4. Elecció de l'algoritme de clústering: Inicialitzem la classe i provem
     for algoritme in ALGORITHMS:
-        if algoritme == 'kmeans':
-            print('acabat')
-            # clustering_kmeans = ClusteringModel(preprocessed_df, algorithm='kmeans')  
-            # clustering_kmeans.elbow_method(max_clusters=50)
-            # clustering_kmeans.fit()
+        print(f'\nModel {algoritme}')
+        model = ClusteringModel(preprocessed_df, algorithm=algoritme)
+        model.elbow_method(max_clusters=MAX_CLUSTERS)
+        model.fit()
 
-            # # Visualitzacions:
-            # # clustering_kmeans.plot_clusters_PCA_2d()
-            # # clustering_kmeans.plot_clusters_PCA_3d()
-            # # clustering_kmeans.plot_clusters_TSNE_2d()
-            # reduced_data = clustering_kmeans.plot_clusters_TSNE_3d() 
+        # Visualitzacions:
+        # clustering_kmeans.plot_clusters_PCA_2d()
+        # clustering_kmeans.plot_clusters_PCA_3d()
+        # clustering_kmeans.plot_clusters_TSNE_2d()
+        reduced_data = clustering_kmeans.plot_clusters_TSNE_3d() 
 
-            # # Grups segons els centroides
-            # centroides, caracteristicas_relevantes = clustering_kmeans.analisi_components_centroides(preprocessed_df)
-            # print("Característiques segons centroides:")
-            # for cluster, data in caracteristicas_relevantes.items():
-            #     print(f"Cluster {cluster}:")
-            #     print(f"  Variables más altas: {data['top']}")
-            #     print(f"  Variables más bajas: {data['low']}")
-            # print()
-
-            # # Grups segons les correlacions de cada dimensió de TSNE:
-            # correlations_df, dic_correlacions = clustering_kmeans.analisi_components_tsne_correlacio(reduced_data, k=5)
-            # print("Característiques segons components del TSNE:")
-            # for comp, correlaciones in dic_correlacions.items():
-            #     print(f"Componente: {comp}")
-            #     print(f"  Top positivas: {correlaciones['top_positive']}")
-            #     print(f"  Top negativas: {correlaciones['top_negative']}")
-
-            # # Evaluació final del model
-            # clustering_kmeans.evaluate()
-
-
-        elif algoritme == 'spectral':
-            print('en desenvolupament')
-            # clustering_spectral = ClusteringModel(preprocessed_df, n_clusters=3, algorithm='spectral')
-            # clustering_spectral.fit()
-            # clustering_spectral.evaluate()
-
-        elif algoritme == 'agglo':
-            # print('en desenvolupament')
-            clustering_agglo = ClusteringModel(preprocessed_df, n_clusters=3, algorithm='agglo')
-            clustering_agglo.fit()
-            clustering_agglo.evaluate()
-
-        elif algoritme == 'gmm':
-            print('en desenvolupament')
-            # clustering_gmm = ClusteringModel(preprocessed_df, n_clusters=3, algorithm='gmm')
-            # clustering_gmm.fit()
-            # clustering_gmm.evaluate()
+        model.evaluate()

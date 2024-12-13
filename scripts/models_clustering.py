@@ -72,33 +72,53 @@ class ClusteringModel:
         print(f"Puntuació de silueta per {self.algorithm}: {score}")
         return score
     
+    from sklearn.cluster import KMeans, SpectralClustering, AgglomerativeClustering
+from sklearn.mixture import GaussianMixture
+from yellowbrick.cluster import KElbowVisualizer, SilhouetteVisualizer
+
+class ClusteringModel:
+    def __init__(self, algorithm='kmeans', data=None):
+        self.algorithm = algorithm
+        self.data = data
+        self.n_clusters = None  # Inicializamos el número de clusters como None
+
     def elbow_method(self, max_clusters=10):
         """
-        Aplica el mètode del codo per trobar el millor nombre de clusters per KMeans i estableix en n_clusters el millor k
-        
-        Nota: Esta función solo es aplicable para el algoritmo KMeans.
+        Aplica el mètode del codo per trobar el millor nombre de clusters per a diversos algoritmes de clustering
+        i estableix en n_clusters el millor k.
 
         :param max_clusters: El màxim nombre de clusters a provar per al mètode del codo.
-        :param grafica: Si és True, mostra la gràfica del codo.
         """
-        if self.algorithm != 'kmeans':
-            raise ValueError("El mètode del codo només és aplicable per a KMeans.")
+        # Crear el modelo de clustering según el algoritmo
+        if self.algorithm == 'kmeans':
+            model = KMeans(random_state=42)
+            visualizer = KElbowVisualizer(model, k=(1, max_clusters))  # Evaluar entre 1 i max_clusters clusters
         
-        # Crear el model KMeans
-        kmeans = KMeans(random_state=42)
+        elif self.algorithm == 'spectral':
+            model = SpectralClustering(random_state=42)
+            visualizer = KElbowVisualizer(model, k=(1, max_clusters))  # Evaluar entre 1 i max_clusters clusters
         
-        # Crear el visualizador del codo (Elbow)
-        visualizer = KElbowVisualizer(kmeans, k=(1, max_clusters))  # Evaluar entre 1 i max_clusters clusters
+        elif self.algorithm == 'agglo':
+            model = AgglomerativeClustering()
+            visualizer = KElbowVisualizer(model, k=(1, max_clusters))  # Evaluar entre 1 i max_clusters clusters
         
+        elif self.algorithm == 'gmm':
+            model = GaussianMixture(random_state=42)
+            visualizer = KElbowVisualizer(model, k=(1, max_clusters))  # Evaluar entre 1 i max_clusters clusters
+
+        else:
+            raise ValueError(f"Algoritmo '{self.algorithm}' no es válido. Debe ser uno de {ALGORITHMS}.")
+
         # Ajustar el visualizador al dataset
         visualizer.fit(self.data)
         
-        # Mostrar la gràfica només si grafica és True
+        # Mostrar la gràfica
         visualizer.show()
-        
+
         # El número òptim de clusters es obté directament
         self.n_clusters = visualizer.elbow_value_
-        print(f"El número òptim de clusters és: {visualizer.elbow_value_}")
+        print(f"El número òptim de clusters és: {self.n_clusters}")
+
 
     def plot_clusters_PCA_2d(self):
         """
