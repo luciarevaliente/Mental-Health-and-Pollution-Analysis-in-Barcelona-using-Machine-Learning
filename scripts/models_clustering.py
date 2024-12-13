@@ -7,8 +7,9 @@ from sklearn.metrics import silhouette_score
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from yellowbrick.cluster import KElbowVisualizer
-from mpl_toolkits.mplot3d import Axes3D
-import seaborn as sns
+from sklearn.cluster import SpectralClustering, AgglomerativeClustering
+from sklearn.mixture import GaussianMixture
+
 
 # CLASSE
 class ClusteringModel:
