@@ -10,7 +10,6 @@ from yellowbrick.cluster import KElbowVisualizer
 from sklearn.cluster import SpectralClustering, AgglomerativeClustering
 from sklearn.mixture import GaussianMixture
 
-
 # CLASSE
 class ClusteringModel:
     def __init__(self, data, n_clusters=3, algorithm='kmeans'):
@@ -74,40 +73,50 @@ class ClusteringModel:
    
     def elbow_method(self, max_clusters=10):
         """
-        Aplica el mètode del codo per trobar el millor nombre de clusters per a diversos algoritmes de clustering
-        i estableix en n_clusters el millor k.
-
-        :param max_clusters: El màxim nombre de clusters a provar per al mètode del codo.
+        Aplica el mètode del codo per trobar el millor nombre de clusters.
         """
-        # Crear el modelo de clustering según el algoritmo
+        # Crear el model de clustering seguint l'algoritme seleccionat
         if self.algorithm == 'kmeans':
             model = KMeans(random_state=42)
-            visualizer = KElbowVisualizer(model, k=(1, max_clusters))  # Evaluar entre 1 i max_clusters clusters
-        
-        elif self.algorithm == 'spectral':
-            model = SpectralClustering(random_state=42)
-            visualizer = KElbowVisualizer(model, k=(1, max_clusters))  # Evaluar entre 1 i max_clusters clusters
-        
         elif self.algorithm == 'agglo':
             model = AgglomerativeClustering()
-            visualizer = KElbowVisualizer(model, k=(1, max_clusters))  # Evaluar entre 1 i max_clusters clusters
-        
         elif self.algorithm == 'gmm':
             model = GaussianMixture(random_state=42)
-            visualizer = KElbowVisualizer(model, k=(1, max_clusters))  # Evaluar entre 1 i max_clusters clusters
-
         else:
-            raise ValueError(f"Algoritmo '{self.algorithm}' no es válido. Debe ser uno de {ALGORITHMS}.")
+            raise ValueError(f"Algoritmo '{self.algorithm}' no és vàlid.")
 
-        # Ajustar el visualizador al dataset
+        # Crear el visualitzador per veure el mètode del codo
+        visualizer = KElbowVisualizer(model, k=(1, max_clusters))  # Provar entre 1 i max_clusters clusters
+
+        # Ajustar el visualitzador a les dades escalades
         visualizer.fit(self.data)
-        
-        # Mostrar la gràfica
         visualizer.show()
 
-        # El número òptim de clusters es obté directament
+        # Obtenir el nombre òptim de clusters (el valor del codo)
         self.n_clusters = visualizer.elbow_value_
         print(f"El número òptim de clusters és: {self.n_clusters}")
+
+    def gmm_best_k(self, max_clusters=10):
+        """
+        Encuentra el mejor número de clusters utilizando el BIC (Bayesian Information Criterion) en un GMM.
+        
+        :param max_clusters: Número máximo de clusters a evaluar (por defecto 10).
+        :return: El número óptimo de clusters según el BIC.
+        """
+        bic_scores = []
+        
+        # Evaluar modelos GMM para cada número de clusters desde 1 hasta max_clusters
+        for k in range(1, max_clusters + 1):
+            gmm = GaussianMixture(n_components=k, random_state=42)
+            gmm.fit(self.data)
+            bic_scores.append(gmm.bic(self.data))  # Calcular el BIC para el modelo ajustado
+
+        # Encontrar el número de clusters que minimiza el BIC
+        best_k = np.argmin(bic_scores) + 1  # +1 porque el rango comienza en 1
+        
+        print(f"El número óptimo de clusters según el BIC es: {best_k}")
+        self.n_clusters = best_k  # Establecer el número óptimo de clusters
+        return best_k
 
 
     def plot_clusters_PCA_2d(self):

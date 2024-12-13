@@ -5,16 +5,6 @@ Antes:
     3. Aplicar algoritmo de clústering
 """
 # IMPORTACIÓ
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.stats import shapiro
-from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score
-from sklearn.decomposition import PCA
-from sklearn.manifold import TSNE
-from yellowbrick.cluster import KElbowVisualizer
-from mpl_toolkits.mplot3d import Axes3D
 from preprocess import preprocess
 from models_clustering import ClusteringModel
 
@@ -23,9 +13,17 @@ PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset natejat
 ALGORITHMS = ['kmeans', 'spectral', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
 TARGET = 'estres'
 VARIABLES_RELLEVANTS = []
+
+ALGORITHMS = ['kmeans', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
 MAX_CLUSTERS = 50
+GMM_PARAM_GRID = {
+    'n_components': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],  # Diferentes valores de k (componentes)
+    'covariance_type': ['full', 'tied', 'diag', 'spherical'],  # Tipos de covarianza
+}
+
 COMPONENTS = ["Component 1", "Component 2", "Component 3"]
 
+# MAIN
 if __name__=="__main__":
     # 1 i 2. Codificació i escalat
     preprocessed_df = preprocess(PATH_DATASET, TARGET) # Carreguem les dades i les preprocessem
@@ -39,7 +37,10 @@ if __name__=="__main__":
     for algoritme in ALGORITHMS:
         print(f'\nModel {algoritme}')
         model = ClusteringModel(data=preprocessed_df, algorithm=algoritme)
-        model.elbow_method(max_clusters=MAX_CLUSTERS)
+        if algoritme == 'gmm':
+            model.best_k()
+        else:
+            model.elbow_method(max_clusters=MAX_CLUSTERS)
         model.fit()
 
         # Visualitzacions:
