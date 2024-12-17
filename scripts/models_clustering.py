@@ -74,7 +74,8 @@ class ClusteringModel:
         else:
             print(f"No es pot calcular el silhouette score. El número de clusters és {self.n_clusters}.")
             return None
-   
+
+    # CLUSTER SELECTION ------------------------------------------------------------------------------------
     def elbow_method(self, max_clusters=10):
         """
         Aplica el mètode del codo per trobar el millor nombre de clusters.
@@ -122,7 +123,7 @@ class ClusteringModel:
         self.n_clusters = best_k  # Establecer el número óptimo de clusters
         return best_k
 
-
+    # VISUALIZATION -----------------------------------------------------------------------------
     def plot_clusters_PCA_2d(self):
         """
         Visualiza los datos en un gráfico 2D coloreados según el cluster.
@@ -236,62 +237,60 @@ class ClusteringModel:
 
         return reduced_data
     
+    # ANALYSIS OF CLUSTER CHARACTERISTICS -------------------------------------------------------------------------------------
     def analisi_components_centroides(self, preprocessed_df, k=5):
         """
-        Analiza las características más relevantes en cada cluster para los algoritmos KMeans, Agglomerative Clustering y GMM.
-        Esto es útil para interpretar los resultados del clustering.
-
-        Retorna:
-        - Un DataFrame que muestra los valores medios de cada característica para cada cluster.
-        - Un diccionario que contiene, para cada cluster, las características con los valores medios
-        más altos y más bajos.
+        Analyze the most relevant features for each cluster based on the clustering algorithm.
+        
+        Parameters:
+        - preprocessed_df: DataFrame with the original (non-reduced) features used for clustering.
+        - k: Number of top/bottom features to analyze (default=5).
+        
+        Returns:
+        - centroides_df: DataFrame with cluster centers or means per feature.
+        - relevant_features: Dictionary mapping clusters to their top/bottom features.
         """
         if self.labels is None or self.model is None:
-            raise ValueError("El modelo debe ser ajustado antes de realizar este análisis.")
+            raise ValueError("The model must be fitted before running this analysis.")
 
         if self.algorithm == 'kmeans':
-            # Para KMeans: usar los centroides directamente
+            # KMeans: Direct access to centroids
             if not hasattr(self.model, 'cluster_centers_'):
-                raise ValueError("El modelo KMeans no tiene centroides calculados.")
+                raise ValueError("KMeans model does not have centroids computed.")
             centroids = self.model.cluster_centers_
-        
+
         elif self.algorithm == 'agglo':
-            # Para Agglomerative Clustering: calcular los valores promedio de las características por cluster
-            if not hasattr(self, 'labels_'):
-                raise ValueError("Agglomerative Clustering requiere etiquetas de cluster.")
-            centroids = preprocessed_df.groupby(self.labels).mean().values
-        
+            # AgglomerativeClustering: Compute feature averages per cluster
+            clusters = pd.DataFrame(self.data, columns=preprocessed_df.columns)
+            clusters['Cluster'] = self.labels
+            centroids = clusters.groupby('Cluster').mean().values
+
         elif self.algorithm == 'gmm':
-            # Para GMM: usar las medias calculadas por el modelo
+            # GaussianMixture: Use computed means
             if not hasattr(self.model, 'means_'):
-                raise ValueError("El modelo GMM no tiene medias calculadas.")
+                raise ValueError("GaussianMixture model does not have means computed.")
             centroids = self.model.means_
-        
+
         else:
-            raise ValueError("Este análisis solo está disponible para los algoritmos KMeans, Agglomerative Clustering y GMM.")
+            raise ValueError("This function only supports 'kmeans', 'agglo', or 'gmm' algorithms.")
 
-        # Convertir los centroides a un DataFrame
-        columns = preprocessed_df.columns  # Obtener los nombres de las columnas originales
+        # Convert centroids to DataFrame for better interpretation
+        columns = preprocessed_df.columns  # Get feature names
         centroides_df = pd.DataFrame(centroids, columns=columns)
-        centroides_df.index = [f'Cluster {i}' for i in range(len(centroides_df))]
+        centroides_df.index = [f"Cluster {i}" for i in range(len(centroides_df))]
 
-        # Diccionario para almacenar las características más relevantes
+        # Analyze top/bottom features for each cluster
         relevant_features = {}
-
         for cluster_idx, row in centroides_df.iterrows():
-            # Obtener las características con los valores más altos y más bajos
-            top_features = row.nlargest(k).index.tolist()  # Top k valores más altos
-            low_features = row.nsmallest(k).index.tolist()  # Top k valores más bajos
-
-            # Guardar en el diccionario
+            # Top k features with highest/lowest centroid values
+            top_features = row.nlargest(k).index.tolist()
+            low_features = row.nsmallest(k).index.tolist()
             relevant_features[cluster_idx] = {
                 'top': top_features,
                 'low': low_features
             }
 
-        # Retornar el DataFrame de centroides y el diccionario
         return centroides_df, relevant_features
-
 
     # def analisi_components_centroides(self, preprocessed_df, k=5):
     #     """

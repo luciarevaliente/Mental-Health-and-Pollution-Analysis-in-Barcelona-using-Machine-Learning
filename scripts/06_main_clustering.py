@@ -12,13 +12,15 @@ from models_clustering import ClusteringModel
 PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset natejat
 ALGORITHMS = ['kmeans', 'spectral', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
 TARGET = 'estres'
-# VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar', 'µgm3', 'mean_congruent', 'Totaltime', 'energia']
-VARIABLES_RELLEVANTS = []
+
+# VARIABLES_RELLEVANTS = []
+VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar', 'µgm3', 'mean_congruent', 'Totaltime', 'energia']
 
 ALGORITHMS = ['kmeans', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
 MAX_CLUSTERS = 50
 
 COMPONENTS = ["Component 1", "Component 2", "Component 3"]
+K = 3
 
 # MAIN
 if __name__=="__main__":
@@ -49,7 +51,7 @@ if __name__=="__main__":
         reduced_data = model.plot_clusters_TSNE_3d() 
 
         # Grups segons les correlacions de cada dimensió de TSNE:
-        correlations_df, dic_correlacions = model.analisi_components_tsne_correlacio(reduced_data, k=3)
+        correlations_df, dic_correlacions = model.analisi_components_tsne_correlacio(reduced_data, k=K)
         print("Característiques segons components del TSNE:")
         for comp, correlaciones in dic_correlacions.items():
             print(f"Componente: {comp}")
@@ -57,13 +59,13 @@ if __name__=="__main__":
             print(f"  Top negativas: {correlaciones['top_negative']}")
 
         # Grups segons els centroides
-        # centroides, caracteristicas_relevantes = model.analisi_components_centroides(preprocessed_df)
-        # print("Característiques segons centroides:")
-        # for cluster, data in caracteristicas_relevantes.items():
-        #     print(f"Cluster {cluster}:")
-        #     print(f"  Variables más altas: {data['top']}")
-        #     print(f"  Variables más bajas: {data['low']}")
-        # print()
+        centroides, caracteristicas_relevantes = model.analisi_components_centroides(preprocessed_df)
+        print("Característiques segons centroides:")
+        for cluster, data in caracteristicas_relevantes.items():
+            print(f"Cluster {cluster}:")
+            print(f"  Variables más altas: {data['top']}")
+            print(f"  Variables más bajas: {data['low']}")
+        print()
 
         model.evaluate()
 
