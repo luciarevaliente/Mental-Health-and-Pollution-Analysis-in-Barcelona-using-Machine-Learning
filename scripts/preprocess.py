@@ -107,9 +107,9 @@ def preprocess(CLEANED_DATASET_PATH, TARGET):
     escalar(data, numerical_columns)
     
     data[TARGET] = initial_dataset[TARGET]
-    
+
     # Hacer shuffle de las filas después de escalar
-    data = data.sample(frac=1, random_state=42).reset_index(drop=False)
+    data = data.sample(frac=1, random_state=42).reset_index(drop=True)
 
     # Guardar dataset escalado
     # data.to_pickle('data/shuffled_scaled_dataset.pkl')
@@ -117,3 +117,7 @@ def preprocess(CLEANED_DATASET_PATH, TARGET):
     # print("Dataset escalado guardado.")
     
     return data
+
+
+if __name__=="__main__":
+    preprocess(CLEANED_DATASET_PATH, TARGET)
