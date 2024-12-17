@@ -31,7 +31,7 @@ class RegressionModels:
                 **kwargs
             ),
             "xgboost": XGBRegressor(
-                early_stopping_rounds=10, 
+            
                 eval_metric="rmse",
                 objective="reg:squarederror",
                 random_state=42,
@@ -80,7 +80,7 @@ GRID_PARAMS = {
         "max_depth": [3, 5, 10, 15],
         "learning_rate": [0.01, 0.05, 0.1, 0.2],
         "subsample": [0.4, 0.6, 0.8],
-        "colsample_bytree": [0.4, 0.6, 0.8],
+        "colsample_bytree": [0.4, 0.6, 0.8, 1.0],
         "reg_alpha": [0, 0.1, 1],  # Regularización L1
         "reg_lambda": [1, 5, 10]  # Regularización L2
     }
@@ -100,7 +100,11 @@ def get_best_model(model_name, base_model, param_grid, X_train, y_train, X_test,
         random_state=42
     )
     if model_name == 'xgboost':
-        random_search.fit(X_train, y_train, eval_set=[(X_test, y_test)], verbose=False)
+        random_search.fit(
+            X_train, y_train, 
+            eval_set=[(X_test, y_test)], 
+            verbose=False
+        )
     else:
         random_search.fit(X_train, y_train)
     print(f"Mejores parámetros para {model_name}: {random_search.best_params_}")

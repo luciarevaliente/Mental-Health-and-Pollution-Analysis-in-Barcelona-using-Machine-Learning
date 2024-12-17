@@ -134,7 +134,7 @@ def plot_learning_curves(model, X_train, X_test, y_train, y_test):
     plt.savefig(os.path.join(RESULTS_DIR, "learning_curves.png"))
     plt.show()
 # Calcular la importancia de las características y eliminar columnas no importantes
-def drop_unimportant_features(X_train, y_train, threshold=0.05):
+def drop_unimportant_features(X_train, y_train, threshold=0.01):
     """
     Entrena un modelo para calcular la importancia de las características y elimina las menos relevantes.
     
@@ -189,7 +189,7 @@ if __name__ == "__main__":
 
     # Visualizar resultados
     plot_metrics(metrics_dict)
-    best_model_instance = RegressionModels(model_type="random_forest").get_model()
+    best_model_instance = RegressionModels(model_type="xgboost").get_model()
     plot_learning_curves(best_model_instance, X_train, X_test, y_train, y_test)
 
     print("Evaluación y análisis completados. Revisa los resultados en el directorio de resultados.")
