@@ -65,16 +65,6 @@ class ClusteringModel:
         """Establir l'algoritme de clustering"""
         self.algorithm = algorithm
 
-    def evaluate(self):
-        """Evaluar el model amb la puntuació de silueta"""
-        if self.n_clusters > 1:  # Solo calcular el silhouette si hay más de un cluster
-            score = self.silhouette_score()
-            print(f"Puntuació de silueta per {self.algorithm}: {score}")
-            return score
-        else:
-            print(f"No es pot calcular el silhouette score. El número de clusters és {self.n_clusters}.")
-            return None
-
     # CLUSTER SELECTION ------------------------------------------------------------------------------------
     def elbow_method(self, max_clusters=10):
         """

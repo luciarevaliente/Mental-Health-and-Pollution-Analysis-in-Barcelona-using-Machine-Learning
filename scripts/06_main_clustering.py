@@ -7,7 +7,7 @@ Antes:
 # IMPORTACIÓ
 from preprocess import preprocess
 from models_clustering import ClusteringModel
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 # VARIABLES CONSTANTS
 PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset natejat
@@ -32,20 +32,19 @@ if __name__=="__main__":
 
     # 3. Si hi ha variables rellevants, reduïm la dimensió del dataset
     if VARIABLES_RELLEVANTS: 
-        preprocessed_df = preprocessed_df[VARIABLES_RELLEVANTS]  # Modifiquem el dataset
-
-    plt.ion()
+        preprocessed_df = preprocessed_df[VARIABLES_RELLEVANTS]  # Modifiquem el datases
 
     # 4. Elecció de l'algoritme de clústering: Inicialitzem la classe i provem
+    # plt.ion()
     for algoritme in ALGORITHMS:
         print(f'\nModel {algoritme}')
         model = ClusteringModel(data=preprocessed_df, algorithm=algoritme)
-        model.n_clusters=3
-        # if algoritme == 'gmm':
-        #     model.gmm_best_k()
-        #     # model.n_clusters=4
-        # else:
-        #     model.elbow_method(max_clusters=MAX_CLUSTERS)
+        # model.n_clusters=3
+        if algoritme == 'gmm':
+            model.gmm_best_k()
+            # model.n_clusters=4
+        else:
+            model.elbow_method(max_clusters=MAX_CLUSTERS)
         model.fit()
 
         # Visualitzacions:
@@ -73,7 +72,7 @@ if __name__=="__main__":
 
         model.evaluate()
 
-h = input("hola :)")
+# h = input("hola :)")
         # if algoritme == 'kmeans':
         #     print('\nModel kmeans')
         #     # clustering_kmeans = ClusteringModel(preprocessed_df, algorithm=algoritme)  

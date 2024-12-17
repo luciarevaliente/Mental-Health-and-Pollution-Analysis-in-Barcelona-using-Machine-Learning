@@ -14,8 +14,9 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 PICKLE_PATH = 'data/dataset.pkl'
 CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
 k = 5
-ESBORRAR = ['date_all', 'year', 'month', 'day', 'start_year','start_month', 'start_day', 'start_hour', 'end_year','end_month', 'end_day', 'end_hour', # Les dades temporals de l'enquesta no aporten info, només per controlar dataset
-            'stroop_test']  # Només pren un valor
+ESBORRAR = ['date_all', 'year', 'month', 'hour', 'day', 'start_year','start_month', 'start_day', 'start_hour', 'end_year','end_month', 'end_day', 'end_hour', 'Houron', 'Houroff', # Les dades temporals de l'enquesta no aporten info, només per controlar dataset
+            'stroop_test', # Només pren un valor
+            'yearbirth'] # Ja tenim la variable age 
 
 # FUNCIONES ###############################################################
 # Eliminar valores nulos
@@ -93,14 +94,14 @@ if __name__=="__main__":
     # Eliminar columnas innecesarias
     data = data.drop(columns=ESBORRAR, errors='ignore')
 
-    # Conversión de formatos
-    data['Houron'] = pd.to_datetime(data['Houron'], format='%H:%M:%S', errors='coerce')
-    data['Houroff'] = pd.to_datetime(data['Houroff'], format='%H:%M:%S', errors='coerce')
-    data['Houron_hour'] = data['Houron'].dt.hour.astype('Int64')
-    data['Houron_minute'] = data['Houron'].dt.minute.astype('Int64')
-    data['Houroff_hour'] = data['Houroff'].dt.hour.astype('Int64')
-    data['Houroff_minute'] = data['Houroff'].dt.minute.astype('Int64')
-    data = data.drop(columns=['Houron', 'Houroff'], errors='ignore')
+    # # Conversión de formatos
+    # data['Hour] = pd.to_datetime(data['Houron'], format='%H:%M:%S', errors='coerce')
+    # data['Houroff'] = pd.to_datetime(data['Houroff'], format='%H:%M:%S', errors='coerce')
+    # data['Houron_hour'] = data['Houron'].dt.hour.astype('Int64')
+    # data['Houron_minute'] = data['Houron'].dt.minute.astype('Int64')
+    # data['Houroff_hour'] = data['Houroff'].dt.hour.astype('Int64')
+    # data['Houroff_minute'] = data['Houroff'].dt.minute.astype('Int64')
+    # data = data.drop(columns=['Houron', 'Houroff'], errors='ignore')on'
 
     # Paso 1: Tratar valores nulos
     cleaned_dataset = filtrar_valors_null(data, k)
@@ -109,15 +110,14 @@ if __name__=="__main__":
     cleaned_dataset = eliminar_duplicados(cleaned_dataset)
 
     # Paso 3: Convertir tipos de datos
-    transform_to_int = ['occurrence_mental', 'occurrence_stroop', 'correct', 'response_duration_ms', 'start_day',
-                        'start_month', 'start_year', 'start_hour', 'end_day', 'end_month', 'end_year', 'end_hour', 
-                        'age_yrs', 'yearbirth', 'hour_gps', 'sec_noise55_day', 'sec_noise65_day', 'sec_greenblue_day',
+    transform_to_int = ['occurrence_mental', 'occurrence_stroop', 'correct', 'response_duration_ms', 
+                        'age_yrs', 'hour_gps', 'sec_noise55_day', 'sec_noise65_day', 'sec_greenblue_day',
                         'hours_noise_55_day', 'hours_noise_65_day', 'hours_greenblue_day', 'precip_12h_binary',
-                        'precip_24h_binary', 'dayoftheweek', 'year', 'month', 'day', 'hour', 'bienestar', 'energia', 
+                        'precip_24h_binary', 'dayoftheweek', 'bienestar', 'energia', 
                         'estres', 'sueno']
     transform_to_str = ['mentalhealth_survey', 'ordenador', 'dieta', 'alcohol', 'drogas', 'enfermo', 'otrofactor', 
                         'district', 'education', 'access_greenbluespaces_300mbuff', 'smoke', 'psycho', 'gender', 
-                        'Totaltime_estimated'] #'stroop_test'
+                        'Totaltime_estimated'] 
     cleaned_dataset = convertir_tipus_de_dades(cleaned_dataset, enter=transform_to_int, caracter=transform_to_str)
 
     # Paso 4: Normalizar valores categóricos
