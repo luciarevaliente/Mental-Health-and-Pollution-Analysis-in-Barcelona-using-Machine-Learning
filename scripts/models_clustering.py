@@ -211,20 +211,14 @@ class ClusteringModel:
         """
         if self.labels is None:
             raise ValueError("El modelo debe ser ajustado antes de graficar los clusters.")
-
-        # Verificar si el índice está presente como columna en los datos
-        if self.data.index.name in self.data.columns:
-            data_to_use = self.data.drop(columns=[self.data.index.name])
-        else:
-            data_to_use = self.data
-
+        
         # Reducir a 3 dimensiones si es necesario
-        if data_to_use.shape[1] > 3:
+        if self.data.shape[1] > 3:
             tsne = TSNE(n_components=3, random_state=42)
-            reduced_data = tsne.fit_transform(data_to_use)
+            reduced_data = tsne.fit_transform(self.data)
         else:
-            reduced_data = data_to_use.values  # Asegurarse de convertir a ndarray si es DataFrame
-
+            reduced_data = self.data
+        
         # Crear el gráfico 3D
         fig = plt.figure(figsize=(10, 8))
         ax = fig.add_subplot(111, projection='3d')
@@ -242,39 +236,6 @@ class ClusteringModel:
         plt.show()
 
         return reduced_data
-
-    # def plot_clusters_TSNE_3d(self):
-    #     """
-    #     Visualiza los datos en un gráfico 3D coloreados según el cluster.
-    #     Utiliza t-SNE para reducir la dimensionalidad si hay más de 3 características.
-    #     """
-    #     if self.labels is None:
-    #         raise ValueError("El modelo debe ser ajustado antes de graficar los clusters.")
-        
-    #     # Reducir a 3 dimensiones si es necesario
-    #     if self.data.shape[1] > 3:
-    #         tsne = TSNE(n_components=3, random_state=42)
-    #         reduced_data = tsne.fit_transform(self.data)
-    #     else:
-    #         reduced_data = self.data
-        
-    #     # Crear el gráfico 3D
-    #     fig = plt.figure(figsize=(10, 8))
-    #     ax = fig.add_subplot(111, projection='3d')
-
-    #     # Graficar los datos en 3D
-    #     scatter = ax.scatter(
-    #         reduced_data[:, 0], reduced_data[:, 1], reduced_data[:, 2],
-    #         c=self.labels, cmap='viridis', s=50, alpha=0.6, edgecolor='k'
-    #     )
-    #     ax.set_title(f'Clusters Visualizados ({self.algorithm}). TSNE 3D. k={self.n_clusters}.')
-    #     ax.set_xlabel('Componente 1')
-    #     ax.set_ylabel('Componente 2')
-    #     ax.set_zlabel('Componente 3')
-    #     fig.colorbar(scatter, label='Cluster')
-    #     plt.show()
-
-    #     return reduced_data
     
     # ANALYSIS OF CLUSTER CHARACTERISTICS -------------------------------------------------------------------------------------
     def analisi_components_centroides(self, preprocessed_df, k=5):

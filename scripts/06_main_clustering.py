@@ -34,7 +34,6 @@ if __name__=="__main__":
     if VARIABLES_RELLEVANTS: 
         preprocessed_df = preprocessed_df[VARIABLES_RELLEVANTS]  # Modifiquem el dataset
 
-
     plt.ion()
 
     # 4. Elecció de l'algoritme de clústering: Inicialitzem la classe i provem
