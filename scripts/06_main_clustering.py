@@ -7,14 +7,15 @@ Antes:
 # IMPORTACIÓ
 from preprocess import preprocess
 from models_clustering import ClusteringModel
+import matplotlib.pyplot as plt
 
 # VARIABLES CONSTANTS
 PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset natejat
 ALGORITHMS = ['kmeans', 'spectral', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
 TARGET = 'estres'
 
-# VARIABLES_RELLEVANTS = []
-VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar', 'µgm3', 'mean_congruent', 'Totaltime', 'energia']
+VARIABLES_RELLEVANTS = []
+# VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar', 'µgm3', 'mean_congruent', 'Totaltime', 'energia']
 
 ALGORITHMS = ['kmeans', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
 MAX_CLUSTERS = 50
@@ -33,15 +34,19 @@ if __name__=="__main__":
     if VARIABLES_RELLEVANTS: 
         preprocessed_df = preprocessed_df[VARIABLES_RELLEVANTS]  # Modifiquem el dataset
 
+
+    plt.ion()
+
     # 4. Elecció de l'algoritme de clústering: Inicialitzem la classe i provem
     for algoritme in ALGORITHMS:
         print(f'\nModel {algoritme}')
         model = ClusteringModel(data=preprocessed_df, algorithm=algoritme)
-        if algoritme == 'gmm':
-            model.gmm_best_k()
-            # model.n_clusters=4
-        else:
-            model.elbow_method(max_clusters=MAX_CLUSTERS)
+        model.n_clusters=3
+        # if algoritme == 'gmm':
+        #     model.gmm_best_k()
+        #     # model.n_clusters=4
+        # else:
+        #     model.elbow_method(max_clusters=MAX_CLUSTERS)
         model.fit()
 
         # Visualitzacions:
@@ -69,6 +74,7 @@ if __name__=="__main__":
 
         model.evaluate()
 
+h = input("hola :)")
         # if algoritme == 'kmeans':
         #     print('\nModel kmeans')
         #     # clustering_kmeans = ClusteringModel(preprocessed_df, algorithm=algoritme)  
