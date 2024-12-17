@@ -53,7 +53,7 @@ if __name__=="__main__":
         # model.plot_clusters_TSNE_2d()
         reduced_data = model.plot_clusters_TSNE_3d() 
 
-        # Grups segons les correlacions de cada dimensió de TSNE:
+        # Grups segons les correlacions de cada dimensió de TSNE: -------------------------------------------
         correlations_df, dic_correlacions = model.analisi_components_tsne_correlacio(reduced_data, k=K)
         print("Característiques segons components del TSNE:")
         for comp, correlaciones in dic_correlacions.items():
@@ -61,7 +61,7 @@ if __name__=="__main__":
             print(f"  Top positivas: {correlaciones['top_positive']}")
             print(f"  Top negativas: {correlaciones['top_negative']}")
 
-        # Grups segons els centroides
+        # Grups segons els centroides ------------------------------------------------------------------------
         centroides, caracteristicas_relevantes = model.analisi_components_centroides(preprocessed_df)
         print("Característiques segons centroides:")
         for cluster, data in caracteristicas_relevantes.items():
@@ -69,63 +69,3 @@ if __name__=="__main__":
             print(f"  Variables más altas: {data['top']}")
             print(f"  Variables más bajas: {data['low']}")
         print()
-
-        model.evaluate()
-
-# h = input("hola :)")
-        # if algoritme == 'kmeans':
-        #     print('\nModel kmeans')
-        #     # clustering_kmeans = ClusteringModel(preprocessed_df, algorithm=algoritme)  
-        #     # clustering_kmeans.elbow_method(max_clusters=50)
-        #     # clustering_kmeans.fit()
-
-        #     # # Visualitzacions:
-        #     # # clustering_kmeans.plot_clusters_PCA_2d()
-        #     # # clustering_kmeans.plot_clusters_PCA_3d()
-        #     # # clustering_kmeans.plot_clusters_TSNE_2d()
-        #     # reduced_data = clustering_kmeans.plot_clusters_TSNE_3d() 
-
-        #     # # Grups segons els centroides
-        #     # centroides, caracteristicas_relevantes = clustering_kmeans.analisi_components_centroides(preprocessed_df)
-        #     # print("Característiques segons centroides:")
-        #     # for cluster, data in caracteristicas_relevantes.items():
-        #     #     print(f"Cluster {cluster}:")
-        #     #     print(f"  Variables más altas: {data['top']}")
-        #     #     print(f"  Variables más bajas: {data['low']}")
-        #     # print()
-
-        #     # # Grups segons les correlacions de cada dimensió de TSNE:
-        #     # correlations_df, dic_correlacions = clustering_kmeans.analisi_components_tsne_correlacio(reduced_data, k=5)
-        #     # print("Característiques segons components del TSNE:")
-        #     # for comp, correlaciones in dic_correlacions.items():
-        #     #     print(f"Componente: {comp}")
-        #     #     print(f"  Top positivas: {correlaciones['top_positive']}")
-        #     #     print(f"  Top negativas: {correlaciones['top_negative']}")
-
-        #     # # Evaluació final del model
-        #     # clustering_kmeans.evaluate()
-
-
-        # elif algoritme == 'spectral':
-        #     print('\nModel spectral')
-        #     clustering_spectral = ClusteringModel(preprocessed_df, algorithm='kmeans')  
-        #     clustering_spectral.elbow_method(max_clusters=50)
-        #     # clust
-        #     clustering_spectral = ClusteringModel(preprocessed_df, n_clusters=3, algorithm='spectral')
-        #     clustering_spectral.fit()
-        #     reduced_data = clustering_spectral.plot_clusters_TSNE_3d()
-        #     clustering_spectral.evaluate()
-
-        # elif algoritme == 'agglo':
-        #     print('\nModel algomeratiu')
-        #     clustering_agglo = ClusteringModel(preprocessed_df, n_clusters=3, algorithm='agglo')
-        #     clustering_agglo.fit()
-        #     reduced_data = clustering_agglo.plot_clusters_TSNE_3d() 
-        #     clustering_agglo.evaluate()
-
-        # elif algoritme == 'gmm':
-        #     print('\nModel gaussian')
-        #     clustering_gmm = ClusteringModel(preprocessed_df, n_clusters=3, algorithm='gmm')
-        #     clustering_gmm.fit()
-        #     reduced_data = clustering_gmm.plot_clusters_TSNE_3d() 
-        #     clustering_gmm.evaluate()
