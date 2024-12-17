@@ -1,31 +1,34 @@
 import os
 import pandas as pd
 import numpy as np
-from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error, max_error
 import matplotlib.pyplot as plt
 from models_regression import get_best_model
 from models_regression import RegressionModels, GRID_PARAMS
+from preprocess import preprocess
 
 # Configuración
-FEATURES = ['ordenador', 'otrofactor', 'dayoftheweek', 'bienestar','covid_motor','drogas']
+FEATURES = ['ordenador', 'otrofactor', 'dayoftheweek', 'bienestar','energia']
 TARGET_COLUMN = "estres"
 RESULTS_DIR = "data/regression/final_results"
 
 cleaned_dataset_path = 'data/cleaned_dataset.pkl'
-codif_dataset_path = 'data/codif_dataset.pkl'
+data = preprocess(cleaned_dataset_path,TARGET_COLUMN)
 
-cleaned_dataset = pd.read_pickle(cleaned_dataset_path)
-data = pd.read_pickle(codif_dataset_path)
+# cleaned_dataset = pd.read_pickle(cleaned_dataset_path)
+# # data = pd.read_pickle(codif_dataset_path)
 
-# Verificar si la columna 'estres' está en el dataset limpio
-if 'estres' in cleaned_dataset.columns:
-    # Añadir la columna 'estres' al dataset codificado
-    if cleaned_dataset.shape[0] == data.shape[0]:
-        data['estres'] = cleaned_dataset['estres']
-        print("Columna 'estres' añadida correctamente.")
+# # Verificar si la columna 'estres' está en el dataset limpio
+# if 'estres' in cleaned_dataset.columns:
+#     # Añadir la columna 'estres' al dataset codificado
+#     if cleaned_dataset.shape[0] == data.shape[0]:
+#         data['estres'] = cleaned_dataset['estres']
+#         print("Columna 'estres' añadida correctamente.")
 
 # Crear directorio para resultados
 os.makedirs(RESULTS_DIR, exist_ok=True)
+
+print("Valores faltantes en la variable objetivo 'estres':", data['estres'].isnull().sum())
 
 # Función para evaluar el modelo
 
@@ -58,7 +61,8 @@ def evaluate_model(model_name, X_train, X_test, y_train, y_test):
     metrics = {
         "train_mse": mean_squared_error(y_train, y_train_pred),
         "test_mse": mean_squared_error(y_test, y_test_pred),
-        "test_mae": mean_absolute_error(y_test, y_test_pred)
+        "test_mae": mean_absolute_error(y_test, y_test_pred),
+        "test_max_error": max_error(y_test,y_test_pred)
     }
 
     # Guardar métricas
@@ -180,8 +184,8 @@ if __name__ == "__main__":
     metrics_dict = {}
 
     # Eliminar características no importantes
-    X_train_filtered, important_features = drop_unimportant_features(X_train, y_train, threshold=0.01)
-    X_test_filtered = X_test[important_features]  # Mantener mismas columnas en conjunto de prueba
+    # X_train_filtered, important_features = drop_unimportant_features(X_train, y_train, threshold=0.01)
+    # X_test_filtered = X_test[important_features]  # Mantener mismas columnas en conjunto de prueba
 
     for model_name in model_types:
         metrics = evaluate_model(model_name, X_train, X_test, y_train, y_test)

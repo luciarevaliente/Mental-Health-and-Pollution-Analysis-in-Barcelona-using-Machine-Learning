@@ -7,15 +7,15 @@ import os
 from sklearn.feature_selection import SelectKBest, f_regression
 
 # Configuración
-DATA_PATH = "data/cleaned_dataset.pkl"
+DATA_PATH = "data/shuffled_scaled_dataset.pkl"
 TARGET_COLUMN = "estres"
 
 # Preparación de datos
-def prepare_data(data_path, target_column):
-    data = preprocess(data_path, target_column)
+def prepare_data(data, target_column):
+    # data = preprocess(data_path, target_column)
     return separacio_train_test(data, target_column)
 
-X_train, X_test, y_train, y_test = prepare_data(DATA_PATH, TARGET_COLUMN)
+X_train, X_test, y_train, y_test = prepare_data(pd.read_pickle(DATA_PATH), TARGET_COLUMN)
 
 # Evaluar modelos y calcular importancia de características
 # def evaluate_models(model_types, X_train, y_train):
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     # print("Evaluación completada.")
 
     # Extraer las 10 características más importantes comunes
-    common_features = select_k_best_features(X_train,y_train, 20)
+    common_features = select_k_best_features(X_train,y_train, 10)
     print("Las 10 características más importantes comunes entre los modelos son:")
     print(common_features)
     print("Evaluación completada.")
