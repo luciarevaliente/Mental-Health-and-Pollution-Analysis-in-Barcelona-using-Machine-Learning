@@ -283,43 +283,47 @@ class ClusteringModel:
         # Retornar el DataFrame de centroides y el diccionario
         return centroides_df, relevant_features
 
-
     def analisi_components_tsne_correlacio(self, reduced_data, k=5):
         """
         Realiza un análisis de correlación entre las características originales del conjunto de datos
         y las componentes obtenidas mediante reducción dimensional con t-SNE. Esta función calcula 
         las correlaciones entre cada componente de t-SNE y las variables originales, y devuelve una 
-        lista de las 5 características con las correlaciones más fuertes (tanto positivas como negativas) 
+        lista de las k características con las correlaciones más fuertes (tanto positivas como negativas) 
         para cada componente.
 
         Parámetros:
         - reduced_data: ndarray o DataFrame que contiene los datos reducidos a través de t-SNE.
         Debe tener el mismo número de filas que self.data, y debe contener las componentes reducidas 
         generadas por t-SNE.
+        - k: Número de correlaciones más fuertes (positivas y negativas) a identificar.
 
         Retorna:
         - correlations_df: DataFrame con las correlaciones completas.
-        - dic_correlacions: un diccionario que contiene, para cada componente de t-SNE, las 5 variables 
+        - dic_correlacions: un diccionario que contiene, para cada componente de t-SNE, las k variables 
         originales con las correlaciones más altas (positivas y negativas). La estructura es la siguiente:
         {
             'Component 1': {'top_positive': [var1, var2, ...], 'top_negative': [var3, var4, ...]},
             ...
         }
         """
-        COMPONENTS = ["Component 1", "Component 2", "Component 3"]
+        # Nombres de las componentes t-SNE
+        COMPONENTS = [f"Component {i+1}" for i in range(reduced_data.shape[1])]
 
-        # Convertir las coordenadas a un DataFrame
+        # Convertir las coordenadas t-SNE a un DataFrame
         tsne_df = pd.DataFrame(reduced_data, columns=COMPONENTS)
 
-        # Analizar correlaciones
+        # Combinar datos originales con las componentes t-SNE
         combined_df = pd.concat([self.data, tsne_df], axis=1)
-        correlations = combined_df.corr()[COMPONENTS]
+
+        # Calcular correlaciones completas entre variables originales y componentes t-SNE
+        correlations = combined_df.corr().loc[self.data.columns, COMPONENTS]
 
         # Diccionario para guardar las correlaciones más significativas
         dic_correlacions = {}
 
-        for comp in correlations.columns:
-            correlacions = correlations[comp].drop(labels=[comp])
+        for comp in COMPONENTS:
+            # Seleccionar las correlaciones de la componente actual
+            correlacions = correlations[comp]
 
             # Obtener las k correlaciones más fuertes positivas y negativas
             top_k_positive = correlacions.sort_values(ascending=False).head(k)
@@ -333,3 +337,54 @@ class ClusteringModel:
 
         # Retornar el DataFrame completo y el diccionario de correlaciones
         return correlations, dic_correlacions
+
+
+    # def analisi_components_tsne_correlacio(self, reduced_data, k=5):
+    #     """
+    #     Realiza un análisis de correlación entre las características originales del conjunto de datos
+    #     y las componentes obtenidas mediante reducción dimensional con t-SNE. Esta función calcula 
+    #     las correlaciones entre cada componente de t-SNE y las variables originales, y devuelve una 
+    #     lista de las 5 características con las correlaciones más fuertes (tanto positivas como negativas) 
+    #     para cada componente.
+
+    #     Parámetros:
+    #     - reduced_data: ndarray o DataFrame que contiene los datos reducidos a través de t-SNE.
+    #     Debe tener el mismo número de filas que self.data, y debe contener las componentes reducidas 
+    #     generadas por t-SNE.
+
+    #     Retorna:
+    #     - correlations_df: DataFrame con las correlaciones completas.
+    #     - dic_correlacions: un diccionario que contiene, para cada componente de t-SNE, las 5 variables 
+    #     originales con las correlaciones más altas (positivas y negativas). La estructura es la siguiente:
+    #     {
+    #         'Component 1': {'top_positive': [var1, var2, ...], 'top_negative': [var3, var4, ...]},
+    #         ...
+    #     }
+    #     """
+    #     COMPONENTS = ["Component 1", "Component 2", "Component 3"]
+
+    #     # Convertir las coordenadas a un DataFrame
+    #     tsne_df = pd.DataFrame(reduced_data, columns=COMPONENTS)
+
+    #     # Analizar correlaciones
+    #     combined_df = pd.concat([self.data, tsne_df], axis=1)
+    #     correlations = combined_df.corr()[COMPONENTS]
+
+    #     # Diccionario para guardar las correlaciones más significativas
+    #     dic_correlacions = {}
+
+    #     for comp in correlations.columns:
+    #         correlacions = correlations[comp].drop(labels=[comp])
+
+    #         # Obtener las k correlaciones más fuertes positivas y negativas
+    #         top_k_positive = correlacions.sort_values(ascending=False).head(k)
+    #         top_k_negative = correlacions.sort_values(ascending=True).head(k)
+
+    #         # Almacenar en el diccionario
+    #         dic_correlacions[comp] = {
+    #             'top_positive': top_k_positive.index.tolist(),
+    #             'top_negative': top_k_negative.index.tolist()
+    #         }
+
+    #     # Retornar el DataFrame completo y el diccionario de correlaciones
+    #     return correlations, dic_correlacions
