@@ -133,6 +133,38 @@ def plot_learning_curves(model, X_train, X_test, y_train, y_test):
     plt.tight_layout()
     plt.savefig(os.path.join(RESULTS_DIR, "learning_curves.png"))
     plt.show()
+# Calcular la importancia de las características y eliminar columnas no importantes
+def drop_unimportant_features(X_train, y_train, threshold=0.05):
+    """
+    Entrena un modelo para calcular la importancia de las características y elimina las menos relevantes.
+    
+    Args:
+        X_train (pd.DataFrame): Datos de entrenamiento.
+        y_train (pd.Series): Target del conjunto de entrenamiento.
+        threshold (float): Umbral mínimo de importancia para mantener una columna.
+    
+    Returns:
+        pd.DataFrame: Conjunto de datos con las columnas importantes.
+    """
+    # Utilizar RandomForest para obtener importancias como ejemplo
+    from sklearn.ensemble import RandomForestRegressor
+    
+    model = RandomForestRegressor(random_state=42)
+    model.fit(X_train, y_train)
+    
+    importances = pd.DataFrame({
+        'Feature': X_train.columns,
+        'Importance': model.feature_importances_
+    }).sort_values(by='Importance', ascending=False)
+    
+    print("Importancia de las características:")
+    print(importances)
+    
+    # Filtrar características importantes
+    important_features = importances[importances['Importance'] >= threshold]['Feature']
+    print(f"Columnas importantes: {list(important_features)}")
+    
+    return X_train[important_features], important_features
 
 ######################################################################################################################################
 # MAIN
@@ -146,6 +178,10 @@ if __name__ == "__main__":
     # Evaluar modelos seleccionados
     model_types = [ "random_forest", "gradient_boosting", "xgboost"]
     metrics_dict = {}
+
+    # Eliminar características no importantes
+    X_train_filtered, important_features = drop_unimportant_features(X_train, y_train, threshold=0.01)
+    X_test_filtered = X_test[important_features]  # Mantener mismas columnas en conjunto de prueba
 
     for model_name in model_types:
         metrics = evaluate_model(model_name, X_train, X_test, y_train, y_test)

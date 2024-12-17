@@ -22,9 +22,25 @@ class RegressionModels:
             "linear": LinearRegression(**kwargs),
             "ridge": Ridge(**kwargs),
             "lasso": Lasso(**kwargs),
-            "random_forest": RandomForestRegressor(**kwargs),
-            "xgboost": XGBRegressor(early_stopping_rounds=10, eval_metric="rmse",**kwargs),
-            "gradient_boosting": GradientBoostingRegressor(**kwargs)
+            "random_forest": RandomForestRegressor(
+                max_depth=10,  # Reduce la profundidad
+                min_samples_split=5,  # Al menos 5 muestras para dividir
+                min_samples_leaf=2,  # Hojas con al menos 2 muestras
+                n_estimators=100,  # Número de árboles
+                random_state=42,
+                **kwargs
+            ),
+            "xgboost": XGBRegressor(
+                early_stopping_rounds=10, 
+                eval_metric="rmse",
+                objective="reg:squarederror",
+                random_state=42,
+                **kwargs
+            ),
+            "gradient_boosting": GradientBoostingRegressor(
+                random_state=42,
+                **kwargs
+            )
         }
         if model_type not in models:
             raise ValueError(f"Modelo no reconocido: {model_type}")
@@ -49,25 +65,29 @@ GRID_PARAMS = {
     "random_forest": {
         "n_estimators": [100, 200, 500],
         "max_depth": [None, 10, 20],
-        "min_samples_split": [2, 5]
+        "min_samples_split": [2, 5],
+        "min_samples_leaf": [1, 2, 4]
     },
     "gradient_boosting": {
         "n_estimators": [100, 200],
-        "learning_rate": [0.01, 0.1],
-        "max_depth": [3, 6, 10]
+        "learning_rate": [0.01, 0.1, 0.2],
+        "max_depth": [3, 6, 10],
+        "min_samples_split": [2, 5],
+        "min_samples_leaf": [1, 2, 4]
     },
     "xgboost": {
-    "n_estimators": [100, 300, 500],
-    "max_depth": [3, 5, 10, 15],
-    "learning_rate": [0.01, 0.05, 0.1, 0.2],
-    "subsample": [0.6, 0.8, 1.0],
-    "colsample_bytree": [0.6, 0.8, 1.0]  # Columna de muestreo
+        "n_estimators": [100, 300, 500],
+        "max_depth": [3, 5, 10, 15],
+        "learning_rate": [0.01, 0.05, 0.1, 0.2],
+        "subsample": [0.4, 0.6, 0.8],
+        "colsample_bytree": [0.4, 0.6, 0.8],
+        "reg_alpha": [0, 0.1, 1],  # Regularización L1
+        "reg_lambda": [1, 5, 10]  # Regularización L2
+    }
 }
 
-    }
-
 # Buscar el mejor modelo
-def get_best_model(model_name, base_model, param_grid,X_train, y_train,X_test, y_test):
+def get_best_model(model_name, base_model, param_grid, X_train, y_train, X_test, y_test):
     print(f"Optimizando {model_name}...")
     random_search = RandomizedSearchCV(
         estimator=base_model,
@@ -79,8 +99,8 @@ def get_best_model(model_name, base_model, param_grid,X_train, y_train,X_test, y
         n_jobs=-1,
         random_state=42
     )
-    if model_name=='xgboost':
-        random_search.fit(X_train, y_train, eval_set=[(X_test, y_test)])
+    if model_name == 'xgboost':
+        random_search.fit(X_train, y_train, eval_set=[(X_test, y_test)], verbose=False)
     else:
         random_search.fit(X_train, y_train)
     print(f"Mejores parámetros para {model_name}: {random_search.best_params_}")
