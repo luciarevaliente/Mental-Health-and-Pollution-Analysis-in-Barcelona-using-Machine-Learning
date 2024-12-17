@@ -12,7 +12,7 @@ from models_clustering import ClusteringModel
 PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset natejat
 ALGORITHMS = ['kmeans', 'spectral', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
 TARGET = 'estres'
-VARIABLES_RELLEVANTS = []
+VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar', 'µgm3', 'mean_congruent', 'Totaltime', 'energia']
 
 ALGORITHMS = ['kmeans', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
 MAX_CLUSTERS = 50
@@ -24,6 +24,7 @@ if __name__=="__main__":
     # 1 i 2. Codificació i escalat
     preprocessed_df = preprocess(PATH_DATASET, TARGET) # Carreguem les dades i les preprocessem
     preprocessed_df = preprocessed_df.drop(TARGET, axis=1)  # Eliminem la variable a partir de la qual volem fer clústering
+    # print(preprocessed_df.columns)
 
     # 3. Si hi ha variables rellevants, reduïm la dimensió del dataset
     if VARIABLES_RELLEVANTS: 
@@ -34,17 +35,34 @@ if __name__=="__main__":
         print(f'\nModel {algoritme}')
         model = ClusteringModel(data=preprocessed_df, algorithm=algoritme)
         if algoritme == 'gmm':
-            # model.gmm_best_k()
-            model.n_clusters=4
+            model.gmm_best_k()
+            # model.n_clusters=4
         else:
             model.elbow_method(max_clusters=MAX_CLUSTERS)
         model.fit()
 
         # Visualitzacions:
-        # clustering_kmeans.plot_clusters_PCA_2d()
-        # clustering_kmeans.plot_clusters_PCA_3d()
-        # clustering_kmeans.plot_clusters_TSNE_2d()
+        # model.plot_clusters_PCA_2d()
+        # model.plot_clusters_PCA_3d()
+        # model.plot_clusters_TSNE_2d()
         reduced_data = model.plot_clusters_TSNE_3d() 
+
+        # Grups segons les correlacions de cada dimensió de TSNE:
+        correlations_df, dic_correlacions = model.analisi_components_tsne_correlacio(reduced_data, k=5)
+        print("Característiques segons components del TSNE:")
+        for comp, correlaciones in dic_correlacions.items():
+            print(f"Componente: {comp}")
+            print(f"  Top positivas: {correlaciones['top_positive']}")
+            print(f"  Top negativas: {correlaciones['top_negative']}")
+
+        # Grups segons els centroides
+        centroides, caracteristicas_relevantes = model.analisi_components_centroides(preprocessed_df)
+        print("Característiques segons centroides:")
+        for cluster, data in caracteristicas_relevantes.items():
+            print(f"Cluster {cluster}:")
+            print(f"  Variables más altas: {data['top']}")
+            print(f"  Variables más bajas: {data['low']}")
+        print()
 
         model.evaluate()
 
