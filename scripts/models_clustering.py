@@ -194,79 +194,22 @@ class ClusteringModel:
         plt.grid(True)
         plt.show()
 
-    import os
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from mpl_toolkits.mplot3d import Axes3D
-    from sklearn.manifold import TSNE
-    import imageio
+    # import os
+    # import numpy as np
+    # import matplotlib.pyplot as plt
+    # from mpl_toolkits.mplot3d import Axes3D
+    # from sklearn.manifold import TSNE
+    # import imageio
 
-    def plot_clusters_TSNE_3d(self, gif_filename="clusters_TSNE_3d.gif", frames=36):
-        """
-        Visualiza los datos en un gráfico 3D coloreados según el cluster.
-        Utiliza t-SNE para reducir la dimensionalidad si hay más de 3 características.
-        Guarda una animación en formato GIF rotando el gráfico.
-        
-        Parameters:
-        - gif_filename: Nombre del archivo GIF que se guardará.
-        - frames: Número de ángulos diferentes para la rotación.
-        """
-        if self.labels is None:
-            raise ValueError("El modelo debe ser ajustado antes de graficar los clusters.")
-        
-        # Reducir a 3 dimensiones si es necesario
-        if self.data.shape[1] > 3:
-            tsne = TSNE(n_components=3, random_state=42)
-            reduced_data = tsne.fit_transform(self.data)
-        else:
-            reduced_data = self.data
-        
-        # Crear el gráfico 3D
-        fig = plt.figure(figsize=(10, 8))
-        ax = fig.add_subplot(111, projection='3d')
-
-        # Graficar los datos en 3D
-        scatter = ax.scatter(
-            reduced_data[:, 0], reduced_data[:, 1], reduced_data[:, 2],
-            c=self.labels, cmap='viridis', s=50, alpha=0.6, edgecolor='k'
-        )
-        ax.set_title(f'Clusters Visualizados ({self.algorithm}). TSNE 3D. k={self.n_clusters}.')
-        ax.set_xlabel('Componente 1')
-        ax.set_ylabel('Componente 2')
-        ax.set_zlabel('Componente 3')
-        fig.colorbar(scatter, label='Cluster')
-
-        # Guardar cada frame rotando el gráfico
-        angles = np.linspace(0, 360, frames)  # Generar ángulos para rotación
-        filenames = []
-
-        for angle in angles:
-            ax.view_init(elev=30, azim=angle)  # Rotar el gráfico
-            temp_filename = f"frame_{int(angle)}.png"
-            plt.savefig(temp_filename)  # Guardar cada frame como imagen
-            filenames.append(temp_filename)
-
-        plt.close()  # Cerrar el gráfico después de guardar los frames
-
-        # Crear el GIF usando imageio
-        with imageio.get_writer(gif_filename, mode='I', duration=0.1) as writer:
-            for filename in filenames:
-                image = imageio.imread(filename)
-                writer.append_data(image)
-
-        # Limpiar archivos temporales
-        for filename in filenames:
-            os.remove(filename)
-
-        print(f"GIF guardado como {gif_filename}")
-
-        return reduced_data
-
-
-    # def plot_clusters_TSNE_3d(self):
+    # def plot_clusters_TSNE_3d(self, gif_filename="visualitzaciclusters_TSNE_3d.gif", frames=36):
     #     """
     #     Visualiza los datos en un gráfico 3D coloreados según el cluster.
     #     Utiliza t-SNE para reducir la dimensionalidad si hay más de 3 características.
+    #     Guarda una animación en formato GIF rotando el gráfico.
+        
+    #     Parameters:
+    #     - gif_filename: Nombre del archivo GIF que se guardará.
+    #     - frames: Número de ángulos diferentes para la rotación.
     #     """
     #     if self.labels is None:
     #         raise ValueError("El modelo debe ser ajustado antes de graficar los clusters.")
@@ -292,9 +235,67 @@ class ClusteringModel:
     #     ax.set_ylabel('Componente 2')
     #     ax.set_zlabel('Componente 3')
     #     fig.colorbar(scatter, label='Cluster')
-    #     plt.show()
+
+    #     # Guardar cada frame rotando el gráfico
+    #     angles = np.linspace(0, 360, frames)  # Generar ángulos para rotación
+    #     filenames = []
+
+    #     for angle in angles:
+    #         ax.view_init(elev=30, azim=angle)  # Rotar el gráfico
+    #         temp_filename = f"frame_{int(angle)}.png"
+    #         plt.savefig(temp_filename)  # Guardar cada frame como imagen
+    #         filenames.append(temp_filename)
+
+    #     plt.close()  # Cerrar el gráfico después de guardar los frames
+
+    #     # Crear el GIF usando imageio
+    #     with imageio.get_writer(gif_filename, mode='I', duration=0.1) as writer:
+    #         for filename in filenames:
+    #             image = imageio.imread(filename)
+    #             writer.append_data(image)
+
+    #     # Limpiar archivos temporales
+    #     for filename in filenames:
+    #         os.remove(filename)
+
+    #     print(f"GIF guardado como {gif_filename}")
 
     #     return reduced_data
+
+
+    def plot_clusters_TSNE_3d(self):
+        """
+        Visualiza los datos en un gráfico 3D coloreados según el cluster.
+        Utiliza t-SNE para reducir la dimensionalidad si hay más de 3 características.
+        """
+        if self.labels is None:
+            raise ValueError("El modelo debe ser ajustado antes de graficar los clusters.")
+        
+        # Reducir a 3 dimensiones si es necesario
+        if self.data.shape[1] > 3:
+            tsne = TSNE(n_components=3, random_state=42)
+            reduced_data = tsne.fit_transform(self.data)
+        else:
+            reduced_data = self.data
+        
+        # Crear el gráfico 3D
+        fig = plt.figure(figsize=(10, 8))
+        ax = fig.add_subplot(111, projection='3d')
+
+        # Graficar los datos en 3D
+        scatter = ax.scatter(
+            reduced_data[:, 0], reduced_data[:, 1], reduced_data[:, 2],
+            c=self.labels, cmap='viridis', s=50, alpha=0.6, edgecolor='k'
+        )
+        ax.set_title(f'Clusters Visualizados ({self.algorithm}). TSNE 3D. k={self.n_clusters}.')
+        ax.set_xlabel('Componente 1')
+        ax.set_ylabel('Componente 2')
+        ax.set_zlabel('Componente 3')
+        fig.colorbar(scatter, label='Cluster')
+        plt.show()
+
+        return reduced_data
+
     
     # ANALYSIS OF CLUSTER CHARACTERISTICS -------------------------------------------------------------------------------------
     def analisi_components_centroides(self, preprocessed_df, k=5):
