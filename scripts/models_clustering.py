@@ -90,6 +90,7 @@ class ClusteringModel:
         # Obtenir el nombre òptim de clusters (el valor del codo)
         self.n_clusters = visualizer.elbow_value_
         print(f"El número òptim de clusters és: {self.n_clusters}")
+        return visualizer.elbow_value_
 
     def gmm_best_k(self, max_clusters=10):
         """
@@ -296,7 +297,7 @@ class ClusteringModel:
 
         return reduced_data
 
-    
+
     # ANALYSIS OF CLUSTER CHARACTERISTICS -------------------------------------------------------------------------------------
     def analisi_components_centroides(self, preprocessed_df, k=5):
         """

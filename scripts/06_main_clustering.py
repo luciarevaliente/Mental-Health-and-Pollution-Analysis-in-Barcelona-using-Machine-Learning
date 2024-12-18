@@ -26,8 +26,8 @@ K = 3
 # MAIN
 if __name__=="__main__":
     # 1 i 2. Codificació i escalat
-    preprocessed_df = preprocess(PATH_DATASET, TARGET) # Carreguem les dades i les preprocessem
-    preprocessed_df = preprocessed_df.drop(TARGET, axis=1)  # Eliminem la variable a partir de la qual volem fer clústering
+    whole_preprocessed_df = preprocess(PATH_DATASET, TARGET) # Carreguem les dades i les preprocessem
+    preprocessed_df = whole_preprocessed_df.drop(TARGET, axis=1)  # Eliminem la variable a partir de la qual volem fer clústering
     # print(preprocessed_df.columns)
 
     # 3. Si hi ha variables rellevants, reduïm la dimensió del dataset
@@ -40,11 +40,13 @@ if __name__=="__main__":
         print(f'\nModel {algoritme}')
         model = ClusteringModel(data=preprocessed_df, algorithm=algoritme)
         # model.n_clusters=3
+        # model.n_clusters=4
         if algoritme == 'gmm':
-            model.gmm_best_k()
-            # model.n_clusters=4
+            best_k = model.gmm_best_k()
         else:
-            model.elbow_method(max_clusters=MAX_CLUSTERS)
+            best_k = model.elbow_method(max_clusters=MAX_CLUSTERS)
+        print(f'Best number of clusters: {best_k}')
+            
         model.fit()
 
         # Visualitzacions:
@@ -53,19 +55,31 @@ if __name__=="__main__":
         # model.plot_clusters_TSNE_2d()
         reduced_data = model.plot_clusters_TSNE_3d() 
 
-        # Grups segons les correlacions de cada dimensió de TSNE: -------------------------------------------
-        correlations_df, dic_correlacions = model.analisi_components_tsne_correlacio(reduced_data, k=K)
-        print("Característiques segons components del TSNE:")
-        for comp, correlaciones in dic_correlacions.items():
-            print(f"Componente: {comp}")
-            print(f"  Top positivas: {correlaciones['top_positive']}")
-            print(f"  Top negativas: {correlaciones['top_negative']}")
+        # Associar clusters al dataframe original 
+        clusters = model.predict(preprocessed_df)  # Predicción de los clústeres
+        whole_preprocessed_df['Cluster'] = clusters
 
-        # Grups segons els centroides ------------------------------------------------------------------------
-        centroides, caracteristicas_relevantes = model.analisi_components_centroides(preprocessed_df)
-        print("Característiques segons centroides:")
-        for cluster, data in caracteristicas_relevantes.items():
-            print(f"Cluster {cluster}:")
-            print(f"  Variables más altas: {data['top']}")
-            print(f"  Variables más bajas: {data['low']}")
+        # Análisis de la distribución de la variable objetivo por clúster
+        cluster_analysis = whole_preprocessed_df.groupby('Cluster')[TARGET].describe()
+        print(f"Distribución de '{TARGET}' por clúster para el modelo {algoritme}:")
+        print(cluster_analysis)
         print()
+
+        break
+
+        # # Grups segons les correlacions de cada dimensió de TSNE: -------------------------------------------
+        # correlations_df, dic_correlacions = model.analisi_components_tsne_correlacio(reduced_data, k=K)
+        # print("Característiques segons components del TSNE:")
+        # for comp, correlaciones in dic_correlacions.items():
+        #     print(f"Componente: {comp}")
+        #     print(f"  Top positivas: {correlaciones['top_positive']}")
+        #     print(f"  Top negativas: {correlaciones['top_negative']}")
+
+        # # Grups segons els centroides ------------------------------------------------------------------------
+        # centroides, caracteristicas_relevantes = model.analisi_components_centroides(preprocessed_df)
+        # print("Característiques segons centroides:")
+        # for cluster, data in caracteristicas_relevantes.items():
+        #     print(f"Cluster {cluster}:")
+        #     print(f"  Variables más altas: {data['top']}")
+        #     print(f"  Variables más bajas: {data['low']}")
+        # print()
