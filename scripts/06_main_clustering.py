@@ -14,10 +14,10 @@ PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset natejat
 ALGORITHMS = ['kmeans', 'spectral', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
 TARGET = 'estres'
 
-VARIABLES_RELLEVANTS = []
-# VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar', 'µgm3', 'mean_congruent', 'Totaltime', 'energia']
+# VARIABLES_RELLEVANTS = []
+VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar', 'µgm3', 'mean_congruent', 'Totaltime', 'energia']
 
-ALGORITHMS = ['kmeans', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
+ALGORITHMS = ['gmm', 'kmeans', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
 MAX_CLUSTERS = 50
 
 COMPONENTS = ["Component 1", "Component 2", "Component 3"]
@@ -40,12 +40,12 @@ if __name__=="__main__":
         print(f'\nModel {algoritme}')
         model = ClusteringModel(data=preprocessed_df, algorithm=algoritme)
         # model.n_clusters=3
-        # model.n_clusters=4
-        if algoritme == 'gmm':
-            best_k = model.gmm_best_k()
-        else:
-            best_k = model.elbow_method(max_clusters=MAX_CLUSTERS)
-        print(f'Best number of clusters: {best_k}')
+        model.n_clusters=4
+        # if algoritme == 'gmm':
+        #     best_k = model.gmm_best_k()
+        # else:
+        #     best_k = model.elbow_method(max_clusters=MAX_CLUSTERS)
+        # print(f'Best number of clusters: {best_k}')
             
         model.fit()
 
@@ -55,16 +55,10 @@ if __name__=="__main__":
         # model.plot_clusters_TSNE_2d()
         reduced_data = model.plot_clusters_TSNE_3d() 
 
-        # Associar clusters al dataframe original 
-        clusters = model.predict(preprocessed_df)  # Predicción de los clústeres
-        whole_preprocessed_df['Cluster'] = clusters
-
-        # Análisis de la distribución de la variable objetivo por clúster
-        cluster_analysis = whole_preprocessed_df.groupby('Cluster')[TARGET].describe()
-        print(f"Distribución de '{TARGET}' por clúster para el modelo {algoritme}:")
-        print(cluster_analysis)
-        print()
-
+        # Analizar distribución de la variable target
+        print(f"Distribución de la variable target ('{TARGET}') por cluster:")
+        target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET)
+        print(target_distribution)
         break
 
         # # Grups segons les correlacions de cada dimensió de TSNE: -------------------------------------------

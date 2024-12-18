@@ -353,52 +353,6 @@ class ClusteringModel:
 
         return centroides_df, relevant_features
 
-    # def analisi_components_centroides(self, preprocessed_df, k=5):
-    #     """
-    #     Analiza los centroides de los clusters para identificar las características más relevantes
-    #     en cada cluster. Esto es útil para interpretar los resultados del clustering.
-
-    #     Nota: Esta función solo es aplicable para el algoritmo KMeans.
-
-    #     Retorna:
-    #     - Un DataFrame que muestra los valores medios de cada característica para cada cluster.
-    #     - Un diccionario que contiene, para cada cluster, las características con los valores medios
-    #     más altos y más bajos.
-    #     """
-    #     if self.algorithm != 'kmeans':
-    #         raise ValueError("Este análisis solo está disponible para el algoritmo KMeans.")
-
-    #     if self.labels is None or self.model is None:
-    #         raise ValueError("El modelo debe ser ajustado antes de realizar este análisis.")
-
-    #     # Asegurarse de que el modelo tiene centroides
-    #     if not hasattr(self.model, 'cluster_centers_'):
-    #         raise ValueError("El modelo KMeans no tiene centroides calculados.")
-
-    #     centroids = self.model.cluster_centers_  
-    #     columns = preprocessed_df.columns  # Obtener los nombres de las columnas originales
-
-    #     # Convertir los centroides a un DataFrame
-    #     centroides_df = pd.DataFrame(centroids, columns=columns)
-    #     centroides_df.index = [f'Cluster {i}' for i in range(len(centroides_df))]
-
-    #     # Diccionario para almacenar las características más relevantes
-    #     relevant_features = {}
-
-    #     for cluster_idx, row in centroides_df.iterrows():
-    #         # Obtener las características con los valores más altos y más bajos
-    #         top_features = row.nlargest(k).index.tolist()  # Top k valores más altos
-    #         low_features = row.nsmallest(k).index.tolist()  # Top k valores más bajos
-
-    #         # Guardar en el diccionario
-    #         relevant_features[cluster_idx] = {
-    #             'top': top_features,
-    #             'low': low_features
-    #         }
-
-    #     # Retornar el DataFrame de centroides y el diccionario
-    #     return centroides_df, relevant_features
-
     def analisi_components_tsne_correlacio(self, reduced_data, k=5):
         """
         Realiza un análisis de correlación entre las características originales del conjunto de datos
@@ -454,53 +408,32 @@ class ClusteringModel:
         # Retornar el DataFrame completo y el diccionario de correlaciones
         return correlations, dic_correlacions
 
+    def analyze_target_distribution(self, original_df, target_col):
+        """
+        Analiza la distribución de la variable target dentro de cada cluster.
 
-    # def analisi_components_tsne_correlacio(self, reduced_data, k=5):
-    #     """
-    #     Realiza un análisis de correlación entre las características originales del conjunto de datos
-    #     y las componentes obtenidas mediante reducción dimensional con t-SNE. Esta función calcula 
-    #     las correlaciones entre cada componente de t-SNE y las variables originales, y devuelve una 
-    #     lista de las 5 características con las correlaciones más fuertes (tanto positivas como negativas) 
-    #     para cada componente.
+        :param original_df: DataFrame original que contiene la variable target.
+        :param target_col: Nombre de la columna de la variable target en el DataFrame original.
+        """
+        if self.labels is None:
+            raise ValueError("El modelo debe ser ajustado antes de analizar la distribución de la variable target.")
+        
+        # Crear un DataFrame con los clusters y la variable target
+        analysis_df = pd.DataFrame({
+            'Cluster': self.labels,
+            target_col: original_df[target_col]
+        })
+        
+        # Calcular la distribución de la variable target por cluster
+        distribution = analysis_df.groupby('Cluster')[target_col].value_counts(normalize=True).unstack(fill_value=0)
 
-    #     Parámetros:
-    #     - reduced_data: ndarray o DataFrame que contiene los datos reducidos a través de t-SNE.
-    #     Debe tener el mismo número de filas que self.data, y debe contener las componentes reducidas 
-    #     generadas por t-SNE.
+        # Visualizar la distribución con un gráfico de barras
+        distribution.plot(kind='bar', stacked=True, figsize=(10, 6), colormap='viridis', alpha=0.85)
+        plt.title(f'Distribución de {target_col} por Cluster ({self.algorithm})')
+        plt.xlabel('Cluster')
+        plt.ylabel('Proporción')
+        plt.legend(title=target_col, bbox_to_anchor=(1.05, 1), loc='upper left')
+        plt.tight_layout()
+        plt.show()
 
-    #     Retorna:
-    #     - correlations_df: DataFrame con las correlaciones completas.
-    #     - dic_correlacions: un diccionario que contiene, para cada componente de t-SNE, las 5 variables 
-    #     originales con las correlaciones más altas (positivas y negativas). La estructura es la siguiente:
-    #     {
-    #         'Component 1': {'top_positive': [var1, var2, ...], 'top_negative': [var3, var4, ...]},
-    #         ...
-    #     }
-    #     """
-    #     COMPONENTS = ["Component 1", "Component 2", "Component 3"]
-
-    #     # Convertir las coordenadas a un DataFrame
-    #     tsne_df = pd.DataFrame(reduced_data, columns=COMPONENTS)
-
-    #     # Analizar correlaciones
-    #     combined_df = pd.concat([self.data, tsne_df], axis=1)
-    #     correlations = combined_df.corr()[COMPONENTS]
-
-    #     # Diccionario para guardar las correlaciones más significativas
-    #     dic_correlacions = {}
-
-    #     for comp in correlations.columns:
-    #         correlacions = correlations[comp].drop(labels=[comp])
-
-    #         # Obtener las k correlaciones más fuertes positivas y negativas
-    #         top_k_positive = correlacions.sort_values(ascending=False).head(k)
-    #         top_k_negative = correlacions.sort_values(ascending=True).head(k)
-
-    #         # Almacenar en el diccionario
-    #         dic_correlacions[comp] = {
-    #             'top_positive': top_k_positive.index.tolist(),
-    #             'top_negative': top_k_negative.index.tolist()
-    #         }
-
-    #     # Retornar el DataFrame completo y el diccionario de correlaciones
-    #     return correlations, dic_correlacions
+        return distribution
