@@ -15,17 +15,20 @@ PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset natejat
 ALGORITHMS = ['kmeans', 'spectral', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
 TARGET = 'estres'
 
-# VARIABLES_RELLEVANTS = []
-# PATH_FILENAME = '/visualitzations/clustering/dataset/'
-
-VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar', 'µgm3', 'mean_congruent', 'Totaltime', 'energia']
-# PATH_FILENAME = '/visualizations/clustering/important_features/'
 
 # Obtener la ruta actual
 current_path = os.getcwd()
 
-# Construir la ruta deseada
-PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "important_features")
+# VARIABLES_RELLEVANTS = []
+# PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "dataset")
+
+# Les 4 variables més rellevants
+VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
+PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "4th_important_features")
+
+# Les 8 variables més rellevants
+# VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar', 'µgm3', 'mean_congruent', 'Totaltime', 'energia']
+# PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "8th_important_features")
 
 ALGORITHMS = ['gmm']  # Algoritmes de clústering a testejar: 'kmeans', 'agglo', 'gmm'
 REPETICIO = 5
@@ -52,14 +55,14 @@ if __name__=="__main__":
         for i in range(REPETICIO):
             print(f'\nModel {algoritme}')
             model = ClusteringModel(data=preprocessed_df, algorithm=algoritme)
-            model.n_clusters=3
+            model.n_clusters=5
             # model.n_clusters=4
             # if algoritme == 'gmm':
             #     best_k = model.gmm_best_k()
             # else:
             #     best_k = model.elbow_method(max_clusters=MAX_CLUSTERS)
             # print(f'Best number of clusters: {best_k}')
-                
+            # break
             model.fit()
 
             # Visualitzacions:
@@ -67,11 +70,11 @@ if __name__=="__main__":
             # model.plot_clusters_PCA_3d()
             # model.plot_clusters_TSNE_2d()
             # reduced_data = model.plot_clusters_TSNE_3d() 
-            reduced_data = model.plot_clusters_TSNE_3d_animated(filename=f'{PATH_FILENAME}/{algoritme}_k{3}_iter{i+1}_TSNE3d_animated.gif')
+            reduced_data = model.plot_clusters_TSNE_3d_animated(filename=f'{PATH_FILENAME}/{algoritme}_k{5}_iter{i+1}_TSNE3d_animated.gif')
 
             # Analizar distribución de la variable target
             print(f"Distribución de la variable target ('{TARGET}') por cluster:")
-            target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET, save_path=f'{PATH_FILENAME}/{algoritme}_k{3}_iter{i+1}_distribution.png')
+            target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET, save_path=f'{PATH_FILENAME}/{algoritme}_k{5}_iter{i+1}_distribution.png')
             print(target_distribution)
 
         # # Grups segons les correlacions de cada dimensió de TSNE: -------------------------------------------
