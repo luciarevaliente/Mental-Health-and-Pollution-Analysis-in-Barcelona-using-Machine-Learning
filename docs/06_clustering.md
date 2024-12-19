@@ -68,8 +68,51 @@ Cal destacar que hem d'escalar i codificar abans de reduir la dimensionalitat de
 **por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
 
 ## Pregunta 4: El·lecció de l'algoritme de clustering
+### K-Means
+Hem eliminat la variable TARGET amb la qual hem fet regressió per veure si el sistema es classifica segons aquesta. 
+
+**por hacer!!!!!!!!!!!!!!!!**
+
+#### Dataset escalat sencer
+**por hacer!!!!!!!!!!!!!!!!**
+
+#### Dataset amb les columnes més significatives (segons la regressió)
+
 
 ## Pregunta 5: Validació del clustering
+Per tal de visualitzar les agrupacions, hem provat dues tècniques de visualització: PCA i TSNE. 
+        - **PCA (Anàlisi de Components Principals):** Redueix la dimensionalitat de les dades transformant les variables originals en noves variables (components principals) que maximitzen la variabilitat. Funciona trobant vectors ortogonals en l’espai de dades que expliquen la major part de la variació.  
+        - **t-SNE (t-Distributed Stochastic Neighbor Embedding):** Redueix dimensionalitat tot mantenint la proximitat relativa entre punts. Assigna una distribució de probabilitat a les distàncies dels punts tant a l'espai altament dimensional com al reduït, ajustant-les per preservar la semblança entre veïns propers.  
+
+**por hacer!!!!!!!!!!!!!!!!**
+
 
 ## Pregunta 6: Interpretació dels resultats
+### Kmeans amb dataset complet
+A continuació, es visualitza el resultat del clustering realitzat amb l'algoritme K-Means. S'ha utilitzat PCA i t-SNE. 
 
+<div style="display: flex; justify-content: space-around; align-items: center;">
+  <img src="/visualizations/clustering/overf_shuf_scaled_TSNE2d_k4.png" alt="Clustering TSNE 2D k=4" width="45%">
+  <img src="/visualizations/clustering/overf_shuf_scaled_TSNE3d_k4.png" alt="Clustering TSNE 3D k=4" width="45%">
+</div>
+
+
+#### Observacions principals:
+- **Formes en espiral o anells:** Els punts es distribueixen en estructures clarament separades que semblen tenir formes circulars o en espiral. Això suggereix que els grups poden estar relacionats amb variacions circulars o periòdiques en les dades originals.
+- **Separació dels clusters:** Els quatre clusters són clarament distingibles gràcies a la codificació de colors i a l'estructura 3D, cosa que indica que el model K-Means ha estat capaç de captar diferències significatives entre els grups.
+- **Dimensionalitat no lineal:** Reforcem el valor d’utilitzar t-SNE, ja que aquesta tècnica pot capturar estructures no lineals que el PCA no hauria representat de manera adequada (es pot observar el resultat del PCA 2D i 3D en `/visualizations/clustering/overf_shuf_scaled_PCA2d_k4.png` i `/visualizations/clustering/overf_shuf_scaled_PCA3d_k4.png`).
+
+#### Possibles Interpretacions:
+- **Periodicitat en les dades:** Les formes circulars podrien indicar que les variables originals tenen components cíclics o repetitius (com poden ser dades temporals o periòdiques).
+- **Interacció de múltiples factors:** La distribució pot ser el resultat de la interacció complexa entre múltiples variables que generen aquestes trajectòries en espiral.
+- **Relacions no lineals:** És possible que els clusters representin grups amb relacions més subtils que no són lineals, una cosa que t-SNE ajuda a visualitzar.
+
+
+
+
+---
+
+1. Interpretar dimensions: Tot i que t-SNE produeix dimensions abstractes, seria útil explorar quines variables originals estan contribuint més a aquesta estructura. Es pot fer analitzant les correlacions o fent servir models explicatius.
+Provar altres mètodes: Complementar aquesta visualització amb UMAP, que també captura estructures no lineals, podria validar els resultats.
+
+2. Interpretació del clustering: Examinar les característiques de les dades associades a cada cluster per entendre millor la naturalesa dels grups i les seves diferències.
