@@ -19,8 +19,8 @@ TARGET = 'estres'
 # Obtener la ruta actual
 current_path = os.getcwd()
 
-VARIABLES_RELLEVANTS = []
-PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "dataset")
+# VARIABLES_RELLEVANTS = []
+# PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "dataset")
 
 # Les 4 variables més rellevants
 # VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
@@ -30,8 +30,11 @@ PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "data
 # VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar', 'µgm3', 'mean_congruent', 'Totaltime', 'energia']
 # PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "8th_important_features")
 
+# Les 8 variables noves més rellevants
+VARIABLES_RELLEVANTS = ['dayoftheweek', 'bienestar', 'energia', 'ordenador', 'alcohol', 'otrofactor', 'no2bcn_24h', 'no2gps_24h', 'covid_work']
+PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "9th_important_features")
+
 ALGORITHMS = ['kmeans', 'agglo', 'gmm']  # Algoritmes de clústering a testejar: 
-REPETICIO = 1
 
 MAX_CLUSTERS = 50
 COMPONENTS = ["Component 1", "Component 2", "Component 3"]
@@ -51,30 +54,32 @@ if __name__=="__main__":
     # 4. Elecció de l'algoritme de clústering: Inicialitzem la classe i provem
     for algoritme in ALGORITHMS:
         # plt.ion()
-        for i in range(REPETICIO):
-            print(f'\nModel {algoritme}')
-            model = ClusteringModel(data=preprocessed_df, algorithm=algoritme)
-            # model.n_clusters=5
-            # model.n_clusters=4
-            if algoritme == 'gmm':
-                best_k = model.gmm_best_k()
-            else:
-                best_k = model.elbow_method(max_clusters=MAX_CLUSTERS)
-            print(f'Best number of clusters: {best_k}')
-            # break
-            model.fit()
+        print(f'\nModel {algoritme}')
+        model = ClusteringModel(data=preprocessed_df, algorithm=algoritme)
+        
+        # model.n_clusters=4
+        model.n_clusters=5
+        # model.n_clusters=6
+        best_k = model.n_clusters
+        # if algoritme == 'gmm':
+        #     best_k = model.gmm_best_k()
+        # else:
+        #     best_k = model.elbow_method(max_clusters=MAX_CLUSTERS)
+        # print(f'Best number of clusters: {best_k}')
 
-            # Visualitzacions:
-            # model.plot_clusters_PCA_2d()
-            # model.plot_clusters_PCA_3d()
-            # model.plot_clusters_TSNE_2d()
-            # reduced_data = model.plot_clusters_TSNE_3d() 
-            reduced_data = model.plot_clusters_TSNE_3d_animated(filename=f'{PATH_FILENAME}/{algoritme}_k{best_k}_iter{i+1}_TSNE3d_animated.gif')
+        model.fit()
 
-            # Analizar distribución de la variable target
-            print(f"Distribución de la variable target ('{TARGET}') por cluster:")
-            target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET, save_path=f'{PATH_FILENAME}/{algoritme}_k{best_k}_iter{i+1}_distribution.png')
-            print(target_distribution)
+        # Visualitzacions:
+        # model.plot_clusters_PCA_2d()
+        # model.plot_clusters_PCA_3d()
+        # model.plot_clusters_TSNE_2d()
+        # reduced_data = model.plot_clusters_TSNE_3d() 
+        reduced_data = model.plot_clusters_TSNE_3d_animated(filename=f'{PATH_FILENAME}/{algoritme}_k{best_k}_TSNE3d_animated.gif')
+
+        # Analizar distribución de la variable target
+        print(f"Distribución de la variable target ('{TARGET}') por cluster:")
+        target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET, save_path=f'{PATH_FILENAME}/{algoritme}_k{best_k}_distribution.png')
+        print(target_distribution) 
 
         # # Grups segons les correlacions de cada dimensió de TSNE: -------------------------------------------
         # correlations_df, dic_correlacions = model.analisi_components_tsne_correlacio(reduced_data, k=K)
