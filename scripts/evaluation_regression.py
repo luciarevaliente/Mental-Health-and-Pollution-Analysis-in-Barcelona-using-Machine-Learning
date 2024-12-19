@@ -41,6 +41,7 @@ def evaluate_model(model_name, X_train, X_test, y_train, y_test):
     model_instance = RegressionModels(model_type=model_name)
     param_grid = GRID_PARAMS.get(model_name, {})
     best_model = get_best_model(model_name, model_instance.get_model(), param_grid, X_train, y_train,X_test,y_test)
+    
 
     # Entrenar el modelo
     if model_name == "xgboost":
@@ -48,8 +49,8 @@ def evaluate_model(model_name, X_train, X_test, y_train, y_test):
             X_train, y_train,
             eval_set=[(X_test, y_test)],  # Conjunto de validación
               # Número de iteraciones sin mejora antes de detenerse
-            verbose=False
-        )
+            verbose=False)
+        
     else:
         best_model.fit(X_train, y_train)
 
@@ -81,6 +82,42 @@ def evaluate_model(model_name, X_train, X_test, y_train, y_test):
         print(f"Importancias guardadas en {importance_path}")
 
     return metrics
+
+def analyze_error_by_class(y_test, y_test_pred, target_classes):
+    """
+    Analiza el error del modelo para clases específicas de la variable objetivo.
+
+    Args:
+        y_test (pd.Series): Valores reales de la variable objetivo.
+        y_test_pred (np.array): Predicciones del modelo.
+        target_classes (list): Clases específicas para analizar el error.
+
+    Returns:
+        dict: Métricas de error por clase.
+    """
+    from sklearn.metrics import mean_squared_error, mean_absolute_error
+
+    results = {}
+    
+    for target_class in target_classes:
+        # Filtrar las muestras para la clase objetivo
+        mask = y_test == target_class
+        y_test_filtered = y_test[mask]
+        y_test_pred_filtered = y_test_pred[mask]
+
+        # Calcular métricas
+        mse = mean_squared_error(y_test_filtered, y_test_pred_filtered) if len(y_test_filtered) > 0 else None
+        mae = mean_absolute_error(y_test_filtered, y_test_pred_filtered) if len(y_test_filtered) > 0 else None
+
+        # Guardar resultados
+        results[target_class] = {"MSE": mse, "MAE": mae}
+
+        # Mostrar errores
+        print(f"Clase {target_class}:")
+        print(f"  MSE: {mse}")
+        print(f"  MAE: {mae}")
+
+    return results
 
 # Visualizar métricas
 
@@ -172,7 +209,6 @@ def drop_unimportant_features(X_train, y_train, threshold=0.01):
 
 ######################################################################################################################################
 # MAIN
-
 if __name__ == "__main__":
     from sklearn.model_selection import train_test_split
 
@@ -183,13 +219,19 @@ if __name__ == "__main__":
     model_types = [ "random_forest", "gradient_boosting", "xgboost"]
     metrics_dict = {}
 
-    # Eliminar características no importantes
-    # X_train_filtered, important_features = drop_unimportant_features(X_train, y_train, threshold=0.01)
-    # X_test_filtered = X_test[important_features]  # Mantener mismas columnas en conjunto de prueba
-
     for model_name in model_types:
         metrics = evaluate_model(model_name, X_train, X_test, y_train, y_test)
         metrics_dict[model_name] = metrics
+
+        # Obtener predicciones del modelo seleccionado
+        model_instance = RegressionModels(model_type=model_name).get_model()
+        model_instance.fit(X_train, y_train)
+        y_test_pred = model_instance.predict(X_test)
+
+        # Analizar errores en clases específicas
+        print(f"\nAnálisis de errores para el modelo {model_name}:")
+        target_classes = [0, 9, 10]  # Clases de interés
+        error_results = analyze_error_by_class(y_test, y_test_pred, target_classes)
 
     # Visualizar resultados
     plot_metrics(metrics_dict)
@@ -197,3 +239,27 @@ if __name__ == "__main__":
     plot_learning_curves(best_model_instance, X_train, X_test, y_train, y_test)
 
     print("Evaluación y análisis completados. Revisa los resultados en el directorio de resultados.")
+# if __name__ == "__main__":
+#     from sklearn.model_selection import train_test_split
+
+#     # Cargar datos
+#     X_train, X_test, y_train, y_test = load_and_prepare_data(data, FEATURES, TARGET_COLUMN)
+
+#     # Evaluar modelos seleccionados
+#     model_types = [ "random_forest", "gradient_boosting", "xgboost"]
+#     metrics_dict = {}
+
+#     # Eliminar características no importantes
+#     # X_train_filtered, important_features = drop_unimportant_features(X_train, y_train, threshold=0.01)
+#     # X_test_filtered = X_test[important_features]  # Mantener mismas columnas en conjunto de prueba
+
+#     for model_name in model_types:
+#         metrics = evaluate_model(model_name, X_train, X_test, y_train, y_test)
+#         metrics_dict[model_name] = metrics
+
+#     # Visualizar resultados
+#     plot_metrics(metrics_dict)
+#     best_model_instance = RegressionModels(model_type="xgboost").get_model()
+#     plot_learning_curves(best_model_instance, X_train, X_test, y_train, y_test)
+
+#     print("Evaluación y análisis completados. Revisa los resultados en el directorio de resultados.")
