@@ -1,21 +1,20 @@
 from evaluation_regression import get_best_model
 from preparation_regression import load_data, separacio_train_test
-from preprocess import preprocess
 from models_regression import RegressionModels, GRID_PARAMS, get_best_model
 import pandas as pd
+from preprocess import preprocess
 import os
 from sklearn.feature_selection import SelectKBest, f_regression
 
 # Configuración
-DATA_PATH = "data/shuffled_scaled_dataset.pkl"
+
 TARGET_COLUMN = "estres"
+DATA_PATH = preprocess('data/cleaned_dataset.pkl',TARGET_COLUMN)
 
 # Preparación de datos
 def prepare_data(data, target_column):
     # data = preprocess(data_path, target_column)
     return separacio_train_test(data, target_column)
-
-X_train, X_test, y_train, y_test = prepare_data(pd.read_pickle(DATA_PATH), TARGET_COLUMN)
 
 # Evaluar modelos y calcular importancia de características
 def evaluate_models(model_types, X_train, y_train):
@@ -58,29 +57,6 @@ def save_results(results, output_dir="data/regression/results"):
         importance_df.to_excel(os.path.join(output_dir, f"{model_name}_importance.xlsx"), index=False)
         print(f"Resultados guardados para {model_name} en {output_dir}")
 
-# # Extraer las 10 características más importantes comunes entre los métodos
-# def extract_top_common_features(results, top_n=50):
-#     """
-#     Extrae las características comunes más importantes de los resultados.
-    
-#     Args:
-#         results (dict): Diccionario con las importancias de las características por modelo.
-#         top_n (int): Número de características principales a considerar de cada modelo.
-
-#     Returns:
-#         set: Conjunto de características comunes entre los modelos.
-#     """
-#     # Lista para almacenar conjuntos de las características más importantes
-#     top_features_sets = []
-    
-#     for model_name, importance_df in results.items():
-#         # Tomar las top_n características más importantes de cada modelo
-#         top_features = set(importance_df.head(top_n)['Feature'])
-#         top_features_sets.append(top_features)
-    
-#     # Intersección de las características principales de todos los modelos
-#     common_features = set.intersection(*top_features_sets)
-#     return common_features
 
 def select_k_best_features(X_train, y_train, k):
     """
@@ -93,9 +69,10 @@ def select_k_best_features(X_train, y_train, k):
 
 # Ejecución principal
 if __name__ == "__main__":
+    X_train, X_test, y_train, y_test = prepare_data(DATA_PATH, TARGET_COLUMN)
     model_types = [ "random_forest", "gradient_boosting", "xgboost"]
     results = evaluate_models(model_types, X_train, y_train)
-    save_results(results)
+    # save_results(results)
     # print("Evaluación completada.")
 
     # Extraer las 10 características más importantes comunes

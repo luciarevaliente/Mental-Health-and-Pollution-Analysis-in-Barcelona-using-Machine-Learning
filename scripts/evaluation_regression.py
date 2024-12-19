@@ -8,27 +8,17 @@ from models_regression import RegressionModels, GRID_PARAMS
 from preprocess import preprocess
 
 # Configuración
-FEATURES = ['ordenador', 'otrofactor', 'dayoftheweek']
+FEATURES = ['ordenador', 'otrofactor', 'dayoftheweek','bienestar','smoke','Totaltime','covid_work','ID_Zenodo','sec_noise55_day','inhib_control',
+    'pm25bcn','mean_congruent','age_yrs','tmean_24h','z_performance','µgm3','humi_24h','no2gps_12h','covid_motor','sec_noise65_day']
 TARGET_COLUMN = "estres"
+
 RESULTS_DIR = "data/regression/final_results"
 
 cleaned_dataset_path = 'data/cleaned_dataset.pkl'
 data = preprocess(cleaned_dataset_path,TARGET_COLUMN)
 
-# cleaned_dataset = pd.read_pickle(cleaned_dataset_path)
-# # data = pd.read_pickle(codif_dataset_path)
-
-# # Verificar si la columna 'estres' está en el dataset limpio
-# if 'estres' in cleaned_dataset.columns:
-#     # Añadir la columna 'estres' al dataset codificado
-#     if cleaned_dataset.shape[0] == data.shape[0]:
-#         data['estres'] = cleaned_dataset['estres']
-#         print("Columna 'estres' añadida correctamente.")
-
 # Crear directorio para resultados
 os.makedirs(RESULTS_DIR, exist_ok=True)
-
-print("Valores faltantes en la variable objetivo 'estres':", data['estres'].isnull().sum())
 
 # Función para evaluar el modelo
 
@@ -62,8 +52,7 @@ def evaluate_model(model_name, X_train, X_test, y_train, y_test):
     metrics = {
         "train_mse": mean_squared_error(y_train, y_train_pred),
         "test_mse": mean_squared_error(y_test, y_test_pred),
-        "test_mae": mean_absolute_error(y_test, y_test_pred),
-        "test_max_error": max_error(y_test,y_test_pred)
+        "test_mae": mean_absolute_error(y_test, y_test_pred)
     }
 
     # Guardar métricas
@@ -215,9 +204,6 @@ def plot_learning_curves(model, X_train, X_test, y_train, y_test):
 
 
     
-
-######################################################################################################################################
-# MAIN
 
 ######################################################################################################################################
 # MAIN
