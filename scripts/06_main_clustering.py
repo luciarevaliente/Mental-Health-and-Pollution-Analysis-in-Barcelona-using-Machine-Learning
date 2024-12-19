@@ -23,8 +23,8 @@ VARIABLES_RELLEVANTS = []
 PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "dataset")
 
 # Les 4 variables més rellevants
-VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
-PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "4th_important_features")
+# VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
+# PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "4th_important_features")
 
 # Les 8 variables més rellevants
 # VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar', 'µgm3', 'mean_congruent', 'Totaltime', 'energia']
