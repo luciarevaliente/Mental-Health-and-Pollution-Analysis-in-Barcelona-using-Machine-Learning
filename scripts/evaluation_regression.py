@@ -117,7 +117,45 @@ def analyze_error_by_class(y_test, y_test_pred, target_classes):
         print(f"  MSE: {mse}")
         print(f"  MAE: {mae}")
 
+    
     return results
+
+
+def plot_error_by_class(error_results, title="Errores por clase (MSE y MAE)"):
+    """
+    Genera un gráfico de barras mostrando el MSE y MAE por clase.
+
+    Args:
+        error_results (dict): Resultados de error por clase en formato {clase: {"MSE": valor, "MAE": valor}}.
+        title (str): Título del gráfico.
+    """
+    import matplotlib.pyplot as plt
+    import numpy as np
+
+    # Extraer datos para el gráfico
+    classes = list(error_results.keys())
+    mse_values = [error_results[cls]["MSE"] if error_results[cls]["MSE"] is not None else 0 for cls in classes]
+    mae_values = [error_results[cls]["MAE"] if error_results[cls]["MAE"] is not None else 0 for cls in classes]
+
+    # Crear el gráfico
+    x = np.arange(len(classes))  # Posiciones para las barras
+    width = 0.4  # Ancho de las barras
+
+    plt.figure(figsize=(12, 6))
+    plt.bar(x - width / 2, mse_values, width, label='MSE', color='orange', alpha=0.7)
+    plt.bar(x + width / 2, mae_values, width, label='MAE', color='blue', alpha=0.7)
+
+    # Configurar etiquetas y leyenda
+    plt.title(title)
+    plt.xlabel("Clases")
+    plt.ylabel("Error")
+    plt.xticks(x, classes)
+    plt.legend()
+
+    # Mostrar el gráfico
+    plt.tight_layout()
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.show()
 
 # Visualizar métricas
 
@@ -174,38 +212,9 @@ def plot_learning_curves(model, X_train, X_test, y_train, y_test):
     plt.tight_layout()
     plt.savefig(os.path.join(RESULTS_DIR, "learning_curves.png"))
     plt.show()
-# Calcular la importancia de las características y eliminar columnas no importantes
-def drop_unimportant_features(X_train, y_train, threshold=0.01):
-    """
-    Entrena un modelo para calcular la importancia de las características y elimina las menos relevantes.
+
+
     
-    Args:
-        X_train (pd.DataFrame): Datos de entrenamiento.
-        y_train (pd.Series): Target del conjunto de entrenamiento.
-        threshold (float): Umbral mínimo de importancia para mantener una columna.
-    
-    Returns:
-        pd.DataFrame: Conjunto de datos con las columnas importantes.
-    """
-    # Utilizar RandomForest para obtener importancias como ejemplo
-    from sklearn.ensemble import RandomForestRegressor
-    
-    model = RandomForestRegressor(random_state=42)
-    model.fit(X_train, y_train)
-    
-    importances = pd.DataFrame({
-        'Feature': X_train.columns,
-        'Importance': model.feature_importances_
-    }).sort_values(by='Importance', ascending=False)
-    
-    print("Importancia de las características:")
-    print(importances)
-    
-    # Filtrar características importantes
-    important_features = importances[importances['Importance'] >= threshold]['Feature']
-    print(f"Columnas importantes: {list(important_features)}")
-    
-    return X_train[important_features], important_features
 
 ######################################################################################################################################
 # MAIN
@@ -230,8 +239,9 @@ if __name__ == "__main__":
 
         # Analizar errores en clases específicas
         print(f"\nAnálisis de errores para el modelo {model_name}:")
-        target_classes = [0, 9, 10]  # Clases de interés
+        target_classes = [0,1,2,3,4,5,6,7,8 ,9, 10]  # Clases de interés
         error_results = analyze_error_by_class(y_test, y_test_pred, target_classes)
+        plot_error_by_class(error_results, title=f"Errores para el modelo {model_name}")
 
     # Visualizar resultados
     plot_metrics(metrics_dict)
