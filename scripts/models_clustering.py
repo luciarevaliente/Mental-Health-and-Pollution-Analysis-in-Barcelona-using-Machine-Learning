@@ -32,13 +32,11 @@ class ClusteringModel:
     def fit(self):
         """Entrenar el model segons l'algoritme seleccionat"""
         if self.algorithm == 'kmeans':
-            self.model = KMeans(n_clusters=self.n_clusters)
-        elif self.algorithm == 'spectral':
-            self.model = SpectralClustering(n_clusters=self.n_clusters, affinity='nearest_neighbors')
+            self.model = KMeans(n_clusters=self.n_clusters, random_state=42)
         elif self.algorithm == 'agglo':
             self.model = AgglomerativeClustering(n_clusters=self.n_clusters)
         elif self.algorithm == 'gmm':
-            self.model = GaussianMixture(n_components=self.n_clusters)
+            self.model = GaussianMixture(n_components=self.n_clusters, random_state=42)
         else:
             raise ValueError(f'Algoritme {self.algorithm} no reconegut')
         
