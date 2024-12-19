@@ -9,6 +9,9 @@ from sklearn.manifold import TSNE
 from yellowbrick.cluster import KElbowVisualizer
 from sklearn.cluster import SpectralClustering, AgglomerativeClustering
 from sklearn.mixture import GaussianMixture
+from matplotlib.animation import FuncAnimation
+from sklearn.manifold import TSNE
+import os
 
 # CLASSE
 class ClusteringModel:
@@ -297,6 +300,50 @@ class ClusteringModel:
 
         return reduced_data
 
+    def plot_clusters_TSNE_3d_animated(self, filename="clusters_3d.gif"):
+        """
+        Visualiza los datos en un gráfico 3D animado, coloreados según el cluster.
+        Guarda la animación como un GIF.
+        """
+        if self.labels is None:
+            raise ValueError("El modelo debe ser ajustado antes de graficar los clusters.")
+
+        # Reducir a 3 dimensiones si es necesario
+        if self.data.shape[1] > 3:
+            tsne = TSNE(n_components=3, random_state=42)
+            reduced_data = tsne.fit_transform(self.data)
+        else:
+            reduced_data = self.data
+
+        # Crear el gráfico 3D
+        fig = plt.figure(figsize=(10, 8))
+        ax = fig.add_subplot(111, projection='3d')
+
+        # Graficar los datos en 3D
+        scatter = ax.scatter(
+            reduced_data[:, 0], reduced_data[:, 1], reduced_data[:, 2],
+            c=self.labels, cmap='viridis', s=50, alpha=0.6, edgecolor='k'
+        )
+        ax.set_title(f'Clusters Visualizados ({self.algorithm}). TSNE 3D. k={self.n_clusters}.')
+        ax.set_xlabel('Componente 1')
+        ax.set_ylabel('Componente 2')
+        ax.set_zlabel('Componente 3')
+
+        # Función para actualizar la animación (rotación del gráfico)
+        def update(frame):
+            ax.view_init(elev=30, azim=frame)
+            return fig,
+
+        # Crear animación
+        ani = FuncAnimation(fig, update, frames=np.arange(0, 360, 2), interval=50, blit=False)
+
+        # Guardar como GIF
+        ani.save(filename, writer='pillow', fps=20)
+        plt.close(fig)
+        print(f"Animación guardada como {filename}")
+
+        return reduced_data
+
 
     # ANALYSIS OF CLUSTER CHARACTERISTICS -------------------------------------------------------------------------------------
     def analisi_components_centroides(self, preprocessed_df, k=5):
@@ -408,22 +455,53 @@ class ClusteringModel:
         # Retornar el DataFrame completo y el diccionario de correlaciones
         return correlations, dic_correlacions
 
-    def analyze_target_distribution(self, original_df, target_col):
+    # def analyze_target_distribution(self, original_df, target_col):
+    #     """
+    #     Analiza la distribución de la variable target dentro de cada cluster.
+
+    #     :param original_df: DataFrame original que contiene la variable target.
+    #     :param target_col: Nombre de la columna de la variable target en el DataFrame original.
+    #     """
+    #     if self.labels is None:
+    #         raise ValueError("El modelo debe ser ajustado antes de analizar la distribución de la variable target.")
+        
+    #     # Crear un DataFrame con los clusters y la variable target
+    #     analysis_df = pd.DataFrame({
+    #         'Cluster': self.labels,
+    #         target_col: original_df[target_col]
+    #     })
+        
+    #     # Calcular la distribución de la variable target por cluster
+    #     distribution = analysis_df.groupby('Cluster')[target_col].value_counts(normalize=True).unstack(fill_value=0)
+
+    #     # Visualizar la distribución con un gráfico de barras
+    #     distribution.plot(kind='bar', stacked=True, figsize=(10, 6), colormap='viridis', alpha=0.85)
+    #     plt.title(f'Distribución de {target_col} por Cluster ({self.algorithm})')
+    #     plt.xlabel('Cluster')
+    #     plt.ylabel('Proporción')
+    #     plt.legend(title=target_col, bbox_to_anchor=(1.05, 1), loc='upper left')
+    #     plt.tight_layout()
+    #     plt.show()
+
+    #     return distribution
+
+    def analyze_target_distribution(self, original_df, target_col, save_path=None):
         """
-        Analiza la distribución de la variable target dentro de cada cluster.
+        Analiza la distribución de la variable target dentro de cada cluster y guarda el gráfico si se especifica una ruta.
 
         :param original_df: DataFrame original que contiene la variable target.
         :param target_col: Nombre de la columna de la variable target en el DataFrame original.
+        :param save_path: Ruta donde se guardará el gráfico (opcional).
         """
         if self.labels is None:
             raise ValueError("El modelo debe ser ajustado antes de analizar la distribución de la variable target.")
-        
+
         # Crear un DataFrame con los clusters y la variable target
         analysis_df = pd.DataFrame({
             'Cluster': self.labels,
             target_col: original_df[target_col]
         })
-        
+
         # Calcular la distribución de la variable target por cluster
         distribution = analysis_df.groupby('Cluster')[target_col].value_counts(normalize=True).unstack(fill_value=0)
 
@@ -434,6 +512,29 @@ class ClusteringModel:
         plt.ylabel('Proporción')
         plt.legend(title=target_col, bbox_to_anchor=(1.05, 1), loc='upper left')
         plt.tight_layout()
+
+        # Guardar el gráfico si se proporciona una ruta
+        if save_path:
+            # Crear la carpeta si no existe
+            os.makedirs(os.path.dirname(save_path), exist_ok=True)
+            plt.savefig(save_path)
+            print(f"Gráfico guardado en: {save_path}")
+
         plt.show()
 
         return distribution
+
+if __name__=="__main__":
+    import os
+
+    # Obtener la ruta actual
+    current_path = os.getcwd()
+
+    # Construir la ruta deseada
+    target_path = os.path.join(current_path, "visualizations", "clustering", "important_features")
+
+    # Imprimir la ruta resultante
+    print(f"La ruta completa es: {target_path}")
+
+    # Crear la carpeta si no existe
+    os.makedirs(target_path, exist_ok=True)
