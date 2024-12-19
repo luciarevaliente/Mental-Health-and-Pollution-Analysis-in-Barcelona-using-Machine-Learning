@@ -527,11 +527,7 @@ class ClusteringModel:
 if __name__=="__main__":
     import os
 
-    # Obtener la ruta actual
-    current_path = os.getcwd()
-
-    # Construir la ruta deseada
-    target_path = os.path.join(current_path, "visualizations", "clustering", "important_features")
+    
 
     # Imprimir la ruta resultante
     print(f"La ruta completa es: {target_path}")
