@@ -8,7 +8,7 @@ from models_regression import RegressionModels, GRID_PARAMS
 from preprocess import preprocess
 
 # Configuración
-FEATURES = ['ordenador', 'otrofactor', 'dayoftheweek', 'bienestar','energia']
+FEATURES = ['ordenador', 'otrofactor', 'dayoftheweek']
 TARGET_COLUMN = "estres"
 RESULTS_DIR = "data/regression/final_results"
 
@@ -218,37 +218,47 @@ def plot_learning_curves(model, X_train, X_test, y_train, y_test):
 
 ######################################################################################################################################
 # MAIN
+
+######################################################################################################################################
+# MAIN
 if __name__ == "__main__":
     from sklearn.model_selection import train_test_split
 
     # Cargar datos
     X_train, X_test, y_train, y_test = load_and_prepare_data(data, FEATURES, TARGET_COLUMN)
 
+    # Agrupar las clases 9 y 10 en una sola clase
+    y_train_grouped = y_train.replace({10: 9})  # Cambiar clase 10 por 9 en el conjunto de entrenamiento
+    y_test_grouped = y_test.replace({10: 9})    # Cambiar clase 10 por 9 en el conjunto de prueba
+    
     # Evaluar modelos seleccionados
-    model_types = [ "random_forest", "gradient_boosting", "xgboost"]
+    model_types = ["random_forest", "gradient_boosting", "xgboost"]
     metrics_dict = {}
 
     for model_name in model_types:
-        metrics = evaluate_model(model_name, X_train, X_test, y_train, y_test)
+        # Evaluar el modelo con las clases agrupadas
+        metrics = evaluate_model(model_name, X_train, X_test, y_train_grouped, y_test_grouped)
         metrics_dict[model_name] = metrics
 
         # Obtener predicciones del modelo seleccionado
         model_instance = RegressionModels(model_type=model_name).get_model()
-        model_instance.fit(X_train, y_train)
+        model_instance.fit(X_train, y_train_grouped)
         y_test_pred = model_instance.predict(X_test)
 
         # Analizar errores en clases específicas
         print(f"\nAnálisis de errores para el modelo {model_name}:")
-        target_classes = [0,1,2,3,4,5,6,7,8 ,9, 10]  # Clases de interés
-        error_results = analyze_error_by_class(y_test, y_test_pred, target_classes)
-        plot_error_by_class(error_results, title=f"Errores para el modelo {model_name}")
+        target_classes = [0, 1, 2, 3, 4, 5, 6, 7, 8,9]  # Clase 10 ya está incluida en la clase 9
+        error_results = analyze_error_by_class(y_test_grouped, y_test_pred, target_classes)
+        plot_error_by_class(error_results, title=f"Errores para el modelo {model_name} con clases agrupadas")
 
-    # Visualizar resultados
+    # Visualizar resultados globales
     plot_metrics(metrics_dict)
     best_model_instance = RegressionModels(model_type="xgboost").get_model()
-    plot_learning_curves(best_model_instance, X_train, X_test, y_train, y_test)
+    plot_learning_curves(best_model_instance, X_train, X_test, y_train_grouped, y_test_grouped)
 
     print("Evaluación y análisis completados. Revisa los resultados en el directorio de resultados.")
+
+
 # if __name__ == "__main__":
 #     from sklearn.model_selection import train_test_split
 
@@ -259,13 +269,20 @@ if __name__ == "__main__":
 #     model_types = [ "random_forest", "gradient_boosting", "xgboost"]
 #     metrics_dict = {}
 
-#     # Eliminar características no importantes
-#     # X_train_filtered, important_features = drop_unimportant_features(X_train, y_train, threshold=0.01)
-#     # X_test_filtered = X_test[important_features]  # Mantener mismas columnas en conjunto de prueba
-
 #     for model_name in model_types:
 #         metrics = evaluate_model(model_name, X_train, X_test, y_train, y_test)
 #         metrics_dict[model_name] = metrics
+
+#         # Obtener predicciones del modelo seleccionado
+#         model_instance = RegressionModels(model_type=model_name).get_model()
+#         model_instance.fit(X_train, y_train)
+#         y_test_pred = model_instance.predict(X_test)
+
+#         # Analizar errores en clases específicas
+#         print(f"\nAnálisis de errores para el modelo {model_name}:")
+#         target_classes = [0,1,2,3,4,5,6,7,8 ,9, 10]  # Clases de interés
+#         error_results = analyze_error_by_class(y_test, y_test_pred, target_classes)
+#         plot_error_by_class(error_results, title=f"Errores para el modelo {model_name}")
 
 #     # Visualizar resultados
 #     plot_metrics(metrics_dict)
