@@ -35,12 +35,20 @@ class RegressionModels:
                 eval_metric="rmse",
                 objective="reg:squarederror",
                 random_state=42,
+                min_child_weight =5,
+                
                 **kwargs
             ),
             "gradient_boosting": GradientBoostingRegressor(
                 random_state=42,
                 **kwargs
-            )
+            ),
+            "svr": SVR(**kwargs), 
+               "polynomial_regression": Pipeline([
+                ("polynomial_features", PolynomialFeatures()),
+                ("ridge", Ridge(**kwargs))  # Puedes cambiar por LinearRegression
+            ])
+            
         }
         if model_type not in models:
             raise ValueError(f"Modelo no reconocido: {model_type}")
@@ -60,8 +68,7 @@ class RegressionModels:
 
 # Parámetros de búsqueda
 GRID_PARAMS = {
-    "ridge": {"alpha": [0.1, 1.0, 10.0]},
-    "lasso": {"alpha": [0.01, 0.1, 1.0]},
+ 
     "random_forest": {
         "n_estimators": [100, 200, 500],
         "max_depth": [None, 10, 20],
@@ -83,6 +90,16 @@ GRID_PARAMS = {
         "colsample_bytree": [0.4, 0.6, 0.8, 1.0],
         "reg_alpha": [0, 0.1, 1],  # Regularización L1
         "reg_lambda": [1, 5, 10]  # Regularización L2
+        
+    },"svr": {
+        "C": [0.1, 1, 10],  # Control de regularización
+        "epsilon": [0.01, 0.1, 0.2],  # Margen de error tolerable
+        "kernel": ["linear", "rbf", "poly"],  # Tipos de kernel
+        "gamma": ["scale", "auto"]  # Gamma para kernels no lineales
+    },
+    "polynomial_regression": {
+        "polynomial_features__degree": [2, 3, 4],  # Grados del polinomio
+        "ridge__alpha": [0.1, 1.0, 10.0]  # Regularización para Ridge
     }
 }
 
@@ -98,6 +115,7 @@ def get_best_model(model_name, base_model, param_grid, X_train, y_train, X_test,
         verbose=1,
         n_jobs=-1,
         random_state=42
+            
     )
     if model_name == 'xgboost':
         random_search.fit(
