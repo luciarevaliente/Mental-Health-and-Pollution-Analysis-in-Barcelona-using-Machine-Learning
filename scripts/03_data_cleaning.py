@@ -16,8 +16,8 @@ CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
 k = 5
 ESBORRAR = ['date_all', 'year', 'month', 'hour', 'day', 'start_year','start_month', 'start_day', 'start_hour', 'end_year','end_month', 'end_day', 'end_hour', 'Houron', 'Houroff', # Les dades temporals de l'enquesta no aporten info, només per controlar dataset
             'stroop_test', # Només pren un valor
-            'yearbirth',  # Ja tenim la variable age 
-            'no2bcn_12h_x30', 'no2bcn_24h_x30', 'no2gps_12h_x30', 'no2gps_24h_x30'] # Variables amb factor de 30
+            'yearbirth','no2gps_12hx30','no2gps_24hx30','no2gps_12h','no2bcn_12h_x30','no2bcn_24h_x30','no2bcn_12h'
+] # Ja tenim la variable age 
 
 # FUNCIONES ###############################################################
 # Eliminar valores nulos
