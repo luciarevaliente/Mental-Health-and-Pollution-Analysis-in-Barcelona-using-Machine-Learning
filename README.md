@@ -5,10 +5,9 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
 ---
 
 ## **Objectius del Projecte** 🎯
-1. Analitzar la correlació entre factors de contaminació i salut mental.
-2. Predir indicadors de salut mental (estrès, energia, son) utilitzant models de regressió.
-3. Identificar grups poblacionals mitjançant tècniques de clustering basades en dades ambientals i demogràfiques.
-4. Proporcionar eines i conclusions que puguin ser útils per a polítiques públiques i intervencions urbanes????????????????????
+1. Predir indicadors de salut mental (estrès, energia, son) utilitzant models de regressió.
+2. Identificar grups poblacionals mitjançant tècniques de clustering.
+3. Extreure un perfil segons les variables de salut mental.
    
 ---
 

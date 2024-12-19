@@ -72,7 +72,7 @@ if __name__ == "__main__":
     X_train, X_test, y_train, y_test = prepare_data(DATA_PATH, TARGET_COLUMN)
     model_types = [ "random_forest", "gradient_boosting", "xgboost"]
     results = evaluate_models(model_types, X_train, y_train)
-    # save_results(results)
+    save_results(results)
     # print("Evaluación completada.")
 
     # Extraer las 10 características más importantes comunes
