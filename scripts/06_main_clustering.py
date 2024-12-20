@@ -12,10 +12,10 @@ import os
 
 # VARIABLES CONSTANTS
 PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset natejat
-ALGORITHMS = ['kmeans', 'spectral', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
+ALGORITHMS = ['kmeans', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
 TARGET = 'estres'
 
-AGRUPATED = True
+AGRUPATED = False
 
 current_path = os.getcwd() # Obtener la ruta actual
 
@@ -31,7 +31,9 @@ PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "4th_
 # VARIABLES_RELLEVANTS = ['dayoftheweek', 'bienestar', 'energia', 'ordenador', 'alcohol', 'otrofactor', 'no2bcn_24h', 'no2gps_24h', 'covid_work']
 # PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "9th_important_features")
 
-ALGORITHMS = ['kmeans', 'agglo', 'gmm']  # Algoritmes de clústering a testejar: 
+# Les 10 variables més rellevants XGBOOST
+# VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor', 'dayoftheweek','district_gràcia','incidence_cat_physical incidence', 'smoke', 'district_sant andreu', 'bienestar', 'Totaltime']
+# PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "10th_important features")
 
 MAX_CLUSTERS = 50
 COMPONENTS = ["Component 1", "Component 2", "Component 3"]
@@ -42,8 +44,10 @@ if __name__=="__main__":
     # 1 i 2. Codificació i escalat
     whole_preprocessed_df = preprocess(PATH_DATASET, TARGET) # Carreguem les dades i les preprocessem
     
+    
     if AGRUPATED: # Agrupar las clases 9 y 10 en una sola clase
-        whole_preprocessed_df = whole_preprocessed_df.replace({10: 9})  # Cambiar clase 10 por 9 en el conjunto de entrenamiento
+        whole_preprocessed_df = whole_preprocessed_df.replace({9: 8})  # Cambiar clase 10 por 9 en el conjunto de entrenamiento
+        whole_preprocessed_df = whole_preprocessed_df.replace({10: 8})  # Cambiar clase 10 por 9 en el conjunto de entrenamiento
 
     preprocessed_df = whole_preprocessed_df.drop(TARGET, axis=1)  # Eliminem la variable a partir de la qual volem fer clústering
 
@@ -58,8 +62,8 @@ if __name__=="__main__":
         model = ClusteringModel(data=preprocessed_df, algorithm=algoritme)
         
         # model.n_clusters=4
-        model.n_clusters=5
-        # model.n_clusters=6
+        # model.n_clusters=5
+        model.n_clusters=6
         best_k = model.n_clusters
         # if algoritme == 'gmm':
         #     best_k = model.gmm_best_k()

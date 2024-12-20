@@ -67,6 +67,7 @@ def preprocess(CLEANED_DATASET_PATH, TARGET):
     """Li passem el dataset a codificar i escalar i la variable target"""
     # Cargar el dataset
     initial_dataset = pd.read_pickle(CLEANED_DATASET_PATH)
+   
     data = initial_dataset.drop(TARGET, axis=1)
 
     # Seleccionar columnas numéricas

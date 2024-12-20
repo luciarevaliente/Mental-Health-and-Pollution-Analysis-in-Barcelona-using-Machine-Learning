@@ -92,10 +92,12 @@ def codificar_dades_categoriques(dataset, categorical_columns):
 if __name__=="__main__":
     # Cargar datos
     data = pd.read_pickle(PICKLE_PATH)
-
+    print(data.shape)
+    h = input('h')
     # Eliminar columnas innecesarias
     data = data.drop(columns=ESBORRAR, errors='ignore')
-
+    print(data.shape)
+    h = input('h')
     # # Conversión de formatos
     # data['Hour] = pd.to_datetime(data['Houron'], format='%H:%M:%S', errors='coerce')
     # data['Houroff'] = pd.to_datetime(data['Houroff'], format='%H:%M:%S', errors='coerce')
@@ -107,10 +109,12 @@ if __name__=="__main__":
 
     # Paso 1: Tratar valores nulos
     cleaned_dataset = filtrar_valors_null(data, k)
-
+    print(cleaned_dataset.shape)
+    h = input('h')
     # Paso 2: Eliminar duplicados
     cleaned_dataset = eliminar_duplicados(cleaned_dataset)
-
+    print(cleaned_dataset.shape)
+    h = input('h')
     # Paso 3: Convertir tipos de datos
     transform_to_int = ['occurrence_mental', 'occurrence_stroop', 'correct', 'response_duration_ms', 
                         'age_yrs', 'hour_gps', 'sec_noise55_day', 'sec_noise65_day', 'sec_greenblue_day',
@@ -121,14 +125,19 @@ if __name__=="__main__":
                         'district', 'education', 'access_greenbluespaces_300mbuff', 'smoke', 'psycho', 'gender', 
                         'Totaltime_estimated'] 
     cleaned_dataset = convertir_tipus_de_dades(cleaned_dataset, enter=transform_to_int, caracter=transform_to_str)
-
+    print(cleaned_dataset.shape)
+    h = input('h')
     # Paso 4: Normalizar valores categóricos
     cleaned_dataset = estandarditzar_valors_categorics(cleaned_dataset, ['bienestar', 'energia', 'estres', 'sueno'])
+    print(cleaned_dataset.shape)
+    h = input('h')
 
-    # Paso 5: Tratar outliers
-    numeric_columns = cleaned_dataset.select_dtypes(include=['float64', 'int64']).columns.tolist()
-    cleaned_dataset = tractar_outliers(cleaned_dataset, numeric_columns)
-
+    # # Paso 5: Tratar outliers
+    # numeric_columns = cleaned_dataset.select_dtypes(include=['float64', 'int64']).columns.tolist()
+    # cleaned_dataset = tractar_outliers(cleaned_dataset, numeric_columns)
+    # print(cleaned_dataset.shape)
+    # h = input('h')
+    
     # GUARDAR EL DATASET ######################################################
     cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
 
