@@ -12,10 +12,10 @@ import os
 
 # VARIABLES CONSTANTS
 PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset natejat
-ALGORITHMS = ['kmeans', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
+ALGORITHMS = ['gmm']  # Algoritmes de clústering a testejar: 'kmeans', 'agglo', 'gmm'
 TARGET = 'estres'
 
-AGRUPATED = False
+AGRUPATED = True
 
 current_path = os.getcwd() # Obtener la ruta actual
 
@@ -46,8 +46,7 @@ if __name__=="__main__":
     
     
     if AGRUPATED: # Agrupar las clases 9 y 10 en una sola clase
-        whole_preprocessed_df = whole_preprocessed_df.replace({9: 8})  # Cambiar clase 10 por 9 en el conjunto de entrenamiento
-        whole_preprocessed_df = whole_preprocessed_df.replace({10: 8})  # Cambiar clase 10 por 9 en el conjunto de entrenamiento
+        whole_preprocessed_df = whole_preprocessed_df.replace({10: 9})  # Cambiar clase 10 por 9 en el conjunto de entrenamiento
 
     preprocessed_df = whole_preprocessed_df.drop(TARGET, axis=1)  # Eliminem la variable a partir de la qual volem fer clústering
 
@@ -62,8 +61,8 @@ if __name__=="__main__":
         model = ClusteringModel(data=preprocessed_df, algorithm=algoritme)
         
         # model.n_clusters=4
-        # model.n_clusters=5
-        model.n_clusters=6
+        model.n_clusters=5
+        # model.n_clusters=6
         best_k = model.n_clusters
         # if algoritme == 'gmm':
         #     best_k = model.gmm_best_k()
@@ -78,11 +77,11 @@ if __name__=="__main__":
         # model.plot_clusters_PCA_3d()
         # model.plot_clusters_TSNE_2d()
         # reduced_data = model.plot_clusters_TSNE_3d() 
-        reduced_data = model.plot_clusters_TSNE_3d_animated(filename=f'{PATH_FILENAME}/{algoritme}_k{best_k}_TSNE3d_animated.gif')
+        reduced_data = model.plot_clusters_TSNE_3d_animated(filename=f'{PATH_FILENAME}/aggrupated_8&9_{algoritme}_k{best_k}_TSNE3d_animated.gif')
 
         # Analizar distribución de la variable target
         print(f"Distribución de la variable target ('{TARGET}') por cluster:")
-        target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET, save_path=f'{PATH_FILENAME}/{algoritme}_k{best_k}_distribution.png')
+        target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET, save_path=f'{PATH_FILENAME}/aggrupated_8&9_{algoritme}_k{best_k}_distribution.png')
         print(target_distribution) 
 
         # # Grups segons les correlacions de cada dimensió de TSNE: -------------------------------------------
@@ -93,7 +92,7 @@ if __name__=="__main__":
         #     print(f"  Top positivas: {correlaciones['top_positive']}")
         #     print(f"  Top negativas: {correlaciones['top_negative']}")
 
-        # # Grups segons els centroides ------------------------------------------------------------------------
+        # Grups segons els centroides ------------------------------------------------------------------------
         # centroides, caracteristicas_relevantes = model.analisi_components_centroides(preprocessed_df)
         # print("Característiques segons centroides:")
         # for cluster, data in caracteristicas_relevantes.items():
@@ -101,3 +100,89 @@ if __name__=="__main__":
         #     print(f"  Variables más altas: {data['top']}")
         #     print(f"  Variables más bajas: {data['low']}")
         # print()
+
+        # Mostrar las características y los valores de los centroides por cada cluster
+        centroides_df, caracteristicas_relevantes = model.analisi_components_centroides(preprocessed_df)
+
+        print("Características según centroides:")
+        for cluster, data in caracteristicas_relevantes.items():
+            print(f"\nCluster {cluster}:")
+            print("  Variables más altas:")
+            for feature in data['top']:
+                # Imprimir el valor de cada característica en el centroide
+                feature_value = centroides_df.loc[cluster, feature]
+                print(f"    {feature}: {feature_value}")
+            
+            print("  Variables más bajas:")
+            for feature in data['low']:
+                # Imprimir el valor de cada característica en el centroide
+                feature_value = centroides_df.loc[cluster, feature]
+                print(f"    {feature}: {feature_value}")
+
+if __name__ == '__main__':
+    RESULTAT = {'CLUSTER 0': {'ordenador': 1, 'bienestar': 0.09},
+                'CLUTSER 1': {'otrofactor': 1, 'dayoftheweek': 0.40},
+                'CLUSTER 2': {'dayoftheweek': 1.47, 'bienestar': 0.47},
+                'CLUSTER 3': {'ordenador': 1, 'otrofactor': 1},
+                'CLUSTER 4': {'bienestar': 0.16}}
+    
+    # RESULTAT: 
+    # Cluster Cluster 0:
+    # Variables más altas:
+    #     ordenador: 1.0
+    #     bienestar: 0.09360505140624129
+    #     dayoftheweek: -0.4085219179740924
+    #     otrofactor: -1.0
+    # Variables más bajas:
+    #     otrofactor: -1.0
+    #     dayoftheweek: -0.4085219179740924
+    #     bienestar: 0.09360505140624129
+    #     ordenador: 1.0
+
+    # Cluster Cluster 1:
+    # Variables más altas:
+    #     otrofactor: 1.0
+    #     dayoftheweek: 0.4019593168821394
+    #     bienestar: -0.24698225039927516
+    #     ordenador: -1.0
+    # Variables más bajas:
+    #     ordenador: -1.0
+    #     bienestar: -0.24698225039927516
+    #     dayoftheweek: 0.4019593168821394
+    #     otrofactor: 1.0
+
+    # Cluster Cluster 2:
+    # Variables más altas:
+    #     dayoftheweek: 1.4731547951186976
+    #     bienestar: 0.472832262282025
+    #     otrofactor: -1.0
+    #     ordenador: -1.0
+    # Variables más bajas:
+    #     ordenador: -1.0
+    #     otrofactor: -1.0
+    #     bienestar: 0.472832262282025
+    #     dayoftheweek: 1.4731547951186976
+
+    # Cluster Cluster 3:
+    # Variables más altas:
+    #     ordenador: 1.0
+    #     otrofactor: 1.0
+    #     dayoftheweek: -0.38828883503761097
+    #     bienestar: -0.5854100455473495
+    # Variables más bajas:
+    #     bienestar: -0.5854100455473495
+    #     dayoftheweek: -0.38828883503761097
+    #     otrofactor: 1.0
+    #     ordenador: 1.0
+
+    # Cluster Cluster 4:
+    # Variables más altas:
+    #     bienestar: 0.16137996374942615
+    #     dayoftheweek: -0.014969355439394512
+    #     otrofactor: -0.9999999999999992
+    #     ordenador: -0.9999999999999992
+    # Variables más bajas:
+    #     ordenador: -0.9999999999999992
+    #     otrofactor: -0.9999999999999992
+    #     dayoftheweek: -0.014969355439394512
+    #     bienestar: 0.16137996374942615
