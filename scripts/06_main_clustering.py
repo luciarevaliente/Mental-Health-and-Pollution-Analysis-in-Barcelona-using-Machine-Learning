@@ -15,24 +15,21 @@ PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset natejat
 ALGORITHMS = ['kmeans', 'spectral', 'agglo', 'gmm']  # Algoritmes de clústering a testejar
 TARGET = 'estres'
 
+AGRUPATED = True
 
-# Obtener la ruta actual
-current_path = os.getcwd()
+current_path = os.getcwd() # Obtener la ruta actual
 
+# Amb dataset complet:
 # VARIABLES_RELLEVANTS = []
 # PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "dataset")
 
 # Les 4 variables més rellevants
-# VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
-# PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "4th_important_features")
+VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
+PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "4th_important_features")
 
-# Les 8 variables més rellevants
-# VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar', 'µgm3', 'mean_congruent', 'Totaltime', 'energia']
-# PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "8th_important_features")
-
-# Les 8 variables noves més rellevants
-VARIABLES_RELLEVANTS = ['dayoftheweek', 'bienestar', 'energia', 'ordenador', 'alcohol', 'otrofactor', 'no2bcn_24h', 'no2gps_24h', 'covid_work']
-PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "9th_important_features")
+# Les 9 variables noves més rellevants
+# VARIABLES_RELLEVANTS = ['dayoftheweek', 'bienestar', 'energia', 'ordenador', 'alcohol', 'otrofactor', 'no2bcn_24h', 'no2gps_24h', 'covid_work']
+# PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "9th_important_features")
 
 ALGORITHMS = ['kmeans', 'agglo', 'gmm']  # Algoritmes de clústering a testejar: 
 
@@ -44,8 +41,11 @@ COMPONENTS = ["Component 1", "Component 2", "Component 3"]
 if __name__=="__main__":
     # 1 i 2. Codificació i escalat
     whole_preprocessed_df = preprocess(PATH_DATASET, TARGET) # Carreguem les dades i les preprocessem
+    
+    if AGRUPATED: # Agrupar las clases 9 y 10 en una sola clase
+        whole_preprocessed_df = whole_preprocessed_df.replace({10: 9})  # Cambiar clase 10 por 9 en el conjunto de entrenamiento
+
     preprocessed_df = whole_preprocessed_df.drop(TARGET, axis=1)  # Eliminem la variable a partir de la qual volem fer clústering
-    # print(preprocessed_df.columns)
 
     # 3. Si hi ha variables rellevants, reduïm la dimensió del dataset
     if VARIABLES_RELLEVANTS: 
