@@ -1,14 +1,16 @@
 from preprocess import preprocess
 from feature_engineering import features_importance,select_k_best_features,save_results
+from evaluation_regression import evaluate_model,plot_error_by_class,plot_learning_curves,analyze_error_by_class, plot_metrics
+from models_regression import RegressionModels
 from preparation_regression import separacio_train_test
 import pandas as pd
+import os
 
 # Configuració
 TARGET_COLUMN = "estres"
 DATA_PATH = preprocess('data/cleaned_dataset.pkl',TARGET_COLUMN)
 FEATURES = ['ordenador', 'otrofactor', 'dayoftheweek','bienestar']
 MODELS = ['svr', 'xgboost','polynomial_regression','random_forest','gradient_boosting']
-
 RESULTS_DIR = "data/regression/final_results"
 
 
@@ -16,10 +18,10 @@ RESULTS_DIR = "data/regression/final_results"
 if __name__ == "__main__":
 
     X_train, X_test, y_train, y_test = separacio_train_test(DATA_PATH, TARGET_COLUMN)
-    model_types = [ "random_forest", "gradient_boosting", "xgboost"] # modelos para encontrar las características mas importantes
-    results = features_importance(model_types, X_train, y_train,X_test,y_test)
+
+    results = features_importance(MODELS, X_train, y_train,X_test,y_test)
     save_results(results)
-    print("Feature imoportances guardadas")
+    print("Feature importances guardadas")
 
     # Extraer las 10 características más importantes comunes
     common_features = select_k_best_features(X_train,y_train, 10)
@@ -29,7 +31,6 @@ if __name__ == "__main__":
 
     # Crear directorio para resultados
     os.makedirs(RESULTS_DIR, exist_ok=True)   
-
 
     # Agrupar las clases 9 y 10 en una sola clase
    
@@ -41,8 +42,8 @@ if __name__ == "__main__":
 
     y_train_grouped = y_train.replace({10: 9})  # Cambiar clase 10 por 9 en el conjunto de entrenamiento
     y_test_grouped = y_test.replace({10: 9})    # Cambiar clase 10 por 9 en el conjunto de prueba
-    y_train_grouped = y_train.replace({0: 1})  # Cambiar clase 10 por 9 en el conjunto de entrenamiento
-    y_test_grouped = y_test.replace({0: 1})    # Cambiar clase 10 por 9 en el conjunto de prueba
+    y_train_grouped = y_train.replace({0: 1})  # Cambiar clase 0 por 1 en el conjunto de entrenamiento
+    y_test_grouped = y_test.replace({0: 1})    # Cambiar clase 0 por 1 en el conjunto de prueba
     
     # Evaluar modelos seleccionados
 
