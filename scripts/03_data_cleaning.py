@@ -60,18 +60,6 @@ def estandarditzar_valors_categorics(dataset, normalitzar=[]):
         dataset[col] = dataset[col].round().astype('Int64')
     return dataset
 
-# Tratar outliers
-def tractar_outliers(dataset, numeric_columns):
-    for col in numeric_columns:
-        if col in dataset.columns:
-            Q1 = dataset[col].quantile(0.25)
-            Q3 = dataset[col].quantile(0.75)
-            IQR = Q3 - Q1
-            lower_bound = Q1 - 1.5 * IQR
-            upper_bound = Q3 + 1.5 * IQR
-            dataset = dataset[(dataset[col] >= lower_bound) & (dataset[col] <= upper_bound)]
-    return dataset
-
 # Escalar datos numéricos
 def escalar_dades(dataset, numeric_columns):
     scaler = StandardScaler()
@@ -132,11 +120,6 @@ if __name__=="__main__":
     print(cleaned_dataset.shape)
     h = input('h')
 
-    # # Paso 5: Tratar outliers
-    # numeric_columns = cleaned_dataset.select_dtypes(include=['float64', 'int64']).columns.tolist()
-    # cleaned_dataset = tractar_outliers(cleaned_dataset, numeric_columns)
-    # print(cleaned_dataset.shape)
-    # h = input('h')
     
     # GUARDAR EL DATASET ######################################################
     cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
