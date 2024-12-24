@@ -34,5 +34,3 @@ def separacio_train_test(data, target_columns):
     y_test = y_test.values.ravel()
 
     return X_train, X_test, y_train, y_test
-
-

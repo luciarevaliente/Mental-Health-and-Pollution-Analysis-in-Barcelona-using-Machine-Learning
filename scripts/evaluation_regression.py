@@ -5,75 +5,16 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error
 import matplotlib.pyplot as plt
 from models_regression import get_best_model
 from models_regression import RegressionModels, GRID_PARAMS
+from preparation_regression import separacio_train_test
+import pandas as pd
 from preprocess import preprocess
+from sklearn.feature_selection import SelectKBest, f_regression
 
 # Configuración
 FEATURES = ['ordenador', 'otrofactor', 'dayoftheweek','bienestar']
 TARGET_COLUMN = "estres"
 
 RESULTS_DIR = "data/regression/final_results"
-
-cleaned_dataset_path = 'data/cleaned_dataset.pkl'
-data = preprocess(cleaned_dataset_path,TARGET_COLUMN)
-
-# Crear directorio para resultados
-os.makedirs(RESULTS_DIR, exist_ok=True)
-
-# Preparación de datos
-def prepare_data(data, target_column):
-    # data = preprocess(data_path, target_column)
-    return separacio_train_test(data, target_column)
-
-# Evaluar modelos y calcular importancia de características
-def features_importance(model_types, X_train, y_train):
-     results = {}
-     for model_name in model_types:
-         print(f"Evaluando {model_name}...")
-         model_instance = RegressionModels(model_type=model_name)
-         param_grid = GRID_PARAMS.get(model_name, {})
-         best_model = get_best_model(model_name, model_instance.get_model(), param_grid,X_train, y_train,X_test, y_test)
-         best_model.fit(X_train, y_train)
-         # Obtener importancia de características
-         if hasattr(best_model, "coef_"):  # Modelos lineales
-             coefficients = pd.DataFrame({
-                 'Feature': X_train.columns,
-                 'Coefficient': abs(best_model.coef_)
-             }).sort_values(by='Coefficient', ascending=False)
-             results[model_name] = coefficients
-
-         elif hasattr(best_model, "feature_importances_"):  # Modelos de árboles
-             importances = pd.DataFrame({
-                 'Feature': X_train.columns,
-                 'Importance': best_model.feature_importances_
-             }).sort_values(by='Importance', ascending=False)
-             results[model_name] = importances
-
-         else:  # Modelos sin coeficientes directos
-             from sklearn.inspection import permutation_importance
-             perm_importance = permutation_importance(best_model, X_train, y_train, random_state=42)
-             importances = pd.DataFrame({
-                 'Feature': X_train.columns,
-                 'Importance': perm_importance.importances_mean
-             }).sort_values(by='Importance', ascending=False)
-             results[model_name] = importances
-     return results
-
-# Guardar resultados
-def save_results(results, output_dir="data/regression/results"):
-    os.makedirs(output_dir, exist_ok=True)
-    for model_name, importance_df in results.items():
-        importance_df.to_excel(os.path.join(output_dir, f"{model_name}_importance.xlsx"), index=False)
-        print(f"Resultados guardados para {model_name} en {output_dir}")
-
-
-def select_k_best_features(X_train, y_train, k):
-    """
-    Selecciona las k mejores características usando SelectKBest.
-    """
-    selector = SelectKBest(score_func=f_regression, k=k)
-    X_train_selected = selector.fit_transform(X_train, y_train)
-    selected_features = X_train.columns[selector.get_support()]
-    return X_train_selected, selected_features, selector
 
 # Función para evaluar el modelo
 
@@ -216,14 +157,6 @@ def plot_metrics(metrics_dict):
     plt.savefig(os.path.join(RESULTS_DIR, "model_metrics_comparison.png"))
     plt.show()
 
-# Carga de datos
-
-def load_and_prepare_data(data, features, target_column):
-    """Carga y prepara los datos, seleccionando las características y el target."""
-    
-    X = data[features]
-    y = data[target_column]
-    return train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Curvas de aprendizaje
 def plot_learning_curves(model, X_train, X_test, y_train, y_test):
@@ -263,21 +196,32 @@ def plot_learning_curves(model, X_train, X_test, y_train, y_test):
 ######################################################################################################################################
 # MAIN
 if __name__ == "__main__":
-    from sklearn.model_selection import train_test_split
+    cleaned_dataset_path = 'data/cleaned_dataset.pkl'
+    data = preprocess(cleaned_dataset_path,TARGET_COLUMN)
 
+    # Crear directorio para resultados
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+    print(type(data))
+    
+    
     # Cargar datos
-    X_train, X_test, y_train, y_test = load_and_prepare_data(data, FEATURES, TARGET_COLUMN)
+    X_train, X_test, y_train, y_test = separacio_train_test(data, TARGET_COLUMN)
 
     # Agrupar las clases 9 y 10 en una sola clase
+    print(y_train,'\n')
+    if not isinstance(y_train, pd.Series):
+        y_train = pd.Series(y_train)
+    if not isinstance(y_test, pd.Series):
+        y_test = pd.Series(y_test)
+
+
     y_train_grouped = y_train.replace({10: 9})  # Cambiar clase 10 por 9 en el conjunto de entrenamiento
     y_test_grouped = y_test.replace({10: 9})    # Cambiar clase 10 por 9 en el conjunto de prueba
-    # y_train_grouped = y_train.replace({9: 8})  # Cambiar clase 10 por 9 en el conjunto de entrenamiento
-    # y_test_grouped = y_test.replace({9: 8})    # Cambiar clase 10 por 9 en el conjunto de prueba
     y_train_grouped = y_train.replace({0: 1})  # Cambiar clase 10 por 9 en el conjunto de entrenamiento
     y_test_grouped = y_test.replace({0: 1})    # Cambiar clase 10 por 9 en el conjunto de prueba
     
     # Evaluar modelos seleccionados
-    # model_types = ["random_forest", "gradient_boosting", "xgboost"]
+    #  ["random_forest", "gradient_boosting", "xgboost"]
     model_types = ['svr', 'xgboost','polynomial_regression']
     metrics_dict = {}
 
@@ -293,46 +237,14 @@ if __name__ == "__main__":
 
         # Analizar errores en clases específicas
         print(f"\nAnálisis de errores para el modelo {model_name}:")
-        target_classes = [1, 2, 3, 4, 5, 6, 7,8,9]  # Clase 10 ya está incluida en la clase 9
+        target_classes = [1, 2, 3, 4, 5, 6, 7,8,9]  # Clase 10 ya está incluida en la clase 9 y la 0 en la 1.
         error_results = analyze_error_by_class(y_test_grouped, y_test_pred, target_classes)
         plot_error_by_class(error_results, title=f"Errores para el modelo {model_name} con clases agrupadas")
 
     # Visualizar resultados globales
     plot_metrics(metrics_dict)
     best_model_instance = RegressionModels(model_type="xgboost").get_model()
-    plot_learning_curves(best_model_instance, X_train, X_test, y_train_grouped, y_test_grouped)
+    plot_learning_curves(best_model_instance, X_train, X_test, y_train_grouped, y_test_grouped)  # curva de aprendizaje del modelo finalmente escogido
 
     print("Evaluación y análisis completados. Revisa los resultados en el directorio de resultados.")
 
-
-# if __name__ == "__main__":
-#     from sklearn.model_selection import train_test_split
-
-#     # Cargar datos
-#     X_train, X_test, y_train, y_test = load_and_prepare_data(data, FEATURES, TARGET_COLUMN)
-
-#     # Evaluar modelos seleccionados
-#     model_types = [ "random_forest", "gradient_boosting", "xgboost"]
-#     metrics_dict = {}
-
-#     for model_name in model_types:
-#         metrics = evaluate_model(model_name, X_train, X_test, y_train, y_test)
-#         metrics_dict[model_name] = metrics
-
-#         # Obtener predicciones del modelo seleccionado
-#         model_instance = RegressionModels(model_type=model_name).get_model()
-#         model_instance.fit(X_train, y_train)
-#         y_test_pred = model_instance.predict(X_test)
-
-#         # Analizar errores en clases específicas
-#         print(f"\nAnálisis de errores para el modelo {model_name}:")
-#         target_classes = [0,1,2,3,4,5,6,7,8 ,9, 10]  # Clases de interés
-#         error_results = analyze_error_by_class(y_test, y_test_pred, target_classes)
-#         plot_error_by_class(error_results, title=f"Errores para el modelo {model_name}")
-
-#     # Visualizar resultados
-#     plot_metrics(metrics_dict)
-#     best_model_instance = RegressionModels(model_type="xgboost").get_model()
-#     plot_learning_curves(best_model_instance, X_train, X_test, y_train, y_test)
-
-#     print("Evaluación y análisis completados. Revisa los resultados en el directorio de resultados.")
