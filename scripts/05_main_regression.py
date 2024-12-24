@@ -21,7 +21,7 @@ if __name__ == "__main__":
     print('Buscant característiques importants')
     # Calcula la importància de les característiques utilitzant diversos models
     results = features_importance(MODELS, X_train, y_train, X_test, y_test)
-    # save_results(results)  # Desa els resultats en fitxers.
+    save_results(results,RESULTS_DIR)  # Desa els resultats en fitxers.
     print("Feature importances guardades")  # Informa que les importàncies s'han desat.
 
     # Selecciona les 10 característiques més importants
