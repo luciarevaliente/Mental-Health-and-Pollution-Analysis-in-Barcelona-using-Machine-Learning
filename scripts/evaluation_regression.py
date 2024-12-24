@@ -208,7 +208,7 @@ if __name__ == "__main__":
     X_train, X_test, y_train, y_test = separacio_train_test(data, TARGET_COLUMN)
 
     # Agrupar las clases 9 y 10 en una sola clase
-    print(y_train,'\n')
+   
     if not isinstance(y_train, pd.Series):
         y_train = pd.Series(y_train)
     if not isinstance(y_test, pd.Series):

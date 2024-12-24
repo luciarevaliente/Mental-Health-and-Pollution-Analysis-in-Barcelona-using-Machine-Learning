@@ -4,7 +4,7 @@ import pandas as pd
 import os
 
 # Evaluar modelos y calcular importancia de características
-def features_importance(model_types, X_train, y_train):
+def features_importance(model_types, X_train, y_train,X_test,y_test):
      results = {}
      for model_name in model_types:
          print(f"Evaluando {model_name}...")
