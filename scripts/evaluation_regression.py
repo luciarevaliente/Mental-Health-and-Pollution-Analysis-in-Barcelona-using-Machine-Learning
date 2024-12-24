@@ -7,6 +7,8 @@ from models_regression import get_best_model  # Funció per obtenir el millor mo
 from models_regression import RegressionModels, GRID_PARAMS  # Classe de models de regressió i paràmetres de cerca.
 from preparation_regression import separacio_train_test  # Funció per dividir les dades en train i test.
 from preprocess import preprocess  # Funció per preprocessar les dades.
+from imblearn.over_sampling import RandomOverSampler, SMOTE  # Llibreria per fer resampling de dades.
+from imblearn.under_sampling import RandomUnderSampler
 
 # Funció per avaluar el model
 def evaluate_model(model_name, X_train, X_test, y_train, y_test, RESULTS_DIR):
@@ -56,6 +58,32 @@ def evaluate_model(model_name, X_train, X_test, y_train, y_test, RESULTS_DIR):
         print(f"Importancias guardadas en {importance_path}")
 
     return metrics  # Retorna les mètriques calculades.
+
+
+def resample_data(X, y, method="oversample"): # NO ENS VA MILLORAR L'ERROR! (methods)
+    """
+    Aplica resampling per balancejar les dades.
+
+    Args:
+        X (DataFrame o ndarray): Conjunt de dades d'entrenament amb les característiques.
+        y (Series o ndarray): Conjunt de dades d'entrenament amb la variable objectiu.
+        method (str): Mètode de resampling a aplicar. Pot ser "oversample", "undersample" o "smote".
+
+    Returns:
+        X_resampled, y_resampled: Conjunts de dades balancejats.
+    """
+    if method == "oversample":
+        sampler = RandomOverSampler(random_state=42)  # Inicialitza un RandomOverSampler per generar més mostres de classes minoritàries.
+    elif method == "undersample":
+        sampler = RandomUnderSampler(random_state=42)  # Inicialitza un RandomUnderSampler per reduir mostres de classes majoritàries.
+    elif method == "smote":
+        sampler = SMOTE(random_state=42)  # Inicialitza SMOTE per generar mostres sintètiques per les classes minoritàries.
+    else:
+        raise ValueError("El mètode ha de ser 'oversample', 'undersample' o 'smote'.")
+        
+    X_resampled, y_resampled = sampler.fit_resample(X, y)  # Aplica el resampling.
+    print(f"Resampling completat amb el mètode: {method}.")
+    return X_resampled, y_resampled
 
 def analyze_error_by_class(y_test, y_test_pred, target_classes):
     """
