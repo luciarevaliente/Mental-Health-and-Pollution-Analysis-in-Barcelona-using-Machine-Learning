@@ -1,3 +1,9 @@
+"""
+Script per modelar la classe de Clustering.
+Creat per: Lucía Revaliente i Aránzazu Miguélez
+Data de creació: 12/12/24
+Descripció: Aquest script carrega permet inicialitzar diversos models de clústering, amb funcionalitats que s'expliquen al llarg del codi.
+"""
 # IMPORTS
 import pandas as pd
 import numpy as np
