@@ -6,13 +6,12 @@ import matplotlib.pyplot as plt
 from models_regression import get_best_model
 from models_regression import RegressionModels, GRID_PARAMS
 from preparation_regression import separacio_train_test
-import pandas as pd
 from preprocess import preprocess
-from sklearn.feature_selection import SelectKBest, f_regression
 
 # Configuración
 FEATURES = ['ordenador', 'otrofactor', 'dayoftheweek','bienestar']
 TARGET_COLUMN = "estres"
+MODELS = ['svr', 'xgboost','polynomial_regression','random_forest','gradient_boosting']
 
 RESULTS_DIR = "data/regression/final_results"
 
