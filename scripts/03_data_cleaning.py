@@ -45,17 +45,6 @@ def filtrar_valors_null(dataset, k):
         data_cleaned[column] = data_cleaned[column].fillna(mode_value)
     return data_cleaned
 
-
-def eliminar_duplicats(dataset):
-    """
-    Elimina les files duplicades del DataFrame.
-    
-    :params dataset: El DataFrame a netejar.
-    :return: El DataFrame sense duplicats.
-    """
-    return dataset.drop_duplicates()
-
-
 def convertir_tipus_de_dades(dataset, enter=[], caracter=[]):
     """
     Converteix les columnes específiques a tipus de dades enter o cadena de text (string).
@@ -103,7 +92,7 @@ if __name__=="__main__":
     cleaned_dataset = filtrar_valors_null(data, k)
 
     # Pas 2: Eliminar duplicats
-    cleaned_dataset = eliminar_duplicats(cleaned_dataset)
+    cleaned_dataset = cleaned_dataset.drop_duplicates()
 
     # Pas 3: Convertir tipus de dades
     transform_to_int = ['occurrence_mental', 'occurrence_stroop', 'correct', 'response_duration_ms', 
