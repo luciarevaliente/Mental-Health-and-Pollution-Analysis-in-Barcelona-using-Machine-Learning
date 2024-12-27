@@ -74,11 +74,15 @@ por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ## **Dependències i Instal·lació** 📦
 ### Llibreries necessàries
 Aquest projecte requereix Python 3 i les següents llibreries:
-- pandas
-- numpy
-- scikit-learn
-- matplotlib
-- seaborn
+- **pandas**: Per manipular dades tabulars.
+- **numpy**: Per a operacions numèriques i manipulació de matrius.
+- **scikit-learn**: Conté eines per a l'aprenentatge automàtic (models, preprocesament, validació, etc.).
+- **matplotlib**: Per crear gràfics estàtics i visualitzacions.
+- **seaborn**: Basat en `matplotlib`, però orientat a la visualització estadística.
+- **imbalanced-learn**: Conté eines com `RandomOverSampler`, `SMOTE` i `RandomUnderSampler` per equilibrar classes en conjunts de dades desequilibrats.
+- **xgboost**: Una biblioteca per a l'algorisme de Gradient Boosting optimitzat.
+- **yellowbrick**: Proporciona visualitzacions per a l'aprenentatge automàtic, com el `KElbowVisualizer`.
+
 
 ### Instal·lació
 ```bash
