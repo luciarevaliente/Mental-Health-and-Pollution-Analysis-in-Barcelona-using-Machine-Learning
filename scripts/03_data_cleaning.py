@@ -13,7 +13,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 # VARIABLES CONSTANTS
 PICKLE_PATH = 'data/dataset.pkl'
 CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
-k = 5
+k = 5  # KKNImputer
 ESBORRAR = ['date_all', 'year', 'month', 'hour', 'day', 'start_year','start_month', 'start_day', 'start_hour', 'end_year','end_month', 'end_day', 'end_hour', 'Houron', 'Houroff', # Les dades temporals de l'enquesta no aporten informació, només per controlar el dataset
             'stroop_test', # Només pren un valor
             'yearbirth', # Ja tenim la variable age 
@@ -84,11 +84,9 @@ if __name__=="__main__":
 
     # Pas 1: Tractar valors nuls
     cleaned_dataset = filtrar_valors_null(data, k)
-    print(cleaned_dataset.shape)
 
     # Pas 2: Eliminar duplicats
     cleaned_dataset = eliminar_duplicats(cleaned_dataset)
-    print(cleaned_dataset.shape)
 
     # Pas 3: Convertir tipus de dades
     transform_to_int = ['occurrence_mental', 'occurrence_stroop', 'correct', 'response_duration_ms', 
