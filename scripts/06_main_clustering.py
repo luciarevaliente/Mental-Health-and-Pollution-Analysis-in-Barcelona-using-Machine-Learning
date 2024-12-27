@@ -1,4 +1,5 @@
 """
+06_main_clustering.py
 Script per fer clustering amb diversos algoritmes i característiques.
 Creat per: Lucía Revaliente i Aránzazu Miguélez
 Data de creació: 12/12/24
