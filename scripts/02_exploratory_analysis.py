@@ -1,4 +1,5 @@
 """
+02_exploratory_analysis.py
 Script per analitzar dades de salut mental i contaminació de BCN
 Creat per: Lucía Revaliente i Aránzazu Miguélez
 Data de creació: 02/12/24
@@ -24,15 +25,15 @@ def generar_boxplots(col_numeriques_filtered, output_folder="visualizations/boxp
     """
     Aquesta funció genera i desa boxplots per a les columnes numèriques d'un DataFrame en una carpeta específica.
 
-    Paràmetres:
-    - col_numeriques_filtered: DataFrame amb les columnes numèriques a visualitzar.
-    - output_folder: Ruta on es desaran els gràfics. Per defecte és 'visualizations/boxplots'.
+    :params col_numeriques_filtered: DataFrame amb les columnes numèriques a visualitzar.
+    :params output_folder: Ruta on es desaran els gràfics. Per defecte és 'visualizations/boxplots'.
+    :return: No retorna cap valor. Desa els boxplots en un fitxer PNG.
     """
     # Comprovar si la carpeta ja existeix:
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)  # Crear la carpeta si no existeix
 
-        # Número de boxplots (columnas numéricas)
+        # Número de boxplots (columnas numèriques)
         num_plots = len(col_numeriques_filtered.columns)
         
         # Crear una figura amb subgràfics per a tots els boxplots
@@ -62,9 +63,9 @@ def generar_violin_plots(col_numeriques_filtered, output_folder="visualizations/
     """
     Aquesta funció genera i desa violin plots per a les columnes numèriques d'un DataFrame en una carpeta específica.
 
-    Paràmetres:
-    - col_numeriques_filtered: DataFrame amb les columnes numèriques a visualitzar.
-    - output_folder: Ruta on es desaran els gràfics. Per defecte és 'visualizations/violin_plots'.
+    :params col_numeriques_filtered: DataFrame amb les columnes numèriques a visualitzar.
+    :params output_folder: Ruta on es desaran els gràfics. Per defecte és 'visualizations/violin_plots'.
+    :return: No retorna cap valor. Desa els violin plots en un fitxer PNG.
     """
     # Comprovar si la carpeta ja existeix:
     if not os.path.exists(output_folder):
@@ -95,24 +96,6 @@ def generar_violin_plots(col_numeriques_filtered, output_folder="visualizations/
     else:
         print(f"La carpeta '{output_folder}' ja existeix. No s'han generat nous violin plots.\n")
 
-# FUNCIONS
-def estudiar_normalitat(df):
-    # Aplicar Shapiro-Wilk a cada columna numérica
-    resultados = {}
-    for columna in df.select_dtypes(include=['float64', 'int64']).columns:  # Solo columnas numéricas
-        stat, p_value = shapiro(df[columna].dropna())  # Ignora valores NaN
-        resultados[columna] = {"Estadístico W": stat, "Valor p": p_value}
-
-    # Mostrar resultados
-    for columna, res in resultados.items():
-        print(f"Columna: {columna}")
-        print(f"  Estadístico W: {res['Estadístico W']:.4f}")
-        print(f"  Valor p: {res['Valor p']:.4f}")
-        if res["Valor p"] > 0.05:
-            print("  → Los datos parecen seguir una distribución normal.")
-        else:
-            print("  → Los datos no siguen una distribución normal.")
-            
 # ANÀLISI CONTINGUT #########################################################################################################################
 if __name__=="__main__":
     df = pd.read_pickle(PICKLE_PATH)
