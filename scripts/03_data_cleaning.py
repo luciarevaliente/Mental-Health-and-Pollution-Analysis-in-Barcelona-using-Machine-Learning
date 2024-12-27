@@ -91,8 +91,8 @@ if __name__=="__main__":
     # Pas 1: Tractar valors nuls
     cleaned_dataset = filtrar_valors_null(data, k)
 
-    # Pas 2: Eliminar duplicats
-    cleaned_dataset = cleaned_dataset.drop_duplicates()
+    # Pas 2: Eliminar duplicats --> Comentem perquè no hi ha cap fila repetida
+    # cleaned_dataset = cleaned_dataset.drop_duplicates()  
 
     # Pas 3: Convertir tipus de dades
     transform_to_int = ['occurrence_mental', 'occurrence_stroop', 'correct', 'response_duration_ms', 
