@@ -9,7 +9,7 @@ import pandas as pd
 
 # VARIABLES CONSTANTS
 CSV_PATH ='data/CitieSHealth_BCN_DATA_PanelStudy_20220414.csv'
-PICKLE_PATH = 'data/dataset.pkl'
+PICKLE_PATH = 'data/CitieSHealth_BCN_DATA_PanelStudy_20220414.pkl'
 
 # MAIN
 # Carguem l'arxiu CSV en un DataFrame

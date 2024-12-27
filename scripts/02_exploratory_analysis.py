@@ -11,7 +11,7 @@ import seaborn as sns
 import os
 
 # VARIABLES CONSTANTS ###############################################################################################################
-PICKLE_PATH = 'data/dataset.pkl'
+PICKLE_PATH = 'data/CitieSHealth_BCN_DATA_PanelStudy_20220414.pkl'
 
 columnes_a_eliminar = ['ID_Zenodo', # No té sentit analitzar els IDs
                         'yearbirth', # Tenim la variable 'age_yrs' que és equivalent

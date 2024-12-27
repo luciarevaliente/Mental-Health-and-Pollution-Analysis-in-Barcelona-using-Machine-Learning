@@ -11,7 +11,7 @@ from sklearn.impute import KNNImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
 # VARIABLES CONSTANTS ######################################################
-PICKLE_PATH = 'data/dataset.pkl'
+PICKLE_PATH = 'data/CitieSHealth_BCN_DATA_PanelStudy_20220414.pkl'
 CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
 
 ESBORRAR = ['date_all', 'year', 'month', 'hour', 'day', 'start_year','start_month', 'start_day', 'start_hour', 'end_year','end_month', 'end_day', 'end_hour', 'Houron', 'Houroff', # Les dades temporals de l'enquesta no aporten informació, només per controlar el dataset
