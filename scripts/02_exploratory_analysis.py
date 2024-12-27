@@ -236,7 +236,6 @@ if __name__=="__main__":
     plt.show()
 
     # Proporció de registres de salut mental
-    
     mentalhealth_counts = df['mentalhealth_survey'].value_counts(normalize=True) * 100
     ocurrence_counts = df['occurrence_mental'].value_counts(normalize=True) * 100
     bienestar_counts = df['bienestar'].value_counts(normalize=True) * 100
