@@ -1,4 +1,5 @@
 """
+01_load_data.py
 Script per carregar les dades de salut mental i contaminació de BCN
 Creat per: Lucía Revaliente i Aránzazu Miguélez
 Data de creació: 02/12/24
@@ -12,9 +13,11 @@ CSV_PATH ='data/CitieSHealth_BCN_DATA_PanelStudy_20220414.csv'
 PICKLE_PATH = 'data/dataset.pkl'
 
 # MAIN
-# Carguem l'arxiu CSV en un DataFrame
-df = pd.read_csv(CSV_PATH)
+if __name__ == '__main__':
+    # Carguem l'arxiu CSV en un DataFrame
+    df = pd.read_csv(CSV_PATH)
 
-# Guardem el DataFrame com un arxiu pickle per fer-se servir en altres scripts
-df.to_pickle(PICKLE_PATH)
+    # Guardem el DataFrame com un arxiu pickle per fer-se servir en altres scripts
+    df.to_pickle(PICKLE_PATH)
 
+    print('Arxiu guardat en format Pickle!')
