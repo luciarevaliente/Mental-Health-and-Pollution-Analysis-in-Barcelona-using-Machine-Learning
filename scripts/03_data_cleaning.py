@@ -13,16 +13,27 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 # VARIABLES CONSTANTS
 PICKLE_PATH = 'data/dataset.pkl'
 CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
-k = 5  # KKNImputer
 ESBORRAR = ['date_all', 'year', 'month', 'hour', 'day', 'start_year','start_month', 'start_day', 'start_hour', 'end_year','end_month', 'end_day', 'end_hour', 'Houron', 'Houroff', # Les dades temporals de l'enquesta no aporten informació, només per controlar el dataset
             'stroop_test', # Només pren un valor
             'yearbirth', # Ja tenim la variable age 
             'no2gps_12hx30','no2gps_24hx30','no2gps_12h','no2bcn_12h_x30','no2bcn_24h_x30','no2bcn_12h','no2gps_12h_x30','no2gps_24h_x30'  # Factors de 30
             ] 
+k = 5  # KKNImputer
+VISUALITZACIO = False  # Exportar a Excel
 
 # FUNCIONS ###############################################################
-# Eliminar valors nuls
+
+
 def filtrar_valors_null(dataset, k):
+    """
+    Elimina les columnes amb més del 50% de valors nuls i imputa els valors nuls 
+    utilitzant l'algorisme KNNImputer per a les columnes numèriques. 
+    Les columnes de tipus object es substitueixen amb el valor més freqüent (moda).
+    
+    :params dataset: El DataFrame de dades a netejar.
+    :params k: El nombre de veïns (k) per al KNNImputer.
+    :return: El DataFrame netejat amb els valors nuls imputats.
+    """
     data_cleaned = dataset.copy()
     data_cleaned = data_cleaned.loc[:, data_cleaned.isnull().mean() < 0.5]  # Eliminar columnes amb més del 50% de NaN
 
@@ -35,12 +46,26 @@ def filtrar_valors_null(dataset, k):
         data_cleaned[column] = data_cleaned[column].fillna(mode_value)
     return data_cleaned
 
-# Eliminar duplicats
+
 def eliminar_duplicats(dataset):
+    """
+    Elimina les files duplicades del DataFrame.
+    
+    :params dataset: El DataFrame a netejar.
+    :return: El DataFrame sense duplicats.
+    """
     return dataset.drop_duplicates()
 
-# Convertir tipus de dades
+
 def convertir_tipus_de_dades(dataset, enter=[], caracter=[]):
+    """
+    Converteix les columnes específiques a tipus de dades enter o cadena de text (string).
+    
+    :params dataset: El DataFrame amb les dades a convertir.
+    :params enter: Llista de columnes a convertir a enters.
+    :params caracter: Llista de columnes a convertir a tipus cadena (string).
+    :return: El DataFrame amb les columnes convertides als tipus de dades indicats.
+    """
     if enter:
         for col in enter:
             if col in dataset.columns:
@@ -52,22 +77,45 @@ def convertir_tipus_de_dades(dataset, enter=[], caracter=[]):
                 dataset[col] = dataset[col].astype(str)
     return dataset
 
-# Normalitzar valors categòrics
+
 def estandarditzar_valors_categorics(dataset, normalitzar=[]):
+    """
+    Estandarditza els valors categòrics a minúscules i elimina espais en blanc al voltant.
+    També normalitza certs valors numèrics especificats en la llista `normalitzar`.
+    
+    :params dataset: El DataFrame amb les dades a estandarditzar.
+    :params normalitzar: Llista de columnes que es normalitzaran (convertides a enters i arrodonides).
+    :return: El DataFrame amb els valors categòrics estandarditzats.
+    """
     for column in dataset.select_dtypes(include=['object', 'string']).columns:
         dataset[column] = dataset[column].str.lower().str.strip()
     for col in normalitzar:
         dataset[col] = dataset[col].round().astype('Int64')
     return dataset
 
-# Escalar dades numèriques
+
 def escalar_dades(dataset, numeric_columns):
+    """
+    Escala les columnes numèriques especificades utilitzant StandardScaler.
+    
+    :params dataset: El DataFrame amb les dades a escalar.
+    :params numeric_columns: Llista de columnes numèriques a escalar.
+    :return: El DataFrame amb les columnes numèriques escalades.
+    """
     scaler = StandardScaler()
     dataset[numeric_columns] = scaler.fit_transform(dataset[numeric_columns])
     return dataset
 
-# Codificar dades categòriques
+
 def codificar_dades_categoriques(dataset, categorical_columns):
+    """
+    Codifica les columnes categòriques especificades mitjançant OneHotEncoder, eliminant 
+    la primera categoria per evitar la multicol·linearitat.
+    
+    :params dataset: El DataFrame amb les dades a codificar.
+    :params categorical_columns: Llista de columnes categòriques a codificar.
+    :return: El DataFrame amb les columnes categòriques codificades.
+    """
     encoder = OneHotEncoder(sparse_output=False, drop='first')
     encoded_data = encoder.fit_transform(dataset[categorical_columns])
     encoded_columns = encoder.get_feature_names_out(categorical_columns)
@@ -75,6 +123,7 @@ def codificar_dades_categoriques(dataset, categorical_columns):
     dataset = dataset.drop(columns=categorical_columns)
     dataset = pd.concat([dataset, encoded_df], axis=1)
     return dataset
+
 
 # PROCESSAMENT ##########################################################
 if __name__=="__main__":
@@ -107,9 +156,10 @@ if __name__=="__main__":
     # GUARDAR EL DATASET ######################################################
     cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
 
-    # Exportar a Excel
-    try:
-        cleaned_dataset.to_excel('data/cleaned_dataset.xlsx', index=False)
-        print(f"L'arxiu ha estat exportat a: 'data/cleaned_dataset.xlsx'")
-    except Exception as e:
-        print(f"Error: {e}")
+    # Exportar a Excel per visualitzar
+    if VISUALITZACIO:
+        try:
+            cleaned_dataset.to_excel('data/cleaned_dataset.xlsx', index=False)
+            print(f"L'arxiu ha estat exportat a: 'data/cleaned_dataset.xlsx'")
+        except Exception as e:
+            print(f"Error: {e}")
