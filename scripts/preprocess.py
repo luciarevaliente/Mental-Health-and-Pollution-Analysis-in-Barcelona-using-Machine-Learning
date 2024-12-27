@@ -8,9 +8,6 @@ from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, StandardScaler
 import pandas as pd
 import numpy as np
 
-CLEANED_DATASET_PATH = 'data/cleaned_dataset.pkl'
-TARGET = 'estres'
-
 def codificar_columnas(dataset, ordinal_columns, binary_columns, nominal_columns):
     """
     Codifica las columnas categóricas:
@@ -118,7 +115,3 @@ def preprocess(CLEANED_DATASET_PATH, TARGET):
     # print("Dataset escalado guardado.")
     
     return data
-
-
-if __name__=="__main__":
-    preprocess(CLEANED_DATASET_PATH, TARGET)

@@ -8,7 +8,7 @@ import os
 
 # Configuració
 TARGET_COLUMN = "estres"  # Defineix el nom de la columna objectiu, que és "estres".
-DATA_PATH = preprocess('data/cleaned_CitieSHealth_BCN_DATA_PanelStudy_20220414t.pkl', TARGET_COLUMN)  # Preprocessa el conjunt de dades i el carrega des d'un fitxer Pickle.
+DATA_PATH = preprocess('data/cleaned_dataset.pkl', TARGET_COLUMN)  # Preprocessa el conjunt de dades i el carrega des d'un fitxer Pickle.
 FEATURES = ['ordenador', 'otrofactor', 'dayoftheweek', 'bienestar']  # Llista de característiques seleccionades per a l'anàlisi.
 MODELS = ['svr', 'xgboost'] # 'polynomial_regression', 'random_forest', 'gradient_boosting']  # Tipus de models que s'utilitzaran.
 RESULTS_DIR = "data/regression/final_results"  # Ruta del directori on es desaran els resultats.

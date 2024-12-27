@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import os
 
 # VARIABLES CONSTANTS
-PATH_DATASET = "data/cleaned_CitieSHealth_BCN_DATA_PanelStudy_20220414.pkl"  # Dataset netejat
+PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset netejat
 ALGORITHMS = ['gmm']  # Algoritmes de clústering a provar: 'kmeans', 'agglo', 'gmm'
 TARGET = 'estres'
 
