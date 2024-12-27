@@ -150,12 +150,9 @@ if __name__=="__main__":
         #     print(i)
     # print(f'El diccionari amb les distribucions per columna (%) és: {distribucio}')
 
-
     # OUTLIERS ###########################################################################################################
     col_numeriques = df.select_dtypes(include=['float64', 'int64'])
-
     col_numeriques_filtered = col_numeriques.drop(columns=columnes_a_eliminar)
-
     generar_boxplots(col_numeriques_filtered)
 
     # DISTRIBUCIONS #######################################################################################################
