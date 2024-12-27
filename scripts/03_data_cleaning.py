@@ -94,14 +94,15 @@ if __name__=="__main__":
                         'hours_noise_55_day', 'hours_noise_65_day', 'hours_greenblue_day', 'precip_12h_binary',
                         'precip_24h_binary', 'dayoftheweek', 'bienestar', 'energia', 
                         'estres', 'sueno']
+    
     transform_to_str = ['mentalhealth_survey', 'ordenador', 'dieta', 'alcohol', 'drogas', 'enfermo', 'otrofactor', 
                         'district', 'education', 'access_greenbluespaces_300mbuff', 'smoke', 'psycho', 'gender', 
                         'Totaltime_estimated'] 
+    
     cleaned_dataset = convertir_tipus_de_dades(cleaned_dataset, enter=transform_to_int, caracter=transform_to_str)
 
     # Pas 4: Normalitzar valors categòrics
     cleaned_dataset = estandarditzar_valors_categorics(cleaned_dataset, ['bienestar', 'energia', 'estres', 'sueno'])
-    print(cleaned_dataset.shape)
 
     # GUARDAR EL DATASET ######################################################
     cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
