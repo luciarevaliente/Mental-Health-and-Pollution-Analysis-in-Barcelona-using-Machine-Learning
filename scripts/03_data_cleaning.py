@@ -1,29 +1,29 @@
 """
+03_data_cleaning.py
 Script per netejar les dades de salut mental i contaminació de BCN
 Creat per: Lucía Revaliente i Aránzazu Miguélez
 Data de creació: 03/12/24
 Descripció: Aquest script neteja les dades de salut mental i contaminació.
 """
-# 03_data_cleaning.py
-# IMPORTACIÓ
+# IMPORTACIÓ ##############################################################
 import pandas as pd
 from sklearn.impute import KNNImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
-# VARIABLES CONSTANTS
+# VARIABLES CONSTANTS ######################################################
 PICKLE_PATH = 'data/dataset.pkl'
 CLEANED_PICKLE_PATH = 'data/cleaned_dataset.pkl'
+
 ESBORRAR = ['date_all', 'year', 'month', 'hour', 'day', 'start_year','start_month', 'start_day', 'start_hour', 'end_year','end_month', 'end_day', 'end_hour', 'Houron', 'Houroff', # Les dades temporals de l'enquesta no aporten informació, només per controlar el dataset
             'stroop_test', # Només pren un valor
             'yearbirth', # Ja tenim la variable age 
             'no2gps_12hx30','no2gps_24hx30','no2gps_12h','no2bcn_12h_x30','no2bcn_24h_x30','no2bcn_12h','no2gps_12h_x30','no2gps_24h_x30'  # Factors de 30
             ] 
+
 k = 5  # KKNImputer
 VISUALITZACIO = False  # Exportar a Excel
 
 # FUNCIONS ###############################################################
-
-
 def filtrar_valors_null(dataset, k):
     """
     Elimina les columnes amb més del 50% de valors nuls i imputa els valors nuls 
@@ -91,37 +91,6 @@ def estandarditzar_valors_categorics(dataset, normalitzar=[]):
         dataset[column] = dataset[column].str.lower().str.strip()
     for col in normalitzar:
         dataset[col] = dataset[col].round().astype('Int64')
-    return dataset
-
-
-def escalar_dades(dataset, numeric_columns):
-    """
-    Escala les columnes numèriques especificades utilitzant StandardScaler.
-    
-    :params dataset: El DataFrame amb les dades a escalar.
-    :params numeric_columns: Llista de columnes numèriques a escalar.
-    :return: El DataFrame amb les columnes numèriques escalades.
-    """
-    scaler = StandardScaler()
-    dataset[numeric_columns] = scaler.fit_transform(dataset[numeric_columns])
-    return dataset
-
-
-def codificar_dades_categoriques(dataset, categorical_columns):
-    """
-    Codifica les columnes categòriques especificades mitjançant OneHotEncoder, eliminant 
-    la primera categoria per evitar la multicol·linearitat.
-    
-    :params dataset: El DataFrame amb les dades a codificar.
-    :params categorical_columns: Llista de columnes categòriques a codificar.
-    :return: El DataFrame amb les columnes categòriques codificades.
-    """
-    encoder = OneHotEncoder(sparse_output=False, drop='first')
-    encoded_data = encoder.fit_transform(dataset[categorical_columns])
-    encoded_columns = encoder.get_feature_names_out(categorical_columns)
-    encoded_df = pd.DataFrame(encoded_data, columns=encoded_columns, index=dataset.index)
-    dataset = dataset.drop(columns=categorical_columns)
-    dataset = pd.concat([dataset, encoded_df], axis=1)
     return dataset
 
 
