@@ -1,5 +1,8 @@
-pandas  # Data manipulation and analysis
-numpy  # Numerical computations and array handling
-scikit-learn  # Machine learning algorithms and tools
-matplotlib  # Data visualization (plots and charts)
-seaborn  # Statistical data visualization
+pandas  # Manipulació i anàlisi de dades
+numpy  # Càlculs numèrics i manipulació de matrius
+scikit-learn  # Algoritmes d'aprenentatge automàtic i eines
+matplotlib  # Visualització de dades (gràfics i diagrames)
+seaborn  # Visualització estadística de dades
+imbalanced-learn  # Tècniques de reamostratge (RandomOverSampler, SMOTE, RandomUnderSampler)
+xgboost  # Gradient Boosting per a l'aprenentatge automàtic
+yellowbrick  # Visualitzacions per a l'aprenentatge automàtic
