@@ -13,6 +13,7 @@ import os
 
 # VARIABLES CONSTANTS
 PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset netejat
+# ALGORITHMS = ['kmeans', 'agglo', 'gmm']
 ALGORITHMS = ['gmm']  # Algoritmes de clústering a provar: 'kmeans', 'agglo', 'gmm'
 TARGET = 'estres'
 
@@ -83,11 +84,13 @@ if __name__=="__main__":
         if VISUAL == 'PCA':
             # model.plot_clusters_PCA_2d()
             model.plot_clusters_PCA_3d()
-        else:
+        elif VISUAL == 'TSNE':
             # model.plot_clusters_TSNE_2d()
             # reduced_data = model.plot_clusters_TSNE_3d() 
             reduced_data = model.plot_clusters_TSNE_3d_animated(filename=f'{PATH_FILENAME}/aggrupated_8&9_{algoritme}_k{best_k}_TSNE3d_animated.gif')
-
+        else:
+            print('Aquest mètode de visualització no està disponible')
+            
         # Analitzar la distribució de la variable target
         print(f"Distribució de la variable target ('{TARGET}') per cluster:")
         target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET, save_path=f'{PATH_FILENAME}/aggrupated_8&9_{algoritme}_k{best_k}_distribution.png')
