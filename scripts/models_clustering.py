@@ -13,7 +13,7 @@ from sklearn.metrics import silhouette_score
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from yellowbrick.cluster import KElbowVisualizer
-from sklearn.cluster import SpectralClustering, AgglomerativeClustering
+from sklearn.cluster import AgglomerativeClustering
 from sklearn.mixture import GaussianMixture
 from matplotlib.animation import FuncAnimation
 from sklearn.manifold import TSNE

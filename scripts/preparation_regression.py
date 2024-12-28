@@ -1,5 +1,4 @@
 from sklearn.model_selection import train_test_split
-# from sklearn.preprocessing import OneHotEncoder, StandardScaler
 import pandas as pd
 
 def load_data(file_path):

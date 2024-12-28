@@ -102,8 +102,7 @@ if __name__=="__main__":
                         'estres', 'sueno']
     
     transform_to_str = ['mentalhealth_survey', 'ordenador', 'dieta', 'alcohol', 'drogas', 'enfermo', 'otrofactor', 
-                        'district', 'education', 'access_greenbluespaces_300mbuff', 'smoke', 'psycho', 'gender', 
-                        'Totaltime_estimated'] 
+                        'district', 'education', 'access_greenbluespaces_300mbuff', 'smoke', 'psycho', 'gender'] 
     
     cleaned_dataset = convertir_tipus_de_dades(cleaned_dataset, enter=transform_to_int, caracter=transform_to_str)
 
