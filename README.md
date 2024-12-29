@@ -63,7 +63,7 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
 ## **Metodologia** 🧠
 
 1. **Importació de dades**:
-  - Format: [CSV --> Pickle]
+   - Format: [CSV --> Pickle]
 
 2. **Neteja i preprocessament de dades**:
    - Gestió de valors nuls: [KNN Imputer]. 
