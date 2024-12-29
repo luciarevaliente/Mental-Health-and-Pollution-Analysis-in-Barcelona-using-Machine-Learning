@@ -68,10 +68,7 @@ if __name__=="__main__":
         model = ClusteringModel(data=preprocessed_df, algorithm=algoritme)
         
         if ESCOLLIR_K:
-            if algoritme == 'gmm':
-                best_k = model.gmm_best_k()
-            else:
-                best_k = model.elbow_method(max_clusters=MAX_CLUSTERS)
+            best_k = model.best_k()
         else:
             model.n_clusters = k
             best_k = model.n_clusters
