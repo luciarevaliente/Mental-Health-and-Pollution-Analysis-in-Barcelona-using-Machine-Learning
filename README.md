@@ -1,6 +1,10 @@
 # **Salut Mental i Contaminació a Barcelona: Un Estudi Basat en Machine Learning**
 ## **Descripció del Projecte** 📄
-Aquest projecte analitza la relació entre la salut mental i la contaminació ambiental a la ciutat de Barcelona utilitzant tècniques de Machine Learning. Amb un dataset complet que inclou factors relacionats amb el benestar, la qualitat de l'aire i altres variables contextuals, explorem patrons, prediccions i agrupacions que poden contribuir a comprendre millor aquests factors.
+Aquest projecte té com a objectiu analitzar la relació entre la salut mental i la contaminació ambiental a la ciutat de Barcelona mitjançant tècniques d'aprenentatge automàtic. Utilitzant un conjunt de dades que inclou informació sobre la qualitat de l'aire, el benestar general, i altres factors contextuals com l'activitat física, l'alimentació i l'ús d'espais verds, pretenem identificar patrons i establir connexions significatives sobre els nivells d'estrès en la població.
+
+L'anàlisi es basa en models de regressió per predir els nivells d'estrès i tècniques de clustering per identificar grups de persones amb característiques similars, amb l'objectiu de millorar la comprensió de com els factors ambientals i socials poden influir en la salut mental a la ciutat.
+
+Amb aquest enfocament, busquem proporcionar una visió més clara dels factors que poden contribuir a l'estrès de la població, facilitant la creació d'estratègies d'intervenció i millora de la qualitat de vida en entorns urbans.
 
 ---
 
