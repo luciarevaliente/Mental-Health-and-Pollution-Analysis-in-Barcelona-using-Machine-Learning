@@ -8,12 +8,28 @@ Amb aquest enfocament, busquem proporcionar una visió més clara dels factors q
 
 ---
 
+## Índex
+
+
+1. [Descripció del Projecte](#descripció-del-projecte) 📄  
+2. [Objectius del Projecte](#objectius-del-projecte) 🎯  
+3. [Contingut del Repositori](#contingut-del-repositori) 📁  
+4. [Dataset](#dataset) 📊  
+5. [Metodologia](#metodologia) 🧠  
+6. [Resultats i Conclusions](#resultats-i-conclusions) 📈  
+7. [Properes Etapes](#properes-etapes) 🚀  
+8. [Dependències i Instal·lació](#dependències-i-instal·lació) 📦  
+9. [Contribucions](#contribucions) 🤝  
+10. [Crèdits](#crèdits) 📝  
+11. [Llicència](#llicència) 📜  
+12. [Contacte](#contacte) 📬 
+
+---
+
 ## **Objectius del Projecte** 🎯
 1. Predir indicadors de salut mental utilitzant models de regressió, concretament en l'estrès.
 2. Observar si les característiques més importants sobre salut mental formen clústers. És a dir, si hi ha una clara segmentació en funció de les variables influents en l'estrès.
 3. Desenvolupar perfils predictius per caracteritzar l'estrès a partir de l'anàlisi de les variables influents i la segmentació en clústers.
-
----
 
 ## **Contingut del Repositori** 📁
 ```plaintext
@@ -110,15 +126,23 @@ A continuació, expliquem en detall el procés seguit en cadascuna de les etapes
 6. **Creació de perfils d’estrès**:  
    - A partir dels resultats de regressió i clustering, es defineixen perfils segons la distribució de variables i nivells d’estrès associats als clústers.  
 
- 
 ---
 
-## **Estructura del Codi** 🛠️
-POR HACERRRRRRRRRRRRRRRRRRRRRRRRRRR!!!!!!!!!!!!!!!!
-- **`scripts/`**: Conté el codi principal per al processament de dades, l'anàlisi exploratòria i l'entrenament de models.
-- **`visualizations/`**: Arxius generats durant l'execució del projecte, incloent visualitzacions i mètriques.
-- **`results/`**: Resultats del model: visualitzacions i mètriques.
-- **`requirements.txt`**: Llista de dependències necessàries per a executar el projecte. 
+## **Resultats i Conclusions** 📈
+### **Resultats preliminars**
+por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+### **Conclusió**
+por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+---
+
+## **Properes Etapes** 🚀
+- Millorar els models actuals amb tècniques més avançades (ex. XGBoost, PCA).
+- Incorporar dades de més anys per analitzar tendències temporals.
+- Automatitzar el procés per utilitzar-lo en temps real.
+POR HACER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+---
 
 ## **Dependències i Instal·lació** 📦
 ### Llibreries necessàries
@@ -147,23 +171,17 @@ pip install -r requirements.txt
 
 ---
 
-## **Resultats i Conclusions** 📈
-### **Resultats preliminars**
-por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-### **Conclusió**
-por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
----
-
-## **Properes Etapes** 🚀
-- Millorar els models actuals amb tècniques més avançades (ex. XGBoost, PCA).
-- Incorporar dades de més anys per analitzar tendències temporals.
-- Automatitzar el procés per utilitzar-lo en temps real.
+## ***Contribucions* 🤝  
+Les contribucions són benvingudes! En cas de voler aportar un gra de sorra, si us plau segueix els passos:
+1. Fes un fork del repositori.
+2. Crea una branca per a la teva nova funcionalitat (git checkout -b feature/nova-funcionalitat).
+3. Fes els canvis i fes commit (git commit -am 'Afegeix nova funcionalitat').
+4. Fes push a la teva branca (git push origin feature/nova-funcionalitat).
+5. Obre un Pull Request.
 
 ---
 
-## **Crèdits**
+## **Crèdits** 📝  
 **Autors del dataset:** Gignac, F., Righi, V., Toran, R., Paz Errandonea, L., Ortiz, R., Mijling, B., Naranjo, A., Nieuwenhuijsen, M., Creus, J., & Basagaña, X. (2022). CitieS-Health Barcelona Panel Study Results [Data set]. Zenodo. https://doi.org/10.5281/zenodo.6503022
 
 ---
