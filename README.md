@@ -53,11 +53,6 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
   - Contaminació: *NO₂, PM₂.₅, BCμg...*
   - Altres factors: *activitat física, dieta, soroll ambiental, accés a espais verds/blaus...*
   
-### Preprocessament
-- Gestió de valors nuls: [KNN Imputer]. 
-- Escalament de variables: [StandardScaler (característiques ordinals i contínues)].
-- Codificació de variables categòriques: [OneHotEncoders (variables nominals) i OrdinalEncoder (variables ordinals)].
-
 ---
 
 ## **Metodologia** 🧠
