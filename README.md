@@ -74,10 +74,13 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
      - Objectiu: Predir variables estrès.
      - Models utilitzats: [RandomForest, XGBoost, GradientBoosting
 , SVR, Polynomial].
+     - Sel·leció millors paràmetres: [RandomizedSearchCV, GridSearchCV].
 
    - **Clustering**:
      - Objectiu: Observar si les característiques més importants que prediuen l'estrès formen clústers: separació de les dades en l'espai.
      - Models utilitzats: [K-Means, Agglomerative, Gaussian Mixture].
+     - Sel·leció millors paràmetres: [Elbow Method, BIC].
+
 
 5. **Avaluació dels models**:
    - Mètriques per a regressió: [MAE, RMSE, R², etc.].   **REVISAR!!!!!!!1**
