@@ -5,9 +5,9 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
 ---
 
 ## **Objectius del Projecte** 🎯
-1. Predir indicadors de salut mental (estrès, energia, son) utilitzant models de regressió.
-2. Identificar grups poblacionals mitjançant tècniques de clustering.
-3. Extreure un perfil segons les variables de salut mental.
+1. Predir indicadors de salut mental utilitzant models de regressió, concretament en l'estrès.
+2. Observar si les característiques més importants sobre salut mental formen clústers. És a dir, si hi ha una clara segmentació en funció de les variables influents en l'estrès.
+3. Desenvolupar perfils predictius per caracteritzar l'estrès a partir de l'anàlisi de les variables influents i la segmentació en clústers.
    
 ---
 
