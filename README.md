@@ -9,8 +9,6 @@ Amb aquest enfocament, busquem proporcionar una visió més clara dels factors q
 ---
 
 ## Índex
-
-
 1. Descripció del Projecte 📄  
 2. Objectius del Projecte 🎯  
 3. Contingut del Repositori 📁  
@@ -93,7 +91,7 @@ Mitjançant l’ús de tècniques avançades de regressió i clustering, hem pog
 A continuació, expliquem en detall el procés seguit en cadascuna de les etapes per il·lustrar com s’han obtingut els resultats i validar la robustesa del nostre anàlisi. Aquest treball no només garanteix una base sòlida per a la interpretació dels resultats, sinó que també proporciona una eina pràctica per identificar patrons de comportament i establir relacions entre variables. 
 
 1. **Importació de dades**:  
-   - Formats treballats: [CSV → Pickle].  
+   - Formats treballats: de CSV a [Pickle].  
 
 2. **Neteja i preprocessament de dades**:  
    - **Gestió de valors nuls**: Imputació utilitzant [KNN Imputer].  
@@ -171,7 +169,7 @@ pip install -r requirements.txt
 
 ---
 
-## ***Contribucions** 🤝  
+## **Contribucions** 🤝  
 Les contribucions són benvingudes! En cas de voler aportar un gra de sorra, si us plau segueix els passos:
 1. Fes un fork del repositori.
 2. Crea una branca per a la teva nova funcionalitat (git checkout -b feature/nova-funcionalitat).
