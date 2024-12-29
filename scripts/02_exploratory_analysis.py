@@ -26,7 +26,7 @@ def generar_boxplots(col_numeriques_filtered, output_folder="visualizations/boxp
     Aquesta funció genera i desa boxplots per a les columnes numèriques d'un DataFrame en una carpeta específica.
 
     :params col_numeriques_filtered: DataFrame amb les columnes numèriques a visualitzar.
-    :params output_folder: Ruta on es desaran els gràfics. Per defecte és 'visualizations/boxplots'.
+    :params output_folder: Ruta on es desaran els gràfics. Per defecte és 'visualizations/'.
     :return: No retorna cap valor. Desa els boxplots en un fitxer PNG.
     """
     # Comprovar si la carpeta ja existeix:
@@ -49,22 +49,22 @@ def generar_boxplots(col_numeriques_filtered, output_folder="visualizations/boxp
         plt.tight_layout()
 
         # Ruta completa per desar la figura amb tots els boxplots
-        output_path = os.path.join(output_folder, "boxplots_totals.png")
+        output_path = os.path.join(output_folder, "boxplots.png")
         plt.savefig(output_path)  # Desar el gràfic amb tots els boxplots
 
         plt.close()  # Tancar el gràfic per alliberar memòria
 
-        print(f"Boxplots guardats a la carpeta '{output_folder}' com 'boxplots_totals.png'.\n")
+        print(f"Boxplots guardats a la carpeta '{output_folder}' com 'boxplots.png'.\n")
     else:
         print(f"La carpeta '{output_folder}' ja existeix. No s'han generat nous boxplots.\n")
 
 
-def generar_violin_plots(col_numeriques_filtered, output_folder="visualizations/violin_plots"):
+def generar_violin_plots(col_numeriques_filtered, output_folder="visualizations/violinplots"):
     """
     Aquesta funció genera i desa violin plots per a les columnes numèriques d'un DataFrame en una carpeta específica.
 
     :params col_numeriques_filtered: DataFrame amb les columnes numèriques a visualitzar.
-    :params output_folder: Ruta on es desaran els gràfics. Per defecte és 'visualizations/violin_plots'.
+    :params output_folder: Ruta on es desaran els gràfics. Per defecte és 'visualizations/'.
     :return: No retorna cap valor. Desa els violin plots en un fitxer PNG.
     """
     # Comprovar si la carpeta ja existeix:
@@ -87,12 +87,12 @@ def generar_violin_plots(col_numeriques_filtered, output_folder="visualizations/
         plt.tight_layout()
 
         # Ruta completa per desar la figura amb tots els violin plots
-        output_path = os.path.join(output_folder, "violin_plots_totals.png")
+        output_path = os.path.join(output_folder, "violinplots.png")
         plt.savefig(output_path)  # Desar el gràfic amb tots els violin plots
 
         plt.close()  # Tancar el gràfic per alliberar memòria
 
-        print(f"Violin plots guardats a la carpeta '{output_folder}' com 'violin_plots_totals.png'.\n")
+        print(f"Violin plots guardats a la carpeta '{output_folder}' com 'violinplots.png'.\n")
     else:
         print(f"La carpeta '{output_folder}' ja existeix. No s'han generat nous violin plots.\n")
 
