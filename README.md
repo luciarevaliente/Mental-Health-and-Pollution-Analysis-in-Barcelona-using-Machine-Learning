@@ -12,7 +12,6 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
 ---
 
 ## **Contingut del Repositori** 📁
-
 ```plaintext
 📦 Mental-Health-and-Pollution-Analysis-in-Barcelona-using-Machine-Learning
  ┣ 📂 00_docs
@@ -111,6 +110,7 @@ A continuació, expliquem en detall el procés seguit en cadascuna de les etapes
 ---
 
 ## **Estructura del Codi** 🛠️
+POR HACERRRRRRRRRRRRRRRRRRRRRRRRRRR!!!!!!!!!!!!!!!!
 - **`scripts/`**: Conté el codi principal per al processament de dades, l'anàlisi exploratòria i l'entrenament de models.
 - **`visualizations/`**: Arxius generats durant l'execució del projecte, incloent visualitzacions i mètriques.
 - **`results/`**: Resultats del model: visualitzacions i mètriques.
@@ -156,6 +156,7 @@ por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 - Millorar els models actuals amb tècniques més avançades (ex. XGBoost, PCA).
 - Incorporar dades de més anys per analitzar tendències temporals.
 - Automatitzar el procés per utilitzar-lo en temps real.
+
 ---
 
 ## **Crèdits**
