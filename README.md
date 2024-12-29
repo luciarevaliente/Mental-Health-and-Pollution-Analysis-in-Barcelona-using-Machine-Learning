@@ -11,18 +11,18 @@ Amb aquest enfocament, busquem proporcionar una visió més clara dels factors q
 ## Índex
 
 
-1. [Descripció del Projecte](#descripció-del-projecte) 📄  
-2. [Objectius del Projecte](#objectius-del-projecte) 🎯  
-3. [Contingut del Repositori](#contingut-del-repositori) 📁  
-4. [Dataset](#dataset) 📊  
-5. [Metodologia](#metodologia) 🧠  
-6. [Resultats i Conclusions](#resultats-i-conclusions) 📈  
-7. [Properes Etapes](#properes-etapes) 🚀  
-8. [Dependències i Instal·lació](#dependències-i-instal·lació) 📦  
-9. [Contribucions](#contribucions) 🤝  
-10. [Crèdits](#crèdits) 📝  
-11. [Llicència](#llicència) 📜  
-12. [Contacte](#contacte) 📬 
+1. Descripció del Projecte 📄  
+2. Objectius del Projecte 🎯  
+3. Contingut del Repositori 📁  
+4. Dataset 📊  
+5. Metodologia 🧠  
+6. Resultats i Conclusions 📈  
+7. Properes Etapes 🚀  
+8. Dependències i Instal·lació 📦  
+9. Contribucions 🤝  
+10. Crèdits 📝  
+11. Llicència 📜  
+12. Contacte 📬 
 
 ---
 
@@ -171,7 +171,7 @@ pip install -r requirements.txt
 
 ---
 
-## ***Contribucions* 🤝  
+## ***Contribucions** 🤝  
 Les contribucions són benvingudes! En cas de voler aportar un gra de sorra, si us plau segueix els passos:
 1. Fes un fork del repositori.
 2. Crea una branca per a la teva nova funcionalitat (git checkout -b feature/nova-funcionalitat).
