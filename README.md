@@ -55,38 +55,48 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
   
 ---
 
-## **Metodologia** 🧠
+## **Metodologia** 🧠 
+La metodologia aplicada ens ha permès desenvolupar un enfocament complet i estructurat per assolir els nostres objectius. Començant per la importació i preprocessament de dades, hem assegurat la qualitat i consistència dels inputs per al nostre modelatge. L’anàlisi exploratòri ens ha proporcionat una comprensió profunda de les dades, identificant correlacions rellevants i patrons inicials.  
 
-1. **Importació de dades**:
-   - Format: [CSV --> Pickle]
+Mitjançant l’ús de tècniques avançades de regressió i clustering, hem pogut no només predir els nivells d’estrès, sinó també agrupar les dades en clústers significatius. Això ens ha permès extreure coneixements clau sobre les característiques que més influeixen en l’estrès i desenvolupar perfils que expliquen aquests resultats.  
 
-2. **Neteja i preprocessament de dades**:
-   - Gestió de valors nuls: [KNN Imputer]. 
-   - Escalament de variables: [StandardScaler (característiques ordinals i contínues)].
-   - Codificació de variables categòriques: [OneHotEncoders (variables nominals) i OrdinalEncoder (variables ordinals)].
-   
-3. **Anàlisi exploratòria**:
-   - Estadístiques descriptives.
-   - Visualitzacions de correlacions (matriu de correlació --> heatmap).
+A continuació, expliquem en detall el procés seguit en cadascuna de les etapes per il·lustrar com s’han obtingut els resultats i validar la robustesa del nostre anàlisi. Aquest treball no només garanteix una base sòlida per a la interpretació dels resultats, sinó que també proporciona una eina pràctica per identificar patrons de comportament i establir relacions entre variables. 
 
-4. **Models utilitzats**:
-   - **Regressió**:
-     - Objectiu: Predir variables estrès.
-     - Models utilitzats: [RandomForest, XGBoost, GradientBoosting
-, SVR, Polynomial].
-     - Sel·leció millors paràmetres: [RandomizedSearchCV, GridSearchCV].
+1. **Importació de dades**:  
+   - Formats treballats: [CSV → Pickle].  
 
-   - **Clustering**:
-     - Objectiu: Observar si les característiques més importants que prediuen l'estrès formen clústers: separació de les dades en l'espai.
-     - Models utilitzats: [K-Means, Agglomerative, Gaussian Mixture].
-     - Sel·leció millors paràmetres: [Elbow Method, BIC].
+2. **Neteja i preprocessament de dades**:  
+   - **Gestió de valors nuls**: Imputació utilitzant [KNN Imputer].  
+   - **Escalament de variables**: [StandardScaler] per a variables ordinals i contínues.  
+   - **Codificació de variables categòriques**:  
+     - [OneHotEncoder] per a variables nominals.  
+     - [OrdinalEncoder] per a variables ordinals.  
 
+3. **Anàlisi exploratòria de dades**:  
+   - Estadístiques descriptives per comprendre les distribucions de les dades.  
+   - Visualització de correlacions: [matriu de correlació → heatmap].  
 
-5. **Avaluació dels models**:
-   - Mètriques per a regressió: [MAE, RMSE, R², etc.].   **REVISAR!!!!!!!1**
-   - Mètriques per a clustering: [TSNE].
+4. **Models utilitzats**:  
+   - **Regressió**:  
+     - **Objectiu**: Predir el nivell d’estrès a partir de les característiques disponibles.  
+     - **Models aplicats**: [RandomForest, XGBoost, GradientBoosting, SVR, Polynomial].  
+     - **Optimització de paràmetres**: Mitjançant [RandomizedSearchCV, GridSearchCV].  
 
-**por acabar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
+   - **Clustering**:  
+     - **Objectiu**: Identificar clústers basats en les característiques més influents per predir l’estrès.  
+     - **Models aplicats**: [K-Means, Agglomerative Clustering, Gaussian Mixture Models].  
+     - **Selecció de millors paràmetres**: Utilitzant [Elbow Method, BIC].  
+
+5. **Avaluació dels models**:  
+   - **Regressió**:  
+     - Mètriques aplicades: [MAE, RMSE, R²].  
+   - **Clustering**:  
+     - Visualització i validació: [t-SNE] per a la reducció de dimensionalitat i anàlisi de separació de grups.  
+
+6. **Creació de perfils d’estrès**:  
+   - A partir dels resultats de regressió i clustering, es defineixen perfils segons la distribució de variables i nivells d’estrès associats als clústers.  
+
+ 
 ---
 
 ## **Estructura del Codi** 🛠️
