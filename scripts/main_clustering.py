@@ -40,6 +40,7 @@ AGRUPATED = True
 
 # Per obtenir la k òptima:
 ESCOLLIR_K = True
+k = 5
 MAX_CLUSTERS = 50
 COMPONENTS = ["Component 1", "Component 2", "Component 3"]
 
@@ -72,12 +73,10 @@ if __name__=="__main__":
             else:
                 best_k = model.elbow_method(max_clusters=MAX_CLUSTERS)
         else:
-            # model.n_clusters=4
-            model.n_clusters=5
-            # model.n_clusters=6
+            model.n_clusters = k
             best_k = model.n_clusters
-        
         print(f'Best number of clusters: {best_k}')
+        
         model.fit()
 
         # Visualitzacions:
@@ -131,7 +130,6 @@ if __name__=="__main__":
         #     print(f"  Variables més baixes: {data['low']}")
         # print()
 
-if __name__ == '__main__':
     RESULTAT = {'CLUSTER 0': {'ordenador': 1, 'bienestar': 0.09},
                 'CLUSTER 1': {'otrofactor': 1, 'dayoftheweek': 0.40},
                 'CLUSTER 2': {'dayoftheweek': 1.47, 'bienestar': 0.47},
