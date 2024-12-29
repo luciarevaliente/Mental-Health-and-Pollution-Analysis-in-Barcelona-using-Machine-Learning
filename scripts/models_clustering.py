@@ -77,13 +77,67 @@ class ClusteringModel:
         self.algorithm = algorithm
 
     # CLUSTER SELECTION ------------------------------------------------------------------------------------
-    def elbow_method(self, max_clusters=10):
-        """
-        Aplica el mètode del codo per trobar el millor nombre de clusters.
+    # def elbow_method(self, max_clusters=10):
+    #     """
+    #     Aplica el mètode del codo per trobar el millor nombre de clusters.
 
-        :param max_clusters: int per determinar les iteracions màximes del mètode del colze
-        :return: int. Valor K òptim
+    #     :param max_clusters: int per determinar les iteracions màximes del mètode del colze
+    #     :return: int. Valor K òptim
+    #     """
+    #     if self.algorithm == 'kmeans':
+    #         model = KMeans(random_state=42)
+    #     elif self.algorithm == 'agglo':
+    #         model = AgglomerativeClustering()
+    #     elif self.algorithm == 'gmm':
+    #         model = GaussianMixture(random_state=42)
+    #     else:
+    #         raise ValueError(f"Algoritmo '{self.algorithm}' no és vàlid.")
+
+    #     visualizer = KElbowVisualizer(model, k=(1, max_clusters))  # Provar entre 1 i max_clusters clusters
+
+    #     visualizer.fit(self.data)  # Ajustar el visualitzador a les dades escalades
+    #     visualizer.show()
+
+    #     self.n_clusters = visualizer.elbow_value_  # Obtenir el nombre òptim de clusters 
+    #     print(f"El número òptim de clusters és: {self.n_clusters}")
+
+    #     return visualizer.elbow_value_
+
+    # def gmm_best_k(self, max_clusters=10):
+    #     """
+    #     Troba el millor nombre de clusters utilitzant el BIC (Criteri d'Informació Bayesià) en un GMM.
+
+    #     :param max_clusters: Nombre màxim de clusters a avaluar (per defecte, 10).
+    #     :return: El nombre òptim de clusters segons el BIC.
+    #     """
+    #     bic_scores = []
+        
+    #     # Avaluar models GMM per a cada nombre de clusters des d'1 fins a max_clusters
+    #     for k in range(1, max_clusters + 1):
+    #         gmm = GaussianMixture(n_components=k, random_state=42)
+    #         gmm.fit(self.data)
+    #         bic_scores.append(gmm.bic(self.data))  # Calcular el BIC per al model ajustat
+
+    #     # Trobar el nombre de clusters que minimitza el BIC
+    #     best_k = np.argmin(bic_scores) + 1  # +1 perquè el rang comença en 1
+        
+    #     print(f"El nombre òptim de clusters segons el BIC és: {best_k}")
+    #     self.n_clusters = best_k  # Establir el nombre òptim de clusters
+
+    #     return best_k
+
+    def best_k(self, max_clusters=10):
         """
+        Troba el millor nombre de clusters utilitzant tant el mètode del codo com el BIC (Criteri d'Informació Bayesià).
+
+        :param max_clusters: Nombre màxim de clusters a avaluar (per defecte, 10).
+        :return: El nombre òptim de clusters segons el mètode combinat.
+        """
+        # Inicialitzar les llistes per a emmagatzemar els resultats
+        elbow_k = None
+        gmm_k = None
+        
+        # Primer, utilitzem el mètode del codo (elbow method)
         if self.algorithm == 'kmeans':
             model = KMeans(random_state=42)
         elif self.algorithm == 'agglo':
@@ -92,41 +146,36 @@ class ClusteringModel:
             model = GaussianMixture(random_state=42)
         else:
             raise ValueError(f"Algoritmo '{self.algorithm}' no és vàlid.")
-
+        
         visualizer = KElbowVisualizer(model, k=(1, max_clusters))  # Provar entre 1 i max_clusters clusters
-
-        visualizer.fit(self.data)  # Ajustar el visualitzador a les dades escalades
+        visualizer.fit(self.data)
         visualizer.show()
 
-        self.n_clusters = visualizer.elbow_value_  # Obtenir el nombre òptim de clusters 
-        print(f"El número òptim de clusters és: {self.n_clusters}")
+        elbow_k = visualizer.elbow_value_  # Obtenir el nombre òptim de clusters mitjançant el mètode del codo
+        print(f"El número òptim de clusters segons el mètode del codo és: {elbow_k}")
 
-        return visualizer.elbow_value_
-
-    def gmm_best_k(self, max_clusters=10):
-        """
-        Troba el millor nombre de clusters utilitzant el BIC (Criteri d'Informació Bayesià) en un GMM.
-
-        :param max_clusters: Nombre màxim de clusters a avaluar (per defecte, 10).
-        :return: El nombre òptim de clusters segons el BIC.
-        """
-        bic_scores = []
+        # Després, avaluem el millor k segons el BIC (Criteri d'Informació Bayesià) per al model GMM
+        if self.algorithm == 'gmm':
+            bic_scores = []
+            for k in range(1, max_clusters + 1):
+                gmm = GaussianMixture(n_components=k, random_state=42)
+                gmm.fit(self.data)
+                bic_scores.append(gmm.bic(self.data))
+            gmm_k = np.argmin(bic_scores) + 1
+            print(f"El número òptim de clusters segons el BIC és: {gmm_k}")
         
-        # Avaluar models GMM per a cada nombre de clusters des d'1 fins a max_clusters
-        for k in range(1, max_clusters + 1):
-            gmm = GaussianMixture(n_components=k, random_state=42)
-            gmm.fit(self.data)
-            bic_scores.append(gmm.bic(self.data))  # Calcular el BIC per al model ajustat
-
-        # Trobar el nombre de clusters que minimitza el BIC
-        best_k = np.argmin(bic_scores) + 1  # +1 perquè el rang comença en 1
+        # Escollir el millor valor de k entre els dos mètodes
+        if elbow_k and gmm_k:
+            # Podem triar el valor de k basant-nos en l'equilibri dels dos mètodes
+            # En aquest cas, per simplificar, seleccionem el més comú
+            self.n_clusters = max(elbow_k, gmm_k)  # Combinació de resultats
+        else:
+            # Si només es troba un mètode vàlid, utilitzem aquest valor
+            self.n_clusters = elbow_k if elbow_k else gmm_k
         
-        print(f"El nombre òptim de clusters segons el BIC és: {best_k}")
-        self.n_clusters = best_k  # Establir el nombre òptim de clusters
+        return self.n_clusters
 
-        return best_k
-
-
+        
     # VISUALITZACIÓ -----------------------------------------------------------------------------
     def plot_clusters_PCA_2d(self):
         """

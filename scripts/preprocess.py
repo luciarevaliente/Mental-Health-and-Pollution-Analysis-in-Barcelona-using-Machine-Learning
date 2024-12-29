@@ -110,8 +110,8 @@ def preprocess(CLEANED_DATASET_PATH, TARGET):
     data = data.sample(frac=1, random_state=42).reset_index(drop=True)
 
     # Guardar dataset escalado
-    # data.to_pickle('data/shuffled_scaled_dataset.pkl')
-    # data.to_excel('data/shuffled_scaled_dataset.xlsx', index=False)
-    # print("Dataset escalado guardado.")
+    data.to_pickle('data/processed_dataset.pkl')
+    # data.to_excel('data/processed_dataset.xlsx', index=False)
+    print("Dataset escalado guardado.")
     
     return data
