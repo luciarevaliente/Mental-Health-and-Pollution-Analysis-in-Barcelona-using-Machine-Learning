@@ -8,7 +8,7 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
 1. Predir indicadors de salut mental utilitzant models de regressió, concretament en l'estrès.
 2. Observar si les característiques més importants sobre salut mental formen clústers. És a dir, si hi ha una clara segmentació en funció de les variables influents en l'estrès.
 3. Desenvolupar perfils predictius per caracteritzar l'estrès a partir de l'anàlisi de les variables influents i la segmentació en clústers.
-   
+
 ---
 
 ## **Contingut del Repositori** 📁
@@ -49,14 +49,14 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
 - **Nombre de registres**: 3348
 - **Nombre de columnes**: 95
 - **Principals característiques**:
-  - Factors de salut mental: *benestar, estrès, energia, son.*
-  - Contaminació: *NO₂, PM₂.₅, BCμg.*
-  - Altres factors: *activitat física, dieta, soroll ambiental, accés a espais verds/blaus.*
+  - Factors de salut mental: *benestar, estrès, energia, son...*
+  - Contaminació: *NO₂, PM₂.₅, BCμg...*
+  - Altres factors: *activitat física, dieta, soroll ambiental, accés a espais verds/blaus...*
   
 ### Preprocessament
 - Gestió de valors nuls: [KNN Imputer]. 
-- Escalament de variables: [Sí: StandardScaler (ordinals i contínues)].
-- Codificació de variables categòriques: [Sí: OneHotEncoders (nominals) i OrdinalEncoder (ordinals)].
+- Escalament de variables: [StandardScaler (característiques ordinals i contínues)].
+- Codificació de variables categòriques: [OneHotEncoders (variables nominals) i OrdinalEncoder (variables ordinals)].
 
 ---
 
