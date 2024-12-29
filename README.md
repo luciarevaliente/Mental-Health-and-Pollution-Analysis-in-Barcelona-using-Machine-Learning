@@ -15,39 +15,35 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
 
 ```plaintext
 📦 Mental-Health-and-Pollution-Analysis-in-Barcelona-using-Machine-Learning
- ┣ 📂 data
+ ┣ 📂 00_docs
+ ┃ ┣ 📜 ?
+ ┣ 📂 01_data
  ┃ ┣ 📜 CitieSHealth_BCN_DATA_PanelStudy_20220414.csv (dataset principal)
  ┃ ┣ 📜 dataset.pkl (dataset emprat en els scripts)
  ┃ ┣ 📜 cleaned_dataset.pkl (dataset natejat emprat en els scripts)
- ┣ 📂 docs
- ┃ ┣ 📜 00_planificacio_setmanal_objectius_i_preguntes_clau.md (document on es planteja la cronologia del projecte, objectius i preguntes clau)
- ┃ ┣ 📜 02_exploratory_analysis.md (conté l'explicació del procediment i l'anàlisi dels resultats)
- ┃ ┣ 📜 03_data_cleaning.md (conté l'explicació del procediment i de la neteja, normalització, escalat i codificació de les dades)
- ┣ 📂 scripts
- ┃ ┣ 📜 01_load_data.py (carrega les dades i les guarda en format pickle)
- ┃ ┣ 📜 02_exploratory_analysis.py (processa i analitza les dades)
- ┃ ┣ 📜 03_data_cleaning.py (neteja i preprocesament de dades)
+ ┣ 📂 02_scripts
+ ┃ ┣ 📜 load_data.py (carrega les dades i les guarda en format pickle)
+ ┃ ┣ 📜 exploratory_analysis.py (processa i analitza les dades)
+ ┃ ┣ 📜 data_cleaning.py (neteja i preprocesament de dades)
  ┃ ┣ 📜 preprocess.py (conté la funció que preprocessa les dades, exceptuant la variable target)
  ┃ ┣ 📜 ???????????????????????????????????
- ┃ ┣ 📜 05_main_regression.py (?????????????????????????????????????????)
+ ┃ ┣ 📜 main_regression.py (?????????????????????????????????????????)
  ┃ ┣ 📜 models_clustering.py (conté la classe que inicialitza els mètodes de clústering i defineix totes les funcionalitats) 
- ┃ ┣ 📜 06_main_clustering.py (?????????????????????????????????????????)
- ┣ 📂 visualizations
- ┃ ┣ 📂 boxplots/ (gràfiques per analitzar outliers)
- ┃ ┣ 📂 violinplots/ (gràfiques per analitzar distribucions)
- ┃ ┣ 📂 analisi_correlacio/ (gràfiques per analitzar la correlació entre variables)
- ┃ ┣ 📂 regressio/ (???????????????????????????????????)
- ┃ ┣ 📂 elbow_method/ (gràfiques per analitzar i escollir k òptima)
- ┃ ┣ 📂 clusters/ (gifs i gràfiques per analitzar clústers formats)
- ┃ ┃ ┣ 📂 00_incorrect_data_preparation/ (gràfiques per visualitzar clústers amb dades mal processades)
- ┃ ┃ ┃ ┣ 📂 non_shuffled_rows/ (visualització dels clústers sense barrejar les files del dataset)
- ┃ ┃ ┃ ┣ 📂 periodical_data_due_to_dataset_index/ (visualització dels clústers amb files del dataset barrejades, incloent l'índex)
+ ┃ ┣ 📜 main_clustering.py (?????????????????????????????????????????)
+ ┣ 📂 03_visualizations
+ ┃ ┣ 📂 01_boxplots/ (gràfiques per analitzar outliers)
+ ┃ ┣ 📂 02_violinplots/ (gràfiques per analitzar distribucions)
+ ┃ ┣ 📂 03_analisi_correlacio/ (gràfiques per analitzar la correlació entre variables)
+ ┃ ┣ 📂 04_preprocess_visualization/ (gràfiques per visualitzar les dades processades)
+ ┃ ┣ 📂 05_regressio/ (???????????????????????????????????)
+ ┃ ┣ 📂 06_elbow_method/ (gràfiques per analitzar i escollir k òptima)
+ ┃ ┣ 📂 07_clusters/ (gifs i gràfiques per analitzar clústers formats)
  ┃ ┃ ┣ 📂 01_dataset/ (gràfiques per visualitzar clústers amb dataset complet)
  ┃ ┃ ┣ 📂 02_general_important_features/ (gràfiques per visualitzar clústers amb característiques generals dels models de regressió)
  ┃ ┃ ┣ 📂 03_XGBoost_important_features/ (gràfiques per visualitzar clústers amb característiques del model XGBoost)
  ┃ ┃ ┣ 📂 04_XGBoost_4thimportant_features/ (gràfiques per visualitzar clústers amb les 4 característiques més importants del model XGBoost)
  ┃ ┃ ┣ 📂 05_XGBoost_aggrupated_4th_important_features/ (gràfiques per visualitzar clústers amb les 4 característiques més importants del model XGBoost, agrupant classes per evitar desbalanceig)
- ┣ 📂 results
+ ┣ 📂 04_results
  ┃ ┣ 📂 visuals/ (gràfiques i visualitzacions generades)
  ┃ ┣ 📂 metrics/ (resultats dels models)
  ┣ 📜 .gitignore 
