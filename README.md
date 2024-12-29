@@ -61,8 +61,34 @@ Aquest projecte analitza la relació entre la salut mental i la contaminació am
 ---
 
 ## **Metodologia** 🧠
-por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+1. **Importació de dades**:
+  - Format: [CSV --> Pickle]
+
+2. **Neteja i preprocessament de dades**:
+   - Gestió de valors nuls: [KNN Imputer]. 
+   - Escalament de variables: [StandardScaler (característiques ordinals i contínues)].
+   - Codificació de variables categòriques: [OneHotEncoders (variables nominals) i OrdinalEncoder (variables ordinals)].
+   
+3. **Anàlisi exploratòria**:
+   - Estadístiques descriptives.
+   - Visualitzacions de correlacions (matriu de correlació --> heatmap).
+
+4. **Models utilitzats**:
+   - **Regressió**:
+     - Objectiu: Predir variables estrès.
+     - Models utilitzats: [RandomForest, XGBoost, GradientBoosting
+, SVR, Polynomial].
+
+   - **Clustering**:
+     - Objectiu: Observar si les característiques més importants que prediuen l'estrès formen clústers: separació de les dades en l'espai.
+     - Models utilitzats: [K-Means, Agglomerative, Gaussian Mixture].
+
+5. **Avaluació dels models**:
+   - Mètriques per a regressió: [MAE, RMSE, R², etc.].   **REVISAR!!!!!!!1**
+   - Mètriques per a clustering: [TSNE].
+
+**por acabar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**
 ---
 
 ## **Estructura del Codi** 🛠️
