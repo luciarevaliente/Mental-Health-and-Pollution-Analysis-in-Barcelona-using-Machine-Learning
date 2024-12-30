@@ -77,7 +77,7 @@ class ClusteringModel:
         self.algorithm = algorithm
 
     # CLUSTER SELECTION ------------------------------------------------------------------------------------
-    def elbow_method(self, max_clusters=10):
+    def elbow_method(self, max_clusters=15):
         """
         Aplica el mètode del colze per trobar el millor nombre de clusters per a l'algorisme Kmeans.
 
@@ -100,7 +100,7 @@ class ClusteringModel:
         return visualizer.elbow_value_
     
     
-    def silhouette(self, max_clusters=10):
+    def silhouette(self, max_clusters=15):
         """
         Troba el millor nombre de clusters per a l'algorisme Agglomerative utilitzant l'Índex de Silueta.
 
@@ -128,7 +128,7 @@ class ClusteringModel:
         return best_k
 
 
-    def bic(self, max_clusters=10):
+    def bic(self, max_clusters=15):
         """
         Troba el millor nombre de clusters per a l'algorisme GMM, utilitzant el BIC (Criteri d'Informació Bayesià).
 
@@ -153,7 +153,7 @@ class ClusteringModel:
         return best_k
 
 
-    def best_k(self, max_clusters=10):
+    def best_k(self, max_clusters=15):
         """
         Calcula el millor nombre de clusters per als tres mètodes (K-means, Agglomerative i Gaussian Mixture)
         i retorna el valor òptim de k.

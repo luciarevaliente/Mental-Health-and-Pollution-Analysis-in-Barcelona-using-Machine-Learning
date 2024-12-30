@@ -22,11 +22,14 @@ def codificar_columnas(dataset, ordinal_columns, binary_columns, nominal_columns
 
     # Codificar las columnas binarias
     print(f"Codificando columnas binarias: {list(binary_columns)}")
-    for col in binary_columns:
-        dataset[col] = dataset[col].map({'yes': 1, 'no': -1, 'hombre': 1, 'mujer': -1, 0: -1})
+    if binary_columns:
+        for col in binary_columns:
+            dataset[col] = dataset[col].map({'yes': 1, 'no': -1, 
+                                            'hombre': 1, 'mujer': -1, 
+                                            0: -1})
 
     # Codificar las columnas nominales
-    if len(nominal_columns) > 0:
+    if nominal_columns:
         print(f"Codificando columnas nominales: {list(nominal_columns)}")
         
         # Inicializamos el OneHotEncoder
@@ -64,7 +67,7 @@ def preprocess(CLEANED_DATASET_PATH, TARGET):
     """Li passem el dataset a codificar i escalar i la variable target"""
     # Cargar el dataset
     initial_dataset = pd.read_pickle(CLEANED_DATASET_PATH)
-   
+
     data = initial_dataset.drop(TARGET, axis=1)
 
     # Seleccionar columnas numéricas
@@ -110,8 +113,8 @@ def preprocess(CLEANED_DATASET_PATH, TARGET):
     data = data.sample(frac=1, random_state=42).reset_index(drop=True)
 
     # Guardar dataset escalado
-    data.to_pickle('data/processed_dataset.pkl')
+    # data.to_pickle('data/processed_dataset.pkl')
     # data.to_excel('data/processed_dataset.xlsx', index=False)
-    print("Dataset escalado guardado.")
+    # print("Dataset escalado guardado.")
     
     return data
