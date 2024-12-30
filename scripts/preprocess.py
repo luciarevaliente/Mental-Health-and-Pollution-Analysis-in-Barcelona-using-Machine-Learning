@@ -29,7 +29,7 @@ def codificar_columnas(dataset, ordinal_columns, binary_columns, nominal_columns
                                             0: -1})
 
     # Codificar las columnas nominales
-    if nominal_columns:
+    if len(nominal_columns) > 0:
         print(f"Codificando columnas nominales: {list(nominal_columns)}")
         
         # Inicializamos el OneHotEncoder

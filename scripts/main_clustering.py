@@ -66,11 +66,6 @@ if __name__=="__main__":
     if VARIABLES_RELLEVANTS: 
         preprocessed_df = preprocessed_df[VARIABLES_RELLEVANTS]  # Modifiquem el dataset
     
-    print(pd.isnull(preprocessed_df['gender']).sum())  # Verifica la cantidad de NaNs por columna
-    print(preprocessed_df.columns[58])  # Esto te dirá el nombre de la columna en la posición 58
-    print(np.where(np.isnan(preprocessed_df)))  # Muestra las posiciones de los NaNs
-    sys.exit()
-
     # 4. Elecció de l'algoritme de clústering: Inicialitzem la classe i provem
     for algoritme in ALGORITHMS:
         # plt.ion()
