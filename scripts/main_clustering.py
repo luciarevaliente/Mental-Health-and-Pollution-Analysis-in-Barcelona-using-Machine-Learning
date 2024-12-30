@@ -5,38 +5,42 @@ Creat per: Lucía Revaliente i Aránzazu Miguélez
 Data de creació: 12/12/24
 Descripció: Aquest script carrega permet fer clustering amb diversos algoritmes i característiques
 """
-# IMPORTACIÓ
+# IMPORTACIÓ #####################################################################################################
 from preprocess import preprocess
 from models_clustering import ClusteringModel
 import matplotlib.pyplot as plt
 import os
 
-# VARIABLES CONSTANTS
+# VARIABLES CONSTANTS ###########################################################################################
 PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset netejat
+
 # ALGORITHMS = ['kmeans', 'agglo', 'gmm']
 ALGORITHMS = ['gmm']  # Algoritmes de clústering a provar: 'kmeans', 'agglo', 'gmm'
 TARGET = 'estres'
 
 current_path = os.getcwd() # Obtenir la ruta actual
 
-# Dataset complet:
+# 1. Clústering per verificar patrons addicionals:
 # VARIABLES_RELLEVANTS = []
 # PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "dataset")
 
-# Les 9 variables noves més rellevants REGRESSIÓ:
+# 2. Clústering per verificar la separabilitat de les dades segons el model regressor:
+## a. Característiques importants generals dels models regressors: 
 # VARIABLES_RELLEVANTS = ['dayoftheweek', 'bienestar', 'energia', 'ordenador', 'alcohol', 'otrofactor', 'no2bcn_24h', 'no2gps_24h', 'covid_work']
-# PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "9th_important_features")
+# PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "general_important_features")
 
-# Les 10 variables més rellevants XGBOOST:
+## b.	Característiques importants del model XGBoost:
 # VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor', 'dayoftheweek','district_gràcia','incidence_cat_physical incidence', 'smoke', 'district_sant andreu', 'bienestar', 'Totaltime']
-# PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "10th_important features")
+# PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "XGBoost_important_features")
 
-# Les 4 variables més rellevants REGRESSIÓ i XGBOOST:
+## c.	4 característiques més importants del model XGBoost: 
 VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
-PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "4th_important_features")
+AGRUPATED = True  # agrupem les característiques mal balancejades 9 i 10: 
 
-# Agrupem les característiques mal balancejades: 
-AGRUPATED = True  
+if not AGRUPATED:
+    PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "XGBoost_4th_important_features")
+else:
+    PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "XGBoost_aggrupated_4th_important_features")
 
 # Per obtenir la k òptima:
 ESCOLLIR_K = True
