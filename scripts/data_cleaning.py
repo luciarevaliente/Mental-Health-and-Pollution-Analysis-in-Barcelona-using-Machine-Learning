@@ -111,6 +111,7 @@ if __name__=="__main__":
 
     # GUARDAR EL DATASET ######################################################
     cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
+    print('Dataset natejat!')
 
     # Exportar a Excel per visualitzar
     if VISUALITZACIO:
