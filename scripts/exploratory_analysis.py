@@ -33,30 +33,27 @@ def generar_boxplots(col_numeriques_filtered, output_folder="visualizations/boxp
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)  # Crear la carpeta si no existeix
 
-        # Número de boxplots (columnas numèriques)
-        num_plots = len(col_numeriques_filtered.columns)
+    # Número de boxplots (columnas numèriques)
+    num_plots = len(col_numeriques_filtered.columns)
         
-        # Crear una figura amb subgràfics per a tots els boxplots
-        fig, axes = plt.subplots(nrows=(num_plots // 3) + (num_plots % 3 > 0), ncols=3, figsize=(15, 5 * ((num_plots // 3) + (num_plots % 3 > 0))))
-        axes = axes.flatten()  # Aplanar l'array de subgràfics per iterar-hi fàcilment
+    # Crear una figura amb subgràfics per a tots els boxplots
+    fig, axes = plt.subplots(nrows=(num_plots // 3) + (num_plots % 3 > 0), ncols=3, figsize=(15, 5 * ((num_plots // 3) + (num_plots % 3 > 0))))
+    axes = axes.flatten()  # Aplanar l'array de subgràfics per iterar-hi fàcilment
         
-        # Crear un boxplot per a cada columna numèrica en el subgràfic corresponent
-        for i, col in enumerate(col_numeriques_filtered.columns):
-            sns.boxplot(x=col_numeriques_filtered[col], ax=axes[i])  # Crear el boxplot en el subgràfic
-            axes[i].set_title(f"Boxplot de {col}")  # Afegir títol a cada gràfic
+    # Crear un boxplot per a cada columna numèrica en el subgràfic corresponent
+    for i, col in enumerate(col_numeriques_filtered.columns):
+        sns.boxplot(x=col_numeriques_filtered[col], ax=axes[i])  # Crear el boxplot en el subgràfic
+        axes[i].set_title(f"Boxplot de {col}")  # Afegir títol a cada gràfic
 
-        # Ajustar l'espai entre subgràfics
-        plt.tight_layout()
+    # Ajustar l'espai entre subgràfics
+    plt.tight_layout()
 
-        # Ruta completa per desar la figura amb tots els boxplots
-        output_path = os.path.join(output_folder, "boxplots.png")
-        plt.savefig(output_path)  # Desar el gràfic amb tots els boxplots
+    # Ruta completa per desar la figura amb tots els boxplots
+    output_path = os.path.join(output_folder, "boxplots.png")
+    plt.savefig(output_path)  # Desar el gràfic amb tots els boxplots
 
-        plt.close()  # Tancar el gràfic per alliberar memòria
-
-        print(f"Boxplots guardats a la carpeta '{output_folder}' com 'boxplots.png'.\n")
-    else:
-        print(f"La carpeta '{output_folder}' ja existeix. No s'han generat nous boxplots.\n")
+    plt.close()  # Tancar el gràfic per alliberar memòria
+    print(f"Boxplots guardats a la carpeta '{output_folder}' com 'boxplots.png'.\n")
 
 
 def generar_violin_plots(col_numeriques_filtered, output_folder="visualizations/violinplots"):
@@ -70,32 +67,29 @@ def generar_violin_plots(col_numeriques_filtered, output_folder="visualizations/
     # Comprovar si la carpeta ja existeix:
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)  # Crear la carpeta si no existeix
-
-        # Número de violin plots (columnes numèriques)
-        num_plots = len(col_numeriques_filtered.columns)
         
-        # Crear una figura amb subgràfics per a tots els violin plots
-        fig, axes = plt.subplots(nrows=(num_plots // 3) + (num_plots % 3 > 0), ncols=3, figsize=(15, 5 * ((num_plots // 3) + (num_plots % 3 > 0))))
-        axes = axes.flatten()  # Aplanar l'array de subgràfics per iterar-hi fàcilment
+    # Número de violin plots (columnes numèriques)
+    num_plots = len(col_numeriques_filtered.columns)
         
-        # Crear un violin plot per a cada columna numèrica en el subgràfic corresponent
-        for i, col in enumerate(col_numeriques_filtered.columns):
-            sns.violinplot(x=col_numeriques_filtered[col], ax=axes[i])  # Crear el violin plot en el subgràfic
-            axes[i].set_title(f"Violin Plot de {col}")  # Afegir títol a cada gràfic
+    # Crear una figura amb subgràfics per a tots els violin plots
+    fig, axes = plt.subplots(nrows=(num_plots // 3) + (num_plots % 3 > 0), ncols=3, figsize=(15, 5 * ((num_plots // 3) + (num_plots % 3 > 0))))
+    axes = axes.flatten()  # Aplanar l'array de subgràfics per iterar-hi fàcilment
+        
+    # Crear un violin plot per a cada columna numèrica en el subgràfic corresponent
+    for i, col in enumerate(col_numeriques_filtered.columns):
+        sns.violinplot(x=col_numeriques_filtered[col], ax=axes[i])  # Crear el violin plot en el subgràfic
+        axes[i].set_title(f"Violin Plot de {col}")  # Afegir títol a cada gràfic
 
-        # Ajustar l'espai entre subgràfics
-        plt.tight_layout()
+    # Ajustar l'espai entre subgràfics
+    plt.tight_layout()
 
-        # Ruta completa per desar la figura amb tots els violin plots
-        output_path = os.path.join(output_folder, "violinplots.png")
-        plt.savefig(output_path)  # Desar el gràfic amb tots els violin plots
+    # Ruta completa per desar la figura amb tots els violin plots
+    output_path = os.path.join(output_folder, "violinplots.png")
+    plt.savefig(output_path)  # Desar el gràfic amb tots els violin plots
 
-        plt.close()  # Tancar el gràfic per alliberar memòria
-
-        print(f"Violin plots guardats a la carpeta '{output_folder}' com 'violinplots.png'.\n")
-    else:
-        print(f"La carpeta '{output_folder}' ja existeix. No s'han generat nous violin plots.\n")
-
+    plt.close()  # Tancar el gràfic per alliberar memòria
+    print(f"Violin plots guardats a la carpeta '{output_folder}' com 'violinplots.png'.\n")
+    
 # ANÀLISI CONTINGUT #########################################################################################################################
 if __name__=="__main__":
     df = pd.read_pickle(PICKLE_PATH)
@@ -131,7 +125,7 @@ if __name__=="__main__":
         #     print(i)
         # if (valor*proporcio > 10):
         #     print(i)
-    # print(f'El diccionari amb les distribucions per columna (%) és: {distribucio}')
+    print(f'El diccionari amb les distribucions per columna (%) és: {distribucio}')
 
     # OUTLIERS ###########################################################################################################
     col_numeriques = df.select_dtypes(include=['float64', 'int64'])
@@ -142,6 +136,7 @@ if __name__=="__main__":
     generar_violin_plots(col_numeriques_filtered)
 
     # VISUALITZACIONS SOBRE LES RELACIONS ENTRE LES VARIABLES ##############################################################
+    plt.ion()
     # Configuració de l'estil de visualització
     sns.set(style="whitegrid")
 
