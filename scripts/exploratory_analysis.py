@@ -29,9 +29,8 @@ def generar_boxplots(col_numeriques_filtered, output_folder="visualizations/boxp
     :params output_folder: Ruta on es desaran els gràfics. Per defecte és 'visualizations/'.
     :return: No retorna cap valor. Desa els boxplots en un fitxer PNG.
     """
-    # Comprovar si la carpeta ja existeix:
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)  # Crear la carpeta si no existeix
+    os.makedirs(output_folder, exist_ok=True)  # Crear la carpeta si no existeix
+
 
     # Número de boxplots (columnas numèriques)
     num_plots = len(col_numeriques_filtered.columns)
@@ -64,10 +63,8 @@ def generar_violin_plots(col_numeriques_filtered, output_folder="visualizations/
     :params output_folder: Ruta on es desaran els gràfics. Per defecte és 'visualizations/'.
     :return: No retorna cap valor. Desa els violin plots en un fitxer PNG.
     """
-    # Comprovar si la carpeta ja existeix:
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder)  # Crear la carpeta si no existeix
-        
+    os.makedirs(output_folder, exist_ok=True)  # Crear la carpeta si no existeix
+   
     # Número de violin plots (columnes numèriques)
     num_plots = len(col_numeriques_filtered.columns)
         

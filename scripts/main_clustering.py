@@ -76,12 +76,12 @@ if __name__=="__main__":
             best_k = model.best_k()
         else:
             model.n_clusters = k
-            best_k = model.n_clusters
-        print(f'Best number of clusters: {best_k}')
         
         model.fit()
 
         # Visualitzacions:
+        os.makedirs(PATH_FILENAME, exist_ok=True)  # Crear la carpeta si no existeix
+        
         if VISUAL == 'PCA':
             # model.plot_clusters_PCA_2d()
             model.plot_clusters_PCA_3d()

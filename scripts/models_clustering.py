@@ -179,9 +179,6 @@ class ClusteringModel:
         else:
             raise ValueError(f"Algoritme '{self.algorithm}' no és vàlid.")
 
-        # Mostrar resultats de cada mètode
-        print(f"K òptim segons {metode}: {best_k}")
-
         # Actualitzar el nombre de clústers
         self.n_clusters = best_k  
 
