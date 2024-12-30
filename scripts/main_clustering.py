@@ -36,22 +36,19 @@ current_path = os.getcwd() # Obtenir la ruta actual
 ## c.	4 característiques més importants del model XGBoost: 
 VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
 AGRUPATED = True  # agrupem les característiques mal balancejades 9 i 10: 
-
 if not AGRUPATED:
     PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "XGBoost_4th_important_features")
 else:
-    PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "XGBoost_aggrupated_4th_important_features")
+    PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "perfil")
+    # PATH_FILENAME = os.path.join(current_path, "visualizations", "clustering", "XGBoost_aggrupated_4th_important_features")
 
-# Per obtenir la k òptima:
-ESCOLLIR_K = True
-k = 5
-MAX_CLUSTERS = 50
-COMPONENTS = ["Component 1", "Component 2", "Component 3"]
+ESCOLLIR_K = False # l'escollim k òptima manualment
+if ESCOLLIR_K:
+    k = 5
 
-# VISUALITZACIONS:
-VISUAL = 'TSNE'
+VISUAL = 'TSNE' # escollim visualització: [PCA, TSNE]
 
-# MAIN
+# MAIN #################################################################################################################
 if __name__=="__main__":
     # 1 i 2. Codificació i escalat
     whole_preprocessed_df = preprocess(PATH_DATASET, TARGET) # Carreguem les dades i les preprocessem
@@ -71,7 +68,7 @@ if __name__=="__main__":
         print(f'\nModel {algoritme}')
         model = ClusteringModel(data=preprocessed_df, algorithm=algoritme)
         
-        if ESCOLLIR_K:
+        if not ESCOLLIR_K:
             best_k = model.best_k()
         else:
             model.n_clusters = k
