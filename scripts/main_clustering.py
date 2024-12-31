@@ -24,8 +24,8 @@ TARGET = 'estres'
 current_path = os.getcwd() # Obtenir la ruta actual
 
 # 1. Clústering per verificar patrons addicionals:
-VARIABLES_RELLEVANTS = []
-PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "dataset")
+# VARIABLES_RELLEVANTS = []
+# PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "dataset")
 
 # 2. Clústering per verificar la separabilitat de les dades segons el model regressor:
 ## a. Característiques importants generals dels models regressors: 
@@ -37,18 +37,16 @@ PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "datase
 # PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_important_features")
 
 ## c.	4 característiques més importants del model XGBoost: 
-# VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
+VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
 AGRUPATED = False  # agrupem les característiques mal balancejades: 
-# AGRUPAR = [10, 9] # [classe a canviar, classe objectiu]
-# if not AGRUPATED:
-#     PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_4th_important_features")
-# else:
-#     PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_aggrupated_4th_important_features")
+AGRUPAR = [10, 9] # [classe a canviar, classe objectiu]
+if not AGRUPATED:
+    PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_4th_important_features")
+else:
+    PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_aggrupated_4th_important_features")
 
-
-ESCOLLIR_K = False # l'escollim k òptima manualment
-if ESCOLLIR_K:
-    k = 5
+ESCOLLIR_K = False # True = escollim k òptima manualment
+k = 6  # definim k
 
 VISUAL = 'TSNE' # escollim visualització: [PCA, TSNE]
 
@@ -76,6 +74,7 @@ if __name__=="__main__":
             best_k = model.best_k()
         else:
             model.n_clusters = k
+            best_k = k
         
         model.fit()
 

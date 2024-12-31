@@ -1,6 +1,7 @@
 from sklearn.linear_model import LinearRegression, Ridge, Lasso  # Models lineals clàssics.
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor  # Models basats en arbres.
 from xgboost import XGBRegressor  # Model avançat basat en arbres.
+XGBRegressor._estimator_type = "regressor" # definim el tipus d'estimador manualment
 from sklearn.svm import SVR  # Suport vectorial per a regressió.
 from sklearn.preprocessing import PolynomialFeatures  # Transformació de dades per a regressió polinòmica.
 from sklearn.pipeline import Pipeline  # Pipeline per encadenar passos del model.
