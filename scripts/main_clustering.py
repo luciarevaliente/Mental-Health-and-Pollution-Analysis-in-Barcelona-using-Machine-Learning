@@ -38,7 +38,7 @@ current_path = os.getcwd() # Obtenir la ruta actual
 
 ## c.	4 característiques més importants del model XGBoost: 
 VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
-AGRUPATED = False  # agrupem les característiques mal balancejades: 
+AGRUPATED = True  # agrupem les característiques mal balancejades: 
 AGRUPAR = [10, 9] # [classe a canviar, classe objectiu]
 if not AGRUPATED:
     PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_4th_important_features")
