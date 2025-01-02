@@ -10,7 +10,7 @@ import os
 TARGET_COLUMN = "estres"  # Defineix el nom de la columna objectiu, que és "estres".
 DATA_PATH = preprocess('data/cleaned_dataset.pkl', TARGET_COLUMN)  # Preprocessa el conjunt de dades i el carrega des d'un fitxer Pickle.
 FEATURES = ['ordenador', 'otrofactor', 'dayoftheweek', 'bienestar']  # Llista de característiques seleccionades per a l'anàlisi.
-MODELS = ['svr', 'xgboost'] # 'polynomial_regression', 'random_forest', 'gradient_boosting']  # Tipus de models que s'utilitzaran.
+MODELS = ['polynomial_regression']#['svr', 'xgboost','polynomial_regression', 'random_forest', 'gradient_boosting']  # Tipus de models que s'utilitzaran.
 RESULTS_DIR = "data/regression/final_results"  # Ruta del directori on es desaran els resultats.
 
 # Ejecució principal
@@ -18,17 +18,17 @@ if __name__ == "__main__":
 
     # Divideix les dades en conjunts de train i test
     X_train, X_test, y_train, y_test = separacio_train_test(DATA_PATH, TARGET_COLUMN)
-    print('Buscant característiques importants')
-    # Calcula la importància de les característiques utilitzant diversos models
-    results = features_importance(MODELS, X_train, y_train, X_test, y_test)
-    save_results(results,RESULTS_DIR)  # Desa els resultats en fitxers.
-    print("Feature importances guardades")  # Informa que les importàncies s'han desat.
+    # print('Buscant característiques importants')
+    # # Calcula la importància de les característiques utilitzant diversos models
+    # results = features_importance(MODELS, X_train, y_train, X_test, y_test)
+    # save_results(results,RESULTS_DIR)  # Desa els resultats en fitxers.
+    # print("Feature importances guardades")  # Informa que les importàncies s'han desat.
 
     # Selecciona les 10 característiques més importants
     common_features = select_k_best_features(X_train, y_train, 10)
     print("\nLas 10 características más importantes comunes entre los modelos son:")  # Missatge informatiu.
     print(common_features)  # Mostra les característiques seleccionades.
-    
+    Exception
     # Crea el directori per desar resultats si no existeix
     os.makedirs(RESULTS_DIR, exist_ok=True)
 
