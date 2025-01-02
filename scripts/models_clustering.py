@@ -13,7 +13,7 @@ from sklearn.metrics import silhouette_score
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from yellowbrick.cluster import KElbowVisualizer
-from sklearn.cluster import SpectralClustering, AgglomerativeClustering
+from sklearn.cluster import AgglomerativeClustering
 from sklearn.mixture import GaussianMixture
 from matplotlib.animation import FuncAnimation
 from sklearn.manifold import TSNE
@@ -77,39 +77,67 @@ class ClusteringModel:
         self.algorithm = algorithm
 
     # CLUSTER SELECTION ------------------------------------------------------------------------------------
-    def elbow_method(self, max_clusters=10):
+    def elbow_method(self, max_clusters=15):
         """
-        Aplica el mètode del codo per trobar el millor nombre de clusters.
+        Aplica el mètode del colze per trobar el millor nombre de clusters per a l'algorisme Kmeans.
 
         :param max_clusters: int per determinar les iteracions màximes del mètode del colze
         :return: int. Valor K òptim
         """
-        if self.algorithm == 'kmeans':
-            model = KMeans(random_state=42)
-        elif self.algorithm == 'agglo':
-            model = AgglomerativeClustering()
-        elif self.algorithm == 'gmm':
-            model = GaussianMixture(random_state=42)
-        else:
-            raise ValueError(f"Algoritmo '{self.algorithm}' no és vàlid.")
+        if self.algorithm != 'kmeans':
+            raise ValueError(f"Algoritme '{self.algorithm}' no és vàlid.")
+
+        model = KMeans(random_state=42)
 
         visualizer = KElbowVisualizer(model, k=(1, max_clusters))  # Provar entre 1 i max_clusters clusters
 
         visualizer.fit(self.data)  # Ajustar el visualitzador a les dades escalades
         visualizer.show()
 
-        self.n_clusters = visualizer.elbow_value_  # Obtenir el nombre òptim de clusters 
+        # self.n_clusters = visualizer.elbow_value_  # Obtenir el nombre òptim de clusters 
         print(f"El número òptim de clusters és: {self.n_clusters}")
 
         return visualizer.elbow_value_
-
-    def gmm_best_k(self, max_clusters=10):
+    
+    
+    def silhouette(self, max_clusters=15):
         """
-        Troba el millor nombre de clusters utilitzant el BIC (Criteri d'Informació Bayesià) en un GMM.
+        Troba el millor nombre de clusters per a l'algorisme Agglomerative utilitzant l'Índex de Silueta.
+
+        :param max_clusters: Nombre màxim de clusters a provar (per defecte, 10).
+        :return: El nombre òptim de clusters segons l'índex de silueta.
+        """
+        if self.algorithm != 'agglo':
+            raise ValueError(f"Algoritme '{self.algorithm}' no és vàlid.")
+
+        best_silhouette = -1  # Inicialitzar la millor puntuació de silueta
+        best_k = 2  # El mínim nombre de clusters per a silueta és 2
+
+        for k in range(2, max_clusters + 1):  # Provar entre 2 i max_clusters
+            model = AgglomerativeClustering(n_clusters=k)
+            labels = model.fit_predict(self.data)
+
+            # Calcular l'índex de silueta
+            silhouette_avg = silhouette_score(self.data, labels)
+            if silhouette_avg > best_silhouette:
+                best_silhouette = silhouette_avg
+                best_k = k
+
+        print(f"El millor K segons l'índex de silueta: {best_k}")
+
+        return best_k
+
+
+    def bic(self, max_clusters=15):
+        """
+        Troba el millor nombre de clusters per a l'algorisme GMM, utilitzant el BIC (Criteri d'Informació Bayesià).
 
         :param max_clusters: Nombre màxim de clusters a avaluar (per defecte, 10).
         :return: El nombre òptim de clusters segons el BIC.
         """
+        if self.algorithm != 'gmm':
+            raise ValueError(f"Algoritme '{self.algorithm}' no és vàlid.")
+
         bic_scores = []
         
         # Avaluar models GMM per a cada nombre de clusters des d'1 fins a max_clusters
@@ -120,9 +148,39 @@ class ClusteringModel:
 
         # Trobar el nombre de clusters que minimitza el BIC
         best_k = np.argmin(bic_scores) + 1  # +1 perquè el rang comença en 1
-        
         print(f"El nombre òptim de clusters segons el BIC és: {best_k}")
-        self.n_clusters = best_k  # Establir el nombre òptim de clusters
+
+        return best_k
+
+
+    def best_k(self, max_clusters=15):
+        """
+        Calcula el millor nombre de clusters per als tres mètodes (K-means, Agglomerative i Gaussian Mixture)
+        i retorna el valor òptim de k.
+
+        :param max_clusters: Nombre màxim de clusters a provar (per defecte, 10).
+        :return: int. El nombre òptim de clusters segons els tres mètodes.
+        """
+        if self.algorithm == 'kmeans':
+            # 1. Mètode del "Elbow" (K-means)
+            metode = 'elbow'
+            best_k = self.elbow_method(max_clusters=max_clusters)
+
+        elif self.algorithm == 'agglo':
+            # 2. Mètode de l'Índex de Silueta (Agglomerative Clustering)
+            metode = 'shilouette'
+            best_k = self.silhouette(max_clusters=max_clusters)
+
+        elif self.algorithm == 'gmm':
+            # 3. Criteri de Versemblança (Gaussian Mixture Model)
+            metode = 'bic'
+            best_k = self.bic(max_clusters=max_clusters)
+
+        else:
+            raise ValueError(f"Algoritme '{self.algorithm}' no és vàlid.")
+
+        # Actualitzar el nombre de clústers
+        self.n_clusters = best_k  
 
         return best_k
 
