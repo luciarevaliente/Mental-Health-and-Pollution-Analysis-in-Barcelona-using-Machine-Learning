@@ -149,33 +149,3 @@ def plot_metrics(metrics_dict, RESULTS_DIR):
     plt.savefig(os.path.join(RESULTS_DIR, "model_metrics_comparison.png"))
     plt.show()
 
-def plot_learning_curves(model, X_train, X_test, y_train, y_test, RESULTS_DIR):
-    """
-    Genera corbes d'aprenentatge mostrant el rendiment del model amb diferents mides d'entrenament.
-    """
-    train_sizes = np.linspace(0.1, 1.0, 10)
-    train_scores = []
-    test_scores = []
-
-    for train_size in train_sizes:
-        subset_X_train = X_train[:int(len(X_train) * train_size)]
-        subset_y_train = y_train[:int(len(y_train) * train_size)]
-
-        model.fit(subset_X_train, subset_y_train)
-        train_pred = model.predict(subset_X_train)
-        test_pred = model.predict(X_test)
-
-        train_scores.append(mean_squared_error(subset_y_train, train_pred))
-        test_scores.append(mean_squared_error(y_test, test_pred))
-
-    plt.figure(figsize=(10, 6))
-    plt.plot(train_sizes, train_scores, label="Train MSE")
-    plt.plot(train_sizes, test_scores, label="Test MSE")
-    plt.title("Curvas de aprendizaje")
-    plt.xlabel("Tamaño del conjunto de entrenamiento")
-    plt.ylabel("MSE")
-    plt.legend()
-    plt.grid()
-    plt.tight_layout()
-    plt.savefig(os.path.join(RESULTS_DIR, "learning_curves.png"))
-    plt.show()

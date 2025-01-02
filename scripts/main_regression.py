@@ -67,6 +67,5 @@ if __name__ == "__main__":
     # Visualitza els resultats globals
     plot_metrics(metrics_dict,RESULTS_DIR)  # Mostra gràfics comparant les mètriques dels models.
     best_model_instance = RegressionModels(model_type="xgboost").get_model()  # Selecciona el model final (XGBoost).
-    plot_learning_curves(best_model_instance, X_train, X_test, y_train_grouped, y_test_grouped,RESULTS_DIR)  # Genera les corbes d'aprenentatge del model final.
 
     print("Avaluació completada")  # Missatge final informatiu.
