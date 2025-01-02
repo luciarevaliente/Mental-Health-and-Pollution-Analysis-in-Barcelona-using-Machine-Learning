@@ -46,7 +46,7 @@ class RegressionModels:
             ),
             "svr": SVR(**kwargs),  # Regressió basada en màquines de vectors de suport.
             "polynomial_regression": Pipeline([
-                ("polynomial_features", PolynomialFeatures()),  # Transformació de característiques polinòmiques.
+                ("polynomial_features", PolynomialFeatures(degree=2)),  # Transformació de característiques polinòmiques.
                 ("linear", LinearRegression(**kwargs))  # Model de regressió lineal amb les característiques polinòmiques.
             ])
         }
@@ -64,6 +64,8 @@ class RegressionModels:
 
     def get_model(self):
         """Retorna el model subjacents."""
+        if self.model == "polynomial_regression":
+            return Pipeline(PolynomialFeatures(degree=2), LinearRegression())
         return self.model
 
 

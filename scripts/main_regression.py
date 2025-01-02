@@ -10,8 +10,8 @@ import os
 TARGET_COLUMN = "estres"  # Defineix el nom de la columna objectiu, que és "estres".
 DATA_PATH = preprocess('data/cleaned_dataset.pkl', TARGET_COLUMN)  # Preprocessa el conjunt de dades i el carrega des d'un fitxer Pickle.
 FEATURES = ['ordenador', 'otrofactor', 'dayoftheweek', 'bienestar']  # Llista de característiques seleccionades per a l'anàlisi.
-MODELS = ['random_forest'] # 'svr', 'xgboost', 'polynomial_regression', , 'gradient_boosting']  # Tipus de models que s'utilitzaran.
-RESULTS_DIR = "visualization/importance_&_metrics_regression"  # Ruta del directori on es desaran els resultats.
+MODELS = ['xgboost'] #['svr', 'xgboost','polynomial_regression', 'random_forest', 'gradient_boosting']  # Tipus de models que s'utilitzaran.
+RESULTS_DIR = "data/regression/final_results"  # Ruta del directori on es desaran els resultats.
 
 # Ejecució principal
 if __name__ == "__main__":
@@ -20,15 +20,15 @@ if __name__ == "__main__":
     X_train, X_test, y_train, y_test = separacio_train_test(DATA_PATH, TARGET_COLUMN)
     print('Buscant característiques importants')
     # Calcula la importància de les característiques utilitzant diversos models
-    results = features_importance(MODELS, X_train, y_train, X_test, y_test)
-    save_results(results,RESULTS_DIR)  # Desa els resultats en fitxers.
-    print("Feature importances guardades")  # Informa que les importàncies s'han desat.
+    # results = features_importance(MODELS, X_train, y_train, X_test, y_test)
+    # save_results(results,RESULTS_DIR)  # Desa els resultats en fitxers.
+    # print("Feature importances guardades")  # Informa que les importàncies s'han desat.
 
     # Selecciona les 10 característiques més importants
     common_features = select_k_best_features(X_train, y_train, 10)
     print("\nLas 10 características más importantes comunes entre los modelos son:")  # Missatge informatiu.
     print(common_features)  # Mostra les característiques seleccionades.
-    
+    Exception
     # Crea el directori per desar resultats si no existeix
     os.makedirs(RESULTS_DIR, exist_ok=True)
 
@@ -45,7 +45,7 @@ if __name__ == "__main__":
 
     # Inicialitza un diccionari per emmagatzemar les mètriques dels models
     metrics_dict = {}
-
+    
     for model_name in MODELS:
         # Avalua el model utilitzant les dades agrupades
         metrics = evaluate_model(model_name, X_train, X_test, y_train_grouped, y_test_grouped, RESULTS_DIR)
@@ -67,6 +67,5 @@ if __name__ == "__main__":
     # Visualitza els resultats globals
     plot_metrics(metrics_dict,RESULTS_DIR)  # Mostra gràfics comparant les mètriques dels models.
     best_model_instance = RegressionModels(model_type="xgboost").get_model()  # Selecciona el model final (XGBoost).
-    plot_learning_curves(best_model_instance, X_train, X_test, y_train_grouped, y_test_grouped,RESULTS_DIR)  # Genera les corbes d'aprenentatge del model final.
 
     print("Avaluació completada")  # Missatge final informatiu.
