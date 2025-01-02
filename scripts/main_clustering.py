@@ -8,17 +8,15 @@ Descripció: Aquest script carrega permet fer clustering amb diversos algoritmes
 # IMPORTACIÓ #####################################################################################################
 from preprocess import preprocess
 from models_clustering import ClusteringModel
-import matplotlib.pyplot as plt
 import os
 import sys
 import pandas as pd
-import numpy as np
 
 # VARIABLES CONSTANTS ###########################################################################################
 PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset netejat
 
-ALGORITHMS = ['kmeans', 'agglo', 'gmm'] # Algoritmes de clústering a provar
-# ALGORITHMS = ['gmm']  # Algoritmes de clústering a provar: 'kmeans', 'agglo', 'gmm'
+# ALGORITHMS = ['kmeans', 'agglo', 'gmm'] # Algoritmes de clústering a provar
+ALGORITHMS = ['gmm']  # Algoritmes de clústering a provar: 'kmeans', 'agglo', 'gmm'
 TARGET = 'estres'
 
 current_path = os.getcwd() # Obtenir la ruta actual
@@ -38,22 +36,25 @@ current_path = os.getcwd() # Obtenir la ruta actual
 
 ## c.	4 característiques més importants del model XGBoost: 
 VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
-AGRUPATED = True  # agrupem les característiques mal balancejades: 
+var_binaries = ['ordenador', 'otrofactor']
+var_escalades = ['dayoftheweek', 'bienestar']
+
+AGRUPATED = False  # agrupem les característiques mal balancejades: 
 AGRUPAR = [10, 9] # [classe a canviar, classe objectiu]
 if not AGRUPATED:
     PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_4th_important_features")
 else:
     PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_aggrupated_4th_important_features")
 
-ESCOLLIR_K = False # True = escollim k òptima manualment
-k = 6  # definim k
+ESCOLLIR_K = True # True = escollim k òptima manualment
+k = 14  # definim k
 
 VISUAL = 'TSNE' # escollim visualització: [PCA, TSNE]
 
 # MAIN #################################################################################################################
 if __name__=="__main__":
     # 1 i 2. Codificació i escalat
-    whole_preprocessed_df = preprocess(PATH_DATASET, TARGET) # Carreguem les dades i les preprocessem
+    whole_preprocessed_df, scaler_scale, scaler_mean = preprocess(PATH_DATASET, TARGET) # Carreguem les dades i les preprocessem
 
     if AGRUPATED: # Agrupar les classes 9 i 10 en una sola classe
         whole_preprocessed_df = whole_preprocessed_df.replace({AGRUPAR[0]: AGRUPAR[1]})  # Canviar la classe 10 per la 9 en el conjunt d'entrenament
@@ -90,29 +91,56 @@ if __name__=="__main__":
             reduced_data = model.plot_clusters_TSNE_3d_animated(filename=f'{PATH_FILENAME}/{algoritme}_k{best_k}_TSNE3d_animated.gif')
         else:
             print('Aquest mètode de visualització no està disponible')
-            
-        # Analitzar la distribució de la variable target
-        print(f"Distribució de la variable target ('{TARGET}') per cluster:")
-        target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET, save_path=f'{PATH_FILENAME}/{algoritme}_k{best_k}_distribution.png')
-        print(target_distribution) 
+        
+        res = input('Vols analitzar les distribucions de cada clúster? y/n: ')
 
-        # Mostrar les característiques i els valors dels centroides per cada cluster
-        # centroides_df, caracteristiques_relevantes = model.analisi_components_centroides(preprocessed_df)
+        if res.lower() in ['y', 'yes', 'n', 'no']:
+            # Analitzar la distribució de la variable target
+            print(f"Distribució de la variable target ('{TARGET}') per cluster:")
+            target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET, save_path=f'{PATH_FILENAME}/{algoritme}_k{best_k}_distribution.png')
+            print(target_distribution) 
 
-        # print("Característiques segons centroides:")
-        # for cluster, data in caracteristiques_relevantes.items():
-        #     print(f"\nCluster {cluster}:")
-        #     print("  Variables més altes:")
-        #     for feature in data['top']:
-        #         # Imprimir el valor de cada característica en el centreide
-        #         feature_value = centroides_df.loc[cluster, feature]
-        #         print(f"    {feature}: {feature_value}")
+            # Mostrar les característiques i els valors dels centroides per cada cluster
+            # centroides_df, caracteristiques_relevantes = model.analisi_components_centroides(preprocessed_df)
+            centroides_df, caracteristiques_relevantes = model.analisi_components_centroides(preprocessed_df)
+            print(centroides_df)
+            # df['columna'] = df['columna'].map({1: 'yes', -1: 'no'})
+
+            binary_centroids = centroides_df[var_binaries]
+            print(binary_centroids)
+            scaled_centroids = centroides_df[var_escalades]
+            scaled_centroids_index = [preprocessed_df.columns.get_loc(col) for col in var_escalades]
+
+            selected_scale = scaler_scale[scaled_centroids_index]
+            selected_mean = scaler_mean[scaled_centroids_index]
+
+            original_centroids = scaled_centroids * selected_scale + selected_mean
+            print(original_centroids)
+
+            final = pd.concat([binary_centroids, original_centroids], axis=1)
+            print(final)  # DA NANNNNN
+            sys.exit()
             
-        #     print("  Variables més baixes:")
-        #     for feature in data['low']:
-        #         # Imprimir el valor de cada característica en el centreide
-        #         feature_value = centroides_df.loc[cluster, feature]
-        #         print(f"    {feature}: {feature_value}")
+            print("Característiques segons centroides:")
+            for cluster, data in caracteristiques_relevantes.items():
+                print(f"\nCluster {cluster}:")
+                print("  Variables més altes:")
+                for feature in data['top']:
+                    # Imprimir el valor de cada característica en el centreide
+                    feature_value = centroides_df.loc[cluster, feature]
+                    print(f"    {feature}: {feature_value}")
+                
+                print("  Variables més baixes:")
+                for feature in data['low']:
+                    # Imprimir el valor de cada característica en el centreide
+                    feature_value = centroides_df.loc[cluster, feature]
+                    print(f"    {feature}: {feature_value}")
+
+            for cluster_label in range(best_k):
+                cluster_data = whole_preprocessed_df[model.labels == cluster_label]
+                mean_stress = cluster_data['estres'].mean()
+                print(f"Cluster {cluster_label} - Valor mitjà d'estres: {mean_stress}")
+
 
         # Grups segons les correlacions de cada dimensió de TSNE: -------------------------------------------
         # correlations_df, dic_correlacions = model.analisi_components_tsne_correlacio(reduced_data, k=K)

@@ -53,7 +53,6 @@ Amb aquest enfocament, busquem proporcionar una visió més clara dels factors q
  ┃ ┣ 📂 analisi_correlacio/ (gràfiques per analitzar la correlació entre variables)
  ┃ ┣ 📂 preprocess_visualization/ (gràfiques per visualitzar les dades processades)
  ┃ ┣ 📂 regressio/ (???????????????????????????????????)
- ┃ ┣ 📂 elbow_method/ (gràfiques per analitzar i escollir k òptima)
  ┃ ┣ 📂 clusters/ (gifs i gràfiques per analitzar clústers formats)
  ┃ ┃ ┣ 📂 dataset/ (gràfiques per visualitzar clústers amb dataset complet)
  ┃ ┃ ┣ 📂 general_important_features/ (gràfiques per visualitzar clústers amb característiques generals dels models de regressió)

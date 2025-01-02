@@ -47,7 +47,6 @@ def codificar_columnas(dataset, ordinal_columns, binary_columns, nominal_columns
             index=dataset.index
         )
 
-
         # Concatenamos el DataFrame codificado con el original (sin las columnas nominales originales)
         dataset = pd.concat([dataset.drop(columns=nominal_columns), encoded_df], axis=1)
     
@@ -62,6 +61,7 @@ def escalar(dataset, numerical_columns):
         # Aplicar escalado
         scaler = StandardScaler()
         dataset[numerical_columns] = scaler.fit_transform(dataset[numerical_columns])
+    return scaler.scale_, scaler.mean_
 
 def preprocess(CLEANED_DATASET_PATH, TARGET):
     """Li passem el dataset a codificar i escalar i la variable target"""
@@ -100,7 +100,7 @@ def preprocess(CLEANED_DATASET_PATH, TARGET):
         data[col] = np.where(data[col] == 0.0, -1, data[col])  # Aplicar modificació
 
     # Escalar datos numéricos
-    escalar(data, numerical_columns)
+    scaler_scale, scaler_mean = escalar(data, numerical_columns)
     
     data[TARGET] = initial_dataset[TARGET]
 
@@ -112,4 +112,4 @@ def preprocess(CLEANED_DATASET_PATH, TARGET):
     # data.to_excel('data/processed_dataset.xlsx', index=False)
     print("Dataset escalado guardado.")
     
-    return data
+    return data, scaler_scale, scaler_mean
