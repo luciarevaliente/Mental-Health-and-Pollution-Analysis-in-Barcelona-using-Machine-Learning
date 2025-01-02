@@ -1,8 +1,7 @@
 from preprocess import preprocess
 from feature_importance_regression import features_importance, select_k_best_features, save_results
-from evaluation_regression import evaluate_model, plot_error_by_class, plot_learning_curves, analyze_error_by_class, plot_metrics
+from evaluation_regression import evaluate_model, plot_error_by_class, analyze_error_by_class, plot_metrics, separacio_train_test
 from models_regression import RegressionModels
-from preparation_regression import separacio_train_test
 import pandas as pd
 import os
 
