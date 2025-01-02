@@ -1,5 +1,85 @@
 Feature,Importance
-ordenador,0.40275967
-otrofactor,0.35201615
-dayoftheweek,0.1432025
-bienestar,0.10202164
+ordenador,0.08676045
+otrofactor,0.08026895
+dayoftheweek,0.033545595
+drogas,0.028263986
+bienestar,0.023687387
+precip_12h_binary,0.01834235
+district_16,0.016579024
+district_les corts,0.016154543
+incidence_cat_physical and mobility incidences,0.014618477
+age_yrs,0.013832459
+district_nou barris,0.013716032
+Totaltime,0.012786371
+covid_sleep,0.012728895
+sueno,0.012714252
+covid_public_trans,0.0126256365
+district_sant andreu,0.012612199
+education,0.0119026285
+noise_total_LDEN_55,0.01175888
+covid_mood,0.011633544
+psycho,0.011625157
+covid_electric,0.011577607
+maxwindspeed_12h,0.011525191
+district_gràcia,0.01146348
+enfermo,0.011443596
+covid_work,0.0113254
+µgm3,0.011225683
+covid_motor,0.011123243
+energia,0.010849126
+district_ciutat vella,0.010829016
+no2bcn_24h,0.010771525
+horasfuera,0.010625875
+precip_12h,0.010176673
+Totaltime_estimated,0.010137232
+ID_Zenodo,0.01009667
+tmean_12h,0.010078368
+gender,0.009805974
+district_sants-montjuïc,0.009752386
+district_horta-guinardo,0.00952284
+district_eixample,0.009344939
+incidence_cat_mobility incidence,0.009301791
+correct,0.009207953
+pressure_24h,0.009205934
+hours_noise_55_day,0.00909314
+response_duration_ms,0.008897612
+no2gps_24h,0.008732548
+tmean_24h,0.008696934
+bebida,0.008663905
+sec_greenblue_day,0.00853545
+mean_congruent,0.008518094
+hours_greenblue_day,0.008514105
+actividadfisica,0.008365935
+BCμg,0.008339396
+alcohol,0.008321307
+smoke,0.00828434
+performance,0.008231195
+incidence_cat_no incidence,0.008230711
+occurrence_mental,0.008203725
+pressure_12h,0.008119639
+hour_gps,0.008100174
+access_greenbluespaces_300mbuff,0.00798935
+pm25bcn,0.007943166
+z_performance,0.007875647
+district_sant martí,0.007848172
+sec_noise65_day,0.007833125
+covid_aire,0.0078218775
+min_gps,0.0077922116
+z_mean_incongruent,0.007681016
+hours_noise_65_day,0.007496574
+z_inhib_control,0.007424198
+covid_espacios,0.0074165748
+precip_24h,0.00739396
+humi_24h,0.0073150923
+covid_bikewalk,0.007253894
+inhib_control,0.0071257963
+mean_incongruent,0.0070338594
+sec_noise55_day,0.006975151
+occurrence_stroop,0.0067340606
+humi_12h,0.0067182807
+dieta,0.0065728473
+incidence_cat_physical incidence,0.006508455
+precip_24h_binary,0.0063018724
+maxwindspeed_24h,0.005805666
+district_sarria sant-gervasi,0.003743571
+mentalhealth_survey,0.0
