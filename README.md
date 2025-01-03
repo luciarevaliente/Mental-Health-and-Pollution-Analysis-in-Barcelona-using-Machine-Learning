@@ -43,6 +43,7 @@ Amb aquest enfocament, busquem proporcionar una visió més clara dels factors q
  ┃ ┣ 📜 data_cleaning.py (neteja i preprocesament de dades)
  ┃ ┣ 📜 preprocess.py (conté la funció que preprocessa les dades, exceptuant la variable target)
  ┃ ┣ 📜 evaluation_regression.py (conté les funcions per evaluar els models regressors)
+ ┃ ┣ 📜 feature_importance_regression.py (conté les funcions per trobar la importància de les variables)
  ┃ ┣ 📜 main_regression.py (realiza regressió mitjançant diversos models)
  ┃ ┣ 📜 models_clustering.py (conté la classe que inicialitza els mètodes de clústering i defineix totes les funcionalitats) 
  ┃ ┣ 📜 main_clustering.py (realitza clústering amb diversos algoritmes i característiques)
@@ -51,13 +52,13 @@ Amb aquest enfocament, busquem proporcionar una visió més clara dels factors q
  ┃ ┣ 📂 violinplots/ (gràfiques per analitzar distribucions)
  ┃ ┣ 📂 analisi_correlacio/ (gràfiques per analitzar la correlació entre variables)
  ┃ ┣ 📂 preprocess_visualization/ (gràfiques per visualitzar les dades processades)
+ ┃ ┣ 📂 data_regression/ (excels amb les característiques més importants)
  ┃ ┣ 📂 regressio/ (visualitzacions del procés)     
  ┃ ┣ 📂 clusters/ (gifs i gràfiques per analitzar clústers formats)
  ┃ ┃ ┣ 📂 dataset/ (gràfiques per visualitzar clústers amb dataset complet)
  ┃ ┃ ┣ 📂 general_important_features/ (gràfiques per visualitzar clústers amb característiques generals dels models de regressió)
  ┃ ┃ ┣ 📂 XGBoost_important_features/ (gràfiques per visualitzar clústers amb característiques del model XGBoost)
  ┃ ┃ ┣ 📂 XGBoost_4thimportant_features/ (gràfiques per visualitzar clústers amb les 4 característiques més importants del model XGBoost)
- ┃ ┃ ┣ 📂 XGBoost_aggrupated_4th_important_features/ (gràfiques per visualitzar clústers amb les 4 característiques més importants del model XGBoost, agrupant classes per evitar desbalanceig)
  ┣ 📂 docs
  ┃ ┣ 📜 informe.docx (informe amb resultats del projecte)
  ┣ 📜 .gitignore 
