@@ -30,23 +30,20 @@ current_path = os.getcwd() # Obtenir la ruta actual
 VARIABLES_RELLEVANTS = ['dayoftheweek', 'bienestar', 'energia', 'ordenador', 'alcohol', 'otrofactor', 'no2bcn_24h', 'no2gps_24h', 'covid_work']
 PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "general_important_features")
 
+# var_binaries = ['ordenador', 'alcohol', 'otrofactor', '']
+
 ## b.	Característiques importants del model XGBoost:
 # VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor', 'dayoftheweek','district_gràcia','incidence_cat_physical incidence', 'smoke', 'district_sant andreu', 'bienestar', 'Totaltime']
 # PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_important_features")
 
 ## c.	4 característiques més importants del model XGBoost: 
 # VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
-# var_binaries = ['ordenador', 'otrofactor']
-# var_escalades = ['dayoftheweek', 'bienestar']
+# PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_4th_important_features")
 
 AGRUPATED = False  # agrupem les característiques mal balancejades: 
 # AGRUPAR = [10, 9] # [classe a canviar, classe objectiu]
-# if not AGRUPATED:
-#     PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_4th_important_features")
-# else:
-#     PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_aggrupated_4th_important_features")
 
-ESCOLLIR_K = True # True = escollim k òptima manualment
+ESCOLLIR_K = False # True = escollim k òptima manualment
 k = 14  # definim k
 
 VISUAL = 'TSNE' # escollim visualització: [PCA, TSNE]
