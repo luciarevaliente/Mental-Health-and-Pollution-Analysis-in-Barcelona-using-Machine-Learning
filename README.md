@@ -27,7 +27,6 @@ Amb aquest enfocament, busquem proporcionar una visió més clara dels factors q
 ## **Objectius del Projecte** 🎯
 1. Predir indicadors de salut mental utilitzant models de regressió, concretament en l'estrès.
 2. Observar si les característiques més importants sobre salut mental formen clústers. És a dir, si hi ha una clara segmentació en funció de les variables influents en l'estrès.
-3. Desenvolupar perfils predictius per caracteritzar l'estrès a partir de l'anàlisi de les variables influents i la segmentació en clústers.
 
 ## **Contingut del Repositori** 📁
 ```plaintext
@@ -125,11 +124,9 @@ A continuació, expliquem en detall el procés seguit en cadascuna de les etapes
 ---
 
 ## **Resultats i Conclusions** 📈
-### **Resultats preliminars**
-por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-### **Conclusió**
-por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+A continuació, resumim les conclusions. Per un anàlisi detallat, consultar /docs/informe.docx.
+- Regressió: XGBoost (MAE 1.49).
+- Clustering: GMM (k=12) en establir les característiques més importants dels regressors com a variables d’entrada.
 
 ---
 
