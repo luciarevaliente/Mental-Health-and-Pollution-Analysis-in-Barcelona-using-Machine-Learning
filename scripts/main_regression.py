@@ -47,7 +47,7 @@ if __name__ == "__main__":
     
     for model_name in MODELS:
         # Avalua el model utilitzant les dades agrupades
-        metrics = evaluate_model(model_name, X_train, X_test, y_train_grouped, y_test_grouped, RESULTS_DIR)
+        metrics =   evaluate_model(model_name, X_train, X_test, y_train_grouped, y_test_grouped, RESULTS_DIR)
         metrics_dict[model_name] = metrics  # Desa les mètriques al diccionari.
 
         # Entrena el model seleccionat
