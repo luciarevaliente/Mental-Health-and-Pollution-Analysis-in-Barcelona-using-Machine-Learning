@@ -44,7 +44,7 @@ Amb aquest enfocament, busquem proporcionar una visió més clara dels factors q
  ┃ ┣ 📜 data_cleaning.py (neteja i preprocesament de dades)
  ┃ ┣ 📜 preprocess.py (conté la funció que preprocessa les dades, exceptuant la variable target)
  ┃ ┣ 📜 ???????????????????????????????????
- ┃ ┣ 📜 main_regression.py (?????????????????????????????????????????)
+ ┃ ┣ 📜 main_regression.py (realiza regressió mitjançant diversos models)
  ┃ ┣ 📜 models_clustering.py (conté la classe que inicialitza els mètodes de clústering i defineix totes les funcionalitats) 
  ┃ ┣ 📜 main_clustering.py (realitza clústering amb diversos algoritmes i característiques)
  ┣ 📂 03_visualizations
@@ -52,7 +52,7 @@ Amb aquest enfocament, busquem proporcionar una visió més clara dels factors q
  ┃ ┣ 📂 violinplots/ (gràfiques per analitzar distribucions)
  ┃ ┣ 📂 analisi_correlacio/ (gràfiques per analitzar la correlació entre variables)
  ┃ ┣ 📂 preprocess_visualization/ (gràfiques per visualitzar les dades processades)
- ┃ ┣ 📂 regressio/ (???????????????????????????????????)
+ ┃ ┣ 📂 regressio/ (visualitzacions del procés)     
  ┃ ┣ 📂 clusters/ (gifs i gràfiques per analitzar clústers formats)
  ┃ ┃ ┣ 📂 dataset/ (gràfiques per visualitzar clústers amb dataset complet)
  ┃ ┃ ┣ 📂 general_important_features/ (gràfiques per visualitzar clústers amb característiques generals dels models de regressió)
@@ -116,7 +116,7 @@ A continuació, expliquem en detall el procés seguit en cadascuna de les etapes
 
 5. **Avaluació dels models**:  
    - **Regressió**:  
-     - Mètriques aplicades: [MAE, RMSE, R²].  
+     - Mètriques aplicades: [MAE, MSE].  
    - **Clustering**:  
      - Visualització i validació: [t-SNE] per a la reducció de dimensionalitat i anàlisi de separació de grups.  
 
