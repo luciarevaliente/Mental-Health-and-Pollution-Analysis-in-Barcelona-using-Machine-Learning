@@ -9,6 +9,7 @@ from preparation_regression import separacio_train_test  # Funció per dividir l
 from preprocess import preprocess  # Funció per preprocessar les dades.
 from imblearn.over_sampling import RandomOverSampler, SMOTE  # Llibreria per fer resampling de dades.
 from imblearn.under_sampling import RandomUnderSampler
+from sklearn.model_selection import train_test_split
 
 # Funció per avaluar el model
 def evaluate_model(model_name, X_train, X_test, y_train, y_test, RESULTS_DIR):
@@ -148,4 +149,37 @@ def plot_metrics(metrics_dict, RESULTS_DIR):
     plt.tight_layout()
     plt.savefig(os.path.join(RESULTS_DIR, "model_metrics_comparison.png"))
     plt.show()
+
+def load_data(file_path):
+    """
+    Carga los datos desde un archivo Pickle.
+    
+    Args:
+        file_path (string): String amb el path del pickle a carregar.
+
+    Returns:
+        DataFrame: DataFrame amb el dataset per entrenar el model.
+    """
+    return pd.read_pickle(file_path)
+
+def separacio_train_test(data, target_columns):
+    """
+    Args:
+        data (DataFrame): Datos preprocesados.
+        target_columns (list): Columnas objetivo para predecir.
+
+    Returns:
+        X_train, X_test, y_train, y_test: DataFrames para entrenamiento y prueba.
+    """
+    X = data.drop(columns=target_columns)
+    y = data[target_columns]
+
+    # Dividir en conjunto de entrenamiento y prueba
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Convertir y_train e y_test a arrays unidimensionales
+    y_train = y_train.values.ravel()
+    y_test = y_test.values.ravel()
+
+    return X_train, X_test, y_train, y_test
 
