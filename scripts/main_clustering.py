@@ -15,8 +15,8 @@ import pandas as pd
 # VARIABLES CONSTANTS ###########################################################################################
 PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset netejat
 
-ALGORITHMS = ['kmeans', 'agglo', 'gmm'] # Algoritmes de clústering a provar
-# ALGORITHMS = ['gmm']  # Algoritmes de clústering a provar: 'kmeans', 'agglo', 'gmm'
+# ALGORITHMS = ['kmeans', 'agglo', 'gmm'] # Algoritmes de clústering a provar
+ALGORITHMS = ['gmm']  # Algoritmes de clústering a provar: 'kmeans', 'agglo', 'gmm'
 TARGET = 'estres'
 
 current_path = os.getcwd() # Obtenir la ruta actual
@@ -43,8 +43,8 @@ PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "genera
 AGRUPATED = False  # agrupem les característiques mal balancejades: 
 # AGRUPAR = [10, 9] # [classe a canviar, classe objectiu]
 
-ESCOLLIR_K = False # True = escollim k òptima manualment
-k = 14  # definim k
+ESCOLLIR_K = True # True = escollim k òptima manualment
+k = 12  # definim k
 
 VISUAL = 'TSNE' # escollim visualització: [PCA, TSNE]
 
@@ -93,55 +93,28 @@ if __name__=="__main__":
         print(f"Distribució de la variable target ('{TARGET}') per cluster:")
         target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET, save_path=f'{PATH_FILENAME}/{algoritme}_k{best_k}_distribution.png')
             
-        # res = input('Vols analitzar les distribucions de cada clúster? y/n: ')
+        
+        # # Mostrar les característiques i els valors dels centroides per cada cluster
+        centroides_df, caracteristiques_relevantes = model.analisi_components_centroides(preprocessed_df)
+        # centroides_df, caracteristiques_relevantes = model.analisi_components_centroides(preprocessed_df)
+        print(centroides_df)
+        # # df['columna'] = df['columna'].map({1: 'yes', -1: 'no'})
 
-        # if res.lower() in ['y', 'yes', 'n', 'no']:
-        #     # Analitzar la distribució de la variable target
-        #     print(f"Distribució de la variable target ('{TARGET}') per cluster:")
-        #     target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET, save_path=f'{PATH_FILENAME}/{algoritme}_k{best_k}_distribution.png')
-            # print(target_distribution) 
+        # binary_centroids = centroides_df[var_binaries]
+        # for col in var_binaries:
+        #     binary_centroids[col] = binary_centroids[col] .map({1: 'yes', -1: 'no'})
 
-            # # Mostrar les característiques i els valors dels centroides per cada cluster
-            # # centroides_df, caracteristiques_relevantes = model.analisi_components_centroides(preprocessed_df)
-            # centroides_df, caracteristiques_relevantes = model.analisi_components_centroides(preprocessed_df)
-            # print(centroides_df)
-            # # df['columna'] = df['columna'].map({1: 'yes', -1: 'no'})
+        # scaled_centroids = centroides_df[var_escalades]
+        # scaled_centroids_index = [preprocessed_df.columns.get_loc(col) for col in var_escalades]
 
-            # binary_centroids = centroides_df[var_binaries]
-            # for col in var_binaries:
-            #     binary_centroids[col] = binary_centroids[col] .map({1: 'yes', -1: 'no'})
+        # selected_scale = scaler_scale[scaled_centroids_index]
+        # selected_mean = scaler_mean[scaled_centroids_index]
 
-            # scaled_centroids = centroides_df[var_escalades]
-            # scaled_centroids_index = [preprocessed_df.columns.get_loc(col) for col in var_escalades]
+        # original_centroids = scaled_centroids * selected_scale + selected_mean
 
-            # selected_scale = scaler_scale[scaled_centroids_index]
-            # selected_mean = scaler_mean[scaled_centroids_index]
-
-            # original_centroids = scaled_centroids * selected_scale + selected_mean
-
-            # final = pd.concat([binary_centroids, original_centroids], axis=1)
-            # print(final) 
-            # sys.exit()
-            
-            # print("Característiques segons centroides:")
-            # for cluster, data in caracteristiques_relevantes.items():
-            #     print(f"\nCluster {cluster}:")
-            #     print("  Variables més altes:")
-            #     for feature in data['top']:
-            #         # Imprimir el valor de cada característica en el centreide
-            #         feature_value = centroides_df.loc[cluster, feature]
-            #         print(f"    {feature}: {feature_value}")
-                
-            #     print("  Variables més baixes:")
-            #     for feature in data['low']:
-            #         # Imprimir el valor de cada característica en el centreide
-            #         feature_value = centroides_df.loc[cluster, feature]
-            #         print(f"    {feature}: {feature_value}")
-
-            # for cluster_label in range(best_k):
-            #     cluster_data = whole_preprocessed_df[model.labels == cluster_label]
-            #     mean_stress = cluster_data['estres'].mean()
-            #     print(f"Cluster {cluster_label} - Valor mitjà d'estres: {mean_stress}")
+        # final = pd.concat([binary_centroids, original_centroids], axis=1)
+        # print(final) 
+        # sys.exit()
 
 
         # Grups segons les correlacions de cada dimensió de TSNE: -------------------------------------------

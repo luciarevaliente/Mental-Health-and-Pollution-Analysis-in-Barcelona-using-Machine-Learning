@@ -32,22 +32,21 @@ Amb aquest enfocament, busquem proporcionar una visió més clara dels factors q
 ## **Contingut del Repositori** 📁
 ```plaintext
 📦 Mental-Health-and-Pollution-Analysis-in-Barcelona-using-Machine-Learning
- ┣ 📂 00_docs
- ┃ ┣ 📜 ?
- ┣ 📂 01_data
+ ┣ 📂 data
  ┃ ┣ 📜 CitieSHealth_BCN_DATA_PanelStudy_20220414.csv (dataset principal)
  ┃ ┣ 📜 dataset.pkl (dataset emprat en els scripts)
  ┃ ┣ 📜 cleaned_dataset.pkl (dataset natejat emprat en els scripts)
- ┣ 📂 02_scripts
+ ┃ ┣ 📜 processed_dataset.pkl (dataset processat)
+ ┣ 📂 scripts
  ┃ ┣ 📜 load_data.py (carrega les dades i les guarda en format pickle)
  ┃ ┣ 📜 exploratory_analysis.py (processa i analitza les dades)
  ┃ ┣ 📜 data_cleaning.py (neteja i preprocesament de dades)
  ┃ ┣ 📜 preprocess.py (conté la funció que preprocessa les dades, exceptuant la variable target)
- ┃ ┣ 📜 ???????????????????????????????????
+ ┃ ┣ 📜 evaluation_regression.py (conté les funcions per evaluar els models regressors)
  ┃ ┣ 📜 main_regression.py (realiza regressió mitjançant diversos models)
  ┃ ┣ 📜 models_clustering.py (conté la classe que inicialitza els mètodes de clústering i defineix totes les funcionalitats) 
  ┃ ┣ 📜 main_clustering.py (realitza clústering amb diversos algoritmes i característiques)
- ┣ 📂 03_visualizations
+ ┣ 📂 visualizations
  ┃ ┣ 📂 boxplots/ (gràfiques per analitzar outliers)
  ┃ ┣ 📂 violinplots/ (gràfiques per analitzar distribucions)
  ┃ ┣ 📂 analisi_correlacio/ (gràfiques per analitzar la correlació entre variables)
@@ -59,9 +58,8 @@ Amb aquest enfocament, busquem proporcionar una visió més clara dels factors q
  ┃ ┃ ┣ 📂 XGBoost_important_features/ (gràfiques per visualitzar clústers amb característiques del model XGBoost)
  ┃ ┃ ┣ 📂 XGBoost_4thimportant_features/ (gràfiques per visualitzar clústers amb les 4 característiques més importants del model XGBoost)
  ┃ ┃ ┣ 📂 XGBoost_aggrupated_4th_important_features/ (gràfiques per visualitzar clústers amb les 4 característiques més importants del model XGBoost, agrupant classes per evitar desbalanceig)
- ┣ 📂 04_results
- ┃ ┣ 📂 visuals/ (gràfiques i visualitzacions generades)
- ┃ ┣ 📂 metrics/ (resultats dels models)
+ ┣ 📂 docs
+ ┃ ┣ 📜 informe.docx (informe amb resultats del projecte)
  ┣ 📜 .gitignore 
  ┣ 📜 README.md (aquest fitxer)
  ┣ 📜 requirements.txt (llibreries necessàries)
@@ -135,10 +133,10 @@ por hacer!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ---
 
 ## **Properes Etapes** 🚀
-- Millorar els models actuals amb tècniques més avançades (ex. XGBoost, PCA).
-- Incorporar dades de més anys per analitzar tendències temporals.
-- Automatitzar el procés per utilitzar-lo en temps real.
-POR HACER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+- Millorar els models actuals amb tècniques més avançades (ex. DBSCAN , PCA).
+- Evaluar i comparar les distribucions amb mètriques.
+- Desenvolupar un perfil descriptiu detallat d'estrès basat en els clústers.
+
 ---
 
 ## **Dependències i Instal·lació** 📦
