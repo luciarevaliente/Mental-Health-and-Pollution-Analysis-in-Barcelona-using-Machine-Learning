@@ -16,41 +16,50 @@ import pandas as pd
 PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset netejat
 PATH_DATASET_FILTERED = "data/filtered_dataset.pkl" # Dataset per sel·leccionar només les característiques desitjades
 
-# ALGORITHMS = ['kmeans', 'agglo', 'gmm'] # Algoritmes de clústering a provar
-ALGORITHMS = ['gmm']  # Algoritmes de clústering a provar: 'kmeans', 'agglo', 'gmm'
+ALGORITHMS = ['kmeans', 'agglo', 'gmm'] # Algoritmes de clústering a provar
+opcio = 3
+ALGORITHMS = ALGORITHMS[opcio]
+
 TARGET = 'estres'
 
 current_path = os.getcwd() # Obtenir la ruta actual
 
+# VARIABLES RELLEVANTS
+opcio = 2
+
 # 1. Clústering per verificar patrons addicionals:
-# VARIABLES_RELLEVANTS = []
-# PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "dataset")
+if opcio == 1:
+    VARIABLES_RELLEVANTS = []
+    PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "dataset")
 
 # 2. Clústering per verificar la separabilitat de les dades segons el model regressor:
 ## a. Característiques importants generals dels models regressors: 
-VARIABLES_RELLEVANTS = ['dayoftheweek', 'bienestar', 'energia', 'ordenador', 'alcohol', 'otrofactor', 'no2bcn_24h', 'no2gps_24h', 'covid_work']
-num_columns = ['dayoftheweek', 'bienestar', 'energia', 'no2bcn_24h', 'no2gps_24h']
-binary_columns = ['ordenador', 'alcohol', 'otrofactor']
-ordinal_columns = ['covid_work']
-nominal_columns = []
-PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "general_important_features")
-
-# var_binaries = ['ordenador', 'alcohol', 'otrofactor', '']
+elif opcio == 2:
+    VARIABLES_RELLEVANTS = ['dayoftheweek', 'bienestar', 'energia', 'ordenador', 'alcohol', 'otrofactor', 'no2bcn_24h', 'no2gps_24h', 'covid_work']
+    num_columns = ['dayoftheweek', 'bienestar', 'energia', 'no2bcn_24h', 'no2gps_24h']
+    binary_columns = ['ordenador', 'alcohol', 'otrofactor']
+    ordinal_columns = ['covid_work']
+    nominal_columns = []
+    PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "general_important_features")
 
 ## b.	Característiques importants del model XGBoost:
-# VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor', 'dayoftheweek','district_gràcia','incidence_cat_physical incidence', 'smoke', 'district_sant andreu', 'bienestar', 'Totaltime']
-# PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_important_features")
+elif opcio == 3:
+    VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor', 'dayoftheweek','district_gràcia','incidence_cat_physical incidence', 'smoke', 'district_sant andreu', 'bienestar', 'Totaltime']
+    PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_important_features")
 
 ## c.	4 característiques més importants del model XGBoost: 
-# VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
-# PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_4th_important_features")
+elif opcio == 4:
+    VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
+    PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_4th_important_features")
 
-AGRUPATED = False  # agrupem les característiques mal balancejades: 
-# AGRUPAR = [10, 9] # [classe a canviar, classe objectiu]
+else:
+    raise KeyError("L'opció escollida no existeix")
 
+# BEST K
 ESCOLLIR_K = True # True = escollim k òptima manualment
 k = 12  # definim k
 
+# VISUALITZAR RESULTATS
 VISUAL = None # escollim visualització: [PCA, TSNE]
 
 # MAIN #################################################################################################################
@@ -67,9 +76,6 @@ if __name__ == "__main__":
     whole_preprocessed_df, scaler_scale, scaler_mean, ordinal_encoder, nominal_encoder = preprocess(PATH_DATASET, TARGET)
     print(scaler_scale, scaler_mean)
 
-    if AGRUPATED:  # Agrupar clases
-        whole_preprocessed_df = whole_preprocessed_df.replace({AGRUPAR[0]: AGRUPAR[1]})
-    
     preprocessed_df = whole_preprocessed_df.drop(TARGET, axis=1)  # Eliminar variable target
     
     for algoritme in ALGORITHMS:
