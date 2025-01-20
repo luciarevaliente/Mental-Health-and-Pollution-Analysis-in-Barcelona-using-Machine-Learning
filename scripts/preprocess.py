@@ -88,7 +88,22 @@ def escalar(dataset, numerical_columns):
     return scaler.scale_, scaler.mean_
 
 def preprocess(CLEANED_DATASET_PATH, TARGET):
-    """Li passem el dataset a codificar i escalar i la variable target"""
+    """
+    Preprocessa un dataset:
+    - Càrrega el dataset.
+    - Codifica columnes ordinals, binàries i nominals.
+    - Escala columnes numèriques.
+    - Barreja les files i guarda el dataset preprocessat.
+
+    Parameters:
+        CLEANED_DATASET_PATH (str): Ruta del dataset netejat.
+        TARGET (str): Nom de la variable objectiu.
+
+    Returns:
+        data (DataFrame): Dataset preprocessat.
+        scaler_scale, scaler_mean: Escales i mitjanes calculades.
+        ordinal_encoder, nominal_encoder: Encoders utilitzats.
+    """
     # Cargar el dataset
     initial_dataset = pd.read_pickle(CLEANED_DATASET_PATH)
 
@@ -144,61 +159,18 @@ def preprocess(CLEANED_DATASET_PATH, TARGET):
     
     return data, scaler_scale, scaler_mean, ordinal_encoder, nominal_encoder
 
-
-def original_preprocess(CLEANED_DATASET_PATH, TARGET):
-    """Li passem el dataset a codificar i escalar i la variable target"""
-    # Cargar el dataset
-    initial_dataset = pd.read_pickle(CLEANED_DATASET_PATH)
-
-    data = initial_dataset.drop(TARGET, axis=1)
-
-    # Seleccionar columnas numéricas
-    cols_int_to_change = ['precip_12h_binary', 'precip_24h_binary']  # Eliminem pq son binàries de tipus int --> excepció
-    numerical_columns = data.select_dtypes(include=['float64', 'int64']).columns.difference(cols_int_to_change)
-
-    # Definir las columnas ordinales y sus órdenes
-    ordinal_columns = {
-        "education": ["primario o menos", "bachillerato", "universitario"],
-        "covid_work": ["ha empeorado mucho", "ha empeorado un poco", "no ha cambiado", "ha mejorado un poco", "ha mejorado mucho"],
-        "covid_mood": ["ha empeorado mucho", "ha empeorado un poco", "no ha cambiado", "ha mejorado un poco", "ha mejorado mucho"],
-        "covid_sleep": ["ha empeorado mucho", "ha empeorado un poco", "no ha cambiado", "ha mejorado un poco", "ha mejorado mucho"],
-        "covid_espacios": ["le doy menos importancia que antes", "no ha cambiado", "le doy más importancia que antes"],
-        "covid_aire": ["le doy menos importancia que antes", "no ha cambiado", "le doy más importancia que antes"],
-        "covid_motor": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"],
-        "covid_electric": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"],
-        "covid_bikewalk": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"],
-        "covid_public_trans": ["lo utilizo menos que antes", "lo utilizo igual que antes", "lo utilizo más que antes"]
-    }
-
-    # Separar columnas nominales y binarias
-    binary_columns = ['mentalhealth_survey', 'Totaltime_estimated', 'access_greenbluespaces_300mbuff', 'actividadfisica', 'alcohol', 'bebida', 'dieta', 'drogas', 'enfermo', 'gender', 'ordenador', 'otrofactor', 'psycho', 'smoke']
-    nominal_columns = data.select_dtypes(include=['object']).columns.difference(ordinal_columns.keys()).difference(binary_columns)
-
-    # Aplicar codificación
-    data = codificar_columnas(data, ordinal_columns, binary_columns, nominal_columns)
-
-    # Codifiquem les columnes numèriques binàries que falten
-    for col in cols_int_to_change:
-        data[col] = np.where(data[col] == 0.0, -1, data[col])  # Aplicar modificació
-
-    # Escalar datos numéricos
-    scaler_scale, scaler_mean = escalar(data, numerical_columns)
-    
-    data[TARGET] = initial_dataset[TARGET]
-
-    # Hacer shuffle de las filas después de escalar
-    data = data.sample(frac=1, random_state=42).reset_index(drop=True)
-
-    # Guardar dataset escalado
-    data.to_pickle('data/processed_dataset.pkl')
-    # data.to_excel('data/processed_dataset.xlsx', index=False)
-    print("Dataset escalado guardado.")
-    
-    return data, scaler_scale, scaler_mean
-
 def revert_preprocessing(centroides_df, scaler_scale, scaler_mean, ordinal_columns, binary_columns, nominal_columns, ordinal_encoder=None, nominal_encoder=None):
     """
-    Revertir el escalado y la codificación de un DataFrame (centroides).
+    Reverteix el preprocessament d'un DataFrame, desescalant i descodificant.
+
+    Parameters:
+        centroides_df (DataFrame): DataFrame a revertir.
+        scaler_scale, scaler_mean: Escales i mitjanes utilitzades.
+        ordinal_columns, binary_columns, nominal_columns (list): Columnes afectades.
+        ordinal_encoder, nominal_encoder: Encoders utilitzats.
+
+    Returns:
+        centroides_df (DataFrame): DataFrame amb valors originals.
     """
     # Verificar si hay columnas numéricas antes de desescalar
     if scaler_scale is not None and scaler_mean is not None:
