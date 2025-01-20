@@ -13,11 +13,11 @@ CSV_PATH ='data/CitieSHealth_BCN_DATA_PanelStudy_20220414.csv'
 PICKLE_PATH = 'data/dataset.pkl'
 
 # MAIN ######################################################################
-if __name__ == '__main__':
+def main():
     # Carguem l'arxiu CSV en un DataFrame
     df = pd.read_csv(CSV_PATH)
 
     # Guardem el DataFrame com un arxiu pickle per fer-se servir en altres scripts
     df.to_pickle(PICKLE_PATH)
 
-    print('Arxiu guardat en format Pickle!')
+    print('\nArxiu guardat en format Pickle!')

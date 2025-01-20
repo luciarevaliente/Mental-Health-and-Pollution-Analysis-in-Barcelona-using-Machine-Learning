@@ -160,6 +160,9 @@ cd Mental-Health-and-Pollution-Analysis-in-Barcelona-using-Machine-Learning
 
 # Instal·lar les dependències
 pip install -r requirements.txt
+
+# Executar programa 
+python main.py
 ```
 
 ---

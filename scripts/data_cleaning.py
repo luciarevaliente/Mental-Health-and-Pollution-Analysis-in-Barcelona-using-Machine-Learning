@@ -83,7 +83,7 @@ def estandarditzar_valors_categorics(dataset, normalitzar=[]):
 
 
 # PROCESSAMENT ###########################################################
-if __name__=="__main__":
+def main():
     # Pas 0: Carregar dades i eliminar columnes innecessàries
     data = pd.read_pickle(PICKLE_PATH)
     data = data.drop(columns=ESBORRAR, errors='ignore')
@@ -111,7 +111,7 @@ if __name__=="__main__":
 
     # GUARDAR EL DATASET ######################################################
     cleaned_dataset.to_pickle(CLEANED_PICKLE_PATH)
-    print('Dataset natejat!')
+    print('\nDataset natejat!')
 
     # Exportar a Excel per visualitzar
     if VISUALITZACIO:
