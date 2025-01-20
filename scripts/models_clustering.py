@@ -347,17 +347,15 @@ class ClusteringModel:
         return reduced_data
 
     # ANÀLISI DE LES CARACTERÍSTIQUES DELS CENTROIDES -------------------------------------------------------------------------------------
-    def analisi_components_centroides(self, preprocessed_df, k=5):
+    def analisi_components_centroides(self, preprocessed_df):
         """
-        Analitza les característiques més rellevants per a cada clúster en funció de l'algorisme de clustering.
+        Analitza les mitjanes dels clústers per a cada característica en funció de l'algorisme de clustering.
 
         Paràmetres:
         - preprocessed_df: DataFrame amb les característiques originals (no reduïdes) utilitzades per al clustering.
-        - k: Nombre de característiques més altes/més baixes a analitzar (per defecte, 5).
 
         Retorna:
         - centroides_df: DataFrame amb els centres o mitjanes dels clústers per característic.
-        - relevant_features: Diccionari que vincula els clústers amb les seves característiques més altes/baixes.
         """
         if self.labels is None or self.model is None:
             raise ValueError("El model ha de ser ajustat abans d'executar aquesta anàlisi.")
@@ -388,18 +386,8 @@ class ClusteringModel:
         centroides_df = pd.DataFrame(centroids, columns=columns)
         centroides_df.index = [f"Cluster {i}" for i in range(len(centroides_df))]
 
-        # Analitzar les característiques més altes/baixes per cada clúster
-        relevant_features = {}
-        for cluster_idx, row in centroides_df.iterrows():
-            # Característiques més altes i més baixes amb els valors més alts/baixos dels centroides
-            top_features = row.nlargest(k).index.tolist()
-            low_features = row.nsmallest(k).index.tolist()
-            relevant_features[cluster_idx] = {
-                'top': top_features,
-                'low': low_features
-            }
+        return centroides_df
 
-        return centroides_df, relevant_features
 
     def analisi_components_tsne_correlacio(self, reduced_data, k=5):
         """

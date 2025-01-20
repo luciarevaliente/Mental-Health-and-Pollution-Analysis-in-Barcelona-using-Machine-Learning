@@ -9,7 +9,6 @@ Descripció: Aquest script carrega permet fer clustering amb diversos algoritmes
 from preprocess import preprocess, revert_preprocessing
 from models_clustering import ClusteringModel
 import os
-import sys
 import pandas as pd
 
 
@@ -67,7 +66,7 @@ if opcio in ['yes', 'y', 'si', 's']:
     ESCOLLIR_K = False 
 elif opcio in ['no', 'n']:
     ESCOLLIR_K = True # True = escollim k òptima manualment
-    k = int(input())  # definim k
+    k = int(input("Sel·lecciona la k desitjada: "))  # definim k
 else:
     raise KeyError("No has escrit amb la sintaxi correcta.")
 
@@ -112,6 +111,7 @@ if __name__ == "__main__":
         model.plot_clusters_PCA_3d()
     elif VISUAL == 'TSNE':
         # model.plot_clusters_TSNE_2d()
+        # reduced_data = model.plot_clusters_TSNE_3d()
         reduced_data = model.plot_clusters_TSNE_3d_animated(filename=f'{PATH_FILENAME}/{ALGORITHMS}_k{model.get_k()}_TSNE3d_animated.gif')
     else:
         print('Aquest mètode de visualització no està disponible')
@@ -121,7 +121,7 @@ if __name__ == "__main__":
     target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET, save_path=f'{PATH_FILENAME}/{ALGORITHMS}_k{model.get_k()}_distribution.png')
             
     # 5. CARACTERÍSTIQUES DELS CENTROIDES
-    centroides_df, _ = model.analisi_components_centroides(preprocessed_df)
+    centroides_df = model.analisi_components_centroides(preprocessed_df)
     whole_preprocessed_df['Cluster'] = model.labels
     centroides_df['mean_target'] = whole_preprocessed_df.groupby('Cluster')[TARGET].transform('mean').unique()
 
