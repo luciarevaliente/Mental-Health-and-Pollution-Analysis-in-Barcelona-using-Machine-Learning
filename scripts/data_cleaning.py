@@ -82,7 +82,7 @@ def estandarditzar_valors_categorics(dataset, normalitzar=[]):
     return dataset
 
 
-# PROCESSAMENT ##########################################################
+# PROCESSAMENT ###########################################################
 if __name__=="__main__":
     # Pas 0: Carregar dades i eliminar columnes innecessàries
     data = pd.read_pickle(PICKLE_PATH)
