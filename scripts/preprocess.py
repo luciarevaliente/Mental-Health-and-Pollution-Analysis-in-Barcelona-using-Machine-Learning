@@ -71,7 +71,15 @@ def codificar_columnas(dataset, ordinal_columns, binary_columns, nominal_columns
 
 def escalar(dataset, numerical_columns):
     """
-    Función que escala los datos numéricos de un dataset utilizando StandardScaler (Estandarización, Z-score).
+    Escala les columnes numèriques del dataset utilitzant StandardScaler (Z-score).
+
+    Parameters:
+        dataset (DataFrame): Dataset a escalar.
+        numerical_columns (list): Columnes numèriques a escalar.
+
+    Returns:
+        scaler_scale (numpy.ndarray): Escales utilitzades.
+        scaler_mean (numpy.ndarray): Mitjanes utilitzades.
     """
     if not numerical_columns.empty:
         # Aplicar escalado
