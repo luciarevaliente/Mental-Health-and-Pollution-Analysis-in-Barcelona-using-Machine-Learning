@@ -60,6 +60,9 @@ class ClusteringModel:
         """Obtenir les etiquetes de les prediccions"""
         return self.labels
 
+    def get_k(self):
+        return self.n_clusters
+
     def set_clusters(self, n_clusters):
         """
         Establir el nombre de clusters.

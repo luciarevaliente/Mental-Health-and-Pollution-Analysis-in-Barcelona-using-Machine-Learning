@@ -46,58 +46,66 @@ AGRUPATED = False  # agrupem les característiques mal balancejades:
 ESCOLLIR_K = True # True = escollim k òptima manualment
 k = 12  # definim k
 
-VISUAL = 'TSNE' # escollim visualització: [PCA, TSNE]
+VISUAL = None # escollim visualització: [PCA, TSNE]
 
 # MAIN #################################################################################################################
-if __name__=="__main__":
-    # 1 i 2. Codificació i escalat
-    whole_preprocessed_df, scaler_scale, scaler_mean = preprocess(PATH_DATASET, TARGET) # Carreguem les dades i les preprocessem
-
-    if AGRUPATED: # Agrupar les classes 9 i 10 en una sola classe
-        whole_preprocessed_df = whole_preprocessed_df.replace({AGRUPAR[0]: AGRUPAR[1]})  # Canviar la classe 10 per la 9 en el conjunt d'entrenament
-
-    preprocessed_df = whole_preprocessed_df.drop(TARGET, axis=1)  # Eliminem la variable a partir de la qual volem fer clústering
-
-    # 3. Si hi ha variables rellevants, reduïm la dimensió del dataset
-    if VARIABLES_RELLEVANTS: 
-        preprocessed_df = preprocessed_df[VARIABLES_RELLEVANTS]  # Modifiquem el dataset
+if __name__ == "__main__":
+    # 1. Preprocesar los datos
+    whole_preprocessed_df, scaler_scale, scaler_mean = preprocess(PATH_DATASET, TARGET)
     
-    # 4. Elecció de l'algoritme de clústering: Inicialitzem la classe i provem
+    if AGRUPATED:  # Agrupar clases
+        whole_preprocessed_df = whole_preprocessed_df.replace({AGRUPAR[0]: AGRUPAR[1]})
+    
+    preprocessed_df = whole_preprocessed_df.drop(TARGET, axis=1)  # Eliminar variable target
+    
+    if VARIABLES_RELLEVANTS:  # Seleccionar características relevantes
+        preprocessed_df = preprocessed_df[VARIABLES_RELLEVANTS]
+    
     for algoritme in ALGORITHMS:
-        # plt.ion()
         print(f'\nModel {algoritme}')
         model = ClusteringModel(data=preprocessed_df, algorithm=algoritme)
-        
-        if not ESCOLLIR_K:
-            best_k = model.best_k()
-        else:
-            model.n_clusters = k
-            best_k = k
-        
+        model.n_clusters = k if ESCOLLIR_K else model.best_k()
         model.fit()
 
         # Visualitzacions:
         os.makedirs(PATH_FILENAME, exist_ok=True)  # Crear la carpeta si no existeix
         
-        if VISUAL == 'PCA':
+        if VISUAL is None:
+            print("No es farà la visualització del clustering perquè VISUAL és None.")
+        elif VISUAL == 'PCA':
             # model.plot_clusters_PCA_2d()
             model.plot_clusters_PCA_3d()
         elif VISUAL == 'TSNE':
             # model.plot_clusters_TSNE_2d()
             # reduced_data = model.plot_clusters_TSNE_3d() 
-            reduced_data = model.plot_clusters_TSNE_3d_animated(filename=f'{PATH_FILENAME}/{algoritme}_k{best_k}_TSNE3d_animated.gif')
+            reduced_data = model.plot_clusters_TSNE_3d_animated(filename=f'{PATH_FILENAME}/{algoritme}_k{model.get_k()}_TSNE3d_animated.gif')
         else:
             print('Aquest mètode de visualització no està disponible')
         
 
-        print(f"Distribució de la variable target ('{TARGET}') per cluster:")
-        target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET, save_path=f'{PATH_FILENAME}/{algoritme}_k{best_k}_distribution.png')
+        print(f"\nDistribució de la variable target ('{TARGET}') per cluster:")
+        target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET, save_path=f'{PATH_FILENAME}/{algoritme}_k{model.get_k()}_distribution.png')
             
-        
-        # # Mostrar les característiques i els valors dels centroides per cada cluster
-        centroides_df, caracteristiques_relevantes = model.analisi_components_centroides(preprocessed_df)
-        # centroides_df, caracteristiques_relevantes = model.analisi_components_centroides(preprocessed_df)
+        # Calcular centroides y media del target por cluster
+        centroides_df, _ = model.analisi_components_centroides(preprocessed_df)
+        whole_preprocessed_df['Cluster'] = model.labels
+        centroides_df['mean_target'] = whole_preprocessed_df.groupby('Cluster')[TARGET].transform('mean').unique()
+
+        print("\nCentroides con media del target por cluster:")
         print(centroides_df)
+
+        # Guardar resultados
+        # os.makedirs(PATH_FILENAME, exist_ok=True)
+        # centroides_df.to_csv(f'{PATH_FILENAME}/{algoritme}_k{model.n_clusters}_centroids_with_target.csv')
+
+
+
+
+        # # # Mostrar les característiques i els valors dels centroides per cada cluster
+        # centroides_df, caracteristiques_relevantes = model.analisi_components_centroides(preprocessed_df)
+        # # centroides_df, caracteristiques_relevantes = model.analisi_components_centroides(preprocessed_df)
+        # print("\n\nCentorides:")
+        # print(centroides_df)
         # # df['columna'] = df['columna'].map({1: 'yes', -1: 'no'})
 
         # binary_centroids = centroides_df[var_binaries]
