@@ -10,9 +10,21 @@ import numpy as np
 
 def codificar_columnas(dataset, ordinal_columns, binary_columns, nominal_columns):
     """
-    Codifica las columnas categóricas:
-    - OrdinalEncoder para columnas ordinales.
-    - OneHotEncoder para columnas nominales.
+    Codifica les columnes categòriques del dataset:
+    - OrdinalEncoder per a columnes ordinals, seguint l'ordre especificat.
+    - Transforma valors de columnes binàries (p. ex., 'yes/no', 'hombre/mujer') a format numèric (1/-1).
+    - OneHotEncoder per a columnes nominals, generant noves columnes binàries per a cada categoria.
+
+    Parameters:
+        dataset (DataFrame): Dataset a processar.
+        ordinal_columns (dict): Columnes ordinals i el seu ordre.
+        binary_columns (list): Columnes binàries.
+        nominal_columns (list): Columnes nominals.
+
+    Returns:
+        dataset (DataFrame): Dataset amb les columnes codificades.
+        ordinal_encoder (OrdinalEncoder): Encoder utilitzat per a columnes ordinals.
+        encoded_nominals (numpy.ndarray): Valors codificats de columnes nominals.
     """
     # Codificar las columnas ordinales
     if ordinal_columns:
