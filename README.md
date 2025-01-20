@@ -153,10 +153,10 @@ Aquest projecte requereix Python 3 i les següents llibreries:
 ### Instal·lació
 ```bash
 # Clonar aquest repositori
-git clone https://github.com/DCC-UAB/ACproject-19-grup.git
+git clone https://github.com/luciarevaliente/Mental-Health-and-Pollution-Analysis-in-Barcelona-using-Machine-Learning.git
 
 # Navegar al directori del projecte
-cd ACproject-19-grup
+cd Mental-Health-and-Pollution-Analysis-in-Barcelona-using-Machine-Learning
 
 # Instal·lar les dependències
 pip install -r requirements.txt
