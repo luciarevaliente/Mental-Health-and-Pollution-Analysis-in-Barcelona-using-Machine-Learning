@@ -6,7 +6,7 @@ Data de creació: 12/12/24
 Descripció: Aquest script carrega permet fer clustering amb diversos algoritmes i característiques
 """
 # IMPORTACIÓ #####################################################################################################
-from preprocess import preprocess
+from preprocess import preprocess, revert_preprocessing
 from models_clustering import ClusteringModel
 import os
 import sys
@@ -14,6 +14,7 @@ import pandas as pd
 
 # VARIABLES CONSTANTS ###########################################################################################
 PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset netejat
+PATH_DATASET_FILTERED = "data/filtered_dataset.pkl" # Dataset per sel·leccionar només les característiques desitjades
 
 # ALGORITHMS = ['kmeans', 'agglo', 'gmm'] # Algoritmes de clústering a provar
 ALGORITHMS = ['gmm']  # Algoritmes de clústering a provar: 'kmeans', 'agglo', 'gmm'
@@ -28,6 +29,10 @@ current_path = os.getcwd() # Obtenir la ruta actual
 # 2. Clústering per verificar la separabilitat de les dades segons el model regressor:
 ## a. Característiques importants generals dels models regressors: 
 VARIABLES_RELLEVANTS = ['dayoftheweek', 'bienestar', 'energia', 'ordenador', 'alcohol', 'otrofactor', 'no2bcn_24h', 'no2gps_24h', 'covid_work']
+num_columns = ['dayoftheweek', 'bienestar', 'energia', 'no2bcn_24h', 'no2gps_24h']
+binary_columns = ['ordenador', 'alcohol', 'otrofactor']
+ordinal_columns = ['covid_work']
+nominal_columns = []
 PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "general_important_features")
 
 # var_binaries = ['ordenador', 'alcohol', 'otrofactor', '']
@@ -50,16 +55,22 @@ VISUAL = None # escollim visualització: [PCA, TSNE]
 
 # MAIN #################################################################################################################
 if __name__ == "__main__":
+    if VARIABLES_RELLEVANTS:  # Seleccionar características relevantes
+        initial_dataset = pd.read_pickle(PATH_DATASET)
+        VARIABLES_RELLEVANTS = VARIABLES_RELLEVANTS + [TARGET]
+        filtered_dataset = initial_dataset[VARIABLES_RELLEVANTS]
+        filtered_dataset.to_pickle(PATH_DATASET_FILTERED)
+
+        PATH_DATASET = PATH_DATASET_FILTERED
+
     # 1. Preprocesar los datos
-    whole_preprocessed_df, scaler_scale, scaler_mean = preprocess(PATH_DATASET, TARGET)
-    
+    whole_preprocessed_df, scaler_scale, scaler_mean, ordinal_encoder, nominal_encoder = preprocess(PATH_DATASET, TARGET)
+    print(scaler_scale, scaler_mean)
+
     if AGRUPATED:  # Agrupar clases
         whole_preprocessed_df = whole_preprocessed_df.replace({AGRUPAR[0]: AGRUPAR[1]})
     
     preprocessed_df = whole_preprocessed_df.drop(TARGET, axis=1)  # Eliminar variable target
-    
-    if VARIABLES_RELLEVANTS:  # Seleccionar características relevantes
-        preprocessed_df = preprocessed_df[VARIABLES_RELLEVANTS]
     
     for algoritme in ALGORITHMS:
         print(f'\nModel {algoritme}')
@@ -83,8 +94,8 @@ if __name__ == "__main__":
             print('Aquest mètode de visualització no està disponible')
         
 
-        print(f"\nDistribució de la variable target ('{TARGET}') per cluster:")
-        target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET, save_path=f'{PATH_FILENAME}/{algoritme}_k{model.get_k()}_distribution.png')
+        # print(f"\nDistribució de la variable target ('{TARGET}') per cluster:")
+        # target_distribution = model.analyze_target_distribution(whole_preprocessed_df, TARGET, save_path=f'{PATH_FILENAME}/{algoritme}_k{model.get_k()}_distribution.png')
             
         # Calcular centroides y media del target por cluster
         centroides_df, _ = model.analisi_components_centroides(preprocessed_df)
@@ -98,6 +109,21 @@ if __name__ == "__main__":
         # os.makedirs(PATH_FILENAME, exist_ok=True)
         # centroides_df.to_csv(f'{PATH_FILENAME}/{algoritme}_k{model.n_clusters}_centroids_with_target.csv')
 
+       # Revertimos las transformaciones realizadas en los centroides
+        reverted_centroides = revert_preprocessing(
+            centroides_df.drop("mean_target", axis=1),
+            scaler_scale,
+            scaler_mean,
+            ordinal_columns=ordinal_columns,  # Diccionario de columnas ordinales y sus categorías
+            binary_columns=binary_columns,    # Lista de columnas binarias
+            nominal_columns=nominal_columns, # Lista de columnas nominales
+            ordinal_encoder=ordinal_encoder,  # Encoder usado para las ordinales (si está disponible)
+            nominal_encoder=nominal_encoder   # Encoder usado para las nominales (si está disponible)
+        )
+        reverted_centroides["mean_target"] = centroides_df["mean_target"]
+        # Mostrar resultado
+        print("Centroides revertidos a valores originales:")
+        print(reverted_centroides)
 
 
 
