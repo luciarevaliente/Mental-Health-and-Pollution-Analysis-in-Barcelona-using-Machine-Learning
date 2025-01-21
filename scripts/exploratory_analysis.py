@@ -133,7 +133,7 @@ def main():
     generar_violin_plots(col_numeriques_filtered)
 
     # VISUALITZACIONS SOBRE LES RELACIONS ENTRE LES VARIABLES ##############################################################
-    visual = int(input("\nVols visualitzar algunes relacions entre les variables? \n\t1. Sí\n\t2. No"))
+    visual = int(input("\nVols visualitzar algunes relacions entre les variables? \n\t1. Sí\n\t2. No\nResposta (1 o 2): "))
     if visual not in [1,2]:
         raise KeyError("Opció de visualització invàlida.")
     elif visual == 1:

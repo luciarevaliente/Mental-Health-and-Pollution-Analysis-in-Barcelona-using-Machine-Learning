@@ -12,77 +12,76 @@ import os
 import pandas as pd
 
 
-# VARIABLES CONSTANTS ###########################################################################################
-PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset netejat
-PATH_DATASET_FILTERED = "data/filtered_dataset.pkl" # Dataset per sel·leccionar només les característiques desitjades
-current_path = os.getcwd() # Obtenir la ruta actual
-
-# ALGORITMES
-ALGORITHMS = ['kmeans', 'agglo', 'gmm'] # Algoritmes de clústering a provar
-opcio = int(input("\nEscull l'algoritme de clustering desitjat (recomanem gmm):\n\t1. kmeans\n\t2. agglo\n\t3. gmm\nResposta: "))
-if opcio in [1,2,3]:
-    ALGORITHMS = ALGORITHMS[opcio-1]
-    print(f'Model de clustering escollit: {ALGORITHMS}')
-else:
-    raise KeyError("L'algoritme escollit no existeix")
-
-# VARIABLE OBJECTIU
-TARGET = 'estres'
-print(f"\nLa variable objectiu és {TARGET.upper()}.")
-
-# VARIABLES RELLEVANTS
-opcio = int(input("\nEscull les variables rellevants per realitzar clustering (recomanem l'opció 2):\n\t1. Dataset complet\n\t2. Característiques importants generals dels models regressors\n\t3. Característiques importants del model XGBoost\n\t4. 4 característiques més importants del model XGBoost\n Resposta: "))
-
-# 1. Clústering per verificar patrons addicionals:
-if opcio == 1:
-    print(f'Característiques escollides: {opcio}.')
-    VARIABLES_RELLEVANTS = []
-    PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "dataset")
-
-# 2. Clústering per verificar la separabilitat de les dades segons el model regressor:
-## a. Característiques importants generals dels models regressors: 
-elif opcio == 2:
-    VARIABLES_RELLEVANTS = ['dayoftheweek', 'bienestar', 'energia', 'ordenador', 'alcohol', 'otrofactor', 'no2bcn_24h', 'no2gps_24h', 'covid_work']
-    num_columns = ['dayoftheweek', 'bienestar', 'energia', 'no2bcn_24h', 'no2gps_24h']
-    binary_columns = ['ordenador', 'alcohol', 'otrofactor']
-    ordinal_columns = ['covid_work']
-    nominal_columns = []
-    PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "general_important_features")
-## b.	Característiques importants del model XGBoost:
-elif opcio == 3:
-    VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor', 'dayoftheweek','district_gràcia','incidence_cat_physical incidence', 'smoke', 'district_sant andreu', 'bienestar', 'Totaltime']
-    PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_important_features")
-## c.	4 característiques més importants del model XGBoost: 
-elif opcio == 4:
-    VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
-    PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_4th_important_features")
-## d.   Error
-else:
-    raise KeyError("Les variables rellevants escollides no existeixen.")
-
-# BEST K
-opcio = input("\nVols sel·leccionar el nombre de clústers òptim automàticament? y/n\n Resposta: ").lower()
-if opcio in ['yes', 'y', 'si', 's']:
-    ESCOLLIR_K = False 
-elif opcio in ['no', 'n']:
-    ESCOLLIR_K = True # True = escollim k òptima manualment
-    k = int(input("Sel·lecciona la k desitjada: "))  # definim k
-else:
-    raise KeyError("No has escrit amb la sintaxi correcta.")
-
-# VISUALITZAR RESULTATS
-VISUAL = [None, "PCA", "TSNE"]
-opcio = int(input("\nEscull l'algoritme de clustering desitjat (recomanem TSNE):\n\t1. No es vol veure els clústers\n\t2. PCA\n\t3. TSNE\n Resposta: "))
-if opcio in [1,2,3]:
-    VISUAL = VISUAL[opcio-1]
-    print(f'Model de visualització escollit: {VISUAL}')
-else:
-    raise KeyError("L'algoritme escollit no existeix")
-
-
 # MAIN #################################################################################################################
-if __name__ == "__main__":
-    print("\n------------------------------ Inicialitzem clustering ------------------------------")
+def main():
+
+    # VARIABLES CONSTANTS ###########################################################################################
+    PATH_DATASET = "data/cleaned_dataset.pkl"  # Dataset netejat
+    PATH_DATASET_FILTERED = "data/filtered_dataset.pkl" # Dataset per sel·leccionar només les característiques desitjades
+    current_path = os.getcwd() # Obtenir la ruta actual
+
+    # ALGORITMES
+    ALGORITHMS = ['kmeans', 'agglo', 'gmm'] # Algoritmes de clústering a provar
+    opcio = int(input("\nEscull l'algoritme de clustering desitjat (recomanem gmm):\n\t1. kmeans\n\t2. agglo\n\t3. gmm\nResposta: "))
+    if opcio in [1,2,3]:
+        ALGORITHMS = ALGORITHMS[opcio-1]
+        print(f'Model de clustering escollit: {ALGORITHMS}')
+    else:
+        raise KeyError("L'algoritme escollit no existeix")
+
+    # VARIABLE OBJECTIU
+    TARGET = 'estres'
+    print(f"\nLa variable objectiu és {TARGET.upper()}.")
+
+    # VARIABLES RELLEVANTS
+    opcio = int(input("\nEscull les variables rellevants per realitzar clustering (recomanem l'opció 2):\n\t1. Dataset complet\n\t2. Característiques importants generals dels models regressors\n\t3. Característiques importants del model XGBoost\n\t4. 4 característiques més importants del model XGBoost\n Resposta: "))
+
+    # 1. Clústering per verificar patrons addicionals:
+    if opcio == 1:
+        print(f'Característiques escollides: {opcio}.')
+        VARIABLES_RELLEVANTS = []
+        PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "dataset")
+
+    # 2. Clústering per verificar la separabilitat de les dades segons el model regressor:
+    ## a. Característiques importants generals dels models regressors: 
+    elif opcio == 2:
+        VARIABLES_RELLEVANTS = ['dayoftheweek', 'bienestar', 'energia', 'ordenador', 'alcohol', 'otrofactor', 'no2bcn_24h', 'no2gps_24h', 'covid_work']
+        num_columns = ['dayoftheweek', 'bienestar', 'energia', 'no2bcn_24h', 'no2gps_24h']
+        binary_columns = ['ordenador', 'alcohol', 'otrofactor']
+        ordinal_columns = ['covid_work']
+        nominal_columns = []
+        PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "general_important_features")
+    ## b.	Característiques importants del model XGBoost:
+    elif opcio == 3:
+        VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor', 'dayoftheweek','district_gràcia','incidence_cat_physical incidence', 'smoke', 'district_sant andreu', 'bienestar', 'Totaltime']
+        PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_important_features")
+    ## c.	4 característiques més importants del model XGBoost: 
+    elif opcio == 4:
+        VARIABLES_RELLEVANTS = ['ordenador', 'otrofactor','dayoftheweek', 'bienestar']
+        PATH_FILENAME = os.path.join(current_path, "visualizations", "clusters", "XGBoost_4th_important_features")
+    ## d.   Error
+    else:
+        raise KeyError("Les variables rellevants escollides no existeixen.")
+
+    # BEST K
+    opcio = input("\nVols sel·leccionar el nombre de clústers òptim automàticament? y/n\n Resposta: ").lower()
+    if opcio in ['yes', 'y', 'si', 's']:
+        ESCOLLIR_K = False 
+    elif opcio in ['no', 'n']:
+        ESCOLLIR_K = True # True = escollim k òptima manualment
+        k = int(input("Sel·lecciona la k desitjada: "))  # definim k
+    else:
+        raise KeyError("No has escrit amb la sintaxi correcta.")
+
+    # VISUALITZAR RESULTATS
+    VISUAL = [None, "PCA", "TSNE"]
+    opcio = int(input("\nEscull l'algoritme de clustering desitjat (recomanem TSNE):\n\t1. No es vol veure els clústers\n\t2. PCA\n\t3. TSNE\n Resposta: "))
+    if opcio in [1,2,3]:
+        VISUAL = VISUAL[opcio-1]
+        print(f'Model de visualització escollit: {VISUAL}')
+    else:
+        raise KeyError("L'algoritme escollit no existeix")
+
     # 0. REDUCCIÓ DATASET
     if VARIABLES_RELLEVANTS:  
         initial_dataset = pd.read_pickle(PATH_DATASET)
@@ -141,4 +140,4 @@ if __name__ == "__main__":
     print("\nCentroides revertidos a valores originales:")
     print(reverted_centroides)
 
-    print("\n----------------------------------- Fi clustering -----------------------------------")
+    os.remove(PATH_DATASET_FILTERED)

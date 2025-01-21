@@ -5,7 +5,6 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error  # Mòduls p
 import matplotlib.pyplot as plt  # Llibreria per crear gràfics.
 from models_regression import get_best_model  # Funció per obtenir el millor model amb hiperparàmetres ajustats.
 from models_regression import RegressionModels, GRID_PARAMS  # Classe de models de regressió i paràmetres de cerca.
-from preparation_regression import separacio_train_test  # Funció per dividir les dades en train i test.
 from preprocess import preprocess  # Funció per preprocessar les dades.
 from imblearn.over_sampling import RandomOverSampler, SMOTE  # Llibreria per fer resampling de dades.
 from imblearn.under_sampling import RandomUnderSampler

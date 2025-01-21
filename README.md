@@ -1,6 +1,6 @@
 # **Salut Mental i Contaminació a Barcelona: Un Estudi Basat en Machine Learning**
 ## **Descripció del Projecte** 📄
-Aquest projecte té com a objectiu analitzar la relació entre la salut mental i la contaminació ambiental a la ciutat de Barcelona mitjançant tècniques d'aprenentatge automàtic. Utilitzant un conjunt de dades que inclou informació sobre la qualitat de l'aire, el benestar general, i altres factors contextuals com l'activitat física, l'alimentació i l'ús d'espais verds, pretenem identificar patrons i establir connexions significatives sobre els nivells d'estrès en la població.
+Aquest projecte té com a objectiu analitzar la relació entre la salut mental i la contaminació ambiental a la ciutat de Barcelona l'any 2020/2021 mitjançant tècniques d'aprenentatge automàtic. Utilitzant un conjunt de dades que inclou informació sobre la qualitat de l'aire, el benestar general, i altres factors contextuals com l'activitat física, l'alimentació i l'ús d'espais verds, pretenem identificar patrons i establir connexions significatives sobre els nivells d'estrès en la població.
 
 L'anàlisi es basa en models de regressió per predir els nivells d'estrès i tècniques de clustering per identificar grups de persones amb característiques similars, amb l'objectiu de millorar la comprensió de com els factors ambientals i socials poden influir en la salut mental a la ciutat.
 
@@ -27,6 +27,8 @@ Amb aquest enfocament, busquem proporcionar una visió més clara dels factors q
 ## **Objectius del Projecte** 🎯
 1. Predir indicadors de salut mental utilitzant models de regressió, concretament en l'estrès.
 2. Observar si les característiques més importants sobre salut mental formen clústers. És a dir, si hi ha una clara segmentació en funció de les variables influents en l'estrès.
+3. Desenvolupar perfils predictius per caracteritzar l'estrès a partir de l'anàlisi de les variables influents i la segmentació en clústers.
+4. Realitzar propostes de millora per tal de reduir l'estrès poblacional a BCN.
 
 ## **Contingut del Repositori** 📁
 ```plaintext
@@ -37,6 +39,7 @@ Amb aquest enfocament, busquem proporcionar una visió més clara dels factors q
  ┃ ┣ 📜 cleaned_dataset.pkl (dataset natejat emprat en els scripts)
  ┃ ┣ 📜 processed_dataset.pkl (dataset processat)
  ┣ 📂 scripts
+ ┃ ┣ 📜 main.py (menú principal del programa, únic script que s'ha d'executar)
  ┃ ┣ 📜 load_data.py (carrega les dades i les guarda en format pickle)
  ┃ ┣ 📜 exploratory_analysis.py (processa i analitza les dades)
  ┃ ┣ 📜 data_cleaning.py (neteja i preprocesament de dades)
@@ -58,6 +61,13 @@ Amb aquest enfocament, busquem proporcionar una visió més clara dels factors q
  ┃ ┃ ┣ 📂 general_important_features/ (gràfiques per visualitzar clústers amb característiques generals dels models de regressió)
  ┃ ┃ ┣ 📂 XGBoost_important_features/ (gràfiques per visualitzar clústers amb característiques del model XGBoost)
  ┃ ┃ ┣ 📂 XGBoost_4thimportant_features/ (gràfiques per visualitzar clústers amb les 4 característiques més importants del model XGBoost)
+ ┣ 📂 results
+ ┃ ┣ 📜 metriques_models_regressors.png (gràfica que compara els errors dels models regressors)
+ ┃ ┣ 📜 grafic_dispersio_valors_reals_vs_prediccions.png (gràfic sobre l'error en les prediccions de XGBoost, que és el millor model)
+ ┃ ┣ 📜 clustering_visualization.gif (visualització de la segmentació de les dades amb el millor model de clústering GMM k=12)
+ ┃ ┣ 📜 clustering_distribution.png (distribució de l'estrès en els clústers de GMM k=12)
+ ┃ ┣ 📜 caraceteristiques_centroides.png (matriu amb les característiques mitjanes per clúster)
+ ┃ ┣ 📜 perfil_estres_poblacional.png (taula amb l'evaluació de l'estrès de la població barcelonina 2020/2021)
  ┣ 📂 docs
  ┃ ┣ 📜 informe.docx (informe amb resultats del projecte)
  ┣ 📜 .gitignore 
@@ -127,13 +137,22 @@ A continuació, expliquem en detall el procés seguit en cadascuna de les etapes
 A continuació, resumim les conclusions. Per un anàlisi detallat, consultar /docs/informe.docx.
 - Regressió: XGBoost (MAE 1.49).
 - Clustering: GMM (k=12) en establir les característiques més importants dels regressors com a variables d’entrada.
+- Perfil d'estrès poblacional: ![Perfil d'estrès poblacional](/results/perfil_estres_poblacional.png)
+
+
+Les ciutats poden adoptar una varietat de mesures que aborden els factors ambientals, socials i emocionals que influeixen en l'estrès de la població. La **reducció de la contaminació**, la **millora de l'espai públic**, el **foment de la mobilitat sostenible**, i la **promoció de la salut mental** són claus per crear entorns urbans més saludables. A més, l'educació i la **cohesió social** juguen un paper fonamental en la creació de comunitats resilients a l'estrès.
+
+Amb l'impacte de la **pandèmia de COVID-19**, la salut mental de la població urbana ha adquirit una importància renovada, ja que els confinaments, l'aïllament social i els canvis en la rutina han intensificat els nivells d'estrès. En aquest context, aquestes accions esdevindran encara més essencials per al benestar general de les ciutats en el futur. **El reforç de les polítiques públiques orientades a la salut mental**, l'augment d'espais verds i la creació d'espais comuns per a la socialització seran claus per ajudar les ciutats a recuperar-se i a millorar la qualitat de vida post-pandèmia. 
+
+Amb aquestes accions, les ciutats poden no només millorar el benestar de la seva població, sinó també reduir els nivells d'estrès a llarg termini, ajudant a crear comunitats més fortes i saludables.
+
 
 ---
 
 ## **Properes Etapes** 🚀
 - Millorar els models actuals amb tècniques més avançades (ex. DBSCAN , PCA).
 - Evaluar i comparar les distribucions amb mètriques.
-- Desenvolupar un perfil descriptiu detallat d'estrès basat en els clústers.
+- Treballar amb dades a temps real per veure l'evolució de l'estrès i comprovar si les mesures són efectives.
 
 ---
 
@@ -162,7 +181,7 @@ cd Mental-Health-and-Pollution-Analysis-in-Barcelona-using-Machine-Learning
 pip install -r requirements.txt
 
 # Executar programa 
-python main.py
+python scripts/main.py
 ```
 
 ---
@@ -175,9 +194,26 @@ Les contribucions són benvingudes! En cas de voler aportar un gra de sorra, si 
 4. Fes push a la teva branca (git push origin feature/nova-funcionalitat).
 5. Obre un Pull Request.
 
+
 ---
 
 ## **Crèdits** 📝  
+**Autors del projecte**:
+- **Lucía Revaliente Torres**:  
+   - Importació de dades.  
+   - Anàlisis de dades.
+   - Neteja de dades
+   - Preprocessament.
+   - Implementació dels models de clustering.
+   - Creació de perfils d'estrès.  
+   - Propostes de millora per reduir l'estrès poblacional.
+  
+- **Aránzazu Miguélez Montenegro**:  
+   - Anàlisis de dades.
+   - Preprocessament.
+   - Generació de les visualitzacions i gràfics.
+   - Desenvolupament dels models de regressió.
+
 **Autors del dataset:** Gignac, F., Righi, V., Toran, R., Paz Errandonea, L., Ortiz, R., Mijling, B., Naranjo, A., Nieuwenhuijsen, M., Creus, J., & Basagaña, X. (2022). CitieS-Health Barcelona Panel Study Results [Data set]. Zenodo. https://doi.org/10.5281/zenodo.6503022
 
 ---

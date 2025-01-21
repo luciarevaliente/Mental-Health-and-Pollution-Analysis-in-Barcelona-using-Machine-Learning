@@ -387,3 +387,42 @@ class ClusteringModel:
         centroides_df.index = [f"Cluster {i}" for i in range(len(centroides_df))]
 
         return centroides_df
+
+    def analyze_target_distribution(self, original_df, target_col, save_path=None):
+        """
+        Analitza la distribució de la variable target dins de cada clúster i guarda el gràfic si especifica una ruta.
+
+        :param original_df: DataFrame original que conté la variable target.
+        :param target_col: Nom de la columna de la variable target en el DataFrame original.
+        :param save_path: Ruta on es guardarà el gràfic (opcional).
+        """
+        if self.labels is None:
+            raise ValueError("El model ha de ser ajustat abans d'analitzar la distribució de la variable target.")
+
+        # Crear un DataFrame amb els clústers i la variable target
+        analysis_df = pd.DataFrame({
+            'Cluster': self.labels,
+            target_col: original_df[target_col]
+        })
+
+        # Calcular la distribució de la variable target per clúster
+        distribution = analysis_df.groupby('Cluster')[target_col].value_counts(normalize=True).unstack(fill_value=0)
+
+        # Visualitzar la distribució amb un gràfic de barres
+        distribution.plot(kind='bar', stacked=True, figsize=(10, 6), colormap='viridis', alpha=0.85)
+        plt.title(f'Distribució de {target_col} per Clúster ({self.algorithm})')
+        plt.xlabel('Clúster')
+        plt.ylabel('Proporció')
+        plt.legend(title=target_col, bbox_to_anchor=(1.05, 1), loc='upper left')
+        plt.tight_layout()
+
+        # Guardar el gràfic si es proporciona una ruta
+        if save_path:
+            # Crear la carpeta si no existeix
+            os.makedirs(os.path.dirname(save_path), exist_ok=True)
+            plt.savefig(save_path)
+            print(f"Gràfic guardat a: {save_path}")
+
+        plt.show()
+
+        return distribution
