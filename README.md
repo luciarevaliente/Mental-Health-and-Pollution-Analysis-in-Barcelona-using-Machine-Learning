@@ -140,7 +140,7 @@ A continuació, resumim les conclusions. Per un anàlisi detallat, consultar /do
 - Perfil d'estrès poblacional: ![Perfil d'estrès poblacional](/results/perfil_estres_poblacional.png)
 
 
-Les ciutats poden adoptar una varietat de mesures que aborden els factors ambientals, socials i emocionals que influeixen en l'estrès de la població. La **reducció de la contaminació**, la **millora de l'espai públic**, el **foment de la mobilitat sostenible**, i la **promoció de la salut mental** són claus per crear entorns urbans més saludables. A més, l'educació i la **cohesió social** juguen un paper fonamental en la creació de comunitats resilients a l'estrès.
+En conclusió, les ciutats poden adoptar una varietat de mesures que aborden els factors ambientals, socials i emocionals que influeixen en l'estrès de la població. La **reducció de la contaminació**, la **millora de l'espai públic**, el **foment de la mobilitat sostenible**, i la **promoció de la salut mental** són claus per crear entorns urbans més saludables. A més, l'educació i la **cohesió social** juguen un paper fonamental en la creació de comunitats resilients a l'estrès.
 
 Amb l'impacte de la **pandèmia de COVID-19**, la salut mental de la població urbana ha adquirit una importància renovada, ja que els confinaments, l'aïllament social i els canvis en la rutina han intensificat els nivells d'estrès. En aquest context, aquestes accions esdevindran encara més essencials per al benestar general de les ciutats en el futur. **El reforç de les polítiques públiques orientades a la salut mental**, l'augment d'espais verds i la creació d'espais comuns per a la socialització seran claus per ajudar les ciutats a recuperar-se i a millorar la qualitat de vida post-pandèmia. 
 
